@@ -54,8 +54,8 @@ namespace Lead.Detect.FrameworkExtension.userControls
                     dataGridView1.Rows[i].Cells["DiOrg"].Style = CyExs[i].GetDiExs()[0].GetDiSts() ? _green : _lightGray;
                     dataGridView1.Rows[i].Cells["DiWork"].Style = CyExs[i].GetDiExs()[1].GetDiSts() ? _green : _lightGray;
 
-                    dataGridView1.Rows[i].Cells["DoOrg"].Style = CyExs[i].GetDoExs()[0].Port > 0 && CyExs[i].GetDoExs()[0].GetDoSts() ? _green : _lightGray;
-                    dataGridView1.Rows[i].Cells["DoWork"].Style = CyExs[i].GetDoExs()[1].Port > 0 && CyExs[i].GetDoExs()[1].GetDoSts() ? _green : _lightGray;
+                    dataGridView1.Rows[i].Cells["DoOrg"].Style = CyExs[i].GetDoExs()[0].Port >= 0 && CyExs[i].GetDoExs()[0].GetDoSts() ? _green : _lightGray;
+                    dataGridView1.Rows[i].Cells["DoWork"].Style = CyExs[i].GetDoExs()[1].Port >= 0 && CyExs[i].GetDoExs()[1].GetDoSts() ? _green : _lightGray;
 
 
                     if (!CyExs[i].GetDiExs()[0].GetDiSts() && CyExs[i].GetDiExs()[1].GetDiSts())
@@ -121,7 +121,7 @@ namespace Lead.Detect.FrameworkExtension.userControls
                 if (dataGridView1.Columns[e.ColumnIndex].CellType == typeof(DataGridViewButtonCell))
                 {
                     var doexs = CyExs[e.RowIndex].GetDoExs();
-                    var doSetSts1 = doexs[1].Port > 0;
+                    var doSetSts1 = doexs[1].Port >= 0;
                     var isSet = doexs.WaitDo(null, new[] { false, doSetSts1 }, 0);
                     CyExs?[e.RowIndex].SetDo(null, !isSet, timeout: 0);
                 }

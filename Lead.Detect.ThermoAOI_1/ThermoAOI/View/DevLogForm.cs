@@ -69,7 +69,7 @@ namespace Lead.Detect.ThermoAOI.View
                             clr = Color.LightCoral;
                             break;
                         case LogLevel.Warning:
-                            clr = Color.Yellow;
+                            clr = Color.Gold;
                             break;
                         case LogLevel.Info:
                             clr = Color.Black;

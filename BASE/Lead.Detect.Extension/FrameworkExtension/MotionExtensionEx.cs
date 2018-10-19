@@ -84,9 +84,9 @@ namespace Lead.Detect.FrameworkExtension
         {
             for (int i = 0; i < cyex.Length; i++)
             {
-                if (cyex[i].DoOrg > 0)
+                if (cyex[i].DoOrg >= 0)
                     cyex[i].DriverCard2.SetDo(cyex[i].DoOrg, status ? 0 : 1);
-                if (cyex[i].DoWork > 0)
+                if (cyex[i].DoWork >= 0)
                     cyex[i].DriverCard2.SetDo(cyex[i].DoWork, status ? 1 : 0);
             }
         }
@@ -100,9 +100,9 @@ namespace Lead.Detect.FrameworkExtension
         {
             for (int i = 0; i < cyex.Length; i++)
             {
-                if (cyex[i].DoOrg > 0)
+                if (cyex[i].DoOrg >= 0)
                     cyex[i].DriverCard2.SetDo(cyex[i].DoOrg, status[i] ? 0 : 1);
-                if (cyex[i].DoWork > 0)
+                if (cyex[i].DoWork >= 0)
                     cyex[i].DriverCard2.SetDo(cyex[i].DoWork, status[i] ? 1 : 0);
             }
 
