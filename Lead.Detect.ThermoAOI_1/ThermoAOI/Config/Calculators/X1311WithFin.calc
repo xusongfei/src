@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<GeometryCalculator xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="X1311Calculator">
+  <ProductName>X1311WithFin</ProductName>
+  <GeoCalcs>
+    <GDTCalc xsi:type="FlatnessCalc">
+      <Name>D</Name>
+      <GDTType>Flatness</GDTType>
+      <IsDatum>true</IsDatum>
+      <ExpectValue>Normal</ExpectValue>
+      <Spec>0</Spec>
+      <SpecMin>0</SpecMin>
+      <SpecMax>0</SpecMax>
+      <Value>0</Value>
+      <Data />
+      <Max>0</Max>
+      <Min>0</Min>
+      <Success>false</Success>
+    </GDTCalc>
+    <GDTCalc xsi:type="ProfileOfSurfaceCalc">
+      <Name>H</Name>
+      <GDTType>ProfileOfSurface</GDTType>
+      <IsDatum>false</IsDatum>
+      <ExpectValue>Normal</ExpectValue>
+      <DatumName>D</DatumName>
+      <Spec>0</Spec>
+      <SpecMin>0</SpecMin>
+      <SpecMax>0</SpecMax>
+      <Value>0</Value>
+      <Data />
+      <Max>0</Max>
+      <Min>0</Min>
+      <Success>false</Success>
+    </GDTCalc>
+    <GDTCalc xsi:type="ProfileOfSurfaceCalc">
+      <Name>I</Name>
+      <GDTType>ProfileOfSurface</GDTType>
+      <IsDatum>false</IsDatum>
+      <ExpectValue>Normal</ExpectValue>
+      <DatumName>D</DatumName>
+      <Spec>0</Spec>
+      <SpecMin>0</SpecMin>
+      <SpecMax>0</SpecMax>
+      <Value>0</Value>
+      <Data />
+      <Max>0</Max>
+      <Min>0</Min>
+      <Success>false</Success>
+    </GDTCalc>
+  </GeoCalcs>
+</GeometryCalculator>

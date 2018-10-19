@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{195D7E78-9E4C-4575-A82E-582F378674EA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MachineUtilityLib</RootNamespace>
+    <AssemblyName>MachineUtilityLib</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.1.6643.41644, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\WeifenLuo.WinFormsUI.Docking.2.1.0\lib\net20\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UtilControls\ProductionCount.cs" />
+    <Compile Include="UtilControls\ProductionCountControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UtilControls\ProductionCountControl.Designer.cs">
+      <DependentUpon>ProductionCountControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UtilProduct\ProductDataBase.cs" />
+    <Compile Include="UtilProduct\ProductDataDisplayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UtilProduct\ProductDataDisplayControl.Designer.cs">
+      <DependentUpon>ProductDataDisplayControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UtilProduct\ProductStatus.cs" />
+    <Compile Include="Utils\DualStartButton.cs" />
+    <Compile Include="Utils\MultiDiSensorCheck.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\MultiClampCylinders.cs" />
+    <Compile Include="Utils\MultiVaccumWithSensor.cs" />
+    <Compile Include="Utils\TestProcessControl.cs" />
+    <Compile Include="UtilTasks\StationTaskExtension.cs" />
+    <Compile Include="UtilViews\DevAlarmForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UtilViews\DevAlarmForm.Designer.cs">
+      <DependentUpon>DevAlarmForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UtilViews\DevLogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UtilViews\DevLogForm.Designer.cs">
+      <DependentUpon>DevLogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UtilViews\FrmPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UtilViews\FrmPassword.Designer.cs">
+      <DependentUpon>FrmPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UtilViews\Version.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UtilViews\Version.Designer.cs">
+      <DependentUpon>Version.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FrameworkExtension\Lead.Detect.FrameworkExtension.csproj">
+      <Project>{463f8ee2-5570-40aa-9f85-58473def51fc}</Project>
+      <Name>Lead.Detect.FrameworkExtension</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UtilMachines\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UtilControls\ProductionCountControl.resx">
+      <DependentUpon>ProductionCountControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilProduct\ProductDataDisplayControl.resx">
+      <DependentUpon>ProductDataDisplayControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilViews\DevAlarmForm.resx">
+      <DependentUpon>DevAlarmForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilViews\DevLogForm.resx">
+      <DependentUpon>DevLogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilViews\FrmPassword.resx">
+      <DependentUpon>FrmPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilViews\Version.resx">
+      <DependentUpon>Version.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

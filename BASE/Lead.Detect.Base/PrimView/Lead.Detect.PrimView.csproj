@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2B488173-8425-4976-918E-2009DA47AAC3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lead.Detect.View</RootNamespace>
+    <AssemblyName>Lead.Detect.View</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.1.6643.41644, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WeifenLuo.WinFormsUI.Docking.2.1.0\lib\net20\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PrimView\PrimDispaly.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PrimView\PrimDispaly.Designer.cs">
+      <DependentUpon>PrimDispaly.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimView\PrimToolBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PrimView\PrimToolBar.Designer.cs">
+      <DependentUpon>PrimToolBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CellView\CellDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CellView\CellDisplay.Designer.cs">
+      <DependentUpon>CellDisplay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CellView\CellMgrForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CellView\CellMgrForm.Designer.cs">
+      <DependentUpon>CellMgrForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimView\PrimConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrimView\PrimConfigForm.Designer.cs">
+      <DependentUpon>PrimConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimView\PrimMgrForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrimView\PrimMgrForm.Designer.cs">
+      <DependentUpon>PrimMgrForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StateView\StateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StateView\StateForm.Designer.cs">
+      <DependentUpon>StateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StationView\DevStationConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StationView\DevStationConfigForm.Designer.cs">
+      <DependentUpon>DevStationConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskView\TaskMgrForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskView\TaskMgrForm.Designer.cs">
+      <DependentUpon>TaskMgrForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="PrimView\PrimDispaly.resx">
+      <DependentUpon>PrimDispaly.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrimView\PrimToolBar.resx">
+      <DependentUpon>PrimToolBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CellView\CellDisplay.resx">
+      <DependentUpon>CellDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CellView\CellMgrForm.resx">
+      <DependentUpon>CellMgrForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrimView\PrimConfigForm.resx">
+      <DependentUpon>PrimConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrimView\PrimMgrForm.resx">
+      <DependentUpon>PrimMgrForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StateView\StateForm.resx">
+      <DependentUpon>StateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StationView\DevStationConfigForm.resx">
+      <DependentUpon>DevStationConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskView\TaskMgrForm.resx">
+      <DependentUpon>TaskMgrForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ImageResource\ui-icons_228ef1_256x240.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Element\Lead.Detect.Element.csproj">
+      <Project>{d900d7e5-35cc-4210-b7cc-d20836674c07}</Project>
+      <Name>Lead.Detect.Element</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Helper\Lead.Detect.Helper.csproj">
+      <Project>{5ec85808-3bda-4849-b36e-e5eb705016ec}</Project>
+      <Name>Lead.Detect.Helper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces.Dev\Lead.Detect.Interfaces.Dev.csproj">
+      <Project>{e74db80e-8d89-455b-8c17-54841a6ef155}</Project>
+      <Name>Lead.Detect.Interfaces.Dev</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PrimBase\Lead.Detect.PrimBase.csproj">
+      <Project>{578a4cf5-6c49-494d-a02e-22bc62ecb44c}</Project>
+      <Name>Lead.Detect.PrimBase</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ICON-LOGIN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\aeroplane.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Down1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Forward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Go down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Go up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Key.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lead.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Left2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\repeat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\repeat - 副本.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\repeat - 副本 - 副本.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Repeat_Disable.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\repeat1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\repeat2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Reset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Right2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RotL.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RotR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Run-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Setting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Setting1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Start.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Start1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Up1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\upload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\login_icon_proxy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\login_icon_proxy1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BO_S2.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\捕获.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\捕获1.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\顶升气缸.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\加紧气缸.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+    <Content Include="ImageResource\ui-icons_222222_256x240.png" />
+    <Content Include="ImageResource\ui-icons_ef8c08_256x240.png" />
+    <Content Include="ImageResource\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Resources\1111.PNG" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

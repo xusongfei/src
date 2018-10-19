@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<DevProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ProjectName>default.dev</ProjectName>
+  <Prims>
+    <PrimConfig>
+      <VisioPrimType>LeiSaiCard</VisioPrimType>
+      <PrimXmlNode>
+        <LeisaiConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <Name>M1</Name>
+          <PrimId>00000000-0000-0000-0000-000000000000</PrimId>
+          <HSType>MoionCard</HSType>
+          <Manu>Other</Manu>
+          <Ver>Other</Ver>
+          <ConnType>Other</ConnType>
+          <PrimConnStat>Connected</PrimConnStat>
+          <PrimRunStat>Running</PrimRunStat>
+          <PrimSimulator>false</PrimSimulator>
+          <PrimDebug>false</PrimDebug>
+          <PrimEnable>false</PrimEnable>
+          <ConfigFilePath>.\Config\param0.ini</ConfigFilePath>
+          <DevIndex>0</DevIndex>
+        </LeisaiConfig>
+      </PrimXmlNode>
+    </PrimConfig>
+    <PrimConfig>
+      <VisioPrimType>LeisaiIOCard</VisioPrimType>
+      <PrimXmlNode>
+        <LeisaiIOConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <Name>IO1</Name>
+          <PrimId>00000000-0000-0000-0000-000000000000</PrimId>
+          <HSType>MoionCard</HSType>
+          <Manu>Other</Manu>
+          <Ver>Other</Ver>
+          <ConnType>Other</ConnType>
+          <PrimConnStat>Connected</PrimConnStat>
+          <PrimRunStat>Running</PrimRunStat>
+          <PrimSimulator>false</PrimSimulator>
+          <PrimDebug>false</PrimDebug>
+          <PrimEnable>false</PrimEnable>
+          <DevIndex>0</DevIndex>
+          <Node>1</Node>
+        </LeisaiIOConfig>
+      </PrimXmlNode>
+    </PrimConfig>
+    <PrimConfig>
+      <VisioPrimType>VirtualCard</VisioPrimType>
+      <PrimXmlNode>
+        <VirtualCard xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <PrimTypeName>VirtualCard</PrimTypeName>
+          <PrimId>fe5dc3c3-1635-4079-bacb-5c13b4239f79</PrimId>
+          <HSType>PLC</HSType>
+          <Manu>Delta</Manu>
+          <Ver>Omron_CJ</Ver>
+          <ConnType>SerialPort</ConnType>
+          <PrimConnStat>Connected</PrimConnStat>
+          <PrimRunStat>Running</PrimRunStat>
+          <PrimSimulator>false</PrimSimulator>
+          <PrimDebug>false</PrimDebug>
+          <PrimEnable>false</PrimEnable>
+          <DevIndex>0</DevIndex>
+          <DIChangedEnable>false</DIChangedEnable>
+          <DOChangedEnable>false</DOChangedEnable>
+          <Id>0</Id>
+          <Name>VIO</Name>
+        </VirtualCard>
+      </PrimXmlNode>
+    </PrimConfig>
+  </Prims>
+  <Tasks />
+  <Cells />
+</DevProject>

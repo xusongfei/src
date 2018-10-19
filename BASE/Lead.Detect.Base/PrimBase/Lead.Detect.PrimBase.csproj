@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{578A4CF5-6C49-494D-A02E-22BC62ECB44C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lead.Detect.Base</RootNamespace>
+    <AssemblyName>Lead.Detect.Base</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.1.6643.41644, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\WeifenLuo.WinFormsUI.Docking.2.1.0\lib\net20\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CellConfig.cs" />
+    <Compile Include="CellView\CellDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CellView\CellDisplay.Designer.cs">
+      <DependentUpon>CellDisplay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CellView\CellMgrForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CellView\CellMgrForm.Designer.cs">
+      <DependentUpon>CellMgrForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalCell\Cell.cs" />
+    <Compile Include="GlobalCell\CellConfigs.cs" />
+    <Compile Include="GlobalCell\CellConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GlobalCell\CellConfigForm.Designer.cs">
+      <DependentUpon>CellConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalCell\CellOutputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GlobalCell\CellOutputForm.Designer.cs">
+      <DependentUpon>CellOutputForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalCell\CellsFactory.cs" />
+    <Compile Include="GlobalCell\CellsManager.cs" />
+    <Compile Include="GlobalCell\CellConfig.cs" />
+    <Compile Include="GlobalCell\TabDisMode.cs" />
+    <Compile Include="GlobalPrim\PrimCmdType.cs" />
+    <Compile Include="GlobalPrim\PrimConnState.cs" />
+    <Compile Include="GlobalPrim\PrimConnType.cs" />
+    <Compile Include="GlobalPrim\PrimDataRefresh.cs" />
+    <Compile Include="GlobalPrim\PrimManufacture.cs" />
+    <Compile Include="GlobalPrim\PrimOpLog.cs" />
+    <Compile Include="GlobalPrim\PrimRunState.cs" />
+    <Compile Include="DevPrimsFactoryManager.cs" />
+    <Compile Include="DevPrimsManager.cs" />
+    <Compile Include="GlobalPrim\PrimStateChanged.cs" />
+    <Compile Include="GlobalPrim\PrimType.cs" />
+    <Compile Include="GlobalPrim\PrimVer.cs" />
+    <Compile Include="GlobalStation\IStation.cs" />
+    <Compile Include="GlobalStation\StationFactory.cs" />
+    <Compile Include="GlobalStation\StationMgr.cs" />
+    <Compile Include="GlobalStation\StationTraj.cs" />
+    <Compile Include="GlobalStation\StationTrajTrigBind.cs" />
+    <Compile Include="GlobalTask\TasksFactory.cs" />
+    <Compile Include="GlobalTask\TasksManager.cs" />
+    <Compile Include="GlobalCell\ICell.cs" />
+    <Compile Include="GlobalPrim\IPrim.cs" />
+    <Compile Include="GlobalPrim\IPrimCreator.cs" />
+    <Compile Include="GlobalPrim\IPrimTypeAttributes.cs" />
+    <Compile Include="GlobalPrim\PrimConfig.cs" />
+    <Compile Include="PrimView\PrimDefaultConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PrimView\PrimDefaultConfigControl.Designer.cs">
+      <DependentUpon>PrimDefaultConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimView\PrimConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrimView\PrimConfigForm.Designer.cs">
+      <DependentUpon>PrimConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimView\PrimDispaly.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PrimView\PrimDispaly.Designer.cs">
+      <DependentUpon>PrimDispaly.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimView\PrimMgrForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrimView\PrimMgrForm.Designer.cs">
+      <DependentUpon>PrimMgrForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimView\PrimToolBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PrimView\PrimToolBar.Designer.cs">
+      <DependentUpon>PrimToolBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GlobalTask\TaskConfig.cs" />
+    <Compile Include="StateView\StateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StateView\StateForm.Designer.cs">
+      <DependentUpon>StateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StationView\DevStationConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StationView\DevStationConfigForm.Designer.cs">
+      <DependentUpon>DevStationConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskView\TaskMgrForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskView\TaskMgrForm.Designer.cs">
+      <DependentUpon>TaskMgrForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CellView\CellDisplay.resx">
+      <DependentUpon>CellDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CellView\CellMgrForm.resx">
+      <DependentUpon>CellMgrForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GlobalCell\CellConfigForm.resx">
+      <DependentUpon>CellConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GlobalCell\CellOutputForm.resx">
+      <DependentUpon>CellOutputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrimView\PrimDefaultConfigControl.resx">
+      <DependentUpon>PrimDefaultConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrimView\PrimConfigForm.resx">
+      <DependentUpon>PrimConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrimView\PrimDispaly.resx">
+      <DependentUpon>PrimDispaly.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrimView\PrimMgrForm.resx">
+      <DependentUpon>PrimMgrForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrimView\PrimToolBar.resx">
+      <DependentUpon>PrimToolBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StateView\StateForm.resx">
+      <DependentUpon>StateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StationView\DevStationConfigForm.resx">
+      <DependentUpon>DevStationConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskView\TaskMgrForm.resx">
+      <DependentUpon>TaskMgrForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Helper\Lead.Detect.Helper.csproj">
+      <Project>{5ec85808-3bda-4849-b36e-e5eb705016ec}</Project>
+      <Name>Lead.Detect.Helper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces.Dev\Lead.Detect.Interfaces.Dev.csproj">
+      <Project>{e74db80e-8d89-455b-8c17-54841a6ef155}</Project>
+      <Name>Lead.Detect.Interfaces.Dev</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ImageResource\ui-icons_222222_256x240.png" />
+    <Content Include="ImageResource\ui-icons_ef8c08_256x240.png" />
+    <Content Include="ImageResource\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Resources\1111.PNG" />
+    <None Include="Resources\加紧气缸.PNG" />
+    <None Include="Resources\顶升气缸.PNG" />
+    <None Include="Resources\捕获1.PNG" />
+    <None Include="Resources\捕获.PNG" />
+    <None Include="Resources\upload.png" />
+    <None Include="Resources\Up1.png" />
+    <None Include="Resources\Up.png" />
+    <None Include="Resources\tag.png" />
+    <None Include="Resources\Start1.png" />
+    <None Include="Resources\Start.png" />
+    <None Include="Resources\Settings.png" />
+    <None Include="Resources\Setting1.png" />
+    <None Include="Resources\Setting.png" />
+    <None Include="Resources\Run-64.png" />
+    <None Include="Resources\RotR.png" />
+    <None Include="Resources\RotL.png" />
+    <None Include="Resources\Right2.png" />
+    <None Include="Resources\right.png" />
+    <None Include="Resources\Reset.png" />
+    <None Include="Resources\repeat2.png" />
+    <None Include="Resources\repeat1.png" />
+    <None Include="Resources\Repeat_Disable.ico" />
+    <None Include="Resources\repeat.png" />
+    <None Include="Resources\repeat - 副本.png" />
+    <None Include="Resources\repeat - 副本 - 副本.png" />
+    <None Include="Resources\Play.png" />
+    <None Include="Resources\pen.png" />
+    <None Include="Resources\login_icon_proxy1.png" />
+    <None Include="Resources\login_icon_proxy.png" />
+    <None Include="Resources\Left2.png" />
+    <None Include="Resources\left.png" />
+    <None Include="Resources\lead.png" />
+    <None Include="Resources\Key.png" />
+    <None Include="Resources\ICON-LOGIN.png" />
+    <None Include="Resources\Go up.png" />
+    <None Include="Resources\Go down.png" />
+    <None Include="Resources\Forward.png" />
+    <None Include="Resources\Exit.png" />
+    <None Include="Resources\download.png" />
+    <None Include="Resources\Down1.png" />
+    <None Include="Resources\Down.png" />
+    <None Include="Resources\close1.png" />
+    <None Include="Resources\close.png" />
+    <None Include="Resources\BO_S2.PNG" />
+    <None Include="Resources\Back.png" />
+    <None Include="Resources\aeroplane.png" />
+    <None Include="Resources\2.png" />
+    <None Include="Resources\11.png" />
+    <None Include="Resources\1.png" />
+    <None Include="ImageResource\ui-icons_228ef1_256x240.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

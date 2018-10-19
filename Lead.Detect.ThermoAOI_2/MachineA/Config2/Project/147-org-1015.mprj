@@ -1,0 +1,458 @@
+<?xml version="1.0"?>
+<MeasureProjectA xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ProjectName>default</ProjectName>
+  <Version>v0.1</Version>
+  <SPCItems />
+  <CapturePos>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name>barcode</Name>
+      <X>-101</X>
+      <Y>-4</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name>datum1</Name>
+      <X>0.3</X>
+      <Y>0</Y>
+      <Z>97.03</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description>outer</Description>
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name>datum2</Name>
+      <X>-110.8</X>
+      <Y>-117.09</Y>
+      <Z>97.03</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description>outer</Description>
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>2.49</X>
+      <Y>-117.09</Y>
+      <Z>97.03</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description>outer</Description>
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-22.51</X>
+      <Y>-104.19</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description>outer</Description>
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-85.2</X>
+      <Y>-104.19</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-85.2</X>
+      <Y>-72.01</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-21.2</X>
+      <Y>-72.01</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-21.2</X>
+      <Y>-50.81</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-85.3</X>
+      <Y>-50.71</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-85.3</X>
+      <Y>-18.7</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-21.31</X>
+      <Y>-18.61</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-110.3</X>
+      <Y>-0.2</Y>
+      <Z>97.03</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-102.3</X>
+      <Y>65.79</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-55.81</X>
+      <Y>65.79</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-8.81</X>
+      <Y>65.79</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>8.2</X>
+      <Y>56.79</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>8.2</X>
+      <Y>35.79</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>8.2</X>
+      <Y>13.79</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>8.2</X>
+      <Y>-8.21</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>8.2</X>
+      <Y>-29.2</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>8.2</X>
+      <Y>-49.8</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-10.81</X>
+      <Y>-60.01</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-94.79</X>
+      <Y>-60.01</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-121.79</X>
+      <Y>-47</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-121.79</X>
+      <Y>-25.51</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-121.79</X>
+      <Y>-3.3</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-121.79</X>
+      <Y>18.29</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-121.79</X>
+      <Y>40.6</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name />
+      <X>-121.79</X>
+      <Y>56.6</Y>
+      <Z>102.43</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description />
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+  </CapturePos>
+</MeasureProjectA>

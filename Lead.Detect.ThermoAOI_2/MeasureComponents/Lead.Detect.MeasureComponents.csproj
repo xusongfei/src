@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{61F293A2-A669-4D8C-A31D-DED0EAE846A2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lead.Detect.MeasureComponents</RootNamespace>
+    <AssemblyName>Lead.Detect.MeasureComponents</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GoSdkNet, Version=1.0.6822.26984, Culture=neutral, PublicKeyToken=3e18828f1dab5c8c, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>LaserControl\gosdk_x64\GoSdkNet.dll</HintPath>
+    </Reference>
+    <Reference Include="kApiNet, Version=1.0.6822.16504, Culture=neutral, PublicKeyToken=aed51b4e56ae495f, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>LaserControl\gosdk_x64\kApiNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Calibration\MachineACalib.cs" />
+    <Compile Include="Calibration\MachineACalibConfig.cs" />
+    <Compile Include="Calibration\MachineBLaserCalib.cs" />
+    <Compile Include="Calibration\MachineBCalibConfig.cs" />
+    <Compile Include="Calibration\MachineBCameraCalib.cs" />
+    <Compile Include="Calibration\MeasureCalibForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Calibration\MeasureCalibForm.Designer.cs">
+      <DependentUpon>MeasureCalibForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CameraControl\CameraExDebugControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CameraControl\CameraExDebugControl.Designer.cs">
+      <DependentUpon>CameraExDebugControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CameraControl\CameraExDisplayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CameraControl\CameraExDisplayControl.Designer.cs">
+      <DependentUpon>CameraExDisplayControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CameraControl\CameraSim.cs" />
+    <Compile Include="CameraControl\ICameraEx.cs" />
+    <Compile Include="LaserControl\ILineLaserEx.cs" />
+    <Compile Include="LaserControl\LineLaserExDisplayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LaserControl\LineLaserExDisplayControl.Designer.cs">
+      <DependentUpon>LineLaserExDisplayControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LaserControl\LineLaserSim.cs" />
+    <Compile Include="LaserControl\LineLaserExDebugControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LaserControl\LineLaserExDebugControl.Designer.cs">
+      <DependentUpon>LineLaserExDebugControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LMILaser\LmiLaser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Thermo2Camera\ThermoCameraB.cs" />
+    <Compile Include="Thermo2Camera\ThermoCameraA.cs" />
+    <Compile Include="Thermo2Camera\ThermoCameraBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LMILaser\gosdk_x64\GoSdk.dll" />
+    <Content Include="LMILaser\gosdk_x64\GoSdkNet.dll" />
+    <Content Include="LMILaser\gosdk_x64\kApi.dll" />
+    <Content Include="LMILaser\gosdk_x64\kApiNet.dll" />
+    <Content Include="LMILaser\gosdk_x86\GoSdk.dll" />
+    <Content Include="LMILaser\gosdk_x86\GoSdkNet.dll" />
+    <Content Include="LMILaser\gosdk_x86\kApi.dll" />
+    <Content Include="LMILaser\gosdk_x86\kApiNet.dll" />
+    <Content Include="test.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CameraControl\CameraExDebugControl.resx">
+      <DependentUpon>CameraExDebugControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CameraControl\CameraExDisplayControl.resx">
+      <DependentUpon>CameraExDisplayControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LaserControl\LineLaserExDebugControl.resx">
+      <DependentUpon>LineLaserExDebugControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LaserControl\LineLaserExDisplayControl.resx">
+      <DependentUpon>LineLaserExDisplayControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Extension\FrameworkExtension\Lead.Detect.FrameworkExtension.csproj">
+      <Project>{463f8ee2-5570-40aa-9f85-58473def51fc}</Project>
+      <Name>Lead.Detect.FrameworkExtension</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

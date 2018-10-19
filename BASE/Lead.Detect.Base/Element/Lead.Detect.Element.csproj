@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D900D7E5-35CC-4210-B7CC-D20836674C07}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lead.Detect.Element</RootNamespace>
+    <AssemblyName>Lead.Detect.Element</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EleControl\EleAxisConfigControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EleControl\EleAxisConfigControl.Designer.cs">
+      <DependentUpon>EleAxisConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EleControl\EleAxisControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EleControl\EleAxisControl.Designer.cs">
+      <DependentUpon>EleAxisControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EleAxis.cs" />
+    <Compile Include="EleAxisType.cs" />
+    <Compile Include="EleControl\IEleUpdate.cs" />
+    <Compile Include="EleControl\EleVioConfigControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EleControl\EleVioConfigControl.Designer.cs">
+      <DependentUpon>EleVioConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EleControl\EleDoConfigControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EleControl\EleDoConfigControl.Designer.cs">
+      <DependentUpon>EleDoConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EleControl\EleCylinderConfigControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EleControl\EleCylinderConfigControl.Designer.cs">
+      <DependentUpon>EleCylinderConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EleControl\EleCylinderControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EleControl\EleCylinderControl.Designer.cs">
+      <DependentUpon>EleCylinderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EleCylinder.cs" />
+    <Compile Include="EleControl\EleDiConfigControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EleControl\EleDiConfigControl.Designer.cs">
+      <DependentUpon>EleDiConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EleControl\EleDiControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EleControl\EleDiControl.Designer.cs">
+      <DependentUpon>EleDiControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EleDi.cs" />
+    <Compile Include="EleDiType.cs" />
+    <Compile Include="EleControl\EleVioControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EleControl\EleVioControl.Designer.cs">
+      <DependentUpon>EleVioControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EleControl\EleDoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EleControl\EleDoControl.Designer.cs">
+      <DependentUpon>EleDoControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EleDo.cs" />
+    <Compile Include="EleDoType.cs" />
+    <Compile Include="EleControl\ElePropsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EleControl\ElePropsForm.Designer.cs">
+      <DependentUpon>ElePropsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EleVio.cs" />
+    <Compile Include="EleVioType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EleControl\EleAxisConfigControl.resx">
+      <DependentUpon>EleAxisConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EleControl\EleAxisControl.resx">
+      <DependentUpon>EleAxisControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EleControl\EleVioConfigControl.resx">
+      <DependentUpon>EleVioConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EleControl\EleDoConfigControl.resx">
+      <DependentUpon>EleDoConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EleControl\EleCylinderConfigControl.resx">
+      <DependentUpon>EleCylinderConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EleControl\EleCylinderControl.resx">
+      <DependentUpon>EleCylinderControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EleControl\EleDiConfigControl.resx">
+      <DependentUpon>EleDiConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EleControl\EleDiControl.resx">
+      <DependentUpon>EleDiControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EleControl\EleVioControl.resx">
+      <DependentUpon>EleVioControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EleControl\EleDoControl.resx">
+      <DependentUpon>EleDoControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EleControl\ElePropsForm.resx">
+      <DependentUpon>ElePropsForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Lead.Detect.Base\Interfaces.Dev\Lead.Detect.Interfaces.Dev.csproj">
+      <Project>{e74db80e-8d89-455b-8c17-54841a6ef155}</Project>
+      <Name>Lead.Detect.Interfaces.Dev</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Lead.Detect.Base\PrimBase\Lead.Detect.PrimBase.csproj">
+      <Project>{578a4cf5-6c49-494d-a02e-22bc62ecb44c}</Project>
+      <Name>Lead.Detect.PrimBase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

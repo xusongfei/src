@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A1E7FC28-101E-4EB4-B609-B101D67F16D5}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lead.Detect.ThermoAOI2.MachineB</RootNamespace>
+    <AssemblyName>Lead.Detect.ThermoAOI2.MachineB</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>lead.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.1.6643.41644, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WeifenLuo.WinFormsUI.Docking.2.1.0\lib\net20\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UserDefine\Machine.cs" />
+    <Compile Include="UserDefine\MachineSettings.cs" />
+    <Compile Include="UserDefine\Tasks\MeasureTask.cs" />
+    <Compile Include="UserDefine\Tasks\TransTask.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\DevConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DevConfigForm.Designer.cs">
+      <DependentUpon>DevConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\DevMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DevMainForm.Designer.cs">
+      <DependentUpon>DevMainForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="View\DevConfigForm.resx">
+      <DependentUpon>DevConfigForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DevMainForm.resx">
+      <DependentUpon>DevMainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Config2\CameraPlatform.dat" />
+    <None Include="Config2\default.dev" />
+    <None Include="Config2\devsim.dev" />
+    <None Include="Config2\environment.cfg" />
+    <None Include="Config2\Laser1Platform.dat" />
+    <None Include="Config2\Laser2Platform.dat" />
+    <None Include="Config2\machine.cfg" />
+    <None Include="Config2\machinesim.cfg" />
+    <None Include="Config2\param0-b.ini" />
+    <None Include="Config2\Project\147 1014.mprj" />
+    <None Include="Config2\Project\147.mprj" />
+    <None Include="Config2\Project\test.mprj" />
+    <None Include="Config2\Project\test1013.mprj" />
+    <None Include="Config2\Settings.cfg" />
+    <None Include="Config2\TransPlatform.dat" />
+    <None Include="Config\CameraPlatform.dat" />
+    <None Include="Config\default.dev">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\devsim.dev">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\Laser1Platform.dat" />
+    <None Include="Config\Laser2Platform.dat" />
+    <None Include="Config\machine.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\machinesim.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\param0-b.ini" />
+    <None Include="Config\Project\147 1014.mprj" />
+    <None Include="Config\Project\147.mprj" />
+    <None Include="Config\Project\test.mprj" />
+    <None Include="Config\Project\test1013.mprj" />
+    <None Include="Config\Settings.cfg" />
+    <None Include="Config\TransPlatform.dat" />
+    <None Include="Config\environment.cfg" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lead.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Base\Helper\Lead.Detect.Helper.csproj">
+      <Project>{5ec85808-3bda-4849-b36e-e5eb705016ec}</Project>
+      <Name>Lead.Detect.Helper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Base\Element\Lead.Detect.Element.csproj">
+      <Project>{d900d7e5-35cc-4210-b7cc-d20836674c07}</Project>
+      <Name>Lead.Detect.Element</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Extension\FrameworkExtension\Lead.Detect.FrameworkExtension.csproj">
+      <Project>{463f8ee2-5570-40aa-9f85-58473def51fc}</Project>
+      <Name>Lead.Detect.FrameworkExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Extension\MachineUtilityLib\Lead.Detect.MachineUtilityLib.csproj">
+      <Project>{195d7e78-9e4c-4575-a82e-582f378674ea}</Project>
+      <Name>Lead.Detect.MachineUtilityLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Lead.Detect.ThermoAOI_1\ThermoAOIFlatnessCalcLib\Lead.Detect.ThermoAOIProductCalcLib.csproj">
+      <Project>{4dc12809-3d6e-4a62-a9fc-3ba47dfdbe97}</Project>
+      <Name>Lead.Detect.ThermoAOIProductCalcLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MeasureComponents\Lead.Detect.MeasureComponents.csproj">
+      <Project>{61f293a2-a669-4d8c-a31d-ded0eae846a2}</Project>
+      <Name>Lead.Detect.MeasureComponents</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

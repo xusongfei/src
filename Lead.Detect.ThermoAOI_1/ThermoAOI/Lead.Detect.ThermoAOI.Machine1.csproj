@@ -1,0 +1,470 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B43E31C6-1F33-4EAF-AAD0-91943AA90C1B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lead.Detect.ThermoAOI</RootNamespace>
+    <AssemblyName>Lead.Detect.ThermoAOI</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Lead.Detect.ThermoAOI.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>lead.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dos.ORM, Version=1.12.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dos.ORM.1.12.1\lib\net40\Dos.ORM.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Dos.ORM.Sqlite, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dos.ORM.Sqlite.1.0.7.0\lib\net40\Dos.ORM.Sqlite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GenericDictionaryEditor, Version=1.1.0.0, Culture=neutral, PublicKeyToken=7f1cce5280f1f8eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\GenDictEdit.1.1.0\lib\net20\GenericDictionaryEditor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="geometry3Sharp, Version=1.0.144.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\geometry3Sharp.1.0.144\lib\net45\geometry3Sharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="lcpi.data.oledb.net4_5_1, Version=1.7.2.3437, Culture=neutral, PublicKeyToken=ff716095e8002e7e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\lcpi.data.oledb.1.7.2.3437\lib\net451\lcpi.data.oledb.net4_5_1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="lcpi.lib.net4_5_1, Version=2.1.1.1665, Culture=neutral, PublicKeyToken=ff716095e8002e7e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\lcpi.lib.2.1.1.1665\lib\net451\lcpi.lib.net4_5_1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Data.SQLite, Version=1.0.108.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Data.SQLite.Core.1.0.108.0\lib\net451\System.Data.SQLite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.1.6643.41644, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\WeifenLuo.WinFormsUI.Docking.2.1.0\lib\net20\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Calibration\AutoPlatformHeightCalib.cs" />
+    <Compile Include="Calibration\AutoPlatformProduct2UpCalib.cs" />
+    <Compile Include="Calibration\GTTransform.cs" />
+    <Compile Include="Calibration\AutoPlatformUp2DownAlignCalib.cs" />
+    <Compile Include="Calibration\LineParams.cs" />
+    <Compile Include="Calibration\PlaneParams.cs" />
+    <Compile Include="Common\BarcodeHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="VersionHelper\AxisPosConfig.cs" />
+    <Compile Include="Machine\MachineSafeChecks.cs" />
+    <Compile Include="Machine\newTasks\newMeasureDownTask.cs" />
+    <Compile Include="Machine\newTasks\newMeasureUpTask.cs" />
+    <Compile Include="Machine\newTasks\newTransTask.cs" />
+    <Compile Include="Product\DatabaseHelper.cs" />
+    <Compile Include="Common\KeyenceGT.cs" />
+    <Compile Include="Machine\PlatformType.cs" />
+    <Compile Include="Product\ProductTestDisplayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Product\ProductTestDisplayControl.Designer.cs">
+      <DependentUpon>ProductTestDisplayControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductTestPosEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product\ProductTestPosEditor.Designer.cs">
+      <DependentUpon>ProductTestPosEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Product\FlatnessProjectEditorForm.Designer.cs">
+      <DependentUpon>FlatnessProjectEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Product\FlatnessProjectEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product\ProductTestPosViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product\ProductTestPosViewer.Designer.cs">
+      <DependentUpon>ProductTestPosViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VersionHelper\PlatformConvert.cs" />
+    <Compile Include="View\DevAlarmForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DevAlarmForm.Designer.cs">
+      <DependentUpon>DevAlarmForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\DevLogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DevLogForm.Designer.cs">
+      <DependentUpon>DevLogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="View\DevMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DevMainForm.Designer.cs">
+      <DependentUpon>DevMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\DevConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DevConfigForm.Designer.cs">
+      <DependentUpon>DevConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Version.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Version.Designer.cs">
+      <DependentUpon>Version.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\FrmProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FrmProgress.Designer.cs">
+      <DependentUpon>FrmProgress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\FrmPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FrmPassword.Designer.cs">
+      <DependentUpon>FrmPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Calibration\CalibrationConfig.cs" />
+    <Compile Include="Machine\CommonConfig.cs" />
+    <Compile Include="Machine\ProductionCount.cs" />
+    <Compile Include="Machine\Machine.cs" />
+    <Compile Include="Machine\MachineSettings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Product\ProductTestDisplayControl.resx">
+      <DependentUpon>ProductTestDisplayControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product\ProductTestPosEditor.resx">
+      <DependentUpon>ProductTestPosEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product\FlatnessProjectEditorForm.resx">
+      <DependentUpon>FlatnessProjectEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product\ProductTestPosViewer.resx">
+      <DependentUpon>ProductTestPosViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DevAlarmForm.resx">
+      <DependentUpon>DevAlarmForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DevLogForm.resx">
+      <DependentUpon>DevLogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DevMainForm.resx">
+      <DependentUpon>DevMainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DevConfigForm.resx">
+      <DependentUpon>DevConfigForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Version.resx">
+      <DependentUpon>Version.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FrmProgress.resx">
+      <DependentUpon>FrmProgress.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FrmPassword.resx">
+      <DependentUpon>FrmPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Config2\A117\A117NoFin.fprj" />
+    <None Include="Config2\A117\A117NoFinNewR.fprj" />
+    <None Include="Config2\A117\A117NoFinTest.fprj" />
+    <None Include="Config2\A117\A117NoFin_pf_27.fprj" />
+    <None Include="Config2\A117\A117NoFin_pf_28 - 9.fprj" />
+    <None Include="Config2\A117\A117NoFin_pf_29.fprj" />
+    <None Include="Config2\A117\A117NoFin_pf_30 %28VC单体%29.fprj" />
+    <None Include="Config2\A117\A117NoFin_pf_30.fprj" />
+    <None Include="Config2\A117\A117NoFin_pf_31.fprj" />
+    <None Include="Config2\A117\A117WithFin.fprj" />
+    <None Include="Config2\A117\A117WithFin_pf_27.fprj" />
+    <None Include="Config2\A117\A117WithFin_pf_28 %28带FIN模组%29.fprj" />
+    <None Include="Config2\A117\A117WithFin_pf_28 - 9.fprj" />
+    <None Include="Config2\A117\A117WithFin_pf_28.fprj" />
+    <None Include="Config2\A117\A117WithFin_pf_29.fprj" />
+    <None Include="Config2\A117\A117WithFin_pf_30.fprj" />
+    <None Include="Config2\A117\A117WithFin_pf_31.fprj" />
+    <None Include="Config2\A117\default.fprj" />
+    <None Include="Config2\Calculators\A117NoFin.calc" />
+    <None Include="Config2\Calculators\A117WithFin.calc" />
+    <None Include="Config2\Calculators\A147NoFin.calc" />
+    <None Include="Config2\Calculators\A147WithFin.calc" />
+    <None Include="Config2\Calculators\X1311WithFin.calc" />
+    <None Include="Config2\default.db" />
+    <None Include="Config2\default.dev" />
+    <None Include="Config2\devsim.dev" />
+    <None Include="Config2\LeftCarrier.pts" />
+    <None Include="Config2\LeftDown.pts" />
+    <None Include="Config2\LeftUp.pts" />
+    <None Include="Config2\machine.cfg" />
+    <None Include="Config2\machinesim.cfg" />
+    <None Include="Config2\p1.pts" />
+    <None Include="Config2\P2\A117NoFinV13-pf-30.fprj" />
+    <None Include="Config2\P2\A117NoFinV13.fprj" />
+    <None Include="Config2\P2\A117WithFinV13-pf-30.fprj" />
+    <None Include="Config2\P2\A117WithFinV13.fprj" />
+    <None Include="Config2\P2\A147NoFinV10.fprj" />
+    <None Include="Config2\P2\A147WithFinV10.fprj" />
+    <None Include="Config2\P2\Calib\A117HeightCalibTest.fprj" />
+    <None Include="Config2\RightCarrier.pts" />
+    <None Include="Config2\RightDown.pts" />
+    <None Include="Config2\RightUp.pts" />
+    <None Include="Config2\Settings.cfg" />
+    <None Include="Config2\CALIB FPRJ\A117FlatnessTest.fprj" />
+    <None Include="Config2\CALIB FPRJ\A117FlatnessTest2.fprj" />
+    <None Include="Config2\CALIB FPRJ\A117FlatnessTest3.fprj" />
+    <None Include="Config2\CALIB FPRJ\A117FlatnessTest4.fprj" />
+    <None Include="Config2\CALIB FPRJ\A117HeightCalibTest.fprj" />
+    <None Include="Config\P1\TEST PROJECT\A117FlatnessTest.fprj" />
+    <None Include="Config\P1\TEST PROJECT\A117FlatnessTest3.fprj" />
+    <None Include="Config\P1\TEST PROJECT\A117FlatnessTest4.fprj" />
+    <None Include="Config\P1\TEST PROJECT\A117HeightCalibTest.fprj" />
+    <None Include="Config\P1\不带Fin标定点位\A117NoFinNewCalib.fprj" />
+    <None Include="Config\P1\右工位不带Fin测试点位\A117NoFinNewR.fprj" />
+    <None Include="Config\P1\右工位带Fin测试点位\A117WithFinNewR.fprj" />
+    <None Include="Config\P1\左工位不带Fin测试点位\A117NoFinNewL.fprj" />
+    <None Include="Config\P1\左工位带Fin测试点位\A117WithFinNewL.fprj" />
+    <None Include="Config\P1\带Fin标定点位\A117WithFinNewCalib.fprj" />
+    <None Include="Config\Calculators\A117NoFin.calc" />
+    <None Include="Config\Calculators\A117WithFin.calc" />
+    <None Include="Config\Calculators\A147NoFin.calc" />
+    <None Include="Config\Calculators\A147WithFin.calc" />
+    <None Include="Config\Calculators\X1311WithFin.calc" />
+    <None Include="Config\default.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\default.dev" />
+    <None Include="Config\devsim.dev" />
+    <None Include="Config\LeftCarrier.pts" />
+    <None Include="Config\LeftDown.pts" />
+    <None Include="Config\LeftUp.pts" />
+    <None Include="Config\machine.cfg" />
+    <None Include="Config\machinesim.cfg" />
+    <None Include="Config\p2 spec.md" />
+    <None Include="Config\P2\A117NoFinV13-pf-30.fprj" />
+    <None Include="Config\P2\A117NoFinV13-pf-31.fprj" />
+    <None Include="Config\P2\A117NoFinV13.fprj" />
+    <None Include="Config\P2\A117WithFinV13-pf-30.fprj" />
+    <None Include="Config\P2\A117WithFinV13.fprj" />
+    <None Include="Config\P2\A147NoFinV10.fprj" />
+    <None Include="Config\P2\A147WithFinV10.fprj" />
+    <None Include="Config\P2\Calib\A117HeightCalibTest.fprj" />
+    <None Include="Config\P2\X1311WithFinV7.fprj" />
+    <None Include="Config\platforms.pts" />
+    <None Include="Config\RightCarrier.pts" />
+    <None Include="Config\RightDown.pts" />
+    <None Include="Config\RightUp.pts" />
+    <None Include="Config\Settings.cfg" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Base\Helper\Lead.Detect.Helper.csproj">
+      <Project>{5ec85808-3bda-4849-b36e-e5eb705016ec}</Project>
+      <Name>Lead.Detect.Helper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Extension\DatabaseHelper\Lead.Detect.DatabaseHelper.csproj">
+      <Project>{6ea6d1fd-7d09-4d17-ad94-4e6711054de0}</Project>
+      <Name>Lead.Detect.DatabaseHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Base\Element\Lead.Detect.Element.csproj">
+      <Project>{d900d7e5-35cc-4210-b7cc-d20836674c07}</Project>
+      <Name>Lead.Detect.Element</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Base\Interfaces.Dev\Lead.Detect.Interfaces.Dev.csproj">
+      <Project>{e74db80e-8d89-455b-8c17-54841a6ef155}</Project>
+      <Name>Lead.Detect.Interfaces.Dev</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Base\PrimBase\Lead.Detect.PrimBase.csproj">
+      <Project>{578a4cf5-6c49-494d-a02e-22bc62ecb44c}</Project>
+      <Name>Lead.Detect.PrimBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Extension\FrameworkExtension\Lead.Detect.FrameworkExtension.csproj">
+      <Project>{463f8ee2-5570-40aa-9f85-58473def51fc}</Project>
+      <Name>Lead.Detect.FrameworkExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Extension\MachineUtilityLib\Lead.Detect.MachineUtilityLib.csproj">
+      <Project>{195d7e78-9e4c-4575-a82e-582f378674ea}</Project>
+      <Name>Lead.Detect.MachineUtilityLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lead.Detect.ThermoAOITrajectoryLib\Lead.Detect.ThermoAOITrajectoryLib.csproj">
+      <Project>{b0ce046f-e89f-4a83-8ca1-25fb5c807e1b}</Project>
+      <Name>Lead.Detect.ThermoAOITrajectoryLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThermoAOIFlatnessCalcLib\Lead.Detect.ThermoAOIProductCalcLib.csproj">
+      <Project>{4DC12809-3D6E-4A62-A9FC-3BA47DFDBE97}</Project>
+      <Name>Lead.Detect.ThermoAOIProductCalcLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThermoAOIDisplayLib\Lead.Detect.ThermoAOIDisplayLib.csproj">
+      <Project>{7ddc2940-c7f3-4e02-89db-4be8dde689f6}</Project>
+      <Name>Lead.Detect.ThermoAOIDisplayLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="APS168.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Config2\p2 spec.md" />
+    <Content Include="Config2\param0.xml" />
+    <Content Include="Config2\param1.xml" />
+    <Content Include="Config\param0.xml" />
+    <Content Include="Config\param1.xml" />
+    <Content Include="lead.ico" />
+    <Content Include="PCI-Dask64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\1111.PNG" />
+    <None Include="Resources\加紧气缸.PNG" />
+    <None Include="Resources\顶升气缸.PNG" />
+    <None Include="Resources\捕获1.PNG" />
+    <None Include="Resources\捕获.PNG" />
+    <None Include="Resources\upload.png" />
+    <None Include="Resources\Up1.png" />
+    <None Include="Resources\Up.png" />
+    <None Include="Resources\tag.png" />
+    <None Include="Resources\Start1.png" />
+    <None Include="Resources\Start.png" />
+    <None Include="Resources\Settings.png" />
+    <None Include="Resources\Setting1.png" />
+    <None Include="Resources\Setting.png" />
+    <None Include="Resources\Run-64.png" />
+    <None Include="Resources\RotR.png" />
+    <None Include="Resources\RotL.png" />
+    <None Include="Resources\Right2.png" />
+    <None Include="Resources\right.png" />
+    <None Include="Resources\Reset.png" />
+    <None Include="Resources\repeat2.png" />
+    <None Include="Resources\repeat1.png" />
+    <None Include="Resources\Repeat_Disable.ico" />
+    <None Include="Resources\repeat.png" />
+    <None Include="Resources\repeat - 副本.png" />
+    <None Include="Resources\repeat - 副本 - 副本.png" />
+    <None Include="Resources\Play.png" />
+    <None Include="Resources\pen.png" />
+    <None Include="Resources\login_icon_proxy1.png" />
+    <None Include="Resources\login_icon_proxy.png" />
+    <None Include="Resources\Left2.png" />
+    <None Include="Resources\left.png" />
+    <None Include="Resources\lead.png" />
+    <None Include="Resources\Key.png" />
+    <None Include="Resources\ICON-LOGIN.png" />
+    <None Include="Resources\Go up.png" />
+    <None Include="Resources\Go down.png" />
+    <None Include="Resources\Forward.png" />
+    <None Include="Resources\Exit.png" />
+    <None Include="Resources\download.png" />
+    <None Include="Resources\Down1.png" />
+    <None Include="Resources\Down.png" />
+    <None Include="Resources\close1.png" />
+    <None Include="Resources\close.png" />
+    <None Include="Resources\BO_S2.PNG" />
+    <None Include="Resources\Back.png" />
+    <None Include="Resources\aeroplane.png" />
+    <None Include="Resources\2.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\System.Data.SQLite.Core.1.0.108.0\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\..\packages\System.Data.SQLite.Core.1.0.108.0\build\net451\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\System.Data.SQLite.Core.1.0.108.0\build\net451\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\System.Data.SQLite.Core.1.0.108.0\build\net451\System.Data.SQLite.Core.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
