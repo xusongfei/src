@@ -270,6 +270,14 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                 {
                     isFirst = false;
 
+                    if (pos.Name == "outer")
+                    {
+                        if (!DoGTCylinder.SetDo(this, false))
+                        {
+                            ThrowException($"GT Cylinder RESET Fail!");
+                        }
+                    }
+
                     Platform.Jump(gtWork, 0);
                 }
                 else
@@ -280,7 +288,17 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                         {
                             if (!DoGTCylinder.SetDo(this, false))
                             {
-                                ThrowException($"GT Cylinder SET Fail!");
+                                ThrowException($"GT Cylinder RESET Fail!");
+                            }
+                        }
+                        else
+                        {
+                            if (lastPos.Name == "outer")
+                            {
+                                if (!DoGTCylinder.SetDo(this, true))
+                                {
+                                    ThrowException($"GT Cylinder SET Fail!");
+                                }
                             }
                         }
 
@@ -289,6 +307,14 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                     }
                     else
                     {
+                        if(lastPos.Name == "outer")
+                        {
+                            if (!DoGTCylinder.SetDo(this, true))
+                            {
+                                ThrowException($"GT Cylinder SET Fail!");
+                            }
+                        }
+
                         //calc jump height
                         var jumpHeight = 0d;
                         if (pos.Z > lastPos.Z)

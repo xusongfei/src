@@ -89,6 +89,8 @@
             // 
             // propertyGrid1
             // 
+            this.propertyGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.propertyGrid1.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.propertyGrid1.Location = new System.Drawing.Point(12, 77);
             this.propertyGrid1.Name = "propertyGrid1";
@@ -169,6 +171,8 @@
             // 
             // richTextBox1
             // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextBox1.Location = new System.Drawing.Point(445, 228);
             this.richTextBox1.Name = "richTextBox1";

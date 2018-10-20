@@ -38,7 +38,17 @@ namespace Lead.Detect.ThermoAOI
                 GC.Collect();
 
                 //simulate mode enable
-                FrameworkExtenion.IsSimulate = true;
+                FrameworkExtenion.IsDebugFramework = false;
+                FrameworkExtenion.IsSimulate = false;
+                if (FrameworkExtenion.IsSimulate)
+                {
+                    if (MessageBox.Show("进入仿真模式？", "", MessageBoxButtons.YesNo) == DialogResult.No)
+                    {
+                        Environment.Exit(1);
+                        return;
+                    }
+                }
+
 
                 //reflection types load
                 {
