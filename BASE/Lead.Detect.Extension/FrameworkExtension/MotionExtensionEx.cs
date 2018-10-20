@@ -440,6 +440,11 @@ namespace Lead.Detect.FrameworkExtension
             return a.DriverCard.GetAxisAstp(a.AxisChannel);
         }
 
+        public static bool GetInp(this IAxisEx a)
+        {
+            return a.DriverCard.GetAxisInp(a.AxisChannel);
+        }
+
         public static bool GetPel(this IAxisEx a)
         {
             return a.DriverCard.LimitPel(a.AxisChannel);
@@ -537,16 +542,22 @@ namespace Lead.Detect.FrameworkExtension
                 a?.DriverCard.Home(a.AxisChannel, a.ToPls(a.HomeVm));
             }
 
+            var axisInps = axis.Select(a =>a==null|| a.GetInp()).ToArray();
+
             //wait home done
             var err = $"{string.Join(",", axis.Select(a => a == null ? string.Empty : a.Name))} Home";
             timeout = timeout < 0 ? int.MaxValue : timeout;
             var t = 0;
             while (t++ <= timeout)
             {
-                if (axis.All(a => a == null || a.DriverCard.CheckHomeDone(a.AxisChannel)))
+                if (axis.All(a => 
+                a == null 
+                || ( axisInps[Array.IndexOf(axis, a)] && a.DriverCard.CheckHomeDone(a.AxisChannel))
+                || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp()&& a.DriverCard.CheckHomeDone(a.AxisChannel)))
+                )
                 {
-                    axis.All(a => a.DriverCard.SetEncPos(a.AxisChannel, 0) == 0);
-                    task?.Log($"{err} success", LogLevel.Debug);
+                    var ret = axis.All(a => a.DriverCard.SetEncPos(a.AxisChannel, 0) == 0);
+                    task?.Log($"{err} success {ret}", LogLevel.Debug);
                     return true;
                 }
 
@@ -647,6 +658,8 @@ namespace Lead.Detect.FrameworkExtension
                 axis[i]?.DriverCard.MoveAbs(axis[i].AxisChannel, axis[i].ToPls(pos[i]), axis[i].ToPls(vel[i]));
             }
 
+            var axisInps = axis.Select(a => a == null || a.GetInp()).ToArray();
+
             //wait done
             var err =
                 $"{string.Join(",", axis.Select(a => a == null ? string.Empty : a.Name))} MoveAbs {string.Join(",", pos.Select(p => p.ToString("F2")))} {string.Join(",", vel.Select(p => p.ToString("F2")))}";
@@ -664,7 +677,10 @@ namespace Lead.Detect.FrameworkExtension
                 }
 
                 //check done
-                if (axis.All(a => a == null || a.DriverCard.CheckMoveDone(a.AxisChannel)))
+                if (axis.All(a => a == null
+                || (axisInps[Array.IndexOf(axis, a)] && a.DriverCard.CheckMoveDone(a.AxisChannel))
+                || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp() && a.DriverCard.CheckMoveDone(a.AxisChannel)))
+                )
                 {
                     var fail = axis.Any(IsMoveErrorHappen);
                     if (fail)
@@ -742,6 +758,7 @@ namespace Lead.Detect.FrameworkExtension
                 axis[i]?.DriverCard.GetEncPos(axis[i].AxisChannel, ref startpls[i]);
                 axis[i]?.DriverCard.MoveRel(axis[i].AxisChannel, axis[i].ToPls(step[i]), axis[i].ToPls(vel[i]));
             }
+            var axisInps = axis.Select(a => a == null || a.GetInp()).ToArray();
 
             //wait done
             var err =
@@ -759,8 +776,12 @@ namespace Lead.Detect.FrameworkExtension
                     return false;
                 }
 
-                if (axis.All(a => a.DriverCard.CheckMoveDone(a.AxisChannel)))
+                if (axis.All(a => a == null
+              || (axisInps[Array.IndexOf(axis, a)] && a.DriverCard.CheckMoveDone(a.AxisChannel))
+              || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp() && a.DriverCard.CheckMoveDone(a.AxisChannel)))
+              )
                 {
+
                     var fail = axis.Any(IsMoveErrorHappen);
                     if (fail)
                     {
@@ -775,43 +796,44 @@ namespace Lead.Detect.FrameworkExtension
                     return !fail;
                 }
 
-                //check axis status
-                if (task != null)
-                {
-                    if (!task.IsRunning)
+                    //check axis status
+                    if (task != null)
                     {
-                        axis.Stop();
-                    }
-
-                    if (task.IsPause)
-                    {
-                        axis.Stop();
-                        for (int i = 0; i < axis.Length; i++)
+                        if (!task.IsRunning)
                         {
-                            axis[i]?.DriverCard.GetEncPos(axis[i].AxisChannel, ref pausepls[i]);
+                            axis.Stop();
                         }
 
-                        task.JoinIfPause();
-                        for (int i = 0; i < axis.Length; i++)
+                        if (task.IsPause)
                         {
-                            axis[i]?.DriverCard.MoveRel(axis[i].AxisChannel, axis[i].ToPls(step[i]) - (pausepls[i] - startpls[i]), axis[i].ToPls(vel[i]));
+                            axis.Stop();
+                            for (int i = 0; i < axis.Length; i++)
+                            {
+                                axis[i]?.DriverCard.GetEncPos(axis[i].AxisChannel, ref pausepls[i]);
+                            }
+
+                            task.JoinIfPause();
+                            for (int i = 0; i < axis.Length; i++)
+                            {
+                                axis[i]?.DriverCard.MoveRel(axis[i].AxisChannel, axis[i].ToPls(step[i]) - (pausepls[i] - startpls[i]), axis[i].ToPls(vel[i]));
+                            }
                         }
+
+                        task.AbortIfCancel("MoveRel");
+                    }
+                    else
+                    {
+                        Application.DoEvents();
                     }
 
-                    task.AbortIfCancel("MoveRel");
-                }
-                else
-                {
-                    Application.DoEvents();
+                    Thread.Sleep(1);
                 }
 
-                Thread.Sleep(1);
-            }
-
-            //MoveRel timeout
-            task?.Log($"{err} timeout", LogLevel.Error);
-            task?.ThrowException($"{err} timeout");
-            return false;
+                //MoveRel timeout
+                task?.Log($"{err} timeout", LogLevel.Error);
+                task?.ThrowException($"{err} timeout");
+                return false;
+            
         }
 
         public static bool Jump(this IAxisEx[] axis, double[] pos, double[] vel, double jump = -50, int timeout = -1, bool isCheckLimit = true, double zMinLimit = 0)
@@ -873,7 +895,7 @@ namespace Lead.Detect.FrameworkExtension
             var p2 = 0;
             axis.DriverCard.GetEncPos(axis.AxisChannel, ref p2);
 
-            int limit = 1000;
+            int limit = 100;
             if (p2 - p1 > limit || p1 - p2 > limit)
             {
                 axis.Error = $"PLS ERROR {Math.Abs(p2 - p1)} > {limit}";

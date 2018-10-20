@@ -862,6 +862,7 @@ namespace Lead.Detect.PrimMotionADLink
             iRet = APS168.APS_load_param_from_file(_config.ConfigFilePath);
 
             if (iRet == 0)
+
             {
                 PrimConnStat = PrimConnState.Connected;
                 result = Name + "Load XML File Success!";
@@ -1527,15 +1528,17 @@ namespace Lead.Detect.PrimMotionADLink
         //Axis Feedback Pulse Set
         public int SetAxisPositionOrFeedbackPules(int axisIdx, int position)
         {
-            return APS168.APS_set_position(axisIdx, position);
+            return APS168.APS_set_position_f(axisIdx, position);
         }
 
         //private object thisLock15 = new object();
         public bool AxisIsStop(int boardId, int axisIdx)
         {
+            //var motionio = APS168.APS_motion_io_status(axisIdx);
             var motionStatus1 = APS168.APS_motion_status(axisIdx);
             var mdn = (motionStatus1 & (1 << 5)) != 0;
             var astp = (motionStatus1 & (1 << 16)) == 0;
+            //var inp = (motionio & (1 << 6)) == 0;
             if (astp && mdn)
                 return true;
             return false;
@@ -1599,7 +1602,6 @@ namespace Lead.Detect.PrimMotionADLink
 
         public bool AxisHMV(int boardId, int axisIdx)
         {
-            //Astp
             var motionio = APS168.APS_motion_status(axisIdx);
             return (motionio & (1 << 6)) != 0;
         }
@@ -1893,6 +1895,12 @@ namespace Lead.Detect.PrimMotionADLink
         protected virtual void OnOnDoStateChanged(int arg1, bool arg2, int arg3)
         {
             OnDOStateChanged?.Invoke(arg1, arg2, arg3);
+        }
+
+        public bool AxisInp(int index, int axisChannel)
+        {
+            var motionio = APS168.APS_motion_io_status(axisChannel);
+            return (motionio & (1 << 6)) != 0;
         }
     }
 }

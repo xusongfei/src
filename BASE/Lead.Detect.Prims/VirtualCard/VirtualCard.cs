@@ -1406,5 +1406,10 @@ namespace Lead.Detect.PrimVirtualCard
         {
             OnPrimOpLog?.Invoke(devname, log); return 0;
         }
+
+        public bool AxisInp(int index, int axisChannel)
+        {
+            return true;
+        }
     }
 }

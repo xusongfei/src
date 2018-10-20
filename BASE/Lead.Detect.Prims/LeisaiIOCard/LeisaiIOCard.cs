@@ -338,6 +338,11 @@ namespace Lead.Detect.PrimLeisaiIOCard
             throw new NotImplementedException();
         }
 
+        public bool AxisInp(int index, int axisChannel)
+        {
+            return true;
+        }
+
         #endregion
     }
 }

@@ -1527,6 +1527,11 @@ namespace Lead.Detect.PrimIOAdlink
         {
         }
 
+        public bool AxisInp(int index, int axisChannel)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #endregion

@@ -41,6 +41,8 @@ namespace Lead.Detect.FrameworkExtension.motionDriver
         bool GetAxisDone(int axis);
 
         bool GetAxisAstp(int axis);
+
+        bool GetAxisInp(int axis);
         bool CheckLimit(int axis);
         bool LimitMel(int axis);
         bool LimitPel(int axis);

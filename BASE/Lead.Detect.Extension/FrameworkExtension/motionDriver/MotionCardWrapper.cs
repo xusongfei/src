@@ -183,6 +183,11 @@ namespace Lead.Detect.FrameworkExtension.motionDriver
         {
             return Motion.AxisAstp(Index, axis);
         }
+
+        public bool GetAxisInp(int axis)
+        {
+            return Motion.AxisInp(Index, axis);
+        }
         public bool CheckLimit(int axis)
         {
             return Motion.LimitMel(Index, axis) || Motion.LimitPel(Index, axis);

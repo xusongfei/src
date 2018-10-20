@@ -247,7 +247,7 @@ namespace Lead.Detect.Interfaces.Dev
         bool LimitPel(int index, int axis);
         bool LimitOrg(int index, int axis);
         bool AxisAstp(int index, int axisChannel);
-
+        bool AxisInp(int index, int axisChannel);
 
         int AxisSetAcc(int index, int axisId, double acc);
         int AxisSetDec(int index, int axisId, double dec);

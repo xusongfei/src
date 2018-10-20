@@ -374,6 +374,11 @@ namespace Lead.Detect.PrimLeisai
             return 0;
         }
 
+        public bool AxisInp(int index, int axisChannel)
+        {
+            return true;
+        }
+
         #endregion
     }
 }
