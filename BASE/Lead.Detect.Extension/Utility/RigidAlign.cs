@@ -112,6 +112,15 @@ namespace Lead.Detect.PlatformCalibration
         //    return align.Item2 * align.Item1 * src + align.Item3;
         //}
 
+
+        /// <summary>
+        /// rigid align matrix calculate
+        /// </summary>
+        /// <param name="sx"></param>
+        /// <param name="sy"></param>
+        /// <param name="tx"></param>
+        /// <param name="ty"></param>
+        /// <returns></returns>
         public static Tuple<double[,], double> Align(double[] sx, double[] sy, double[] tx, double[] ty)
         {
             List<Vector<double>> src = new List<Vector<double>>();

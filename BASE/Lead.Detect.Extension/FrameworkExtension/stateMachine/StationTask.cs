@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
 using System.Threading;
-using System.Windows.Forms;
+using System.Threading.Tasks;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
-using Lead.Detect.Helper;
 
 namespace Lead.Detect.FrameworkExtension.stateMachine
 {
@@ -77,16 +73,14 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                 return;
             }
 
-            if (_thread != null)
+            if (_task != null)
             {
                 //should not run to here
-                Debug.Assert(_thread == null);
+                Debug.Assert(_task == null);
                 ThrowException($"{Name} not Stop Normally!");
             }
 
-            _thread = new Thread(Running);
-            _thread.IsBackground = true;
-            _thread.Start();
+            _task = Task.Run(new Action(Running));
         }
 
         /// <summary>
@@ -97,11 +91,12 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
             if (IsRunning || IsPause)
             {
                 IsRunning = false;
-                if (_thread != null)
+                if (_task != null)
                 {
-                    _thread.Join();
-                    _thread = null;
+                    _task.Wait();
+                    _task = null;
                 }
+
                 IsPause = false;
             }
         }
@@ -138,26 +133,24 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                 return;
             }
 
-            if (_thread != null)
+            if (_task != null)
             {
                 //should not run to here
-                Debug.Assert(_thread == null);
+                Debug.Assert(_task == null);
                 ThrowException($"{Name} not Stop Normally!");
             }
 
             State = TaskState.Resetting;
-
-            _thread = new Thread(Resetting);
-            _thread.IsBackground = true;
-            _thread.Start();
+            _task = Task.Run(new Action(Resetting));
         }
 
-        private Thread _thread;
+        private Task _task;
 
         /// <summary>
         /// 运行或停止信号
         /// </summary>
         public bool IsRunning { get; protected set; }
+
         /// <summary>
         /// 暂停信号
         /// </summary>
@@ -181,6 +174,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                 {
                     return;
                 }
+
                 State = state;
             }
         }
@@ -204,23 +198,26 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
             }
             catch (Exception ex)
             {
-                Log($"[{Station.Name}-{Station.Id}]:[{Name}-{Id}]:{ex.Message}", LogLevel.Debug);
+                if (ex is TaskCancelException)
+                {
+                    Log($"复位取消:[{Station.Name}-{Station.Id}]:[{Name}-{Id}]:{ex.Message}", LogLevel.Debug);
+                }
+                else
+                {
+                    Log($"复位异常:[{Station.Name}-{Station.Id}]:[{Name}-{Id}]:{ex.Message}", LogLevel.Error);
+                }
+
                 State = TaskState.WaitReset;
                 foreach (var t in Station.Tasks)
                 {
                     t.Value.IsRunning = false;
-                }
-                if (!(ex is TaskCancelException))
-                {
-                    Log($"[{Station.Name}-{Station.Id}]:[{Name}-{Id}]:{ex.Message}", LogLevel.Error);
-                    //MessageBox.Show($"复位异常:{Station.Name}-{Name}-{Id}-{ex.Message}", "复位异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             finally
             {
                 IsPause = false;
                 IsRunning = false;
-                _thread = null;
+                _task = null;
             }
         }
 
@@ -242,22 +239,25 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                         Log($"{Name} RunLoop Break", LogLevel.Debug);
                         break;
                     }
+
                     Log($"{Name} RunLoop Finish", LogLevel.Debug);
                 }
             }
             catch (Exception ex)
             {
-                Log($"{Station.Name}-{Station.Id}:{Name}-{Id}:{ex.Message}", LogLevel.Debug);
+                if (ex is TaskCancelException)
+                {
+                    Log($"运行取消:[{Station.Name}-{Station.Id}]:[{Name}-{Id}]:{ex.Message}", LogLevel.Debug);
+                }
+                else
+                {
+                    Log($"运行异常:[{Station.Name}-{Station.Id}]:[{Name}-{Id}]:{ex.Message}", LogLevel.Error);
+                }
+
                 State = TaskState.WaitReset;
                 foreach (var t in Station.Tasks)
                 {
                     t.Value.IsRunning = false;
-                }
-
-                if (!(ex is TaskCancelException))
-                {
-                    Log($"{Station.Name}-{Station.Id}:{Name}-{Id}:{ex.Message}", LogLevel.Error);
-                    //MessageBox.Show($"运行异常:{Station.Name}-{Name}-{Id}-{ex.Message}", "运行异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             finally
@@ -265,13 +265,14 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                 State = TaskState.WaitReset;
                 IsPause = false;
                 IsRunning = false;
-                _thread = null;
+                _task = null;
             }
         }
 
         #endregion
 
         #region process controls
+
         /// <summary>
         /// 复位过程函数， run once
         /// </summary>

@@ -113,6 +113,9 @@
     <Content Include="test.PNG" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Calibration\MeasureCalibForm.resx">
+      <DependentUpon>MeasureCalibForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CameraControl\CameraExDebugControl.resx">
       <DependentUpon>CameraExDebugControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -134,6 +137,10 @@
     <ProjectReference Include="..\..\BASE\Lead.Detect.Extension\FrameworkExtension\Lead.Detect.FrameworkExtension.csproj">
       <Project>{463f8ee2-5570-40aa-9f85-58473def51fc}</Project>
       <Name>Lead.Detect.FrameworkExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Lead.Detect.ThermoAOI_1\ThermoAOIFlatnessCalcLib\Lead.Detect.ThermoAOIProductCalcLib.csproj">
+      <Project>{4DC12809-3D6E-4A62-A9FC-3BA47DFDBE97}</Project>
+      <Name>Lead.Detect.ThermoAOIProductCalcLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

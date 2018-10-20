@@ -9,14 +9,21 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
 {
     public class Thermo2ProductB : ThermoProduct
     {
+
         [Description("测试点")]
         public List<PosXYZ> CapturePos { get; set; } = new List<PosXYZ>();
-
         [Description("测试点")]
         public List<PosXYZ> Laser1Pos { get; set; } = new List<PosXYZ>();
-
         [Description("测试点")]
         public List<PosXYZ> Laser2Pos { get; set; } = new List<PosXYZ>();
+
+
+        [Description("原始数据")]
+        public List<double> RawData_LineProfile { get; set; } = new List<double>();
+        [Description("原始数据")]
+        public List<double> RawData_UpProfile { get; set; } = new List<double>();
+        [Description("原始数据")]
+        public List<double> RawData_DownProfile { get; set; } = new List<double>();
 
 
 

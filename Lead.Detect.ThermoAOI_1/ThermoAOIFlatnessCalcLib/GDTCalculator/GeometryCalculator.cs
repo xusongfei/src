@@ -63,7 +63,7 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalculator
                                 var spc = productData.SPCItems.FirstOrDefault(s => s.SPC == datumGeo.Name);
                                 if (spc == null)
                                 {
-                                    throw new Exception($"{datumGeo.Name} SPC Error");
+                                    throw new Exception($"{datumGeo.Name} DATUM SPC Error");
                                 }
 
                                 datumGeo.SetSpec(spc.SPEC, spc.UpLimit, spc.DownLimit);

@@ -13,30 +13,6 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
 {
     public class ThermoCameraBase : ICameraEx
     {
-
-        #region  Image Manage
-
-        public string ImageFolder { get; set; }
-
-        public float ImageFolderStorageLimit_MB { get; set; } = 4096;
-
-        private DateTime _triggerTime;
-
-        public void ClearImageFolderStorage()
-        {
-
-        }
-        public Image FindLastImageAfterTrigger()
-        {
-            //todo
-
-            return null;
-        }
-
-        #endregion
-
-
-
         #region ICameraEx interface
 
         private TcpClient _client;

@@ -50,10 +50,14 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
         public ProductionCount Production { get; set; } = new ProductionCount();
 
 
+
         [Category("BARCODE"), Description("条码使能")]
         public bool BarcodeEnable { get; set; }
         [Category("BARCODE"), Description("条码")]
         public string BarcodePattern { get; set; }
+        [Category("BARCODE"), Description("条码长度")]
+        public int BarcodeLength { get; set; }
+
 
 
 

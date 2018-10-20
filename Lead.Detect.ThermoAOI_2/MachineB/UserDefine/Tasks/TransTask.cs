@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
+using Lead.Detect.ThermoAOI2.MachineB.View;
 using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2;
 using MachineUtilityLib.Utils;
 
@@ -13,7 +15,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
         public TestProcessControl<Thermo2ProductB> TestProcessControl = new TestProcessControl<Thermo2ProductB>();
 
         public DualStartButton DualStartButton;
-        public MultiDiSensorCheck DualSensorCheck;
+        public MultiDiSensorCheck MultiSensorCheck;
         public MultiClampCylinders MultiClampCylinders;
 
         public IVioEx VioMeasureStart;
@@ -38,7 +40,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 DiStart2 = station.Machine.Find<IDiEx>("DiStart2"),
             };
 
-            DualSensorCheck = new MultiDiSensorCheck()
+            MultiSensorCheck = new MultiDiSensorCheck()
             {
                 DISensors = new List<IDiEx>()
                 {
@@ -82,7 +84,6 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             MeasureTask = Station.Machine.Find<StationTask>("MeasureTask") as MeasureTask;
             MeasureTask.AssertNoNull(this);
             MeasureTask.WaitResetFinish(this);
-
             MeasureTask.Project = Project;
 
 
@@ -102,13 +103,13 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
 
             //show barcode read form;
-            RunBarcodeScanner();
+            var barcode = RunBarcodeScanner();
 
 
             //Wait start button
             DualStartButton.WaitStart(this, CfgSettings.AutoDryRun);
             //check position sensor ok
-            if (CfgSettings.SensorEnable && !DualSensorCheck.Check(this))
+            if (CfgSettings.SensorEnable && !MultiSensorCheck.Check(this))
             {
                 return 0;
             }
@@ -117,15 +118,20 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
 
             //create product
-            Product = new Thermo2ProductB();
+            Product = new Thermo2ProductB()
+            {
+                Barcode = barcode,
+            };
             MeasureTask.Product = Product;
             TestProcessControl.OnTestStartEvent(Product);
 
-            TestProcessControl.OnTestingEvent(Product);
-            RunMeasureLoop("camera1", new[] {"Work11", "Work12", "Work13"}, 3);
-            RunMeasureLoop("laser1", new[] {"Work30", "Work31"}, 2);
-            RunMeasureLoop("laser2", new[] {"Work40", "Work41"}, 2);
-            RunMeasureLoop("camera2", new[] {"Work21", "Work22", "Work23"}, 3);
+
+            VioMeasureStart.SetVio(this, true);
+            {
+                TestProcessControl.OnTestingEvent(Product);
+            }
+            VioMeasureFinish.WaitVioAndClear(this);
+
 
             //todo process data
             {
@@ -142,32 +148,26 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             return 0;
         }
 
-        private void RunBarcodeScanner()
+        private string RunBarcodeScanner()
         {
-        }
-
-        private void RunMeasureLoop(string loopName, string[] workPos, int stepCount)
-        {
-            //move measure 2
-            var step = 0;
-
-            while (step++ < stepCount)
+            if (CfgSettings.BarcodeEnable)
             {
-                Platform.MoveAbs(workPos[step - 1]);
-                //measure loop
+                var barcodeForm = new ScanBarcodeForm()
                 {
-                    VioMeasureStart.SetVio(this);
-                    Log($"Measure {loopName} {step} Process Start");
+                    BarcodeLen =  CfgSettings.BarcodeLength,
+                    BarcodePattern =  CfgSettings.BarcodePattern,
+                    Task = this,
+                };
 
-
-                    VioMeasureFinish.WaitVioAndClear(this);
-                    Log($"Measure {loopName} {step} Process Finish");
-
-                    //todo process data 2
-                    {
-                    }
+                if (barcodeForm.ShowDialog() == DialogResult.OK)
+                {
+                    return barcodeForm.Barcode;
                 }
             }
+
+            return string.Empty;
         }
+
+     
     }
 }

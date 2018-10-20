@@ -58,7 +58,7 @@ namespace Lead.Detect.UnitTest1.ThermoAOI
             {
                 var ret = XyzPlarformCalibration.CalcAffineTransform(cpuPos, pins);
 
-                Console.WriteLine($"Calc Alignment3:\r\n"
+                Console.WriteLine($"CalcAffineTransform:\r\n"
                     + $"{ret.Item1[0, 0]:F6},{ret.Item1[0, 1]:F6},{ret.Item1[0, 2]:F6},{ret.Item1[0, 3]:F6}\r\n"
                     + $"{ret.Item1[1, 0]:F6},{ret.Item1[1, 1]:F6},{ret.Item1[1, 2]:F6},{ret.Item1[1, 3]:F6}\r\n"
                     + $"{ret.Item1[2, 0]:F6},{ret.Item1[2, 1]:F6},{ret.Item1[2, 2]:F6},{ret.Item1[2, 3]:F6}\r\n"
@@ -84,7 +84,7 @@ namespace Lead.Detect.UnitTest1.ThermoAOI
             {
                 var ret = XyzPlarformCalibration.CalcAffineTransform(pins, cpuPos);
 
-                Console.WriteLine($"Calc Alignment3:\r\n"
+                Console.WriteLine($"CalcAffineTransform:\r\n"
                                   + $"{ret.Item1[0, 0]:F6},{ret.Item1[0, 1]:F6},{ret.Item1[0, 2]:F6},{ret.Item1[0, 3]:F6}\r\n"
                                   + $"{ret.Item1[1, 0]:F6},{ret.Item1[1, 1]:F6},{ret.Item1[1, 2]:F6},{ret.Item1[1, 3]:F6}\r\n"
                                   + $"{ret.Item1[2, 0]:F6},{ret.Item1[2, 1]:F6},{ret.Item1[2, 2]:F6},{ret.Item1[2, 3]:F6}\r\n"
@@ -92,6 +92,99 @@ namespace Lead.Detect.UnitTest1.ThermoAOI
 
             }
         }
+
+
+        [TestMethod]
+        public void Test_AffineTransformWithRot()
+        {
+
+            List<PosXYZ> cpuPos = new List<PosXYZ>()
+            {
+                new PosXYZ(62.69, -64.8, 0.987),
+                new PosXYZ(62.69, -96.8, 1.060),
+                new PosXYZ(94.69, -96.8, 1.108),
+                new PosXYZ(94.69, -64.8, 1.009),
+            };
+
+            for (int i = 0; i < cpuPos.Count; i++)
+            {
+                cpuPos[i] = cpuPos[i].Scale(new PosXYZ(10.3,10.31,1)).RotateAt(new PosXYZ(), 42.2).Translate(new PosXYZ(10, 11.2d, 0));
+            }
+
+            List<PosXYZ> oldcpupos = new List<PosXYZ>()
+            {
+                new PosXYZ(62.69, -64.8, 0.987),
+                new PosXYZ(62.69, -96.8, 1.060),
+                new PosXYZ(94.69, -96.8, 1.108),
+                new PosXYZ(94.69, -64.8, 1.009),
+            };
+
+
+            {
+                var ret = XyzPlarformCalibration.CalcAffineTransform(cpuPos, oldcpupos);
+
+                Console.WriteLine($"CalcAffineTransform:\r\n"
+                    + $"{ret.Item1[0, 0]:F6},{ret.Item1[0, 1]:F6},{ret.Item1[0, 2]:F6},{ret.Item1[0, 3]:F6}\r\n"
+                    + $"{ret.Item1[1, 0]:F6},{ret.Item1[1, 1]:F6},{ret.Item1[1, 2]:F6},{ret.Item1[1, 3]:F6}\r\n"
+                    + $"{ret.Item1[2, 0]:F6},{ret.Item1[2, 1]:F6},{ret.Item1[2, 2]:F6},{ret.Item1[2, 3]:F6}\r\n"
+                    + $"{ret.Item1[3, 0]:F6},{ret.Item1[3, 1]:F6},{ret.Item1[3, 2]:F6},{ret.Item1[3, 3]:F6}\r\n");
+
+                Console.WriteLine($"Error:{ret.Item2:F6}");
+
+
+
+                var mat = DenseMatrix.OfArray(new double[,]
+                {
+                    {ret.Item1[0, 0], ret.Item1[0, 1], ret.Item1[0, 3]},
+                    {ret.Item1[1, 0], ret.Item1[1, 1], ret.Item1[1, 3]},
+                    {0,0,1 }
+                }).Inverse();
+
+                var newMat = DenseMatrix.OfArray(new double[,]
+                {
+                    {mat[0, 0], mat[0, 1], mat[0, 2]},
+                    {mat[1, 0], mat[1, 1], mat[1, 2]},
+                });
+
+                Console.WriteLine($"InverseMatrix:\r\n{newMat.ToString()}");
+
+            }
+
+            {
+                var ret = XyzPlarformCalibration.CalcAffineTransform(oldcpupos, cpuPos);
+
+                Console.WriteLine($"CalcAffineTransform Inverse:\r\n"
+                                  + $"{ret.Item1[0, 0]:F6},{ret.Item1[0, 1]:F6},{ret.Item1[0, 2]:F6},{ret.Item1[0, 3]:F6}\r\n"
+                                  + $"{ret.Item1[1, 0]:F6},{ret.Item1[1, 1]:F6},{ret.Item1[1, 2]:F6},{ret.Item1[1, 3]:F6}\r\n"
+                                  + $"{ret.Item1[2, 0]:F6},{ret.Item1[2, 1]:F6},{ret.Item1[2, 2]:F6},{ret.Item1[2, 3]:F6}\r\n"
+                                  + $"{ret.Item1[3, 0]:F6},{ret.Item1[3, 1]:F6},{ret.Item1[3, 2]:F6},{ret.Item1[3, 3]:F6}\r\n");
+
+            }
+
+
+            {
+
+                var ret = XyzPlarformCalibration.CalcAlignTransform(cpuPos, oldcpupos);
+
+                Console.WriteLine($"CalcAlignTransform:\r\n"
+                                  + $"{ret.Item1[0, 0]:F6},{ret.Item1[0, 1]:F6},{ret.Item1[0, 2]:F6}\r\n"
+                                  + $"{ret.Item1[1, 0]:F6},{ret.Item1[1, 1]:F6},{ret.Item1[1, 2]:F6}\r\n"
+                                  + $"{ret.Item1[2, 0]:F6},{ret.Item1[2, 1]:F6},{ret.Item1[2, 2]:F6}\r\n");
+
+                Console.WriteLine($"Error:{ret.Item2:F6}");
+
+            }
+
+
+
+
+
+
+
+
+        }
+
+
 
         [TestMethod]
         public void Test_GT_HEIGHT()

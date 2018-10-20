@@ -87,6 +87,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lead.Detect.MachineUtilityL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lead.Detect.PrimLeisaiIOCard", "BASE\Lead.Detect.Prims\LeisaiIOCard\Lead.Detect.PrimLeisaiIOCard.csproj", "{DA1544C5-D5F7-4A01-9129-C4433A201016}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lead.Detect.VisionWrapper", "Lead.Detect.VisionWrapper\Lead.Detect.VisionWrapper.csproj", "{9C49941F-21FA-468A-9291-F5C4FAB6703D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -233,6 +235,10 @@ Global
 		{DA1544C5-D5F7-4A01-9129-C4433A201016}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA1544C5-D5F7-4A01-9129-C4433A201016}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA1544C5-D5F7-4A01-9129-C4433A201016}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C49941F-21FA-468A-9291-F5C4FAB6703D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C49941F-21FA-468A-9291-F5C4FAB6703D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C49941F-21FA-468A-9291-F5C4FAB6703D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C49941F-21FA-468A-9291-F5C4FAB6703D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -276,6 +282,7 @@ Global
 		{B0CE046F-E89F-4A83-8CA1-25FB5C807E1B} = {BE64A371-7DDC-4B8E-BCC3-0975DBF4D98D}
 		{195D7E78-9E4C-4575-A82E-582F378674EA} = {44915BAD-A28F-4988-93DD-06F7E00C491D}
 		{DA1544C5-D5F7-4A01-9129-C4433A201016} = {831B8A18-9D1C-46C1-BD3C-BB0E27E1F9AE}
+		{9C49941F-21FA-468A-9291-F5C4FAB6703D} = {B14FA0CC-E054-4DAD-B4C1-491CB32DB8BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B4D7D268-1ED1-44A3-8961-AA10560A540C}

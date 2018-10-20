@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.frameworkManage;
@@ -16,14 +17,16 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 {
     public class MeasureTask : StationTask
     {
-        public IVioEx VioMeasureStart1;
-        public IVioEx VioMeasureFinish1;
+        public IVioEx VioMeasureStart;
+        public IVioEx VioMeasureFinish;
 
 
         public ThermoCameraB Camera;
         public PlatformEx CamPlatform;
+
         public ILineLaserEx Laser1;
         public PlatformEx L1Platform;
+
         public ILineLaserEx Laser2;
         public PlatformEx L2Platform;
 
@@ -35,8 +38,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
         public MeasureTask(int id, string name, Station station) : base(id, name, station)
         {
-            VioMeasureStart1 = station.Machine.Find<IVioEx>("VioMeasureC1Start1");
-            VioMeasureFinish1 = station.Machine.Find<IVioEx>("VioMeasureC1Finish1");
+            VioMeasureStart = station.Machine.Find<IVioEx>("VioMeasureC1Start1");
+            VioMeasureFinish = station.Machine.Find<IVioEx>("VioMeasureC1Finish1");
 
             if (FrameworkExtenion.IsSimulate)
             {
@@ -106,8 +109,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             Project.AssertNoNull(this);
 
             //reset vio
-            VioMeasureStart1.SetVio(this, false);
-            VioMeasureFinish1.SetVio(this, false);
+            VioMeasureStart.SetVio(this, false);
+            VioMeasureFinish.SetVio(this, false);
 
             //connect camera server
             try
@@ -188,10 +191,14 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             L2Platform.AssertAutoMode(this);
             L2Platform.LocateInPos("Wait");
 
-            RunCameraLoop("Camera1", 1, Project.CapturePos.FindAll(p => p.Name == "C1").ToList());
-            RunLaserLoop("laser1", Laser1, L1Platform, Project.UpLaserPos.FindAll(p => p.Name == "L1").ToList());
-            RunLaserLoop("laser2", Laser2, L2Platform, Project.DownLaserPos.FindAll(p => p.Name == "L2").ToList());
-            RunCameraLoop("Camera2", 4, Project.CapturePos.FindAll(p => p.Name == "C2").ToList());
+            VioMeasureStart.WaitVioAndClear(this);
+            {
+                RunCameraLoop("Camera1", 1, Project.CapturePos.FindAll(p => p.Name == "C1").ToList());
+                RunLaserLoop("laser1", Laser1, L1Platform, Project.UpLaserPos.FindAll(p => p.Name == "L1").ToList());
+                RunLaserLoop("laser2", Laser2, L2Platform, Project.DownLaserPos.FindAll(p => p.Name == "L2").ToList());
+                RunCameraLoop("Camera2", 4, Project.CapturePos.FindAll(p => p.Name == "C2").ToList());
+            }
+            VioMeasureFinish.SetVio(this);
 
             return 0;
         }
@@ -199,101 +206,81 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
         public void RunCameraLoop(string loopName, int cameraStepIndex, List<PosXYZ> capturePos)
         {
-            //measure process 1
+            //assert
+            Project.AssertNoNull(this);
+            Product.AssertNoNull(this);
+
+
             var step = 0;
             while (step++ < capturePos.Count)
             {
-                VioMeasureStart1.WaitVioAndClear(this);
-                if (capturePos.Count > 0)
+                //move capture pos
+                var pos = capturePos[step - 1];
+                //var newPos = CamPlatform.GetPos("MOVE", pos.Data());
+                CamPlatform.MoveAbs(pos);
+
+
+                //trigger
+                var captureIndex = cameraStepIndex + step - 1;
+                var ret = Camera.TriggerProduct(captureIndex);
+                var result = Camera.GetResult(string.Empty);
+
+                if (!ret)
                 {
-                    //assert
-                    Project.AssertNoNull(this);
-                    Product.AssertNoNull(this);
+                    Product.Error = Camera.LastError;
+                    Log($"{loopName} {Camera.Name} Trigger Error {captureIndex} {result}");
+                }
+                else
+                {
+                    Log($"{loopName} {Camera.Name} Trigger OK {captureIndex} {result}");
 
-                    //measure
-                    var pos = capturePos[step - 1];
-                    {
-                        //move capture pos, adjust focus
-                        CamPlatform.MoveAbs(pos);
+                    //todo process cur data
+                    Product.SetSpcItem("C", 0d);
 
-                        //trigger
-                        var ret = Camera.TriggerProduct(cameraStepIndex + step - 1);
-                        if (!ret)
-                        {
-                            Product.Error = Camera.LastError;
-
-                            Log($"{loopName} {Camera.Name} Trigger Error {cameraStepIndex + step - 1} {Camera.GetResult(string.Empty)}");
-                        }
-                        else
-                        {
-                            Product.Error = Camera.LastError;
-
-                            var res = Camera.GetResult(string.Empty);
-
-                            Log($"{loopName} {Camera.Name} Trigger OK {cameraStepIndex + step - 1} {Camera.GetResult(string.Empty)}");
-                        }
-
-                        //todo process cur data
-                    }
-
-                    //todo process all data
-                    {
-                    }
                 }
 
-                VioMeasureFinish1.SetVio(this);
+
+                //todo process all data
+                {
+                }
             }
 
-            CamPlatform.MoveAbs("Wait");
+            CamPlatform.MoveAbs("Origin");
         }
 
 
         public void RunLaserLoop(string loopName, ILineLaserEx laser, PlatformEx laserPlatform, List<PosXYZ> laserPos)
         {
-            //Up laser process 
+            //assert
+            Project.AssertNoNull(this);
+            Product.AssertNoNull(this);
+
             var step = 0;
             while (step++ < laserPos.Count)
             {
-                //measure process 1
-                VioMeasureStart1.WaitVioAndClear(this);
+                //var laserStart = laserPlatform.GetPos("MOVE", laserPos[0].Data());
+                //var laserEnd = laserPlatform.GetPos("MOVE", laserPos[1].Data());
 
-                if (laserPos.Count > 0)
+                var laserStart = laserPos[0];
+                var laserEnd = laserPos[1];
+
+                //move laser trigger start pos                   
+                laserPlatform.MoveAbs(step % 2 == 0 ? laserStart : laserEnd);
+                //start laser trigger
+                laser.Trigger(string.Empty);
+                Thread.Sleep(300);
+                laserPlatform.MoveAbs(step % 2 == 0 ? laserEnd : laserStart);
+
+
+                var data = laser.GetResult();
+                Log($"{string.Join("\r\n", Laser1.Name, data.Select(d => d.Select(v => v.ToString("F3"))))})", LogLevel.Info);
+
+                //todo process all laser 1 data
                 {
-                    //assert
-                    Project.AssertNoNull(this);
-                    Product.AssertNoNull(this);
-
-                    if (step % 2 == 0)
-                    {
-                        //move laser trigger start pos                   
-                        laserPlatform.MoveAbs(laserPos[0]);
-                        //start laser trigger
-                        laser.Trigger(string.Empty);
-                        System.Threading.Thread.Sleep(800);
-                        laserPlatform.MoveAbs(laserPos[1]);
-                    }
-                    else
-                    {
-                        //move laser trigger start pos                   
-                        laserPlatform.MoveAbs(laserPos[1]);
-                        //start laser trigger
-                        laser.Trigger(string.Empty);
-                        System.Threading.Thread.Sleep(800);
-                        laserPlatform.MoveAbs(laserPos[0]);
-                    }
-
-                    var data = laser.GetResult();
-                    Log($"{string.Join("\r\n", Laser1.Name, data.Select(d => d.Select(v => v.ToString("F3"))))})", LogLevel.Info);
-
-                    //todo process all laser 1 data
-                    {
-                    }
                 }
-
-                VioMeasureFinish1.SetVio(this);
             }
 
-            laserPlatform.MoveAbs("Wait");
+            laserPlatform.MoveAbs("Origin");
         }
     }
 }

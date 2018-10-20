@@ -2,10 +2,13 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.loadUtils;
+using Lead.Detect.FrameworkExtension.platforms.calibrations;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.FrameworkExtension.userControls;
+using Lead.Detect.MeasureComponents.Calibration;
 using Lead.Detect.ThermoAOI2.MachineA.UserDefine;
 using Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks;
 using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2;
@@ -28,7 +31,6 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
 
         private void DevConfigForm_Load(object sender, EventArgs e)
         {
-
             //di do cy
             diControl1.DiExs = Machine.Ins.DiExs.Values.ToList();
             diControl1.LoadFramework();
@@ -74,12 +76,9 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             stationControl.Station = Machine.Ins.Find<Station>("MainStation");
 
 
-
             //test page
 
             cameraExDebugControl1.Camera = (Machine.Ins.Find<StationTask>("MeasureTask") as MeasureTask)?.Camera;
-
-
         }
 
 
@@ -110,6 +109,9 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
         public void FrameworkUpdate()
         {
         }
+
+
+        #region project editor
 
         private void buttonMeasureProjectEditor_Click(object sender, EventArgs e)
         {
@@ -146,8 +148,8 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
                 Machine.Ins.Settings.MeasureProjectFile = fd.FileName.Replace(Directory.GetCurrentDirectory(), ".");
                 textBoxMeasureProj.Text = Machine.Ins.Settings.MeasureProjectFile;
             }
-
         }
+
         private void buttonOpenMeasureProj_Click(object sender, EventArgs e)
         {
             try
@@ -167,9 +169,66 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             {
                 MessageBox.Show($"打开文件异常：{ex.Message}");
             }
+        }
+
+        #endregion
+
+        #region calib
+
+        private void buttonCameraCalib_Click(object sender, EventArgs e)
+        {
+            if (Machine.Ins.AutoState != StationAutoState.WaitRun)
+            {
+                return;
+            }
+
+            //select calib type
+
+            var project = MeasureProject.Load("", typeof(MeasureProjectA)) as MeasureProjectA;
+
+
+            //show calib form
+            var calib = new MachineACalib()
+            {
+                CalibInfo = "CameraACalib",
+                Description = "Calib",
+                Station = Machine.Ins.Find<Station>("MainStation"),
+                Camera1 = (Machine.Ins.Find<StationTask>("MeasureTask") as MeasureTask)?.Camera,
+                Platform = (Machine.Ins.Find<StationTask>("MeasureTask") as MeasureTask)?.Platform,
+                Project = (Machine.Ins.Find<StationTask>("MeasureTask") as MeasureTask)?.Project,
+            };
+
+            calib.LogEvent += UpdateCalib;
+
+
+            var calibForm = new AutoCalibForm()
+            {
+                Calib = calib,
+            };
+
+
+            if (calibForm.ShowDialog() == DialogResult.OK)
+            {
+                //save calib
+
+
+            }
 
 
         }
 
+        private void UpdateCalib(string log, LogLevel level)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<string, LogLevel>(UpdateCalib), log, level);
+            }
+            else
+            {
+                richTextBoxCalibData.AppendText(log);
+            }
+        }
+
+        #endregion
     }
 }

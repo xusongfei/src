@@ -170,6 +170,54 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
             throw new Exception("DistanceTo Pos Type Error");
         }
 
+
+        /// <summary>
+        /// 2d rotation
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        public PosXYZ RotateAt(PosXYZ center, double angle)
+        {
+            var dx = X - center.X;
+            var dy = Y - center.Y;
+            var theta = angle / 360 * Math.PI;
+
+            var rotDx = Math.Cos(theta) * dx - Math.Sin(theta) * dy;
+            var rotDy = Math.Sin(theta) * dx + Math.Cos(theta) * dy;
+
+            var p = new PosXYZ();
+            p.X = center.X + rotDx;
+            p.Y = center.Y + rotDy;
+            p.Z = Z;
+            return p;
+        }
+
+        public PosXYZ Translate(PosXYZ offset)
+        {
+            var p = new PosXYZ();
+            p.Index = p.Index;
+            p.Name = p.Name;
+            p.Description = p.Description;
+            p.X = offset.X + X;
+            p.Y = offset.Y + Y;
+            p.Z = offset.Z + Z;
+            return p;
+        }
+
+        public PosXYZ Scale(PosXYZ scaleFactor)
+        {
+            var p = new PosXYZ();
+            p.Index = p.Index;
+            p.Name = p.Name;
+            p.Description = p.Description;
+            p.X = scaleFactor.X * X;
+            p.Y = scaleFactor.Y * Y;
+            p.Z = scaleFactor.Z * Z;
+            return p;
+        }
+
+
         public override string ToString()
         {
             return $"{Index},{Name},{X:F3},{Y:F3},{Z:F3},{OffsetX:F3},{OffsetY:F3},{OffsetZ:F3},{Status},{Description},{Flag1},{Flag2},{Flag3}";

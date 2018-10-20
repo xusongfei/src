@@ -103,7 +103,7 @@ namespace Lead.Detect.MeasureComponents.LMILaser
                 ethernetOutput = sensor.Output.GetEthernetAt(0);
                 ethernetOutput.ClearAllSources();
                 ethernetOutput.AddSource(GoOutputSource.Measurement, 0);
-                var dataSet = system.ReceiveData(3000000);
+                var dataSet = system.ReceiveData(30000);
 
                 for (int i = 0; i < dataSet.Count; i++)
                 {
@@ -121,7 +121,7 @@ namespace Lead.Detect.MeasureComponents.LMILaser
                                     Console.WriteLine("Value: {0}", measurementData.Value);
                                     Console.WriteLine("Decision: {0}", measurementData.Decision);
 
-                                    res.Add(new[] { measurementMsg.Id, measurementData.Value, measurementData.Decision, measurementMsg.Count });
+                                    res.Add(new[] { measurementMsg.Id, measurementData.Value, measurementData.Decision.Value, measurementMsg.Count });
                                 }
                             }
                             break;

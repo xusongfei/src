@@ -18,7 +18,7 @@ namespace Lead.Detect.FrameworkExtension.platforms
                 platform2.Select(p => p.Y).ToArray()
             );
 
-            return new Tuple<double[,], double>(ret.Item1, 0);
+            return new Tuple<double[,], double>(ret.Item1, ret.Item2);
         }
 
         public static PosXYZ AffineTransform( PosXYZ pos, TransformParams trans)
@@ -29,6 +29,20 @@ namespace Lead.Detect.FrameworkExtension.platforms
         public static PosXYZ AffineInverseTransform(TransformParams trans, PosXYZ pos)
         {
             return new PosXYZ(RigidAlign.AffineInverseTransform(pos.Data(), trans.ToDoubles()));
+        }
+
+
+
+        public static Tuple<double[,], double> CalcAlignTransform(List<PosXYZ> platform1, List<PosXYZ> platform2)
+        {
+            var ret = RigidAlign.Align(
+                platform1.Select(p => p.X).ToArray(),
+                platform1.Select(p => p.Y).ToArray(),
+                platform2.Select(p => p.X).ToArray(),
+                platform2.Select(p => p.Y).ToArray()
+            );
+
+            return new Tuple<double[,], double>(ret.Item1, ret.Item2);
         }
 
     }
