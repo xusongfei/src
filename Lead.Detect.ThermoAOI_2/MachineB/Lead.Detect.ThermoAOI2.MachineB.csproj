@@ -125,20 +125,12 @@
     <None Include="Config2\Settings.cfg" />
     <None Include="Config2\TransPlatform.dat" />
     <None Include="Config\CameraPlatform.dat" />
-    <None Include="Config\default.dev">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Config\devsim.dev">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Config\default.dev" />
+    <None Include="Config\devsim.dev" />
     <None Include="Config\Laser1Platform.dat" />
     <None Include="Config\Laser2Platform.dat" />
-    <None Include="Config\machine.cfg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Config\machinesim.cfg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Config\machine.cfg" />
+    <None Include="Config\machinesim.cfg" />
     <None Include="Config\param0-b.ini" />
     <None Include="Config\Project\147 1014.mprj" />
     <None Include="Config\Project\147.mprj" />

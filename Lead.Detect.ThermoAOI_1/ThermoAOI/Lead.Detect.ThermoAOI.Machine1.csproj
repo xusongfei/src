@@ -305,9 +305,7 @@
     <None Include="Config\Calculators\A147NoFin.calc" />
     <None Include="Config\Calculators\A147WithFin.calc" />
     <None Include="Config\Calculators\X1311WithFin.calc" />
-    <None Include="Config\default.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Config\default.db" />
     <None Include="Config\default.dev" />
     <None Include="Config\devsim.dev" />
     <None Include="Config\LeftCarrier.pts" />
@@ -460,7 +458,6 @@
   <ItemGroup>
     <Folder Include="Config\A117\" />
     <Folder Include="Config\P2 201810\" />
-    <Folder Include="Config\pts\" />
     <Folder Include="Config\TEST PROJECT\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

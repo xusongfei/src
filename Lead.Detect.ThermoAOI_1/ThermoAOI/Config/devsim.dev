@@ -3,32 +3,11 @@
   <ProjectName>devsim.dev</ProjectName>
   <Prims>
     <PrimConfig>
-      <VisioPrimType>PrimIO7432</VisioPrimType>
+      <VisioPrimType>VirtualCard</VisioPrimType>
       <PrimXmlNode>
-        <ADLinkConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <Name>IO2</Name>
-          <PrimTypeName>PrimIO7432</PrimTypeName>
-          <PrimId>00000000-0000-0000-0000-000000000000</PrimId>
-          <HSType>PLC</HSType>
-          <Manu>Delta</Manu>
-          <Ver>Omron_CJ</Ver>
-          <ConnType>SerialPort</ConnType>
-          <PrimConnStat>Connected</PrimConnStat>
-          <PrimRunStat>Running</PrimRunStat>
-          <PrimSimulator>false</PrimSimulator>
-          <PrimDebug>false</PrimDebug>
-          <PrimEnable>false</PrimEnable>
-          <DevIndex>1</DevIndex>
-        </ADLinkConfig>
-      </PrimXmlNode>
-    </PrimConfig>
-    <PrimConfig>
-      <VisioPrimType>PrimIO7432</VisioPrimType>
-      <PrimXmlNode>
-        <ADLinkConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <Name>IO1</Name>
-          <PrimTypeName>PrimIO7432</PrimTypeName>
-          <PrimId>00000000-0000-0000-0000-000000000000</PrimId>
+        <VirtualCard xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <PrimTypeName>VirtualCard</PrimTypeName>
+          <PrimId>87cc49ab-80f8-4588-9337-5b447ad5f5b0</PrimId>
           <HSType>PLC</HSType>
           <Manu>Delta</Manu>
           <Ver>Omron_CJ</Ver>
@@ -39,37 +18,19 @@
           <PrimDebug>false</PrimDebug>
           <PrimEnable>false</PrimEnable>
           <DevIndex>0</DevIndex>
-        </ADLinkConfig>
-      </PrimXmlNode>
-    </PrimConfig>
-    <PrimConfig>
-      <VisioPrimType>PrimADLink</VisioPrimType>
-      <PrimXmlNode>
-        <ADLinkConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-          <Name>M2</Name>
-          <PrimTypeName>PrimADLink</PrimTypeName>
-          <PrimId>00000000-0000-0000-0000-000000000000</PrimId>
-          <HSType>PLC</HSType>
-          <Manu>Delta</Manu>
-          <Ver>Omron_CJ</Ver>
-          <ConnType>SerialPort</ConnType>
-          <PrimConnStat>Connected</PrimConnStat>
-          <PrimRunStat>Running</PrimRunStat>
-          <PrimSimulator>false</PrimSimulator>
-          <PrimDebug>false</PrimDebug>
-          <PrimEnable>false</PrimEnable>
-          <ConfigFilePath>D:\src\Lead.Detect.ThermoAOI\bin\Debug\Config\param1.xml</ConfigFilePath>
-          <DevIndex>1</DevIndex>
-        </ADLinkConfig>
-      </PrimXmlNode>
-    </PrimConfig>
-    <PrimConfig>
-      <VisioPrimType>PrimADLink</VisioPrimType>
-      <PrimXmlNode>
-        <ADLinkConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <DIChangedEnable>false</DIChangedEnable>
+          <DOChangedEnable>false</DOChangedEnable>
+          <Id>0</Id>
           <Name>M1</Name>
-          <PrimTypeName>PrimADLink</PrimTypeName>
-          <PrimId>00000000-0000-0000-0000-000000000000</PrimId>
+        </VirtualCard>
+      </PrimXmlNode>
+    </PrimConfig>
+    <PrimConfig>
+      <VisioPrimType>VirtualCard</VisioPrimType>
+      <PrimXmlNode>
+        <VirtualCard xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <PrimTypeName>VirtualCard</PrimTypeName>
+          <PrimId>87cc49ab-80f8-4588-9337-5b447ad5f5b0</PrimId>
           <HSType>PLC</HSType>
           <Manu>Delta</Manu>
           <Ver>Omron_CJ</Ver>
@@ -79,12 +40,60 @@
           <PrimSimulator>false</PrimSimulator>
           <PrimDebug>false</PrimDebug>
           <PrimEnable>false</PrimEnable>
-          <ConfigFilePath>D:\src\Lead.Detect.ThermoAOI\bin\Debug\Config\param0.xml</ConfigFilePath>
           <DevIndex>0</DevIndex>
-        </ADLinkConfig>
+          <DIChangedEnable>false</DIChangedEnable>
+          <DOChangedEnable>false</DOChangedEnable>
+          <Id>0</Id>
+          <Name>M2</Name>
+        </VirtualCard>
       </PrimXmlNode>
     </PrimConfig>
     <PrimConfig>
+      <VisioPrimType>VirtualCard</VisioPrimType>
+      <PrimXmlNode>
+        <VirtualCard xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <PrimTypeName>VirtualCard</PrimTypeName>
+          <PrimId>87cc49ab-80f8-4588-9337-5b447ad5f5b0</PrimId>
+          <HSType>PLC</HSType>
+          <Manu>Delta</Manu>
+          <Ver>Omron_CJ</Ver>
+          <ConnType>SerialPort</ConnType>
+          <PrimConnStat>Connected</PrimConnStat>
+          <PrimRunStat>Running</PrimRunStat>
+          <PrimSimulator>false</PrimSimulator>
+          <PrimDebug>false</PrimDebug>
+          <PrimEnable>false</PrimEnable>
+          <DevIndex>0</DevIndex>
+          <DIChangedEnable>false</DIChangedEnable>
+          <DOChangedEnable>false</DOChangedEnable>
+          <Id>0</Id>
+          <Name>IO1</Name>
+        </VirtualCard>
+      </PrimXmlNode>
+    </PrimConfig>
+    <PrimConfig>
+      <VisioPrimType>VirtualCard</VisioPrimType>
+      <PrimXmlNode>
+        <VirtualCard xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <PrimTypeName>VirtualCard</PrimTypeName>
+          <PrimId>87cc49ab-80f8-4588-9337-5b447ad5f5b0</PrimId>
+          <HSType>PLC</HSType>
+          <Manu>Delta</Manu>
+          <Ver>Omron_CJ</Ver>
+          <ConnType>SerialPort</ConnType>
+          <PrimConnStat>Connected</PrimConnStat>
+          <PrimRunStat>Running</PrimRunStat>
+          <PrimSimulator>false</PrimSimulator>
+          <PrimDebug>false</PrimDebug>
+          <PrimEnable>false</PrimEnable>
+          <DevIndex>0</DevIndex>
+          <DIChangedEnable>false</DIChangedEnable>
+          <DOChangedEnable>false</DOChangedEnable>
+          <Id>0</Id>
+          <Name>IO2</Name>
+        </VirtualCard>
+      </PrimXmlNode>
+    </PrimConfig><PrimConfig>
       <VisioPrimType>VirtualCard</VisioPrimType>
       <PrimXmlNode>
         <VirtualCard xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
