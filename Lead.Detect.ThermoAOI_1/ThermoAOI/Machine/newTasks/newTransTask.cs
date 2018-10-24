@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Lead.Detect.DatabaseHelper;
@@ -9,7 +8,6 @@ using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.platforms.safeCheckObjects;
 using Lead.Detect.FrameworkExtension.stateMachine;
-using Lead.Detect.Helper;
 using Lead.Detect.ThermoAOI.Calibration;
 using Lead.Detect.ThermoAOI.Common;
 using Lead.Detect.ThermoAOI.Machine.Common;
@@ -183,6 +181,9 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
 
             DOBtnLight1.SetDo(false);
             DOBtnLight2.SetDo(false);
+
+            State = TaskState.WaitRun;
+            GtController.RunGtService(this);
             return 0;
         }
 
@@ -205,6 +206,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
         {
             //in case of manual operations
             Platform.EnterAuto(this);
+
 
             //wait start
             while ((!DIStart1.GetDiSts() || !DIStart2.GetDiSts()))
@@ -445,7 +447,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             VioTransFinishDown = Machine.Ins.Find<IVioEx>("LTransFinishDown");
             VioMeasureFinishUp = Machine.Ins.Find<IVioEx>("LMeasureFinishUp");
             VioMeasureFinishDown = Machine.Ins.Find<IVioEx>("LMeasureFinishDown");
-            
+
 
             Platform = Machine.Ins.Find<PlatformEx>("LeftCarrier");
             Platform.SafeChecks.Clear();

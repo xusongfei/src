@@ -875,13 +875,13 @@ namespace Lead.Detect.FrameworkExtension
                 return false;
             }
 
-            Thread.Sleep(10);
+            //Thread.Sleep(10);
             var p1 = 0;
             axis.DriverCard.GetCommandPos(axis.AxisChannel, ref p1);
             var p2 = 0;
             axis.DriverCard.GetEncPos(axis.AxisChannel, ref p2);
 
-            int limit = 100;
+            int limit = 200;
             if (p2 - p1 > limit || p1 - p2 > limit)
             {
                 axis.Error = $"PLS ERROR {Math.Abs(p2 - p1)} > {limit}";

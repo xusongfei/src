@@ -88,13 +88,17 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
         /// </summary>
         public void Stop()
         {
-            if (IsRunning || IsPause)
+            if (State == TaskState.WaitRun || IsRunning || IsPause)
             {
                 IsRunning = false;
                 if (_task != null)
                 {
                     _task.Wait();
                     _task = null;
+                }
+                else
+                {
+                    State = TaskState.WaitReset;
                 }
 
                 IsPause = false;
@@ -187,8 +191,8 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
         {
             try
             {
-                State = TaskState.Resetting;
                 IsRunning = true;
+                State = TaskState.Resetting;
 
                 Log($"{Name} ResetLoop Start...", LogLevel.Debug);
                 ResetLoop();
@@ -228,8 +232,8 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
         {
             try
             {
-                State = TaskState.Running;
                 IsRunning = true;
+                State = TaskState.Running;
 
                 while (IsRunning)
                 {
@@ -262,9 +266,9 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
             }
             finally
             {
-                State = TaskState.WaitReset;
                 IsPause = false;
                 IsRunning = false;
+                State = TaskState.WaitReset;
                 _task = null;
             }
         }

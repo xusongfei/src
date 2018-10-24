@@ -414,6 +414,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     }
                     else if (Stations.Any(s => s.Value.Enable && s.Value.AutoState == StationAutoState.WaitReset))
                     {
+                        Stop();
                         AutoState = StationAutoState.WaitReset;
                     }
                     break;
