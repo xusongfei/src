@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<ProjectFiles xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ProjectName>default.fprj</ProjectName>
+  <ProductSettings>
+    <Height>0</Height>
+    <UpTestPositions />
+    <DownTestPositions />
+    <SPCItems />
+    <Version>0</Version>
+  </ProductSettings>
+  <ProductCalculator>
+    <GeoCalcs>
+      <FlatnessCalc>
+        <GDTType>Straightness</GDTType>
+        <IsDatum>false</IsDatum>
+        <Spec>0</Spec>
+        <SpecMin>0</SpecMin>
+        <SpecMax>0</SpecMax>
+        <Value>0</Value>
+        <Data />
+        <Max>0</Max>
+        <Min>0</Min>
+        <Success>false</Success>
+      </FlatnessCalc>
+      <GdtTolerance>
+        <GDTType>Straightness</GDTType>
+        <IsDatum>false</IsDatum>
+        <Spec>0</Spec>
+        <SpecMin>0</SpecMin>
+        <SpecMax>0</SpecMax>
+        <Value>0</Value>
+        <Data />
+        <Max>0</Max>
+        <Min>0</Min>
+        <Success>false</Success>
+      </GdtTolerance>
+      <GdtTolerance>
+        <GDTType>Circularity</GDTType>
+        <IsDatum>false</IsDatum>
+        <Spec>0</Spec>
+        <SpecMin>0</SpecMin>
+        <SpecMax>0</SpecMax>
+        <Value>0</Value>
+        <Data />
+        <Max>0</Max>
+        <Min>0</Min>
+        <Success>false</Success>
+      </GdtTolerance>
+      <GdtTolerance>
+        <GDTType>None</GDTType>
+        <IsDatum>false</IsDatum>
+        <Spec>0</Spec>
+        <SpecMin>0</SpecMin>
+        <SpecMax>0</SpecMax>
+        <Value>0</Value>
+        <Data />
+        <Max>0</Max>
+        <Min>0</Min>
+        <Success>false</Success>
+      </GdtTolerance>
+      <GdtTolerance>
+        <GDTType>None</GDTType>
+        <IsDatum>false</IsDatum>
+        <Spec>0</Spec>
+        <SpecMin>0</SpecMin>
+        <SpecMax>0</SpecMax>
+        <Value>0</Value>
+        <Data />
+        <Max>0</Max>
+        <Min>0</Min>
+        <Success>false</Success>
+      </GdtTolerance>
+      <GdtTolerance>
+        <GDTType>None</GDTType>
+        <IsDatum>false</IsDatum>
+        <Spec>0</Spec>
+        <SpecMin>0</SpecMin>
+        <SpecMax>0</SpecMax>
+        <Value>0</Value>
+        <Data />
+        <Max>0</Max>
+        <Min>0</Min>
+        <Success>false</Success>
+      </GdtTolerance>
+      <GdtTolerance>
+        <GDTType>Flatness</GDTType>
+        <IsDatum>false</IsDatum>
+        <Spec>0</Spec>
+        <SpecMin>0</SpecMin>
+        <SpecMax>0</SpecMax>
+        <Value>0</Value>
+        <Data />
+        <Max>0</Max>
+        <Min>0</Min>
+        <Success>false</Success>
+      </GdtTolerance>
+    </GeoCalcs>
+  </ProductCalculator>
+</ProjectFiles>
