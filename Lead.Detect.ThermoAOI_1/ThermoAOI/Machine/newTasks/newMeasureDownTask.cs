@@ -10,6 +10,7 @@ using Lead.Detect.ThermoAOI.Common;
 using Lead.Detect.ThermoAOI.Machine.Common;
 using Lead.Detect.FrameworkExtension.platforms;
 using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1;
+using System.Linq;
 
 namespace Lead.Detect.ThermoAOI.Machine.newTasks
 {
@@ -223,42 +224,46 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                 PosXYZ posGtWork = null;
                 var gtRawIndex = 1;
                 var newpos = PosXYZ.Zero;
-                //calc gt work pos
-                if (pos.Description == "GT1")
+
+                //add sys offset
                 {
-                    gtRawIndex = 1;
-                    var leftGtSysOffset = Machine.Ins.Settings.Common.LeftGT1SYSOffset;
-                    var rightGtSysOffset = Machine.Ins.Settings.Common.RightGT1SYSOffset;
-                    posGtWork = PosGtWork1;
-                    if (Station.Id == 1)
+                    if (pos.Description == "GT1")
                     {
-                        newpos = pos + leftGtSysOffset;
+                        gtRawIndex = 1;
+                        var leftGtSysOffset = Machine.Ins.Settings.Common.LeftGT1SYSOffset;
+                        var rightGtSysOffset = Machine.Ins.Settings.Common.RightGT1SYSOffset;
+                        posGtWork = PosGtWork1;
+                        if (Station.Id == 1)
+                        {
+                            newpos = pos + leftGtSysOffset;
+                        }
+                        else if (Station.Id == 2)
+                        {
+                            newpos = pos + rightGtSysOffset;
+                        }
                     }
-                    else if (Station.Id == 2)
+                    else if (pos.Description == "GT2")
                     {
-                        newpos = pos + rightGtSysOffset;
+                        gtRawIndex = 2;
+                        var leftGtSysOffset = Machine.Ins.Settings.Common.LeftGT2SYSOffset;
+                        var rightGtSysOffset = Machine.Ins.Settings.Common.RightGT2SYSOffset;
+                        posGtWork = PosGtWork2;
+                        if (Station.Id == 1)
+                        {
+                            newpos = pos + leftGtSysOffset;
+                        }
+                        else if (Station.Id == 2)
+                        {
+                            newpos = pos + rightGtSysOffset;
+                        }
                     }
-                }
-                else if (pos.Description == "GT2")
-                {
-                    gtRawIndex = 2;
-                    var leftGtSysOffset = Machine.Ins.Settings.Common.LeftGT2SYSOffset;
-                    var rightGtSysOffset = Machine.Ins.Settings.Common.RightGT2SYSOffset;
-                    posGtWork = PosGtWork2;
-                    if (Station.Id == 1)
+                    else
                     {
-                        newpos = pos + leftGtSysOffset;
+                        continue;
                     }
-                    else if (Station.Id == 2)
-                    {
-                        newpos = pos + rightGtSysOffset;
-                    }
-                }
-                else
-                {
-                    continue;
                 }
 
+                //transform newpos to gr work pos;
                 var gtWorkZ = posGtWork.Z - pos.Z;
                 var gtWork = CalibrationConfig.TransformToPlatformPos(CfgCalib, PlatformType, newpos, gtWorkZ, gtRawIndex);
                 Log($"Transform {pos.Name} {pos.Description} {newpos} To {gtWork}");
@@ -269,7 +274,6 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                 if (isFirst)
                 {
                     isFirst = false;
-
                     if (pos.Name == "outer")
                     {
                         if (!DoGTCylinder.SetDo(this, false))
@@ -277,7 +281,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                             ThrowException($"GT Cylinder RESET Fail!");
                         }
                     }
-
+                    Log($"{Platform.Name} {Platform.Description} Jump {pos}");
                     Platform.Jump(gtWork, 0);
                 }
                 else
@@ -302,12 +306,14 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                             }
                         }
 
-                        var outerJumpHeight = 1 - Platform.CurPos[2];
+                        var outerJumpHeight = 0.5 - Platform.CurPos[2];
+
+                        Log($"{Platform.Name} {Platform.Description} Jump {pos}");
                         Platform.Jump(gtWork, outerJumpHeight);
                     }
                     else
                     {
-                        if(lastPos.Name == "outer")
+                        if (lastPos.Name == "outer")
                         {
                             if (!DoGTCylinder.SetDo(this, true))
                             {
@@ -319,13 +325,39 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                         var jumpHeight = 0d;
                         if (pos.Z > lastPos.Z)
                         {
+                            //need long dist jump
                             jumpHeight = lastPos.Z - pos.Z + PlatformJumpHeight;
+
+                            //check jump height
+                            var lastGtValue = ProductData.RawDataDown.Last().OffsetX + 0.2;
+                            var a147offset = 2d;
+                            var gtOffset = pos.Description == "GT1" ? 0 : 3;
+                            var minJumpHeight = lastPos.Z - pos.Z - (lastGtValue + a147offset + gtOffset);
+                            if (jumpHeight > minJumpHeight)
+                            {
+                                //not enough jump height to avoid gt1 collision
+                                Log($"not enough jump height {jumpHeight} to avoid gt1 collision {minJumpHeight:F2}", LogLevel.Warning);
+                                jumpHeight = minJumpHeight;
+                            }
                         }
                         else
                         {
                             jumpHeight = PlatformJumpHeight;
+
+                            //check jump height
+                            var lastGtValue = ProductData.RawDataDown.Last().OffsetX + 0.2;
+                            var a147offset = 2d;
+                            var gtOffset = pos.Description == "GT1" ? 0 : 3;
+                            var minJumpHeight = -(lastGtValue + a147offset + gtOffset);
+                            if (jumpHeight > minJumpHeight)
+                            {
+                                //not enough jump height to avoid gt1 collision
+                                Log($"not enough jump height {jumpHeight} to avoid gt1 collision {minJumpHeight:F2}", LogLevel.Warning);
+                                jumpHeight = minJumpHeight;
+                            }
                         }
 
+                        Log($"{Platform.Name} {Platform.Description} Jump {pos}");
                         Platform.Jump(gtWork, jumpHeight);
                     }
                 }
@@ -348,6 +380,10 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                         OffsetX = gtRaw[gtRawIndex],
                         OffsetZ = gtWorkZ,
                     });
+                }
+                else
+                {
+                    Log($"GtController ReadData Error", LogLevel.Error);
                 }
 
             }//end measure loop

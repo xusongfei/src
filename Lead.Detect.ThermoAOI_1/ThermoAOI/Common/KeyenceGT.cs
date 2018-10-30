@@ -103,7 +103,7 @@ namespace Lead.Detect.ThermoAOI.Common
 
                     _sw.Stop();
 
-             
+
                 }
                 catch (Exception ex)
                 {
@@ -121,7 +121,7 @@ namespace Lead.Detect.ThermoAOI.Common
                     }
                 }
 
-           
+
 
             });
         }
@@ -131,7 +131,9 @@ namespace Lead.Detect.ThermoAOI.Common
         {
             lock (this)
             {
-                return GtValue;
+                var result = new double[3];
+                Array.Copy(GtValue, result, result.Length);
+                return result;
             }
         }
 

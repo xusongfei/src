@@ -840,7 +840,7 @@ namespace Lead.Detect.FrameworkExtension
             var curpos = axis[2].GetPos();
             if (curpos + jump < zMinLimit)
             {
-                var err = $"Jump Z Over Range {curpos + jump} < {zMinLimit} error";
+                var err = $"Jump Z {jump:F3} Over Range {curpos + jump:F3} < {zMinLimit:F3} error";
                 axis[2].Error = err;
                 task?.ThrowException(err);
                 task?.Log(err, LogLevel.Error);
@@ -881,7 +881,7 @@ namespace Lead.Detect.FrameworkExtension
             var p2 = 0;
             axis.DriverCard.GetEncPos(axis.AxisChannel, ref p2);
 
-            int limit = 200;
+            int limit = 500;
             if (p2 - p1 > limit || p1 - p2 > limit)
             {
                 axis.Error = $"PLS ERROR {Math.Abs(p2 - p1)} > {limit}";

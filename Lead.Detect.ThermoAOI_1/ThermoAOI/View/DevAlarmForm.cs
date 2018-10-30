@@ -32,12 +32,12 @@ namespace Lead.Detect.ThermoAOI.View
                 {
                     case LogLevel.Warning:
                         if (MainPanel != null) Show(MainPanel, DockState.Document);
-                        richTextBoxAlarm.ForeColor = Color.Gold;
+                        richTextBoxAlarm.SelectionColor = Color.LightCoral;
                         break;
                     case LogLevel.Error:
                     case LogLevel.Fatal:
                         if (MainPanel != null) Show(MainPanel, DockState.Document);
-                        richTextBoxAlarm.ForeColor = Color.Red;
+                        richTextBoxAlarm.SelectionColor = Color.Red;
                         break;
                     default:
                         return;
