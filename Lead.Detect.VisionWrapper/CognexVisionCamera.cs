@@ -63,12 +63,12 @@ namespace Lead.Detect.VisionWrapper
             return true;
         }
 
-        public string ReadMsg()
+        public string ReadMsg(int timeout)
         {
             return null;
         }
 
-        public string GetResult(string resultInfo)
+        public string GetResult(string resultInfo, int timeout = 0)
         {
             return null;
         }

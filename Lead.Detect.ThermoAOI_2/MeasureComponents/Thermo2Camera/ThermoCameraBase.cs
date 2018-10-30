@@ -13,8 +13,6 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
 {
     public class ThermoCameraBase : ICameraEx
     {
-        #region ICameraEx interface
-
         private TcpClient _client;
 
         public string Name { get; set; }
@@ -71,6 +69,8 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         {
             try
             {
+                TriggerResult = string.Empty;
+
                 if (_client == null || !_client.Connected)
                 {
                     LastError = "Client Connected Error";
@@ -82,14 +82,25 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
                     var msgBytes = Encoding.ASCII.GetBytes(msg);
                     _ns.Write(msgBytes, 0, msgBytes.Length);
 
-                    _ns.ReadTimeout = 3000;
-                    var buffer = new byte[1024];
+                    int timeoutCount = 0;
+                    while (!_ns.DataAvailable && timeoutCount++ < 6000)
+                    {
+                        System.Threading.Thread.Sleep(1);
+                    }
+
+                    if (!_ns.DataAvailable)
+                    {
+                        LastError = "Client No Recv Data";
+                        return false;
+                    }
+
+                    _ns.ReadTimeout = 6000;
+                    var buffer = new byte[2048];
                     var count = _ns.Read(buffer, 0, buffer.Length);
                     if (count <= 0)
                     {
                         return false;
                     }
-
                     TriggerResult = Encoding.ASCII.GetString(buffer, 0, count);
                 }
             }
@@ -112,22 +123,34 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
             return false;
         }
 
-        public string ReadMsg()
+        public string ReadMsg(int timeout = 6000)
         {
-            if (_ns == null)
+            try
+            {
+                int timeoutCount = 0;
+                while (!_ns.DataAvailable && timeoutCount++ < timeout)
+                {
+                    System.Threading.Thread.Sleep(1);
+                }
+
+                if (_ns == null || !_ns.DataAvailable)
+                {
+                    return string.Empty;
+                }
+
+                _ns.ReadTimeout = timeout;
+                var buffer = new byte[4096];
+                var count = _ns.Read(buffer, 0, buffer.Length);
+                if (count <= 0)
+                {
+                    return string.Empty;
+                }
+                return Encoding.ASCII.GetString(buffer, 0, count);
+            }
+            catch (Exception)
             {
                 return string.Empty;
             }
-
-            _ns.ReadTimeout = 3000;
-            var buffer = new byte[1024];
-            var count = _ns.Read(buffer, 0, buffer.Length);
-            if (count <= 0)
-            {
-                return string.Empty;
-            }
-
-            return Encoding.ASCII.GetString(buffer, 0, count);
         }
 
 
@@ -135,18 +158,21 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         /// 解析TriggerResult结果
         /// </summary>
         /// <param name="resultInfo"></param>
+        /// <param name="timeout"></param>
         /// <returns></returns>
-        public virtual string GetResult(string resultInfo)
+        public virtual string GetResult(string resultInfo, int timeout = 0)
         {
-
             return TriggerResult;
         }
 
         public virtual void Test()
         {
-            
+
         }
 
-        #endregion
+        public override string ToString()
+        {
+            return GetType().Name.ToString();
+        }
     }
 }

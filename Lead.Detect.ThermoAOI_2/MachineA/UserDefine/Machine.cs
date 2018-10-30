@@ -94,6 +94,8 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine
 
             //初始化关键io
             Find<IDoEx>("DOLamp")?.SetDo(true);
+            Find<IDoEx>("DOVaccum1")?.SetDo(false);
+            Find<IDoEx>("DOVaccum2")?.SetDo(false);
 
             //启动 main thread
             base.Initialize();
@@ -112,6 +114,8 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine
         
 
             Find<IDoEx>("DOLamp")?.SetDo(false);
+            Find<IDoEx>("DOVaccum1")?.SetDo(false);
+            Find<IDoEx>("DOVaccum2")?.SetDo(false);
 
             //终止驱动
             Find<IMotionWrapper>("M1").Uninit();

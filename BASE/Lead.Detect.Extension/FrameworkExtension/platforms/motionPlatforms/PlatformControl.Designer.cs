@@ -122,15 +122,21 @@
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
+            this.textBoxW_Org = new System.Windows.Forms.TextBox();
             this.textBoxW_Mel = new System.Windows.Forms.TextBox();
+            this.textBoxZ_Org = new System.Windows.Forms.TextBox();
             this.textBoxZ_Mel = new System.Windows.Forms.TextBox();
+            this.textBoxV_Org = new System.Windows.Forms.TextBox();
             this.textBoxV_Mel = new System.Windows.Forms.TextBox();
+            this.textBoxY_Org = new System.Windows.Forms.TextBox();
             this.textBoxY_Mel = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.textBoxW_Pel = new System.Windows.Forms.TextBox();
             this.textBoxZ_Pel = new System.Windows.Forms.TextBox();
+            this.textBoxU_Org = new System.Windows.Forms.TextBox();
             this.textBoxU_Mel = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
+            this.textBoxX_Org = new System.Windows.Forms.TextBox();
             this.textBoxX_Mel = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.textBoxV_Pel = new System.Windows.Forms.TextBox();
@@ -166,12 +172,6 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.textBoxX_Org = new System.Windows.Forms.TextBox();
-            this.textBoxU_Org = new System.Windows.Forms.TextBox();
-            this.textBoxY_Org = new System.Windows.Forms.TextBox();
-            this.textBoxV_Org = new System.Windows.Forms.TextBox();
-            this.textBoxZ_Org = new System.Windows.Forms.TextBox();
-            this.textBoxW_Org = new System.Windows.Forms.TextBox();
             this.groupBoxPos.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -1204,6 +1204,16 @@
             this.label24.TabIndex = 1;
             this.label24.Text = "W";
             // 
+            // textBoxW_Org
+            // 
+            this.textBoxW_Org.Location = new System.Drawing.Point(318, 53);
+            this.textBoxW_Org.Name = "textBoxW_Org";
+            this.textBoxW_Org.ReadOnly = true;
+            this.textBoxW_Org.Size = new System.Drawing.Size(54, 21);
+            this.textBoxW_Org.TabIndex = 0;
+            this.textBoxW_Org.Text = "ORG";
+            this.textBoxW_Org.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // textBoxW_Mel
             // 
             this.textBoxW_Mel.Location = new System.Drawing.Point(318, 78);
@@ -1213,6 +1223,16 @@
             this.textBoxW_Mel.TabIndex = 0;
             this.textBoxW_Mel.Text = "MEL";
             this.textBoxW_Mel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBoxZ_Org
+            // 
+            this.textBoxZ_Org.Location = new System.Drawing.Point(138, 52);
+            this.textBoxZ_Org.Name = "textBoxZ_Org";
+            this.textBoxZ_Org.ReadOnly = true;
+            this.textBoxZ_Org.Size = new System.Drawing.Size(54, 21);
+            this.textBoxZ_Org.TabIndex = 0;
+            this.textBoxZ_Org.Text = "ORG";
+            this.textBoxZ_Org.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxZ_Mel
             // 
@@ -1224,6 +1244,16 @@
             this.textBoxZ_Mel.Text = "MEL";
             this.textBoxZ_Mel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // textBoxV_Org
+            // 
+            this.textBoxV_Org.Location = new System.Drawing.Point(258, 54);
+            this.textBoxV_Org.Name = "textBoxV_Org";
+            this.textBoxV_Org.ReadOnly = true;
+            this.textBoxV_Org.Size = new System.Drawing.Size(54, 21);
+            this.textBoxV_Org.TabIndex = 0;
+            this.textBoxV_Org.Text = "ORG";
+            this.textBoxV_Org.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // textBoxV_Mel
             // 
             this.textBoxV_Mel.Location = new System.Drawing.Point(258, 79);
@@ -1233,6 +1263,16 @@
             this.textBoxV_Mel.TabIndex = 0;
             this.textBoxV_Mel.Text = "MEL";
             this.textBoxV_Mel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBoxY_Org
+            // 
+            this.textBoxY_Org.Location = new System.Drawing.Point(78, 53);
+            this.textBoxY_Org.Name = "textBoxY_Org";
+            this.textBoxY_Org.ReadOnly = true;
+            this.textBoxY_Org.Size = new System.Drawing.Size(54, 21);
+            this.textBoxY_Org.TabIndex = 0;
+            this.textBoxY_Org.Text = "ORG";
+            this.textBoxY_Org.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxY_Mel
             // 
@@ -1273,6 +1313,16 @@
             this.textBoxZ_Pel.Text = "PEL";
             this.textBoxZ_Pel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // textBoxU_Org
+            // 
+            this.textBoxU_Org.Location = new System.Drawing.Point(198, 53);
+            this.textBoxU_Org.Name = "textBoxU_Org";
+            this.textBoxU_Org.ReadOnly = true;
+            this.textBoxU_Org.Size = new System.Drawing.Size(54, 21);
+            this.textBoxU_Org.TabIndex = 0;
+            this.textBoxU_Org.Text = "ORG";
+            this.textBoxU_Org.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // textBoxU_Mel
             // 
             this.textBoxU_Mel.Location = new System.Drawing.Point(198, 78);
@@ -1291,6 +1341,16 @@
             this.label20.Size = new System.Drawing.Size(11, 12);
             this.label20.TabIndex = 1;
             this.label20.Text = "Y";
+            // 
+            // textBoxX_Org
+            // 
+            this.textBoxX_Org.Location = new System.Drawing.Point(18, 52);
+            this.textBoxX_Org.Name = "textBoxX_Org";
+            this.textBoxX_Org.ReadOnly = true;
+            this.textBoxX_Org.Size = new System.Drawing.Size(54, 21);
+            this.textBoxX_Org.TabIndex = 0;
+            this.textBoxX_Org.Text = "ORG";
+            this.textBoxX_Org.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxX_Mel
             // 
@@ -1594,7 +1654,7 @@
             this.buttonReloadPosition.Name = "buttonReloadPosition";
             this.buttonReloadPosition.Size = new System.Drawing.Size(125, 25);
             this.buttonReloadPosition.TabIndex = 1;
-            this.buttonReloadPosition.Text = "从文件重新加载";
+            this.buttonReloadPosition.Text = "重新加载";
             this.buttonReloadPosition.UseVisualStyleBackColor = true;
             this.buttonReloadPosition.Click += new System.EventHandler(this.buttonReloadPosition_Click);
             // 
@@ -1604,7 +1664,7 @@
             this.buttonSavePosition.Name = "buttonSavePosition";
             this.buttonSavePosition.Size = new System.Drawing.Size(125, 25);
             this.buttonSavePosition.TabIndex = 1;
-            this.buttonSavePosition.Text = "保存更改到文件";
+            this.buttonSavePosition.Text = "保存更改";
             this.buttonSavePosition.UseVisualStyleBackColor = true;
             this.buttonSavePosition.Click += new System.EventHandler(this.buttonSavePosition_Click);
             // 
@@ -1672,66 +1732,6 @@
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // textBoxX_Org
-            // 
-            this.textBoxX_Org.Location = new System.Drawing.Point(18, 52);
-            this.textBoxX_Org.Name = "textBoxX_Org";
-            this.textBoxX_Org.ReadOnly = true;
-            this.textBoxX_Org.Size = new System.Drawing.Size(54, 21);
-            this.textBoxX_Org.TabIndex = 0;
-            this.textBoxX_Org.Text = "ORG";
-            this.textBoxX_Org.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // textBoxU_Org
-            // 
-            this.textBoxU_Org.Location = new System.Drawing.Point(198, 53);
-            this.textBoxU_Org.Name = "textBoxU_Org";
-            this.textBoxU_Org.ReadOnly = true;
-            this.textBoxU_Org.Size = new System.Drawing.Size(54, 21);
-            this.textBoxU_Org.TabIndex = 0;
-            this.textBoxU_Org.Text = "ORG";
-            this.textBoxU_Org.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // textBoxY_Org
-            // 
-            this.textBoxY_Org.Location = new System.Drawing.Point(78, 53);
-            this.textBoxY_Org.Name = "textBoxY_Org";
-            this.textBoxY_Org.ReadOnly = true;
-            this.textBoxY_Org.Size = new System.Drawing.Size(54, 21);
-            this.textBoxY_Org.TabIndex = 0;
-            this.textBoxY_Org.Text = "ORG";
-            this.textBoxY_Org.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // textBoxV_Org
-            // 
-            this.textBoxV_Org.Location = new System.Drawing.Point(258, 54);
-            this.textBoxV_Org.Name = "textBoxV_Org";
-            this.textBoxV_Org.ReadOnly = true;
-            this.textBoxV_Org.Size = new System.Drawing.Size(54, 21);
-            this.textBoxV_Org.TabIndex = 0;
-            this.textBoxV_Org.Text = "ORG";
-            this.textBoxV_Org.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // textBoxZ_Org
-            // 
-            this.textBoxZ_Org.Location = new System.Drawing.Point(138, 52);
-            this.textBoxZ_Org.Name = "textBoxZ_Org";
-            this.textBoxZ_Org.ReadOnly = true;
-            this.textBoxZ_Org.Size = new System.Drawing.Size(54, 21);
-            this.textBoxZ_Org.TabIndex = 0;
-            this.textBoxZ_Org.Text = "ORG";
-            this.textBoxZ_Org.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // textBoxW_Org
-            // 
-            this.textBoxW_Org.Location = new System.Drawing.Point(318, 53);
-            this.textBoxW_Org.Name = "textBoxW_Org";
-            this.textBoxW_Org.ReadOnly = true;
-            this.textBoxW_Org.Size = new System.Drawing.Size(54, 21);
-            this.textBoxW_Org.TabIndex = 0;
-            this.textBoxW_Org.Text = "ORG";
-            this.textBoxW_Org.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // PlatformControl
             // 

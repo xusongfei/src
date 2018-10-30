@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Lead.Detect.Element;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
-using Lead.Detect.Helper;
 using Lead.Detect.FrameworkExtension.elementExtension;
 using System;
+using System.Text;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 
 namespace Lead.Detect.FrameworkExtension.stateMachine
@@ -24,8 +23,8 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
             machine.Stations.Add(id, this);
 
             //默认状态
-            State = StationState.AUTO;
-            AutoState = StationAutoState.WaitReset;
+            RunState = RunState.AUTO;
+            RunningState = RunningState.WaitReset;
         }
 
         /// <summary>
@@ -41,11 +40,11 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
         /// <summary>
         /// 自动状态, handle start/stop/reset event only on auto
         /// </summary>
-        public StationState State { get; private set; }
+        public RunState RunState { get; private set; }
         /// <summary>
         /// 运行状态, handle event based on auto state
         /// </summary>
-        public StationAutoState AutoState { get; private set; }
+        public RunningState RunningState { get; private set; }
 
         /// <summary>
         /// 工站附属任务
@@ -69,167 +68,216 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                 return;
             }
 
-            switch (e.EventType)
+            switch (RunState)
             {
-                case UserEventType.START:
-                    if (State == StationState.AUTO && AutoState == StationAutoState.WaitRun)
-                    {
-                        foreach (var t in Tasks)
-                        {
-                            t.Value.HandleEvent(e);
-                        }
-                        AutoState = StationAutoState.Running;
-                    }
+                case RunState.ESTOP:
                     break;
-                case UserEventType.STOP:
-                    if (State == StationState.AUTO &&
-                        (AutoState == StationAutoState.Running
-                         || AutoState == StationAutoState.Resetting
-                         || AutoState == StationAutoState.Pause
-                         || AutoState == StationAutoState.WaitRun))
-                    {
-                        foreach (var t in Tasks)
-                        {
-                            t.Value.HandleEvent(e);
-                        }
-                        AutoState = StationAutoState.WaitReset;
-                    }
+                case RunState.ERROR:
                     break;
-                case UserEventType.RESET:
-                    if (State == StationState.AUTO && AutoState == StationAutoState.WaitReset)
-                    {
-                        //resetting orders matters
-                        foreach (var t in Tasks)
-                        {
-                            t.Value.RefreshState(TaskState.Resetting);   
-                        }
+                case RunState.MANUAL:
+                    break;
 
-                        foreach (var t in Tasks)
-                        {
-                            t.Value.HandleEvent(e);
-                        }
-                        AutoState = StationAutoState.Resetting;
-                    }
-                    break;
-                case UserEventType.PAUSE:
-                    if (State == StationState.AUTO && AutoState == StationAutoState.Running)
+                case RunState.AUTO:
+                    if (e.EventType == UserEventType.ESTOP)
                     {
-                        foreach (var t in Tasks)
-                        {
-                            t.Value.HandleEvent(e);
-                        }
-                        AutoState = StationAutoState.Pause;
+                        PassEvent(e);
+                        RunningState = RunningState.WaitReset;
+                        return;
                     }
-                    break;
-                case UserEventType.CONTINUE:
-                    if (State == StationState.AUTO && AutoState == StationAutoState.Pause)
+                    switch (RunningState)
                     {
-                        foreach (var t in Tasks)
-                        {
-                            t.Value.HandleEvent(e);
-                        }
-                        AutoState = StationAutoState.Running;
+                        case RunningState.WaitReset:
+                            if (e.EventType == UserEventType.RESET)
+                            {
+                                //reset to waitreset
+                                foreach (var t in Tasks)
+                                {
+                                    t.Value.RefreshState(RunningState.WaitReset);
+                                }
+                                PassEvent(e);
+                                RunningState = RunningState.Resetting;
+                            }
+                            else if (e.EventType == UserEventType.STOP || e.EventType == UserEventType.MANUAL)
+                            {
+                                PassEvent(e);
+                                RunningState = RunningState.WaitReset;
+                            }
+                            break;
+
+                        case RunningState.Resetting:
+                            if (e.EventType == UserEventType.STOP)
+                            {
+                                PassEvent(e);
+                                RunningState = RunningState.WaitReset;
+                            }
+                            break;
+
+                        case RunningState.WaitRun:
+                            if (e.EventType == UserEventType.START)
+                            {
+                                //reset to waitrun
+                                foreach (var t in Tasks)
+                                {
+                                    t.Value.RefreshState(RunningState.WaitRun);
+                                }
+                                PassEvent(e);
+                                RunningState = RunningState.Running;
+                            }
+                            else if (e.EventType == UserEventType.STOP || e.EventType == UserEventType.MANUAL)
+                            {
+                                PassEvent(e);
+                                RunningState = RunningState.WaitReset;
+                            }
+                            break;
+
+                        case RunningState.Running:
+                            if (e.EventType == UserEventType.PAUSE)
+                            {
+                                PassEvent(e);
+                                RunningState = RunningState.Pause;
+                            }
+                            else if (e.EventType == UserEventType.STOP)
+                            {
+                                PassEvent(e);
+                                RunningState = RunningState.WaitReset;
+                            }
+                            break;
+                        case RunningState.Pause:
+                            if (e.EventType == UserEventType.START)
+                            {
+                                PassEvent(e);
+                                RunningState = RunningState.Running;
+                            }
+                            else if (e.EventType == UserEventType.CONTINUE)
+                            {
+                                PassEvent(e);
+                                RunningState = RunningState.Running;
+                            }
+                            else if (e.EventType == UserEventType.STOP)
+                            {
+                                PassEvent(e);
+                                RunningState = RunningState.WaitReset;
+                            }
+                            break;
                     }
                     break;
+
+            }
+
+
+        }
+
+        private void PassEvent(UserEvent e)
+        {
+            foreach (var t in Tasks)
+            {
+                t.Value.HandleEvent(e);
             }
         }
 
         private bool _isPauseSignal = false;
+
         /// <summary>
         /// 更新工站状态
         /// </summary>
-        public void runningStateMachine()
+        public void runRunStateMachine()
         {
             if (!Enable)
             {
                 return;
             }
 
-            if (State == StationState.AUTO)
+            switch (RunState)
             {
-                switch (AutoState)
-                {
-                    case StationAutoState.Pause:
-                        if (_isPauseSignal && PauseSignals.Count > 0 && PauseSignals.All(e => !e.Value.GetDiSts()))
-                        {
-                            _isPauseSignal = false;
-                            foreach (var t in Tasks)
+                case RunState.ESTOP:
+                    break;
+                case RunState.ERROR:
+                    break;
+                case RunState.MANUAL:
+                    break;
+                case RunState.AUTO:
+                    switch (RunningState)
+                    {
+                        case RunningState.WaitReset:
+                            if (Tasks.All(t => t.Value.RunningState == RunningState.Resetting))
                             {
-                                t.Value.Continue();
+                                RunningState = RunningState.Resetting;
+                                return;
                             }
-                            AutoState = StationAutoState.Running;
-                        }
-
-                        //pull up task states
-                        if (Tasks.Any(t => t.Value.State == TaskState.WaitReset))
-                        {
-                            //stop this station
-                            foreach (var t in Tasks)
+                            break;
+                        case RunningState.Resetting:
+                            //handle pause signal event
+                            if (PauseSignals.Count > 0 && PauseSignals.Any(e => e.Value.GetDiSts()))
                             {
-                                t.Value.Stop();
+                                ShowAlarm($"{Name} 安全信号{string.Join(",", PauseSignals.Select(d => d.Value.Description))} 某一安全信号触发", LogLevel.Error);
+                                Machine.PostEvent(UserEventType.STOP, this);
+                                return;
                             }
-                            AutoState = StationAutoState.WaitReset;
-                        }
-                        else if (Tasks.All(t => t.Value.State == TaskState.WaitRun))
-                        {
-                            AutoState = StationAutoState.WaitRun;
-                        }
-                        break;
 
-
-                    case StationAutoState.Running:
-                        if (PauseSignals.Count > 0 && PauseSignals.Any(e => e.Value.GetDiSts()))
-                        {
-                            foreach (var t in Tasks)
+                            //pull up task states
+                            if (Tasks.Any(t => t.Value.RunningState == RunningState.WaitReset))
                             {
-                                t.Value.Pause();
+                                //stop this station
+                                Machine.PostEvent(UserEventType.STOP, this);
+                                return;
                             }
-                            _isPauseSignal = true;
-                            AutoState = StationAutoState.Pause;
-                        }
-
-                        //pull up task states
-                        if (Tasks.Any(t => t.Value.State == TaskState.WaitReset))
-                        {
-                            //stop this station
-                            foreach (var t in Tasks)
+                            else if (Tasks.All(t => t.Value.RunningState == RunningState.WaitRun))
                             {
-                                t.Value.Stop();
+                                RunningState = RunningState.WaitRun;
+                                return;
                             }
-                            AutoState = StationAutoState.WaitReset;
-                        }
-                        break;
+                            break;
 
-                    case StationAutoState.Resetting:
-                        if (PauseSignals.Count > 0 && PauseSignals.Any(e => e.Value.GetDiSts()))
-                        {
-                            //todo: show alarm
-                            Machine.Beep();
-                            ShowAlarm($"{Name} 安全信号{string.Join(",", PauseSignals.Select(d => d.Value.Description))}触发", LogLevel.Error);
-                            foreach (var t in Tasks)
+                        case RunningState.WaitRun:
+                            if (Tasks.All(t => t.Value.RunningState == RunningState.Running))
                             {
-                                t.Value.Stop();
+                                RunningState = RunningState.Running;
+                                return;
                             }
-                            AutoState = StationAutoState.WaitReset;
-                        }
-
-
-                        //pull up task states
-                        if (Tasks.Any(t => t.Value.State == TaskState.WaitReset))
-                        {
-                            //stop this station
-                            foreach (var t in Tasks)
+                            break;
+                        case RunningState.Running:
+                            //handle pause signal event
+                            if (PauseSignals.Count > 0 && PauseSignals.Any(e => e.Value.GetDiSts()))
                             {
-                                t.Value.Stop();
+                                _isPauseSignal = true;
+                                //ShowAlarm($"{Name} 暂停信号{string.Join(",", PauseSignals.Select(d => d.Value.Description))} 某一暂停信号触发", LogLevel.Warning);
+                                Machine.PostEvent(UserEventType.PAUSE, this);
+                                return;
                             }
-                            AutoState = StationAutoState.WaitReset;
-                        }
-                        else if (Tasks.All(t => t.Value.State == TaskState.WaitRun))
-                        {
-                            AutoState = StationAutoState.WaitRun;
-                        }
-                        break;
-                }
+
+                            //pull up task states
+                            if (Tasks.Any(t => t.Value.RunningState == RunningState.WaitReset))
+                            {
+                                Machine.PostEvent(UserEventType.STOP, this);
+                                return;
+                            }
+                            break;
+
+                        case RunningState.Pause:
+                            //handle pause signal event
+                            if (_isPauseSignal && PauseSignals.Count > 0 && PauseSignals.All(e => !e.Value.GetDiSts()))
+                            {
+                                _isPauseSignal = false;
+                                Machine.PostEvent(UserEventType.CONTINUE, this);
+                                //ShowAlarm(string.Empty, LogLevel.None);
+                                return;
+                            }
+
+                            //pull up task states
+                            if (Tasks.Any(t => t.Value.RunningState == RunningState.WaitReset))
+                            {
+                                Machine.PostEvent(UserEventType.STOP, this);
+                                return;
+                            }
+                            else if (Tasks.All(t => t.Value.RunningState == RunningState.Running))
+                            {
+                                RunningState = RunningState.Running;
+                                return;
+                            }
+                            break;
+                    }
+
+                    break;
             }
         }
 
@@ -241,17 +289,17 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
         public void ShowAlarm(string s, LogLevel level)
         {
             //push alarm to machine to show alarm
-            Machine.OnAlarmEvent(s, level);
+            Machine.OnShowAlarmEvent(s, level);
 
             //pull task alarm to this station
             if (level == LogLevel.Error || level == LogLevel.Fatal)
             {
-                Machine.PostEvent(new UserEvent() { EventType = UserEventType.STOP, EventTarget = this });
+                Machine.PostEvent(UserEventType.STOP, this);
                 Machine.Beep();
             }
             else if (level == LogLevel.Warning)
             {
-                Machine.PostEvent(new UserEvent() { EventType = UserEventType.PAUSE, EventTarget = this });
+                Machine.PostEvent(UserEventType.PAUSE, this);
             }
         }
 
@@ -261,13 +309,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
             return $"{Name} {Id} {Description}";
         }
 
-        public string Export()
-        {
-            return $"{Name} {Id} {Description} BEGIN\r\n"
-                + $"\t\t{string.Join("\r\n\t\t", PauseSignals.Select(t => $"{t.Key} {t.Value.Export()}"))}\r\n"
-                + $"\t\t{string.Join("\r\n\t\t", Tasks.Select(t => $"{t.Key} {t.Value.Export()}"))}\r\n\t{Name} END";
 
-        }
 
         public void Import(string line, StateMachine machine)
         {
@@ -341,6 +383,19 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     break;
 
             }
+        }
+
+        public string Export()
+        {
+            var sb = new StringBuilder();
+
+            sb.Append($"{Name} {Id} {Description} BEGIN\r\n");
+            sb.Append($"\t\t{string.Join("\r\n\t\t", PauseSignals.Select(s => $"{s.Key} {s.Value.Export()}"))}\r\n");
+            sb.Append($"\t\t{string.Join("\r\n\t\t", Tasks.Select(t => $"{t.Key} {t.Value.Export()}"))}\r\n");
+            sb.Append($"{Name} END");
+
+            return sb.ToString();
+
         }
     }
 }

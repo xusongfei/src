@@ -10,19 +10,9 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
 {
     public class PlatformXyzu : PlatformEx
     {
-        public IAxisEx AX => Axis[0];
-        public IAxisEx AY => Axis[1];
-        public IAxisEx AZ => Axis[2];
-        public IAxisEx AU => Axis[3];
-
-        public AxisLimit LimitX { get; set; }
-        public AxisLimit LimitY { get; set; }
-        public AxisLimit LimitZ { get; set; }
-        public AxisLimit LimitU { get; set; }
-
         public PlatformXyzu()
         {
-            Axis = new IAxisEx[3];
+            Axis = new IAxisEx[4];
 
         }
 

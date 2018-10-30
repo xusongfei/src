@@ -179,7 +179,7 @@ namespace Lead.Detect.ThermoAOI.View
 
         private void buttonBrowseLeftProjectFile_Click(object sender, EventArgs e)
         {
-            if (Machine.Machine.Ins.Find<Station>("LeftStation").AutoState != StationAutoState.WaitReset)
+            if (Machine.Machine.Ins.Find<Station>("LeftStation").RunningState != RunningState.WaitReset)
             {
                 MessageBox.Show($"左工站未停止，请停止运行后更换测试文件！");
                 return;
@@ -202,7 +202,7 @@ namespace Lead.Detect.ThermoAOI.View
 
         private void buttonBrowseRightProjectFile_Click(object sender, EventArgs e)
         {
-            if (Machine.Machine.Ins.Find<Station>("RightStation").AutoState != StationAutoState.WaitReset)
+            if (Machine.Machine.Ins.Find<Station>("RightStation").RunningState != RunningState.WaitReset)
             {
                 MessageBox.Show($"右工站未停止，请停止运行后更换测试文件！");
                 return;
@@ -245,7 +245,7 @@ namespace Lead.Detect.ThermoAOI.View
                 var calib = AutoPlatformProduct2UpCalib.CreateProductToUpCalib(platform);
                 if (calib != null)
                 {
-                    if (calib.Station.AutoState != StationAutoState.WaitRun)
+                    if (calib.Station.RunningState != RunningState.WaitRun)
                     {
                         throw new Exception($"{calib.Station.Name} not ready");
                     }
@@ -281,7 +281,7 @@ namespace Lead.Detect.ThermoAOI.View
                 var calib = AutoPlatformUp2DownAlignCalib.CreateAlignCalib(platform);
                 if (calib != null)
                 {
-                    if (calib.Station.AutoState != StationAutoState.WaitRun)
+                    if (calib.Station.RunningState != RunningState.WaitRun)
                     {
                         throw new Exception($"{calib.Station.Name} not ready");
                     }
@@ -326,7 +326,7 @@ namespace Lead.Detect.ThermoAOI.View
                 var calib = AutoPlatformUp2DownAlignCalib.CreateAlignCalib(platform);
                 if (calib != null)
                 {
-                    if (calib.Station.AutoState != StationAutoState.WaitRun)
+                    if (calib.Station.RunningState != RunningState.WaitRun)
                     {
                         throw new Exception($"{calib.Station.Name} not ready");
                     }
@@ -416,7 +416,7 @@ namespace Lead.Detect.ThermoAOI.View
                 var calib = AutoPlatformHeightCalib.CreateHeightCalib(platform);
                 if (calib != null)
                 {
-                    if (calib.Station.AutoState != StationAutoState.WaitRun)
+                    if (calib.Station.RunningState != RunningState.WaitRun)
                     {
                         throw new Exception($"{calib.Station.Name} not ready");
                     }
@@ -451,7 +451,7 @@ namespace Lead.Detect.ThermoAOI.View
 
         private void buttonLGTTest_Click(object sender, EventArgs e)
         {
-            if (Machine.Machine.Ins.AutoState != StationAutoState.WaitRun)
+            if (Machine.Machine.Ins.RunningState != RunningState.WaitRun)
             {
                 MessageBox.Show("设备未复位!");
                 return;
@@ -468,7 +468,7 @@ namespace Lead.Detect.ThermoAOI.View
 
         private void buttonRGT_Click(object sender, EventArgs e)
         {
-            if (Machine.Machine.Ins.AutoState != StationAutoState.WaitRun)
+            if (Machine.Machine.Ins.RunningState != RunningState.WaitRun)
             {
                 MessageBox.Show("设备未复位!");
                 return;
@@ -486,7 +486,7 @@ namespace Lead.Detect.ThermoAOI.View
 
         private void buttonLBarcodeOpen_Click(object sender, EventArgs e)
         {
-            //if (Machine.Machine.Ins.AutoState != StationAutoState.WaitRun)
+            //if (Machine.Machine.Ins.RunningState != RunningState.WaitRun)
             //{
             //    MessageBox.Show("设备未复位!");
             //    return;
@@ -512,7 +512,7 @@ namespace Lead.Detect.ThermoAOI.View
 
         private void buttonLBarcodeClose_Click(object sender, EventArgs e)
         {
-            //if (Machine.Machine.Ins.AutoState != StationAutoState.WaitRun)
+            //if (Machine.Machine.Ins.RunningState != RunningState.WaitRun)
             //{
             //    MessageBox.Show("设备未复位!");
             //    return;
@@ -538,7 +538,7 @@ namespace Lead.Detect.ThermoAOI.View
 
         private void buttonLBarcodeTrigger_Click(object sender, EventArgs e)
         {
-            //if (Machine.Machine.Ins.AutoState != StationAutoState.WaitRun)
+            //if (Machine.Machine.Ins.RunningState != RunningState.WaitRun)
             //{
             //    MessageBox.Show("设备未复位!");
             //    return;
@@ -564,7 +564,7 @@ namespace Lead.Detect.ThermoAOI.View
 
         private void buttonRBacodeOpen_Click(object sender, EventArgs e)
         {
-            //if (Machine.Machine.Ins.AutoState != StationAutoState.WaitRun)
+            //if (Machine.Machine.Ins.RunningState != RunningState.WaitRun)
             //{
             //    MessageBox.Show("设备未复位!");
             //    return;
@@ -590,7 +590,7 @@ namespace Lead.Detect.ThermoAOI.View
 
         private void buttonRBarcodeClose_Click(object sender, EventArgs e)
         {
-            //if (Machine.Machine.Ins.AutoState != StationAutoState.WaitRun)
+            //if (Machine.Machine.Ins.RunningState != RunningState.WaitRun)
             //{
             //    MessageBox.Show("设备未复位!");
             //    return;
@@ -616,7 +616,7 @@ namespace Lead.Detect.ThermoAOI.View
 
         private void buttonRBarcodeTrigger_Click(object sender, EventArgs e)
         {
-            //if (Machine.Machine.Ins.AutoState != StationAutoState.WaitRun)
+            //if (Machine.Machine.Ins.RunningState != RunningState.WaitRun)
             //{
             //    MessageBox.Show("设备未复位!");
             //    return;

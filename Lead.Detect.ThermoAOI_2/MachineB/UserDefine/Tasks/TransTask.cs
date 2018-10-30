@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
@@ -22,8 +23,6 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
         public IVioEx VioMeasureFinish;
 
         public MeasureTask MeasureTask;
-
-
         public PlatformEx Platform;
 
 
@@ -53,16 +52,16 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             {
                 Clamps = new List<ICylinderEx>()
                 {
-                    station.Machine.Find<ICylinderEx>("LRCY"),
                     station.Machine.Find<ICylinderEx>("FBCY"),
+                    station.Machine.Find<ICylinderEx>("LRCY"),
                 }
             };
 
 
             Platform = station.Machine.Find<PlatformEx>("TransPlatform");
 
-            VioMeasureStart = station.Machine.Find<IVioEx>("VioMeasureC1Start1");
-            VioMeasureFinish = station.Machine.Find<IVioEx>("VioMeasureC1Finish1");
+            VioMeasureStart = station.Machine.Find<IVioEx>("VioMeasureStart");
+            VioMeasureFinish = station.Machine.Find<IVioEx>("VioMeasureFinish");
         }
 
         protected override int ResetLoop()
@@ -71,6 +70,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             CfgSettings = Machine.Ins.Settings;
             Project = MeasureProject.Load(CfgSettings.MeasureProjectFile, typeof(MeasureProjectB)) as MeasureProjectB;
             Project.AssertNoNull(this);
+
+            Platform.AssertPosTeached("Wait", this);
 
 
             //reset vio
@@ -104,6 +105,10 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
             //show barcode read form;
             var barcode = RunBarcodeScanner();
+            if (CfgSettings.QuitOnProductError && string.IsNullOrEmpty(barcode))
+            {
+                return 0;
+            }
 
 
             //Wait start button
@@ -114,37 +119,41 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 return 0;
             }
 
-            MultiClampCylinders.Clamp(this);
-
-
             //create product
             Product = new Thermo2ProductB()
             {
-                Barcode = barcode,
+                Barcode = barcode, SPCItems = Project.SPCItems,
             };
             MeasureTask.Product = Product;
+
+
+            //start measure
+            MultiClampCylinders.Clamp(this);
             TestProcessControl.OnTestStartEvent(Product);
-
-
             VioMeasureStart.SetVio(this, true);
             {
                 TestProcessControl.OnTestingEvent(Product);
             }
             VioMeasureFinish.WaitVioAndClear(this);
-
-
-            //todo process data
-            {
-                Product.UpdateStatus();
-                Product.Save();
-                CfgSettings.Production.Update(Product);
-            }
-
-            //move wait
             Platform.MoveAbs("Wait");
             MultiClampCylinders.Reset(this);
 
-            TestProcessControl.OnTestFinishEvent(Product);
+
+            //save product data
+            {
+                Product.UpdateStatus();
+                CfgSettings.Production.Update(Product);
+                TestProcessControl.OnTestFinishEvent(Product);
+                try
+                {
+                    Product.Save();
+                }
+                catch (Exception e)
+                {
+                    Log($"Save Fail:{e.Message}", LogLevel.Warning);
+                    Station.Machine.Beep();
+                }
+            }
             return 0;
         }
 
@@ -154,8 +163,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             {
                 var barcodeForm = new ScanBarcodeForm()
                 {
-                    BarcodeLen =  CfgSettings.BarcodeLength,
-                    BarcodePattern =  CfgSettings.BarcodePattern,
+                    BarcodeLen = CfgSettings.BarcodeLength,
+                    BarcodePattern = CfgSettings.BarcodePattern,
                     Task = this,
                 };
 
@@ -168,6 +177,6 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             return string.Empty;
         }
 
-     
+
     }
 }

@@ -40,8 +40,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSummry = new System.Windows.Forms.TabPage();
-            this.cameraEx1 = new Lead.Detect.MeasureComponents.CameraControl.CameraExDisplayControl();
-            this.cameraEx2 = new Lead.Detect.MeasureComponents.CameraControl.CameraExDisplayControl();
+            this.labelFile = new System.Windows.Forms.Label();
             this.productionCountControl1 = new MachineUtilityLib.UtilControls.ProductionCountControl();
             this.thermo2ProductDisplayControl1 = new Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2.Thermo2ProductDisplayControl();
             this.tabResult = new System.Windows.Forms.TabPage();
@@ -199,8 +198,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             // tabSummry
             // 
             this.tabSummry.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.tabSummry.Controls.Add(this.cameraEx1);
-            this.tabSummry.Controls.Add(this.cameraEx2);
+            this.tabSummry.Controls.Add(this.labelFile);
             this.tabSummry.Controls.Add(this.productionCountControl1);
             this.tabSummry.Controls.Add(this.thermo2ProductDisplayControl1);
             this.tabSummry.Location = new System.Drawing.Point(4, 28);
@@ -211,21 +209,15 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             this.tabSummry.TabIndex = 0;
             this.tabSummry.Text = "生产概况";
             // 
-            // cameraEx1
+            // labelFile
             // 
-            this.cameraEx1.Location = new System.Drawing.Point(519, 7);
-            this.cameraEx1.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
-            this.cameraEx1.Name = "cameraEx1";
-            this.cameraEx1.Size = new System.Drawing.Size(383, 283);
-            this.cameraEx1.TabIndex = 2;
-            // 
-            // cameraEx2
-            // 
-            this.cameraEx2.Location = new System.Drawing.Point(519, 303);
-            this.cameraEx2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.cameraEx2.Name = "cameraEx2";
-            this.cameraEx2.Size = new System.Drawing.Size(385, 314);
-            this.cameraEx2.TabIndex = 2;
+            this.labelFile.BackColor = System.Drawing.Color.Silver;
+            this.labelFile.Location = new System.Drawing.Point(9, 104);
+            this.labelFile.Name = "labelFile";
+            this.labelFile.Size = new System.Drawing.Size(500, 41);
+            this.labelFile.TabIndex = 7;
+            this.labelFile.Text = "测试文件";
+            this.labelFile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // productionCountControl1
             // 
@@ -239,10 +231,12 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             // 
             // thermo2ProductDisplayControl1
             // 
-            this.thermo2ProductDisplayControl1.Location = new System.Drawing.Point(9, 109);
+            this.thermo2ProductDisplayControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.thermo2ProductDisplayControl1.Location = new System.Drawing.Point(9, 150);
             this.thermo2ProductDisplayControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.thermo2ProductDisplayControl1.Name = "thermo2ProductDisplayControl1";
-            this.thermo2ProductDisplayControl1.Size = new System.Drawing.Size(500, 508);
+            this.thermo2ProductDisplayControl1.Size = new System.Drawing.Size(500, 470);
             this.thermo2ProductDisplayControl1.TabIndex = 0;
             // 
             // tabResult
@@ -331,6 +325,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel2.MinimumSize = new System.Drawing.Size(86, 300);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(86, 659);
             this.panel2.TabIndex = 1;
@@ -486,7 +481,6 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
         private System.Windows.Forms.Button buttonClearAll;
         private MachineUtilityLib.UtilControls.ProductionCountControl productionCountControl1;
         private ThermoAOIFlatnessCalcLib.Thermo2.Thermo2ProductDisplayControl thermo2ProductDisplayControl1;
-        private MeasureComponents.CameraControl.CameraExDisplayControl cameraEx1;
-        private MeasureComponents.CameraControl.CameraExDisplayControl cameraEx2;
+        private System.Windows.Forms.Label labelFile;
     }
 }

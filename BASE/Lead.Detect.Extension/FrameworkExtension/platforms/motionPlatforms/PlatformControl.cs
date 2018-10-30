@@ -60,11 +60,18 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
 
         public void LoadPlatform(PlatformEx platform)
         {
-            _platform = platform;
-            if (_platform == null)
+            if (platform == null)
+            {
+                Visible = false;
+                return;
+            }
+
+            if (_platform == platform)
             {
                 return;
             }
+            _platform = platform;
+            Visible = true;
 
             LoadManualPanel();
             LoadTeachPanel();
@@ -263,10 +270,14 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                     if (axis.GetAlarm())
                     {
                         button_Servo[i].BackColor = Color.Red;
+                        buttonMove_Plus[i].BackColor = Color.Red;
+                        buttonMove_Minus[i].BackColor = Color.Red;
                     }
                     else
                     {
                         button_Servo[i].BackColor = axis.GetServo() ? Color.Lime : Color.White;
+                        buttonMove_Plus[i].BackColor = axis.GetServo() ? Color.White : Color.LightGray;
+                        buttonMove_Minus[i].BackColor = axis.GetServo() ? Color.White : Color.LightGray;
                     }
 
                     textBox_Mel[i].BackColor = axis.GetMel() ? Color.Red : Color.White;
@@ -496,15 +507,34 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
 
             try
             {
+                var posData = comboBoxTeachPos.Text.Split('-');
+                var index = 0;
+                var name = string.Empty;
+                var desc = string.Empty;
 
-                var index = int.Parse(comboBoxTeachPos.Text.Split('-')[0]);
-                var pos = comboBoxTeachPos.Text.Split('-')[1];
-
-                if (_platform.Positions.Exists(p => p.Name == pos))
+                if (posData.Length == 1)
                 {
-                    var lastpos = _platform.Positions.First(p => p.Name == pos);
+                    name = posData[0];
+                }
+                else if (posData.Length == 2)
+                {
+                    index = int.Parse(posData[0]);
+                    name = posData[1];
+                }
+                else if (posData.Length >= 3)
+                {
+                    index = int.Parse(posData[0]);
+                    name = posData[1];
+                    desc = posData[2];
+                }
 
-                    if (MessageBox.Show($"更新点 {index} {pos} {string.Join(",", lastpos.Data().Select(v => v.ToString("F3")))} 为 {string.Join(",", _platform.CurPos.Select(v => v.ToString("F3")))}?",
+
+
+                if (_platform.Positions.Exists(p => p.Name == name))
+                {
+                    var lastpos = _platform.Positions.First(p => p.Name == name);
+
+                    if (MessageBox.Show($"更新点 {index} {name} {desc} : {string.Join(",", lastpos.Data().Select(v => v.ToString("F3")))} 为 {string.Join(",", _platform.CurPos.Select(v => v.ToString("F3")))}?",
                             "警告", MessageBoxButtons.YesNo) == DialogResult.No)
                     {
                         return;
@@ -512,15 +542,15 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                 }
                 else
                 {
-                    if (MessageBox.Show($"示教点 {index} {pos} {string.Join(",", _platform.CurPos.Select(v => v.ToString("F3")))}?",
+                    if (MessageBox.Show($"示教点 {index} {name} {desc} : {string.Join(",", _platform.CurPos.Select(v => v.ToString("F3")))}?",
                             "警告", MessageBoxButtons.YesNo) == DialogResult.No)
                     {
                         return;
                     }
                 }
 
-                _platform.TeachPos(pos);
-                LoadTeachPanel(pos);
+                _platform.TeachPos(name);
+                LoadTeachPanel(name);
                 LoadPositionPanel();
             }
             catch (Exception ex)
@@ -667,6 +697,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
 
         private void buttonReloadPosition_Click(object sender, EventArgs e)
         {
+            _platform.Load();
             LoadPositionPanel();
         }
 
@@ -681,7 +712,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
         {
             try
             {
-                var prop = _platform.Positions.First().GetType().GetProperties();
+                var prop = _platform.PosType.GetProperties();
                 for (var i = 0; i < _platform.Positions.Count; i++)
                 {
                     var pos = _platform.Positions[i];
@@ -707,7 +738,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                 && e.ColumnIndex < dataGridViewPositions.ColumnCount
                 && e.ColumnIndex >= 0)
             {
-                var prop = _platform.Positions.First().GetType().GetProperties();
+                var prop = _platform.PosType.GetProperties();
 
                 var cell = dataGridViewPositions.Rows[e.RowIndex].Cells[e.ColumnIndex];
 

@@ -12,6 +12,13 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
 {
     public class PlatformEx : IElement
     {
+        public IAxisEx AX => Axis[0];
+        public IAxisEx AY => Axis[1];
+        public IAxisEx AZ => Axis[2];
+        public IAxisEx AU => Axis[3];
+        public IAxisEx AV => Axis[4];
+        public IAxisEx AW => Axis[5];
+
         public PlatformEx()
         {
         }
@@ -172,6 +179,10 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                                 {
                                     Positions.Add(PosXYZ.Create(line));
                                 }
+                                else if (PosType == typeof(PosXYZU))
+                                {
+                                    Positions.Add(PosXYZU.Create(line));
+                                }
                                 else if (PosType == typeof(PosXYZUVW))
                                 {
                                     Positions.Add(PosXYZUVW.Create(line));
@@ -238,6 +249,10 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                 }
             }
 
+            if (Task != null)
+            {
+                AssertAutoMode(Task);
+            }
             return true;
         }
 
@@ -276,6 +291,16 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
             if (!_isAutoMode)
             {
                 task.Log($"{Name} not in Auto Mode", LogLevel.Error);
+                return false;
+            }
+            return true;
+        }
+
+        public bool AssertPosTeached(string pos, StationTask task)
+        {
+            if (this[pos] != null)
+            {
+                task?.Log($"{Name} {pos} not teached", LogLevel.Error);
                 return false;
             }
             return true;
@@ -415,6 +440,23 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
             {
                 return false;
             }
+
+            return Axis[i] != null && Axis[i].MoveAbs(Task, pos.Data()[i], Axis[i].AxisSpeed, timeout, checkLimit);
+        }
+
+        public bool MoveAbs(int i, string position, int timeout = -1, bool checkLimit = true)
+        {
+            if (!RunSafeCheck(Task == null ? SafeCheckType.Manual : SafeCheckType.Auto, i))
+            {
+                return false;
+            }
+
+            var pos = Positions.FirstOrDefault(p => p.Name == position);
+            if (pos == null)
+            {
+                throw new Exception($"MoveAbs Position {position} not Exist");
+            }
+
 
             return Axis[i] != null && Axis[i].MoveAbs(Task, pos.Data()[i], Axis[i].AxisSpeed, timeout, checkLimit);
         }
@@ -612,7 +654,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
         /// 检查平台是否在点位位置
         /// </summary>
         /// <param name="pos"></param>
-        /// <param name="i"></param>
+        /// <param name="i">axis id</param>
         /// <returns></returns>
         public virtual bool LocateInPos(string pos, int i = -1)
         {
@@ -632,6 +674,13 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                 if (PosType == typeof(PosXYZ))
                 {
                     if (new PosXYZ(CurPos).DistanceTo(p) > 1)
+                    {
+                        return false;
+                    }
+                }
+                else if (PosType == typeof(PosXYZU))
+                {
+                    if (new PosXYZU(CurPos).DistanceTo(p) > 1)
                     {
                         return false;
                     }
@@ -727,6 +776,13 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                         Positions = new List<IPlatformPos>()
                     };
                     break;
+                case "PlatformXyzu":
+                    platform = new PlatformXyzu()
+                    {
+                        Positions = new List<IPlatformPos>()
+                    };
+                    break;
+
                 case "PlatformXyzuvw":
                     platform = new PlatformXyzuvw()
                     {

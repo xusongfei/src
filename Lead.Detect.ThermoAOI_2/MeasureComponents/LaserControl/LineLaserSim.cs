@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 
 namespace Lead.Detect.MeasureComponents.LaserControl
 {
-    public class LineLaserSim : ILineLaserEx
+    public class LineLaserSim : LMILaser.LmiLaser
     {
-        public string Name { get; set; }
-        public string IpStr { get; set; }
-        public int Port { get; set; }
-
-        public bool Connect()
+        public new bool Connect()
         {
             return true;
         }
 
-        public bool Disconnect()
+        public new bool Disconnect()
         {
             return true;
         }
 
-        public List<double[]> Trigger(string measureType)
+        public new List<double[]> Trigger(string measureType)
         {
             return new List<double[]>()
             {
@@ -33,18 +30,12 @@ namespace Lead.Detect.MeasureComponents.LaserControl
             };
         }
 
-        public List<double[]> GetResult()
+        public new List<PosXYZ[]> GetResult()
         {
 
-            return new List<double[]>()
+            return new List<PosXYZ[]>()
             {
-                new []{0,0,1d},
-                new []{0,0,1d},
-                new []{0,0,1d},
-                new []{0,0,1d},
-                new []{0,0,1d},
-                new []{0,0,1d},
-                new []{0,0,1d},
+               new []{new PosXYZ(), new PosXYZ(), new PosXYZ(), }
             };
         }
     }

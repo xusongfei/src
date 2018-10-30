@@ -29,13 +29,19 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
             }
 
             //默认状态
-            IsRunning = false;
-            IsPause = false;
-            State = TaskState.None;
+            RunningState = RunningState.WaitReset;
         }
 
 
         #region task state machine run
+
+        private Task _task;
+
+        /// <summary>
+        /// 任务内部状态
+        /// </summary>
+        public RunningState RunningState { get; protected set; }
+
 
         /// <summary>
         /// 处理设备事件 start/stop/reset/etc
@@ -43,22 +49,65 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
         /// <param name="e"></param>
         public void HandleEvent(UserEvent e)
         {
-            switch (e.EventType)
+            if (e.EventType == UserEventType.ESTOP)
             {
-                case UserEventType.START:
-                    Start();
+                Stop();
+                RunningState = RunningState.WaitReset;
+            }
+
+            switch (RunningState)
+            {
+                case RunningState.WaitReset:
+                    if (e.EventType == UserEventType.RESET)
+                    {
+                        Reset();
+                    }
+                    else if (e.EventType == UserEventType.STOP || e.EventType == UserEventType.MANUAL)
+                    {
+                        Stop();
+                    }
                     break;
-                case UserEventType.STOP:
-                    Stop();
+                case RunningState.Resetting:
+                    if (e.EventType == UserEventType.STOP)
+                    {
+                        Stop();
+                    }
                     break;
-                case UserEventType.RESET:
-                    Reset();
+
+                case RunningState.WaitRun:
+                    if (e.EventType == UserEventType.START)
+                    {
+                        Start();
+                    }
+                    else if (e.EventType == UserEventType.STOP || e.EventType == UserEventType.MANUAL)
+                    {
+                        Stop();
+                    }
                     break;
-                case UserEventType.PAUSE:
-                    Pause();
+                case RunningState.Running:
+                    if (e.EventType == UserEventType.PAUSE)
+                    {
+                        RunningState = RunningState.Pause;
+                    }
+                    else if (e.EventType == UserEventType.STOP)
+                    {
+                        Stop();
+                    }
                     break;
-                case UserEventType.CONTINUE:
-                    Continue();
+
+                case RunningState.Pause:
+                    if (e.EventType == UserEventType.START)
+                    {
+                        RunningState = RunningState.Running;
+                    }
+                    else if (e.EventType == UserEventType.CONTINUE)
+                    {
+                        RunningState = RunningState.Running;
+                    }
+                    else if (e.EventType == UserEventType.STOP)
+                    {
+                        Stop();
+                    }
                     break;
             }
         }
@@ -68,11 +117,6 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
         /// </summary>
         public void Start()
         {
-            if (IsRunning || IsPause)
-            {
-                return;
-            }
-
             if (_task != null)
             {
                 //should not run to here
@@ -80,7 +124,8 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                 ThrowException($"{Name} not Stop Normally!");
             }
 
-            _task = Task.Run(new Action(Running));
+            RunningState = RunningState.Running;
+            _task = Task.Run(new Action(RunningLoopTask));
         }
 
         /// <summary>
@@ -88,42 +133,11 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
         /// </summary>
         public void Stop()
         {
-            if (State == TaskState.WaitRun || IsRunning || IsPause)
+            RunningState = RunningState.WaitReset;
+            if (_task != null)
             {
-                IsRunning = false;
-                if (_task != null)
-                {
-                    _task.Wait();
-                    _task = null;
-                }
-                else
-                {
-                    State = TaskState.WaitReset;
-                }
-
-                IsPause = false;
-            }
-        }
-
-        /// <summary>
-        /// 暂停，触发暂停信号
-        /// </summary>
-        public void Pause()
-        {
-            if (IsRunning)
-            {
-                IsPause = true;
-            }
-        }
-
-        /// <summary>
-        /// 继续，取消暂停信号
-        /// </summary>
-        public void Continue()
-        {
-            if (IsRunning && IsPause)
-            {
-                IsPause = false;
+                _task.Wait();
+                _task = null;
             }
         }
 
@@ -132,11 +146,6 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
         /// </summary>
         public void Reset()
         {
-            if (IsRunning || IsPause)
-            {
-                return;
-            }
-
             if (_task != null)
             {
                 //should not run to here
@@ -144,83 +153,51 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                 ThrowException($"{Name} not Stop Normally!");
             }
 
-            State = TaskState.Resetting;
-            _task = Task.Run(new Action(Resetting));
+            RunningState = RunningState.Resetting;
+            _task = Task.Run(new Action(ResettingLoopTask));
         }
-
-        private Task _task;
-
-        /// <summary>
-        /// 运行或停止信号
-        /// </summary>
-        public bool IsRunning { get; protected set; }
-
-        /// <summary>
-        /// 暂停信号
-        /// </summary>
-        public bool IsPause { get; protected set; }
-
-        /// <summary>
-        /// 任务内部状态
-        /// </summary>
-        public TaskState State { get; protected set; }
-
 
         /// <summary>
         /// only called in station
         /// </summary>
         /// <param name="state"></param>
-        public void RefreshState(TaskState state)
+        public void RefreshState(RunningState state)
         {
-            if (State == TaskState.WaitReset && state == TaskState.Resetting)
-            {
-                if (IsRunning || IsPause)
-                {
-                    return;
-                }
-
-                State = state;
-            }
+            RunningState = state;
         }
 
 
         /// <summary>
         /// 复位线程
         /// </summary>
-        private void Resetting()
+        private void ResettingLoopTask()
         {
             try
             {
-                IsRunning = true;
-                State = TaskState.Resetting;
+                RunningState = RunningState.Resetting;
 
-                Log($"{Name} ResetLoop Start...", LogLevel.Debug);
+                Log($"{Name} ResetLoop Start...", LogLevel.Info);
                 ResetLoop();
-                Log($"{Name} ResetLoop Finish", LogLevel.Debug);
+                Log($"{Name} ResetLoop Finish", LogLevel.Info);
 
-                State = TaskState.WaitRun;
+                RunningState = RunningState.WaitRun;
             }
             catch (Exception ex)
             {
                 if (ex is TaskCancelException)
                 {
-                    Log($"复位取消:[{Station.Name}-{Station.Id}]:[{Name}-{Id}]:{ex.Message}", LogLevel.Debug);
+                    Log($"复位取消:[{Station.Name}-{Station.Id}]:[{Name}-{Id}]:{ex.Message}", LogLevel.Warning);
                 }
                 else
                 {
                     Log($"复位异常:[{Station.Name}-{Station.Id}]:[{Name}-{Id}]:{ex.Message}", LogLevel.Error);
                 }
 
-                State = TaskState.WaitReset;
-                foreach (var t in Station.Tasks)
-                {
-                    t.Value.IsRunning = false;
-                }
+                RunningState = RunningState.WaitReset;
+                Station.Machine.PostEvent(UserEventType.STOP, Station);
             }
             finally
             {
-                IsPause = false;
-                IsRunning = false;
                 _task = null;
             }
         }
@@ -228,47 +205,41 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
         /// <summary>
         /// 运行线程
         /// </summary>
-        private void Running()
+        private void RunningLoopTask()
         {
             try
             {
-                IsRunning = true;
-                State = TaskState.Running;
+                RunningState = RunningState.Running;
 
-                while (IsRunning)
+                while (RunningState == RunningState.Running || RunningState == RunningState.Pause)
                 {
-                    Log($"{Name} RunLoop Start...", LogLevel.Debug);
+                    Log($"{Name} RunLoop Start...", LogLevel.Info);
                     if (RunLoop() != 0)
                     {
-                        Log($"{Name} RunLoop Break", LogLevel.Debug);
+                        Log($"{Name} RunLoop Break", LogLevel.Info);
                         break;
                     }
 
-                    Log($"{Name} RunLoop Finish", LogLevel.Debug);
+                    Log($"{Name} RunLoop Finish", LogLevel.Info);
                 }
             }
             catch (Exception ex)
             {
                 if (ex is TaskCancelException)
                 {
-                    Log($"运行取消:[{Station.Name}-{Station.Id}]:[{Name}-{Id}]:{ex.Message}", LogLevel.Debug);
+                    Log($"运行取消:[{Station.Name}-{Station.Id}]:[{Name}-{Id}]:{ex.Message}", LogLevel.Warning);
                 }
                 else
                 {
                     Log($"运行异常:[{Station.Name}-{Station.Id}]:[{Name}-{Id}]:{ex.Message}", LogLevel.Error);
                 }
 
-                State = TaskState.WaitReset;
-                foreach (var t in Station.Tasks)
-                {
-                    t.Value.IsRunning = false;
-                }
+                RunningState = RunningState.WaitReset;
+                Station.Machine.PostEvent(UserEventType.STOP, Station);
             }
             finally
             {
-                IsPause = false;
-                IsRunning = false;
-                State = TaskState.WaitReset;
+                RunningState = RunningState.WaitReset;
                 _task = null;
             }
         }
@@ -314,13 +285,14 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
         /// </summary>
         public void JoinIfPause()
         {
-            if (IsPause)
+            if (RunningState == RunningState.Pause)
             {
-                while (IsPause)
+                while (RunningState == RunningState.Pause)
                 {
-                    AbortIfCancel("JoinIfPause");
+                    AbortIfCancel(Name);
                     Thread.Sleep(1);
                 }
+                AbortIfCancel(Name);
             }
         }
 
@@ -330,7 +302,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
         /// <param name="msg"></param>
         public void AbortIfCancel(string msg)
         {
-            if (!IsRunning)
+            if (RunningState == RunningState.WaitReset)
             {
                 throw new TaskCancelException(this, msg);
             }

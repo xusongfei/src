@@ -129,7 +129,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
         private void buttonBrowseMeasureProj_Click(object sender, EventArgs e)
         {
             var station = Machine.Ins.Find<Station>("MainStation");
-            if (station == null || station.AutoState != StationAutoState.WaitReset)
+            if (station == null || station.RunningState != RunningState.WaitReset)
             {
                 MessageBox.Show($"工站未停止，请停止运行后更换测试文件！");
                 return;
@@ -177,7 +177,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
 
         private void buttonCameraCalib_Click(object sender, EventArgs e)
         {
-            if (Machine.Ins.AutoState != StationAutoState.WaitRun)
+            if (Machine.Ins.RunningState != RunningState.WaitRun)
             {
                 return;
             }

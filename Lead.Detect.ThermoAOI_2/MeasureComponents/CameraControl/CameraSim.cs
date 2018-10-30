@@ -37,12 +37,12 @@ namespace Lead.Detect.MeasureComponents.CameraControl
             return true;
         }
 
-        public string ReadMsg()
+        public string ReadMsg(int timeout)
         {
             return string.Empty;
         }
 
-        public string GetResult(string resultInfo)
+        public string GetResult(string resultInfo, int timeout = 0)
         {
             return "OK";
         }

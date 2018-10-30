@@ -43,7 +43,7 @@ namespace Lead.Detect.ThermoAOI.View
                         return;
                 }
 
-                richTextBoxAlarm.AppendText($"{DateTime.Now.ToString("yyyyMMdd-HHmmss.ff")}-{level}-{msg}\r\n");
+                richTextBoxAlarm.AppendText($"{DateTime.Now.ToString("yyyyMMdd-HH:mm:ss.ff")} - [{level}] - {msg}\r\n");
                 richTextBoxAlarm.ScrollToCaret();
             }
         }

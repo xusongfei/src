@@ -21,7 +21,7 @@ namespace Lead.Detect.MeasureComponents.CameraControl
         bool Trigger(string msg);
         bool Trigger(string msg, PosXYZ pos);
 
-        string ReadMsg();
-        string GetResult(string resultInfo);
+        string ReadMsg(int timeout);
+        string GetResult(string resultInfo, int timeout);
     }
 }

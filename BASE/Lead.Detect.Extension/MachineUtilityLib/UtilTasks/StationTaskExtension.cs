@@ -12,7 +12,7 @@ namespace MachineUtilityLib.Utils
             }
 
             //wait measure task
-            while (waitTask.State != TaskState.WaitRun && waitTask.State != TaskState.Running)
+            while (waitTask.RunningState != RunningState.WaitRun && waitTask.RunningState != RunningState.Running)
             {
                 curTask.AbortIfCancel("cancel wait tasks");
                 System.Threading.Thread.Sleep(1);
@@ -27,7 +27,7 @@ namespace MachineUtilityLib.Utils
         {
             if (obj == null)
             {
-                task.ThrowException($"{msg ?? "SOME OBJECT"} is NULL");
+                task.ThrowException($"{obj.GetType().Name.ToString()}{msg ?? "SOME OBJECT"} is NULL");
             }
         }
 

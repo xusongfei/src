@@ -66,16 +66,16 @@ namespace Lead.Detect.ThermoAOI.View
                             clr = Color.Red;
                             break;
                         case LogLevel.Error:
-                            clr = Color.LightCoral;
+                            clr = Color.Red;
                             break;
                         case LogLevel.Warning:
-                            clr = Color.Gold;
+                            clr = Color.LightCoral;
                             break;
                         case LogLevel.Info:
-                            clr = Color.Black;
+                            clr = Color.Green;
                             break;
                         default:
-                            clr = Color.Green;
+                            clr = Color.Blue;
                             break;
                     }
 

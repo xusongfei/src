@@ -31,7 +31,7 @@ namespace MachineUtilityLib.UtilViews
                 {
                     case LogLevel.Warning:
                         if (MainPanel != null) Show(MainPanel, DockState.Document);
-                        richTextBoxAlarm.ForeColor = Color.Gold;
+                        richTextBoxAlarm.ForeColor = Color.LightCoral;
                         break;
                     case LogLevel.Error:
                     case LogLevel.Fatal:

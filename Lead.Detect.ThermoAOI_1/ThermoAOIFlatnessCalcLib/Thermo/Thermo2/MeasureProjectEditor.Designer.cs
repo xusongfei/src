@@ -38,6 +38,7 @@
             this.comboBoxPos = new System.Windows.Forms.ComboBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.buttonEditPositions = new System.Windows.Forms.Button();
+            this.buttonRefresh = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -84,6 +85,8 @@
             // 
             // propertyGrid1
             // 
+            this.propertyGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.propertyGrid1.Location = new System.Drawing.Point(12, 58);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(319, 500);
@@ -93,6 +96,9 @@
             // 
             // richTextBox1
             // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextBox1.Location = new System.Drawing.Point(337, 85);
             this.richTextBox1.Name = "richTextBox1";
@@ -100,13 +106,15 @@
             this.richTextBox1.Size = new System.Drawing.Size(435, 473);
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
+            this.richTextBox1.WordWrap = false;
             // 
             // comboBoxPos
             // 
+            this.comboBoxPos.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.comboBoxPos.FormattingEnabled = true;
-            this.comboBoxPos.Location = new System.Drawing.Point(337, 59);
+            this.comboBoxPos.Location = new System.Drawing.Point(337, 37);
             this.comboBoxPos.Name = "comboBoxPos";
-            this.comboBoxPos.Size = new System.Drawing.Size(121, 20);
+            this.comboBoxPos.Size = new System.Drawing.Size(186, 29);
             this.comboBoxPos.TabIndex = 3;
             // 
             // textBox1
@@ -119,19 +127,30 @@
             // 
             // buttonEditPositions
             // 
-            this.buttonEditPositions.Location = new System.Drawing.Point(464, 57);
+            this.buttonEditPositions.Location = new System.Drawing.Point(529, 28);
             this.buttonEditPositions.Name = "buttonEditPositions";
-            this.buttonEditPositions.Size = new System.Drawing.Size(155, 23);
+            this.buttonEditPositions.Size = new System.Drawing.Size(155, 51);
             this.buttonEditPositions.TabIndex = 5;
             this.buttonEditPositions.Text = "点位编辑";
             this.buttonEditPositions.UseVisualStyleBackColor = true;
             this.buttonEditPositions.Click += new System.EventHandler(this.buttonEditPositions_Click);
+            // 
+            // buttonRefresh
+            // 
+            this.buttonRefresh.Location = new System.Drawing.Point(690, 28);
+            this.buttonRefresh.Name = "buttonRefresh";
+            this.buttonRefresh.Size = new System.Drawing.Size(82, 51);
+            this.buttonRefresh.TabIndex = 5;
+            this.buttonRefresh.Text = "刷新";
+            this.buttonRefresh.UseVisualStyleBackColor = true;
+            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
             // MeasureProjectEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.buttonRefresh);
             this.Controls.Add(this.buttonEditPositions);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.comboBoxPos);
@@ -161,5 +180,6 @@
         private System.Windows.Forms.ComboBox comboBoxPos;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button buttonEditPositions;
+        private System.Windows.Forms.Button buttonRefresh;
     }
 }

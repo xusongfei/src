@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.Helper;
 
 namespace Lead.Detect.FrameworkExtension.platforms.calibrations
@@ -87,6 +88,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.calibrations
 
             progressBar1.Value = 0;
 
+            Calib.RefreshState(RunningState.WaitRun);
             Calib.Start();
 
             Cursor = Cursors.WaitCursor;

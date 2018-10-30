@@ -12,7 +12,8 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
     {
         public List<PlatformEx> Platforms;
 
-        public List<PosXYZ> TestPos;
+        public List<IPlatformPos> TestPos;
+
 
         public MeasureProjectPosEditor()
         {
@@ -24,16 +25,16 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
             StartPosition = FormStartPosition.CenterScreen;
 
 
-            comboBoxJump.Items.AddRange(new object[] {0, -10, -20, -50, -80});
+            comboBoxJump.Items.AddRange(new object[] { 0, -10, -20, -50, -80 });
             comboBoxJump.SelectedIndex = 0;
 
             if (Platforms != null)
             {
                 comboBoxMovePlatform.Items.Clear();
-                comboBoxMovePlatform.Items.AddRange(Platforms.Select(p => (object) p.Name).ToArray());
+                comboBoxMovePlatform.Items.AddRange(Platforms.Select(p => (object)p.Name).ToArray());
 
                 comboBoxCurPlatform.Items.Clear();
-                comboBoxCurPlatform.Items.AddRange(Platforms.Select(p => (object) p.Name).ToArray());
+                comboBoxCurPlatform.Items.AddRange(Platforms.Select(p => (object)p.Name).ToArray());
             }
 
 
@@ -45,10 +46,10 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
             if (TestPos != null)
             {
                 comboBoxTestPos.Items.Clear();
-                comboBoxTestPos.Items.AddRange(TestPos.Select(p => (object) p.ToString()).ToArray());
+                comboBoxTestPos.Items.AddRange(TestPos.Select(p => (object)p.ToString()).ToArray());
 
                 listBoxTestPos.Items.Clear();
-                listBoxTestPos.Items.AddRange(TestPos.Select(p => (object) p.ToString()).ToArray());
+                listBoxTestPos.Items.AddRange(TestPos.Select(p => (object)p.ToString()).ToArray());
 
                 richTextBoxPosData.Clear();
                 foreach (var p in TestPos)
@@ -72,7 +73,7 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
             {
                 var data = File.ReadAllLines(fd.FileName);
 
-                var loadpos = new List<PosXYZ>();
+                var loadpos = new List<IPlatformPos>();
                 foreach (var d in data)
                 {
                     if (d.StartsWith("//") || d.StartsWith("\\"))
@@ -80,10 +81,14 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
                         continue;
                     }
 
-                    var vals = d.Split(new[] {',', ' '});
-                    if (vals.Length >= 2)
+                    var vals = d.Split(new[] { ',', ' ' });
+                    if (vals.Length == 3)
                     {
-                        loadpos.Add(new PosXYZ(double.Parse(vals[0]), double.Parse(vals[1]), 0));
+                        loadpos.Add(new PosXYZ(double.Parse(vals[0]), double.Parse(vals[1]), double.Parse(vals[2])));
+                    }
+                    else if (vals.Length == 4)
+                    {
+                        loadpos.Add(new PosXYZU(double.Parse(vals[0]), double.Parse(vals[1]), double.Parse(vals[2]), double.Parse(vals[3])));
                     }
                 }
 
@@ -107,7 +112,7 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
                 {
                     foreach (var pos in TestPos)
                     {
-                        var buffer = Encoding.ASCII.GetBytes($"{pos.X:F2} {pos.Y:F2}\r\n");
+                        var buffer = Encoding.ASCII.GetBytes($"{string.Join(",", pos.Data().Select(d => d.ToString("F3")))}\r\n");
                         fs.Write(buffer, 0, buffer.Length);
                     }
                 }
@@ -142,20 +147,14 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
             var platform = Platforms.FirstOrDefault(p => p.Name == comboBoxCurPlatform.Text);
             if (platform == null)
             {
+                platformControl1.LoadPlatform(null);
+                tabPageMove.Text = $"移动";
                 return;
             }
 
-            var pc = new PlatformControl() {Dock = DockStyle.Fill};
-            pc.LoadPlatform(platform);
-
-            var form = new Form()
-            {
-                Text = platform.Name,
-                Size = new System.Drawing.Size(800, 600),
-                StartPosition = FormStartPosition.CenterParent,
-            };
-            form.Controls.Add(pc);
-            form.Show();
+            platformControl1.LoadPlatform(platform);
+            tabControlMain.SelectedTab = tabPageMove;
+            tabPageMove.Text = $"移动 {platform.Name} {platform.Description}";
         }
 
         private void buttonImportAddCurPos_Click(object sender, EventArgs e)
@@ -169,34 +168,50 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
             var data = platform.GetPos(comboBoxCurPosType.Text);
             if (data == null)
             {
-                MessageBox.Show($"Get Cur Pos Convert Error : {comboBoxCurPosType.Text}");
+                MessageBox.Show($"Get Cur Pos Convert Error: Platform GetPos Fail {comboBoxCurPosType.Text}");
                 return;
             }
 
-            var pos = new PosXYZ(data);
-
-            richTextBoxTestPos.Text += $"{pos.X:F2} {pos.Y:F2} {pos.Z:F2}\r\n";
+            if (platform is PlatformXyz)
+            {
+                var pos = new PosXYZ(data);
+                richTextBoxTestPos.Text += $"{pos.X:F2} {pos.Y:F2} {pos.Z:F2}\r\n";
+            }
+            else if (platform is PlatformXyzu)
+            {
+                var pos = new PosXYZU(data);
+                richTextBoxTestPos.Text += $"{pos.X:F2} {pos.Y:F2} {pos.Z:F2} {pos.U:F2}\r\n";
+            }
+            else
+            {
+                MessageBox.Show($"Get Cur Pos Convert Error : {platform.GetType()} Error");
+                return;
+            }
         }
 
         private void buttonImportTestPos_Click(object sender, EventArgs e)
         {
             var data = richTextBoxTestPos.Lines;
 
-            var loadpos = new List<PosXYZ>();
+            var loadpos = new List<IPlatformPos>();
 
             try
             {
                 foreach (var d in data)
                 {
-                    if (d.StartsWith("//") || d.StartsWith(@"\\"))
+                    if (d.StartsWith("//") || d.StartsWith(@"\\") || string.IsNullOrEmpty(d))
                     {
                         continue;
                     }
 
-                    var vals = d.Split(new[] {',', ' '});
+                    var vals = d.Split(new[] { ',', ' ' });
                     if (vals.Length == 3)
                     {
                         loadpos.Add(new PosXYZ(double.Parse(vals[0]), double.Parse(vals[1]), double.Parse(vals[2])));
+                    }
+                    else if (vals.Length == 4)
+                    {
+                        loadpos.Add(new PosXYZU(double.Parse(vals[0]), double.Parse(vals[1]), double.Parse(vals[2]), double.Parse(vals[3])));
                     }
                     else if (vals.Length == 5)
                     {
@@ -206,11 +221,19 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
                             Description = vals[4],
                         });
                     }
+                    else if (vals.Length == 6)
+                    {
+                        loadpos.Add(new PosXYZU(double.Parse(vals[1]), double.Parse(vals[2]), double.Parse(vals[3]), double.Parse(vals[4]))
+                        {
+                            Name = vals[0],
+                            Description = vals[5],
+                        });
+                    }
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show($"点位数据格式异常 (x y z) or (name x y z desc)");
+                MessageBox.Show($"点位数据格式异常 (x y z) (x y z u) or (name x y z desc) (name x y z u desc)");
                 return;
             }
 
@@ -224,7 +247,9 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
 
         private void buttonCreateArrayPos_Click(object sender, EventArgs e)
         {
-            var loadpos = new List<PosXYZ>();
+
+            var loadpos = new List<IPlatformPos>();
+
             try
             {
                 var startX = double.Parse(textBoxArrayStartX.Text);
@@ -234,18 +259,34 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
                 var countX = int.Parse(textBoxArrayXCount.Text);
                 var countY = int.Parse(textBoxArrayYCount.Text);
 
-
                 //row
                 for (int i = 0; i < countX; i++)
                 {
                     //col
                     for (int j = 0; j < countY; j++)
                     {
-                        loadpos.Add(new PosXYZ(startX + j * stepX, startY + i * stepY, 0));
+                        if (TestPos.Count == 0)
+                        {
+                            loadpos.Add(new PosXYZ(startX + j * stepX, startY + i * stepY, 0));
+                        }
+                        else if (TestPos.First().GetType() == typeof(PosXYZ))
+                        {
+                            loadpos.Add(new PosXYZ(startX + j * stepX, startY + i * stepY, 0));
+                        }
+                        else if (TestPos.First().GetType() == typeof(PosXYZU))
+                        {
+                            loadpos.Add(new PosXYZU(startX + j * stepX, startY + i * stepY, 0));
+                        }
+                        else if (TestPos.First().GetType() == typeof(PosXYZUVW))
+                        {
+                            loadpos.Add(new PosXYZUVW(startX + j * stepX, startY + i * stepY, 0));
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
-
-                loadpos = loadpos.OrderBy(p => p.X).ToList();
             }
             catch (Exception ex)
             {
@@ -301,19 +342,36 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
                 var data = comboBoxTestPos.Text.Split(',');
                 if (data.Length >= 5)
                 {
-                    var pos = new double[] {double.Parse(data[2]), double.Parse(data[3]), double.Parse(data[4])};
+                    double[] pos = null;
+
+                    if (platform is PlatformXyz)
+                    {
+                        pos = new double[] { double.Parse(data[2]), double.Parse(data[3]), double.Parse(data[4]) };
+                    }
+                    else if (platform is PlatformXyzu)
+                    {
+                        pos = new double[] { double.Parse(data[2]), double.Parse(data[3]), double.Parse(data[4]), double.Parse(data[5]) };
+                    }
+                    else
+                    {
+                        throw new Exception($"Move Pos Convert Error : {comboBoxMovePosType.Text}");
+                    }
+
                     pos = platform.GetPos(comboBoxMovePosType.Text, pos);
                     if (pos == null)
                     {
                         throw new Exception($"Move Pos Convert Error : {comboBoxMovePosType.Text}");
                     }
 
-                    if (MessageBox.Show($"{platform.Name}:{string.Join(",", platform.Axis.Select(a => a.Name).ToArray())} Jump To {string.Join(",", pos.Select(p => p.ToString("F2")))}?",
+                    if (MessageBox.Show($"{platform.Name}:{string.Join(",", platform.Axis.Select(a => a == null ? "NULL" : a.Name).ToArray())} Jump To {string.Join(",", pos.Select(p => p.ToString("F2")))}?",
                             "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         var ret = platform.ExitAuto().Jump(pos, double.Parse(comboBoxJump.Text), timeout: 10000, checkLimit: false);
-                        var error = !ret ? $"error {platform.ShowStatus()}" : "normal";
-                        MessageBox.Show($"{platform.Name} Jump {pos} {error} Finish");
+                        if (!ret)
+                        {
+                            var error = !ret ? $"error {platform.ShowStatus()}" : "normal";
+                            MessageBox.Show($"{platform.Name} Jump {string.Join(",", pos.Select(p => p.ToString("F2")))} {error} Finish");
+                        }
                     }
                 }
             }
@@ -344,23 +402,72 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
 
         private void buttonUpdatePosData_Click(object sender, EventArgs e)
         {
-            var newPos = new List<PosXYZ>();
-
+            var newPos = new List<IPlatformPos>();
             var data = richTextBoxPosData.Lines;
-
             var line = string.Empty;
-            try
-            {
-                foreach (var l in data)
-                {
-                    line = l;
 
-                    newPos.Add(PosXYZ.Create(l));
+            if (TestPos.Count > 0 && TestPos.First().GetType() == typeof(PosXYZ))
+            {
+                try
+                {
+                    foreach (var l in data)
+                    {
+                        if (string.IsNullOrEmpty(l))
+                        {
+                            continue;
+                        }
+                        line = l;
+                        newPos.Add(PosXYZ.Create(l));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"PosXYZ点位数据异常： {line} {ex.Message}");
+                    return;
                 }
             }
-            catch (Exception ex)
+            else if (TestPos.Count > 0 && TestPos.First().GetType() == typeof(PosXYZU))
             {
-                MessageBox.Show($"点位数据异常： {line} {ex.Message}");
+                try
+                {
+                    foreach (var l in data)
+                    {
+                        if (string.IsNullOrEmpty(l))
+                        {
+                            continue;
+                        }
+                        line = l;
+                        newPos.Add(PosXYZU.Create(l));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"PosXYZU点位数据异常： {line} {ex.Message}");
+                    return;
+                }
+            }
+            else if (TestPos.Count > 0 && TestPos.First().GetType() == typeof(PosXYZUVW))
+            {
+                try
+                {
+                    foreach (var l in data)
+                    {
+                        if (string.IsNullOrEmpty(l))
+                        {
+                            continue;
+                        }
+                        line = l;
+                        newPos.Add(PosXYZUVW.Create(l));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"PosXYZUVW点位数据异常： {line} {ex.Message}");
+                    return;
+                }
+            }
+            else
+            {
                 return;
             }
 
@@ -369,6 +476,7 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
             {
                 return;
             }
+
 
             try
             {

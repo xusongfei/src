@@ -40,7 +40,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.calibrations
 
         protected override int RunLoop()
         {
-            if (Station.AutoState != StationAutoState.WaitRun)
+            if (Station.RunningState != RunningState.WaitRun)
             {
                 MessageBox.Show($"工站{Station.Name}未复位", CalibInfo, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 OnCalibFinishEvent(_isNormalFinish);

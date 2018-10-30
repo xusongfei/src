@@ -8,9 +8,6 @@
 
         public IEventHandler EventTarget;
 
-        public object EventArgs;
-
-
         public void Execute()
         {
             EventTarget.HandleEvent(this);

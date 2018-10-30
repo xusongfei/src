@@ -70,6 +70,8 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
             {4, "S4"},
             {5, "S5"},
             {6, "S6"},
+            {7, "S7"},
+            {8, "S8"},
         };
 
         /// <summary>
@@ -86,7 +88,13 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
             }
 
             _product = product;
-            return Trigger(SwitchProductMsg[product]);
+            var ret = Trigger(SwitchProductMsg[product]);
+            if (!ret)
+            {
+
+            }
+
+            return ret;
         }
 
 
@@ -115,18 +123,13 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
             {
                 //parse return data
                 var triggerResult = TriggerResult;
-                if (triggerResult.StartsWith(SwitchProductMsg[_product] + "," + TriggerProductMsg[step]))
+                if (triggerResult.StartsWith(SwitchProductMsg[_product] + TriggerProductMsg[step]))
                 {
-                    //todo process data
-                    var data = triggerResult.Split(',');
-
-
-
                     return true;
                 }
                 else
                 {
-                    LastError = "RecvTriggerProductMsgError";
+                    LastError = "RecvTriggerProductError";
                     return false;
                 }
             }
@@ -135,6 +138,27 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
                 return false;
             }
         }
+
+
+        /// <summary>
+        /// 获取数据
+        /// </summary>
+        /// <param name="resultInfo"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public override string GetResult(string resultInfo, int timeout = 3000)
+        {
+            if (!string.IsNullOrEmpty(resultInfo))
+            {
+                var resultMsg = ReadMsg(timeout);
+                return resultMsg;
+            }
+            else
+            {
+                return TriggerResult;
+            }
+        }
+
 
         public override void Test()
         {
@@ -185,12 +209,6 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
             return true;
         }
 
-        public new string GetResult(string resultInfo)
-        {
-            return "OK";
-        }
-
-
         public new bool SwitchProduct(int product)
         {
             TriggerResult = "SWITCH OK";
@@ -203,5 +221,11 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
             TriggerResult = "PRODUCT OK";
             return true;
         }
+        public new string GetResult(string resultInfo, int timeout = 0)
+        {
+            return "OK";
+        }
+
+
     }
 }

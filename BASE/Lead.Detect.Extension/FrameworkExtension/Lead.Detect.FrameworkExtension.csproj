@@ -137,7 +137,7 @@
     <Compile Include="stateMachine\MachineForm.Designer.cs">
       <DependentUpon>MachineForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="stateMachine\MachineStateExtension.cs" />
+    <Compile Include="stateMachine\RunningStateExtension.cs" />
     <Compile Include="stateMachine\StationStateControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -145,11 +145,10 @@
       <DependentUpon>StationStateControl.cs</DependentUpon>
     </Compile>
     <Compile Include="stateMachine\TaskCancelException.cs" />
-    <Compile Include="stateMachine\TaskState.cs" />
     <Compile Include="stateMachine\UserEvent.cs" />
     <Compile Include="stateMachine\IEventHandler.cs" />
-    <Compile Include="stateMachine\StationAutoState.cs" />
-    <Compile Include="stateMachine\StationState.cs" />
+    <Compile Include="stateMachine\RunningState.cs" />
+    <Compile Include="stateMachine\RunState.cs" />
     <Compile Include="stateMachine\StateMachine.cs" />
     <Compile Include="stateMachine\Station.cs" />
     <Compile Include="stateMachine\StationTask.cs" />

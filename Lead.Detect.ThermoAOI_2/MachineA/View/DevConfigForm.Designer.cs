@@ -53,6 +53,8 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.platformXyzControl2 = new Lead.Detect.FrameworkExtension.platforms.motionPlatforms.PlatformControl();
             this.tabPageCalib = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBoxCameraCalibType = new System.Windows.Forms.ComboBox();
             this.richTextBoxCalibData = new System.Windows.Forms.RichTextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.buttonCameraCalib = new System.Windows.Forms.Button();
@@ -64,8 +66,6 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             this.buttonMeasureProjectEditor = new System.Windows.Forms.Button();
             this.tabPageTest = new System.Windows.Forms.TabPage();
             this.cameraExDebugControl1 = new Lead.Detect.MeasureComponents.CameraControl.CameraExDebugControl();
-            this.comboBoxCameraCalibType = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPageIO.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -348,12 +348,30 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             this.tabPageCalib.Text = "平台标定";
             this.tabPageCalib.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(273, 346);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(56, 17);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "标定类型";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // comboBoxCameraCalibType
+            // 
+            this.comboBoxCameraCalibType.FormattingEnabled = true;
+            this.comboBoxCameraCalibType.Location = new System.Drawing.Point(273, 366);
+            this.comboBoxCameraCalibType.Name = "comboBoxCameraCalibType";
+            this.comboBoxCameraCalibType.Size = new System.Drawing.Size(147, 25);
+            this.comboBoxCameraCalibType.TabIndex = 5;
+            // 
             // richTextBoxCalibData
             // 
             this.richTextBoxCalibData.Location = new System.Drawing.Point(273, 25);
             this.richTextBoxCalibData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.richTextBoxCalibData.Name = "richTextBoxCalibData";
-            this.richTextBoxCalibData.Size = new System.Drawing.Size(395, 577);
+            this.richTextBoxCalibData.Size = new System.Drawing.Size(395, 317);
             this.richTextBoxCalibData.TabIndex = 4;
             this.richTextBoxCalibData.Text = "";
             // 
@@ -368,7 +386,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             // 
             // buttonCameraCalib
             // 
-            this.buttonCameraCalib.Location = new System.Drawing.Point(827, 18);
+            this.buttonCameraCalib.Location = new System.Drawing.Point(273, 398);
             this.buttonCameraCalib.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonCameraCalib.Name = "buttonCameraCalib";
             this.buttonCameraCalib.Size = new System.Drawing.Size(165, 36);
@@ -402,7 +420,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             // 
             // buttonBrowseMeasureProj
             // 
-            this.buttonBrowseMeasureProj.Location = new System.Drawing.Point(18, 124);
+            this.buttonBrowseMeasureProj.Location = new System.Drawing.Point(8, 17);
             this.buttonBrowseMeasureProj.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonBrowseMeasureProj.Name = "buttonBrowseMeasureProj";
             this.buttonBrowseMeasureProj.Size = new System.Drawing.Size(116, 60);
@@ -413,7 +431,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             // 
             // buttonOpenMeasureProj
             // 
-            this.buttonOpenMeasureProj.Location = new System.Drawing.Point(812, 124);
+            this.buttonOpenMeasureProj.Location = new System.Drawing.Point(130, 17);
             this.buttonOpenMeasureProj.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonOpenMeasureProj.Name = "buttonOpenMeasureProj";
             this.buttonOpenMeasureProj.Size = new System.Drawing.Size(162, 60);
@@ -424,16 +442,16 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             // 
             // textBoxMeasureProj
             // 
-            this.textBoxMeasureProj.Location = new System.Drawing.Point(140, 124);
+            this.textBoxMeasureProj.Location = new System.Drawing.Point(8, 85);
             this.textBoxMeasureProj.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxMeasureProj.Multiline = true;
             this.textBoxMeasureProj.Name = "textBoxMeasureProj";
-            this.textBoxMeasureProj.Size = new System.Drawing.Size(666, 60);
+            this.textBoxMeasureProj.Size = new System.Drawing.Size(666, 90);
             this.textBoxMeasureProj.TabIndex = 3;
             // 
             // buttonMeasureProjectEditor
             // 
-            this.buttonMeasureProjectEditor.Location = new System.Drawing.Point(812, 20);
+            this.buttonMeasureProjectEditor.Location = new System.Drawing.Point(512, 22);
             this.buttonMeasureProjectEditor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonMeasureProjectEditor.Name = "buttonMeasureProjectEditor";
             this.buttonMeasureProjectEditor.Size = new System.Drawing.Size(162, 55);
@@ -462,24 +480,6 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             this.cameraExDebugControl1.Name = "cameraExDebugControl1";
             this.cameraExDebugControl1.Size = new System.Drawing.Size(427, 337);
             this.cameraExDebugControl1.TabIndex = 0;
-            // 
-            // comboBoxCameraCalibType
-            // 
-            this.comboBoxCameraCalibType.FormattingEnabled = true;
-            this.comboBoxCameraCalibType.Location = new System.Drawing.Point(674, 25);
-            this.comboBoxCameraCalibType.Name = "comboBoxCameraCalibType";
-            this.comboBoxCameraCalibType.Size = new System.Drawing.Size(147, 25);
-            this.comboBoxCameraCalibType.TabIndex = 5;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(674, 5);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 17);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "标定类型";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // DevConfigForm
             // 

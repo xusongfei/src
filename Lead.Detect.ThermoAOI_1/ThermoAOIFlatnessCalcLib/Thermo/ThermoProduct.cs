@@ -48,24 +48,26 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo
             FinishTime = DateTime.Now;
             CT = (FinishTime - StartTime).TotalSeconds;
 
-
-            if (string.IsNullOrEmpty(Error) || Status != ProductStatus.ERROR)
+            if (Status != ProductStatus.ERROR)
             {
                 //update status if no error happen
                 Status = SPCItems.Count > 0 && SPCItems.All(t => t.CheckSpec()) ? ProductStatus.OK : ProductStatus.NG;
-                if (Status == ProductStatus.NG && SPCItems.Count > 0)
+                if (SPCItems.Count > 0)
                 {
-                    var sb = new StringBuilder();
-                    foreach (var s in SPCItems)
+                    if (Status == ProductStatus.NG)
                     {
-                        if (!s.CheckSpec())
+                        var sb = new StringBuilder();
+                        foreach (var s in SPCItems)
                         {
-                            sb.Append($"|{s.Name} {s.Value:F3} 超差");
+                            if (!s.CheckSpec())
+                            {
+                                sb.Append($"|{s.Name} {s.Value:F3} 超差");
+                            }
                         }
-                    }
 
-                    sb.Append("|");
-                    Error = sb.ToString();
+                        sb.Append("|");
+                        Error = sb.ToString();
+                    }
                 }
                 else
                 {

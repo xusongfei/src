@@ -29,7 +29,6 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
         {
             Project = (MeasureProject)Activator.CreateInstance(DefaultProducType);
             LoadProject();
-
         }
 
         private void 打开ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -42,7 +41,6 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
                 Project = MeasureProject.Load(ofd.FileName, DefaultProducType);
                 LoadProject();
             }
-
         }
 
         private void 另存为ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -73,6 +71,11 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
                 var props = Project.GetType().GetProperties();
                 foreach (var p in props)
                 {
+                    if (p.PropertyType == typeof(List<PosXYZU>))
+                    {
+                        comboBoxPos.Items.Add(p.Name);
+                    }
+
                     if (p.PropertyType == typeof(List<PosXYZ>))
                     {
                         comboBoxPos.Items.Add(p.Name);
@@ -95,24 +98,68 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
                     if (p.Name == posPropName)
                     {
                         posProp = p;
+                        break;
+                    }
+                }
+                else if (p.PropertyType == typeof(List<PosXYZU>))
+                {
+                    if (p.Name == posPropName)
+                    {
+                        posProp = p;
+                        break;
                     }
                 }
             }
 
-            if (posProp != null)
+
+            List<IPlatformPos> testpos = null;
+            if (posProp != null && posProp.PropertyType == typeof(List<PosXYZ>))
             {
-                var posEditForm = new MeasureProjectPosEditor()
-                {
-                    TestPos = posProp.GetValue(Project) as List<PosXYZ>,
-                    Platforms = Platforms,
-                };
-
-                //start edit pos
-                posEditForm.ShowDialog();
-
-                //update project
-                LoadProject();
+                testpos = (posProp.GetValue(Project) as List<PosXYZ>)?.Cast<IPlatformPos>().ToList();
             }
+            else if (posProp != null && posProp.PropertyType == typeof(List<PosXYZU>))
+            {
+                testpos = (posProp.GetValue(Project) as List<PosXYZU>)?.Cast<IPlatformPos>().ToList();
+            }
+            else if (posProp != null && posProp.PropertyType == typeof(List<PosXYZUVW>))
+            {
+                testpos = (posProp.GetValue(Project) as List<PosXYZUVW>)?.Cast<IPlatformPos>().ToList();
+            }
+            else
+            {
+                return;
+            }
+
+
+            var posEditForm = new MeasureProjectPosEditor()
+            {
+                TestPos = testpos,
+                Platforms = Platforms,
+            };
+
+            //start edit pos
+            posEditForm.ShowDialog();
+
+            if (posProp != null && posProp.PropertyType == typeof(List<PosXYZ>))
+            {
+                posProp.SetValue(Project, posEditForm.TestPos.Cast<PosXYZ>().ToList());
+            }
+            else if (posProp != null && posProp.PropertyType == typeof(List<PosXYZU>))
+            {
+                posProp.SetValue(Project, posEditForm.TestPos.Cast<PosXYZU>().ToList());
+            }
+            else if (posProp != null && posProp.PropertyType == typeof(List<PosXYZUVW>))
+            {
+                posProp.SetValue(Project, posEditForm.TestPos.Cast<PosXYZUVW>().ToList());
+            }
+            else
+            {
+                return;
+            }
+
+
+            //update project
+            LoadProject();
         }
 
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -125,6 +172,11 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
         {
             textBox1.Text = Project.ProjectName;
             richTextBox1.Text = Project.ToString();
+        }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            LoadProject();
         }
     }
 }

@@ -77,7 +77,7 @@ namespace Lead.Detect.ThermoAOI.Common
 
                     _sw.Start();
 
-                    while (_task.State == TaskState.WaitRun || _task.IsRunning || _task.IsPause)
+                    while (_task.RunningState == RunningState.WaitRun || _task.RunningState == RunningState.Running || _task.RunningState == RunningState.Pause)
                     {
                         lock (this)
                         {
@@ -111,7 +111,7 @@ namespace Lead.Detect.ThermoAOI.Common
                 }
                 finally
                 {
-                    if (_task.IsRunning || _task.IsPause)
+                    if (_task.RunningState == RunningState.Running || _task.RunningState == RunningState.Pause)
                     {
                         _task.Log("RunGTService Error Finish!!!", LogLevel.Error);
                     }

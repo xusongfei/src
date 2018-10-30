@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.frameworkManage;
@@ -6,6 +7,7 @@ using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.MeasureComponents.Thermo2Camera;
 using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2;
+using MachineUtilityLib.UtilProduct;
 using MachineUtilityLib.Utils;
 
 namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
@@ -25,6 +27,9 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
 
 
         public MachineSettings CfgSettings;
+        public bool CfgEnableRelCoordMode;
+
+
         public MeasureProjectA Project;
         public Thermo2ProductA Product;
 
@@ -58,8 +63,15 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
         {
             //load files
             CfgSettings = Machine.Ins.Settings;
+            CfgEnableRelCoordMode = CfgSettings.EnableRelCoordMode;
             Project = MeasureProject.Load(CfgSettings.MeasureProjectFile, typeof(MeasureProjectA)) as MeasureProjectA;
             Project.AssertNoNull(this);
+
+            if (CfgEnableRelCoordMode)
+            {
+                Platform.AssertPosTeached("FocusOrigin", this);
+            }
+            Platform.AssertPosTeached("Wait", this);
 
 
             //reset vio
@@ -76,23 +88,19 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
                 {
                     Log($"{Camera} Connect Error", LogLevel.Error);
                 }
+
+                Camera.SwitchProduct(Project.TypeId);
+                Log($"{Camera} SwitchProduct {Project.TypeId}");
             }
             catch (Exception ex)
             {
-                Log($"{Camera.ToString()} Server Connect Fail: {ex.Message}", LogLevel.Error);
+                Log($"{Camera} Server Connect Fail: {ex.Message}", LogLevel.Error);
             }
 
             //reset platforms
             Platform.EnterAuto(this).Servo();
             Platform.EnterAuto(this).Home();
             Platform.EnterAuto(this).MoveAbs("Wait");
-
-            //update convert funcs
-            var toFilePos = new Func<double[], double[]>(d => (new PosXYZ(d) - new PosXYZ(Platform["Origin"]?.Data())).Data());
-            var toMovePos = new Func<double[], double[]>(d => (new PosXYZ(d) + new PosXYZ(Platform["Origin"]?.Data())).Data());
-            Platform.PosConvertFuncs.Clear();
-            Platform.PosConvertFuncs.Add("FILE", toFilePos);
-            Platform.PosConvertFuncs.Add("MOVE", toMovePos);
             return 0;
         }
 
@@ -102,96 +110,208 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
             //start assert
             Platform.AssertAutoMode(this);
             Platform.LocateInPos("Wait");
+            Project.AssertNoNull(this);
+
+
+            //safe height check
+            var safeHeight = Platform["SafeHeight"]?.Data()[2];
+            var productHeight = Project.Height;
+            safeHeight = safeHeight - productHeight;
+
+            if (Platform.CurPos[2] > safeHeight)
+            {
+                Log($"Platform {Platform.Name} Z SAFE Height Error {Platform.CurPos[2]:F2} > {safeHeight:F2}", LogLevel.Error);
+            }
 
 
             //wait start
             VioMeasureStart.WaitVioAndClear(this);
             {
                 //assert
-                Project.AssertNoNull(this);
                 Product.AssertNoNull(this);
 
-                //get focus z
-                var focusInnerZ = Platform["FocusInner"]?.Data()[2];
-                var focusOuterZ = Platform["FocusOuter"]?.Data()[2];
-                var focusProfileZ = Platform["FocusProfile"]?.Data()[2];
-                var focusPedZ = Platform["FocusPed"]?.Data()[2];
+                //clear client recv buffer
+                try
+                {
+                    var msg1 = Camera.GetResult("result", 1);
+                    Log($"RunLoop Start Clear Client Buffer: {msg1}");
+                }
+                catch (Exception ex)
+                {
+                    Log($"RunLoop Start Clear Client Buffer Error: {ex.Message}");
+                }
 
 
+                var isFirst = true;
+                PosXYZ lastPos = null;
                 int index = 0;
+                //start measure loop
                 foreach (var pos in Project.CapturePos)
                 {
-                    //conver FILE POS TO MOVE POS
-                    var newPos = new PosXYZ(Platform.GetPos("MOVE", pos.Data()));
-
-                    //select obj pos z height
-                    switch (pos.Description)
+                    var newPos = pos;
+                    if (CfgEnableRelCoordMode)
                     {
-                        case "inner":
-                        case "Inner":
-                            newPos.Z = focusInnerZ ?? 0;
-                            break;
-                        case "outer":
-                        case "Outer":
-                            newPos.Z = focusOuterZ ?? 0;
-                            break;
-                        case "barcode":
-                        case "profile":
-                        case "Profile":
-                            newPos.Z = focusProfileZ ?? 0;
-                            break;
-                        case "ped":
-                        case "Ped":
-                            newPos.Z = focusPedZ ?? 0;
-                            break;
-                        default:
-                            Log($"POS ERROR : {index} {pos} Not Found Z Focus");
-                            continue;
+                        //conver FILE POS TO MOVE POS
+                        newPos = new PosXYZ(Platform.GetPos("MOVE", pos.Data()));
+                        newPos.Name = pos.Name;
+                        newPos.Description = pos.Description;
+                        Log($"EnableRelCoordMode Transform {pos} To {newPos}");
                     }
 
 
-                    //select jumpHeight
-                    var jumpHeight = -10;
-
-                    Platform.Jump(newPos, jumpHeight, zLimit: -12);
-
-
-                    //capture
-                    if (pos.Description == "barcode")
+                    if (newPos.Z > safeHeight)
                     {
-                        Camera.TriggerBarcode();
-                        Log($"{Camera} TriggerBarcode {index} {Camera.GetResult(string.Empty)}");
+                        Log($"{newPos.Z} > Z limit ERROR", LogLevel.Error);
                     }
-                    else
-                    {
-                        //only add index on trigger product
 
-                        if (!Camera.TriggerProduct(index++))
+                    //optimize jump move
+                    {
+                        if (isFirst)
                         {
-                            Product.Error = "CAPTURE ERROR";
-                            Log($"{Camera} TriggerProduct {index - 1} {Camera.GetResult(string.Empty)} ERROR");
-                            //break;
+                            isFirst = false;
+                            Platform.Jump(newPos, 0, zLimit: -12);
                         }
                         else
                         {
-                            Log($"{Camera} TriggerProduct {index - 1} {Camera.GetResult(string.Empty)} OK");
+                            //select jumpHeight
+                            if (newPos.Z < lastPos.Z)
+                            {
+                                var jumpHeight = -8 + newPos.Z - lastPos.Z;
+                                Platform.Jump(newPos, jumpHeight, zLimit: -12);
+                            }
+                            else
+                            {
+                                Platform.Jump(newPos, 0, zLimit: -12);
+                            }
                         }
+                        lastPos = newPos;
+                    }
 
+                    //capture
+                    index = TriggerCamera(pos, index);
+
+                    if (CfgSettings.QuitOnProductError)
+                    {
+                        if (Product.Status == ProductStatus.ERROR)
+                        {
+                            Log($"Quit {Name} Loop On Error: {Product.Error}");
+                            break;
+                        }
                     }
                 }
 
-
-                //todo process all capture data
+                //process result
+                try
                 {
+                    if (string.IsNullOrEmpty(Product.Error))
+                    {
+                        var result = Camera.GetResult("result");
+                        var msgData = result.Split(',');
+                        Product.Status = msgData[0] == "OK" ? ProductStatus.OK : ProductStatus.NG;
+                        if (msgData.Length > 2)
+                        {
+                            for (int i = 1; i < msgData.Length; i++)
+                            {
+                                if (string.IsNullOrEmpty(msgData[i]))
+                                {
+                                    continue;
+                                }
+                                Product.RawData.Add(double.Parse(msgData[i]));
+                            }
+                        }
+                        Log($"Camera GetResult: {result}");
+                    }
 
+                    Product.SetSpcItem("STS", Product.Status == ProductStatus.OK ? 0 : 2);
+                }
+                catch (Exception ex)
+                {
+                    Log($"Camera GetResult Exception: {ex.Message}");
                 }
 
                 Platform.MoveAbs("Wait");
+
             }
             //measure finish
             VioMeasureFinish.SetVio(this);
-
             return 0;
+        }
+
+        private int TriggerCamera(PosXYZ pos, int index)
+        {
+            if (pos.Description == "barcode")
+            {
+                var ret = Camera.TriggerBarcode();
+                if (!ret)
+                {
+                    Log($"{Camera} TriggerBarcode Error");
+                    Product.Error = "BARCODEERROR";
+                }
+
+                Log($"{Camera} TriggerBarcode {index} {(ret ? "OK" : "ERROR")} {Camera.GetResult(string.Empty)} {Camera.LastError}");
+            }
+            else
+            {
+                //only add index on trigger product
+                index++;
+                Thread.Sleep(1000);
+                var ret = Camera.TriggerProduct(index);
+                if (!ret)
+                {
+                    Log($"{Camera} TriggerProduct {index} Error");
+                    Product.Error = $"CAPTURE{index}ERROR";
+                }
+
+                Log($"{Camera} TriggerProduct {index} {(ret ? "OK" : "ERROR")} {Camera.GetResult(string.Empty)} {Camera.LastError}");
+            }
+
+            return index;
+        }
+
+
+        private void SelectJumpHeight(ref PosXYZ newPos, PosXYZ pos)
+        {
+            //get focus z
+            var focusBarcode = Platform["FocusBarcode"]?.Data()[2];
+            var focusInnerZ = Platform["FocusInner"]?.Data()[2];
+            var focusOuterZ = Platform["FocusOuter"]?.Data()[2];
+            var focusProfileZ = Platform["FocusProfile"]?.Data()[2];
+            var focusPedZ = Platform["FocusPed"]?.Data()[2];
+
+
+            //select obj pos z height
+            //switch (pos.Description)
+            //{
+            //    case "barcode":
+            //    case "Barcode":
+            //        newPos.Z = focusBarcode ?? 0;
+            //        break;
+            //    case "inner":
+            //    case "Inner":
+            //        newPos.Z = focusInnerZ ?? 0;
+            //        break;
+            //    case "outer":
+            //    case "Outer":
+            //        newPos.Z = focusOuterZ ?? 0;
+            //        break;
+            //    case "profile":
+            //    case "Profile":
+            //        newPos.Z = focusProfileZ ?? 0;
+            //        break;
+            //    case "ped":
+            //    case "Ped":
+            //        newPos.Z = focusPedZ ?? 0;
+            //        break;
+            //    default:
+            //        Log($"POS ERROR : {index} {pos} Not Found Z Focus");
+            //        continue;
+            //}
+
+            //update product height
+            //if (newPos.Z > 0)
+            //{
+            //    newPos.Z = newPos.Z - productHeight;
+            //}
         }
     }
 }

@@ -79,6 +79,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
             {5, 100 },
             {6, 100 },
             {7, 100 },
+            {8, 100 },
         };
 
 
@@ -165,19 +166,18 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
                 var triggerResult = TriggerResult;
                 if (triggerResult.StartsWith(FAIL_MSG))
                 {
-                    LastError = $"TriggerProductFail {step}";
+                    LastError = $"TriggerProductFail {step} {TriggerResult}";
                     return false;
                 }
                 else if (triggerResult.StartsWith($"{sendMsg},1"))
                 {
-                    TriggerResult = $"Capture {step} OK";
+                    TriggerResult = $"Capture {step} OK {TriggerResult}";
                     return true;
 
                 }
                 else if (triggerResult.StartsWith($"{sendMsg},0"))
                 {
-
-                    TriggerResult = $"Capture {step} NG";
+                    TriggerResult = $"Capture {step} NG {TriggerResult}";
                     return false;
                 }
                 else
@@ -222,7 +222,6 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
                 }
                 else if (triggerResult.StartsWith($"{sendMsg},0"))
                 {
-
                     TriggerResult = $"CALIB {step} NG";
                     return false;
                 }
@@ -241,39 +240,51 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         /// 获取数据
         /// </summary>
         /// <param name="resultInfo"></param>
+        /// <param name="timeout"></param>
         /// <returns></returns>
-        public override string GetResult(string resultInfo)
+        public override string GetResult(string resultInfo,int timeout = 3000)
         {
-
             if (!string.IsNullOrEmpty(resultInfo))
             {
-                var resultMsg = ReadMsg();
-                if (resultMsg.StartsWith("2,1"))
+                var resultMsg = ReadMsg(timeout);
+                if (resultMsg.StartsWith("2,1") || resultMsg.StartsWith("2,0"))
                 {
-                    //ok
                     var data = resultMsg.Split(',');
 
                     var fais = data.Skip(2);
-
                     var sb = new StringBuilder();
                     foreach (var fai in fais)
                     {
+                        if (string.IsNullOrEmpty(fai))
+                        {
+                            continue;
+                        }
                         sb.Append(fai.Split(':')[1]);
                         sb.Append(",");
                     }
-                    return "OK," + sb.ToString();
+
+                    if (resultMsg.StartsWith("2,1"))
+                    {
+                        return "OK," + sb.ToString();
+                    }
+                    else if (resultMsg.StartsWith("2,0"))
+                    {
+                        return "NG," + sb.ToString();
+                    }
+                    else
+                    {
+                        return "ERROR," + sb.ToString();
+                    }
                 }
-                else if (resultMsg.StartsWith("2,0"))
+                else
                 {
-                    //ng
-                    return "NG";
+                    return $"NG,{resultMsg}";
                 }
             }
             else
             {
                 return TriggerResult;
             }
-            return string.Empty;
         }
 
         public override void Test()
@@ -328,7 +339,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
             return true;
         }
 
-        public new string GetResult(string resultInfo)
+        public new string GetResult(string resultInfo, int timeout)
         {
             return "OK";
         }

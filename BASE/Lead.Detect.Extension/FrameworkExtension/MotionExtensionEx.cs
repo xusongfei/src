@@ -7,10 +7,12 @@ using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.motionDriver;
 using Lead.Detect.FrameworkExtension.stateMachine;
-using Lead.Detect.Helper;
 
 namespace Lead.Detect.FrameworkExtension
 {
+    /// <summary>
+    /// IVioEx Extension
+    /// </summary>
     public static partial class MotionExtensionEx
     {
         public static bool GetVioSts(this IVioEx vioex, bool status = true)
@@ -22,12 +24,16 @@ namespace Lead.Detect.FrameworkExtension
 
         public static bool SetVio(this IVioEx vioex, StationTask task, bool status = true)
         {
+            task?.AbortIfCancel(nameof(SetVio));
+            task?.JoinIfPause();
+
             vioex.DriverCard.SetDo(vioex.Port, status ? 1 : 0);
             task?.Log($"{vioex.Name} SetVio {vioex.Port} {status} success", LogLevel.Debug);
             return true;
         }
 
-        public static bool WaitVioAndClear(this IVioEx vioex, StationTask task, bool status = true, bool clearStatus = false, int timeout = -1)
+        public static bool WaitVioAndClear(this IVioEx vioex, StationTask task, bool status = true,
+            bool clearStatus = false, int timeout = -1)
         {
             if (!WaitVio(vioex, task, status, timeout))
             {
@@ -40,6 +46,9 @@ namespace Lead.Detect.FrameworkExtension
 
         public static bool WaitVio(this IVioEx vioex, StationTask task, bool status = true, int timeout = -1)
         {
+            task?.AbortIfCancel(nameof(WaitVio));
+            task?.JoinIfPause();
+
             timeout = timeout < 0 ? int.MaxValue : timeout;
 
             var err = $"{vioex.Name} WaitVio {vioex.Port} {status}";
@@ -57,7 +66,7 @@ namespace Lead.Detect.FrameworkExtension
                 if (task != null)
                 {
                     task.JoinIfPause();
-                    task.AbortIfCancel("WaitVio");
+                    task.AbortIfCancel(nameof(WaitVio));
                 }
                 else
                 {
@@ -72,6 +81,9 @@ namespace Lead.Detect.FrameworkExtension
         }
     }
 
+    /// <summary>
+    /// ICylinderEx Extension
+    /// </summary>
     public static partial class MotionExtensionEx
     {
         public static void SetDoAsync(this ICylinderEx[] cyex, StationTask task, bool status = true)
@@ -116,12 +128,18 @@ namespace Lead.Detect.FrameworkExtension
             return WaitDi(new[] { cyex.DiOrg, cyex.DiWork }, task, new[] { cyex.DriverCard, cyex.DriverCard }, new[] { !status, status }, timeout);
         }
 
-        public static bool WaitDi(this ICylinderEx[] cyex, StationTask task, bool[] status, int timeout = -1, bool isErrorOnSignalError = true)
+        public static bool WaitDi(this ICylinderEx[] cyex, StationTask task, bool[] status, int timeout = -1, bool showWarning = true)
         {
+            task?.AbortIfCancel(nameof(WaitDi));
+            task?.JoinIfPause();
+
             if (FrameworkExtenion.IsSimulate)
             {
+                var msg = $"{string.Join(",", cyex.Select(c => c.Name))} WaitDi {string.Join(",", status)} {timeout}";
+                task?.Log($"{msg} success", LogLevel.Debug);
                 return true;
             }
+
 
             var motion1 = cyex.Select(c => c.DriverCard);
             var motion2 = cyex.Select(c => c.DriverCard);
@@ -136,11 +154,11 @@ namespace Lead.Detect.FrameworkExtension
             var waitdi = diOrg.Concat(diWork).ToArray();
             var waitSts = diOrgSts.Concat(diWorkSts).ToArray();
 
-            var err = $"{string.Join(",", cyex.Select(c => c.Name))} SetDo {status} {timeout}";
+            var err = $"{string.Join(",", cyex.Select(c => c.Name))} SetDo {string.Join(",", status)} WaitDi {timeout}";
             var ret = WaitDi(waitdi, task, motion, waitSts, timeout);
             if (!ret)
             {
-                task?.Log($"{err} error", isErrorOnSignalError ? LogLevel.Warning : LogLevel.Debug);
+                task?.Log($"{err} error", showWarning ? LogLevel.Warning : LogLevel.Debug);
             }
             else
             {
@@ -151,6 +169,9 @@ namespace Lead.Detect.FrameworkExtension
         }
     }
 
+    /// <summary>
+    /// IDoEx IDiEx Extension
+    /// </summary>
     public static partial class MotionExtensionEx
     {
         public static bool GetDoSts(this IDoEx doex, bool status = true)
@@ -167,7 +188,7 @@ namespace Lead.Detect.FrameworkExtension
             return true;
         }
 
-        public static bool SetDo(this IDoEx[] doex, bool[] status)
+        public static bool SetDoAsync(this IDoEx[] doex, bool[] status)
         {
             for (int i = 0; i < doex.Length; i++)
             {
@@ -190,10 +211,13 @@ namespace Lead.Detect.FrameworkExtension
 
         public static bool WaitDo(this int[] diex, StationTask task, IMotionWrapper[] motion, bool[] status, int timeout = -1)
         {
-            //if (FrameworkExtenion.IsSimulate)
-            //{
-            //    return true;
-            //}
+            task?.AbortIfCancel(nameof(WaitDi));
+            task?.JoinIfPause();
+
+            if (FrameworkExtenion.IsSimulate)
+            {
+                return true;
+            }
 
             int[] sts = new int[diex.Length];
 
@@ -226,7 +250,7 @@ namespace Lead.Detect.FrameworkExtension
                 if (task != null)
                 {
                     task.JoinIfPause();
-                    task.AbortIfCancel("WaitDi");
+                    task.AbortIfCancel(nameof(WaitDi));
                 }
                 else
                 {
@@ -344,6 +368,9 @@ namespace Lead.Detect.FrameworkExtension
         /// <returns></returns>
         public static bool WaitDi(this int[] diex, StationTask task, IMotionWrapper[] motion, bool[] status, int timeout = -1)
         {
+            task?.AbortIfCancel(nameof(WaitDi));
+            task?.JoinIfPause();
+
             if (FrameworkExtenion.IsSimulate)
             {
                 return true;
@@ -380,7 +407,7 @@ namespace Lead.Detect.FrameworkExtension
                 if (task != null)
                 {
                     task.JoinIfPause();
-                    task.AbortIfCancel("WaitDi");
+                    task.AbortIfCancel(nameof(WaitDi));
                 }
                 else
                 {
@@ -394,6 +421,10 @@ namespace Lead.Detect.FrameworkExtension
         }
     }
 
+
+    /// <summary>
+    /// IAxisEx Extension
+    /// </summary>
     public static partial class MotionExtensionEx
     {
         public static bool Stop(this IAxisEx[] axis)
@@ -441,7 +472,6 @@ namespace Lead.Detect.FrameworkExtension
             return a.DriverCard.LimitOrg(a.AxisChannel);
         }
 
-
         public static bool GetMel(this IAxisEx a)
         {
             return a.DriverCard.LimitMel(a.AxisChannel);
@@ -464,7 +494,6 @@ namespace Lead.Detect.FrameworkExtension
             return axis.Select(GetPos).ToArray();
         }
 
-
         public static double GetPos(this IAxisEx axis)
         {
             int pos = 0;
@@ -485,6 +514,9 @@ namespace Lead.Detect.FrameworkExtension
 
         public static bool ServoEnable(this IAxisEx[] axis, StationTask task, bool status)
         {
+            task?.AbortIfCancel(nameof(ServoEnable));
+            task?.JoinIfPause();
+
             //start servo
             foreach (var a in axis)
             {
@@ -492,7 +524,7 @@ namespace Lead.Detect.FrameworkExtension
             }
 
             //wait servo
-            Thread.Sleep(500);
+            Thread.Sleep(100);
             var err = $"{string.Join(",", axis.Select(a => a == null ? string.Empty : a.Name))} ServoEnable {status}";
             var ret = axis.All(a => a == null || (a.GetServo() && !a.GetAlarm()));
             if (!ret)
@@ -522,6 +554,9 @@ namespace Lead.Detect.FrameworkExtension
                 return false;
             }
 
+            task?.AbortIfCancel(nameof(Home));
+            task?.JoinIfPause();
+
             //start home
             foreach (var a in axis)
             {
@@ -537,9 +572,9 @@ namespace Lead.Detect.FrameworkExtension
             while (t++ <= timeout)
             {
                 if (axis.All(a =>
-                a == null
-                || (axisInps[Array.IndexOf(axis, a)] && a.DriverCard.CheckHomeDone(a.AxisChannel))
-                || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp() && a.DriverCard.CheckHomeDone(a.AxisChannel)))
+                    a == null
+                    || (axisInps[Array.IndexOf(axis, a)] && a.DriverCard.CheckHomeDone(a.AxisChannel))
+                    || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp() && a.DriverCard.CheckHomeDone(a.AxisChannel)))
                 )
                 {
                     var ret = axis.All(a => a.DriverCard.SetEncPos(a.AxisChannel, 0) == 0);
@@ -549,6 +584,7 @@ namespace Lead.Detect.FrameworkExtension
 
                 if (axis.Any(a => a != null && (a.GetAlarm() || a.GetAstp())) || axis.All(a => a == null || (a.GetMdn() && !a.DriverCard.CheckHomeDone(a.AxisChannel))))
                 {
+                    axis.Stop();
                     task?.Log($"{err} alarm error", LogLevel.Error);
                     task?.ThrowException($"{err} alarm error");
                     return false;
@@ -557,22 +593,22 @@ namespace Lead.Detect.FrameworkExtension
                 //check task status
                 if (task != null)
                 {
-                    if (!task.IsRunning)
+                    if (task.RunningState != RunningState.Running && task.RunningState != RunningState.Resetting)
                     {
                         axis.Stop();
+                        task.AbortIfCancel(nameof(Home));
                     }
 
-                    if (task.IsPause)
+                    if (task.RunningState == RunningState.Pause)
                     {
                         axis.Stop();
                         task.JoinIfPause();
+                        task.AbortIfCancel(nameof(Home));
                         foreach (var a in axis)
                         {
                             a?.DriverCard.Home(a.AxisChannel, a.ToPls(a.HomeVm));
                         }
                     }
-
-                    task.AbortIfCancel("Home");
                 }
                 else
                 {
@@ -613,6 +649,9 @@ namespace Lead.Detect.FrameworkExtension
                 return false;
             }
 
+            task?.AbortIfCancel(nameof(MoveAbsAsync));
+            task?.JoinIfPause();
+
             //start move
             for (int i = 0; i < axis.Length; i++)
             {
@@ -622,7 +661,7 @@ namespace Lead.Detect.FrameworkExtension
             }
 
             var err =
-            $"{string.Join(",", axis.Select(a => a == null ? string.Empty : a.Name))} MoveAbs {string.Join(",", pos.Select(p => p.ToString("F2")))} {string.Join(",", vel.Select(p => p.ToString("F2")))}";
+                $"{string.Join(",", axis.Select(a => a == null ? string.Empty : a.Name))} MoveAbs {string.Join(",", pos.Select(p => p.ToString("F2")))} {string.Join(",", vel.Select(p => p.ToString("F2")))}";
             task?.Log($"{err} success", LogLevel.Debug);
 
             return true;
@@ -635,6 +674,9 @@ namespace Lead.Detect.FrameworkExtension
                 task?.ThrowException("MoveAbs Servo error");
                 return false;
             }
+
+            task?.AbortIfCancel(nameof(MoveAbs));
+            task?.JoinIfPause();
 
             //start move
             for (int i = 0; i < axis.Length; i++)
@@ -656,6 +698,7 @@ namespace Lead.Detect.FrameworkExtension
                 //check alarm
                 if (axis.Any(a => a != null && (a.GetAlarm() || a.GetAstp() || isCheckLimit && (a.GetMel() || a.GetPel()))))
                 {
+                    axis.Stop();
                     var msg = $"{err} LIMIT: MEL {axis.Any(a => a != null && a.GetMel())} PEL {axis.Any(a => a != null && a.GetPel())} or ALARM {axis.Any(a => a != null && a.GetAlarm())} error";
                     task?.Log(msg, LogLevel.Error);
                     task?.ThrowException(msg);
@@ -664,8 +707,8 @@ namespace Lead.Detect.FrameworkExtension
 
                 //check done
                 if (axis.All(a => a == null
-                || (axisInps[Array.IndexOf(axis, a)] && a.DriverCard.CheckMoveDone(a.AxisChannel))
-                || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp() && a.DriverCard.CheckMoveDone(a.AxisChannel)))
+                                  || (axisInps[Array.IndexOf(axis, a)] && a.DriverCard.CheckMoveDone(a.AxisChannel))
+                                  || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp() && a.DriverCard.CheckMoveDone(a.AxisChannel)))
                 )
                 {
                     var fail = axis.Any(IsMoveErrorHappen);
@@ -685,22 +728,22 @@ namespace Lead.Detect.FrameworkExtension
                 //check task status
                 if (task != null)
                 {
-                    if (!task.IsRunning)
+                    if (task.RunningState != RunningState.Running && task.RunningState != RunningState.Resetting)
                     {
                         axis.Stop();
+                        task.AbortIfCancel(nameof(MoveAbs));
                     }
 
-                    if (task.IsPause)
+                    if (task.RunningState == RunningState.Pause)
                     {
                         axis.Stop();
                         task.JoinIfPause();
+                        task.AbortIfCancel(nameof(MoveAbs));
                         for (int i = 0; i < axis.Length; i++)
                         {
                             axis[i]?.DriverCard.MoveAbs(axis[i].AxisChannel, axis[i].ToPls(pos[i]), axis[i].ToPls(vel[i]));
                         }
                     }
-
-                    task.AbortIfCancel("MoveAbs");
                 }
                 else
                 {
@@ -721,7 +764,8 @@ namespace Lead.Detect.FrameworkExtension
             return MoveRel(axis, null, pos, vel, timeout);
         }
 
-        public static bool MoveRel(this IAxisEx axis, StationTask task, double step, double vel, int timeout = -1, bool isCheckLimit = true)
+        public static bool MoveRel(this IAxisEx axis, StationTask task, double step, double vel, int timeout = -1,
+            bool isCheckLimit = true)
         {
             return MoveRel(new[] { axis }, task, new[] { step }, new[] { vel }, timeout, isCheckLimit);
         }
@@ -734,6 +778,9 @@ namespace Lead.Detect.FrameworkExtension
                 return false;
             }
 
+            task?.AbortIfCancel(nameof(MoveRel));
+            task?.JoinIfPause();
+
             //start move
             int[] startpls = new int[axis.Length];
             int[] pausepls = new int[axis.Length];
@@ -744,11 +791,11 @@ namespace Lead.Detect.FrameworkExtension
                 axis[i]?.DriverCard.GetEncPos(axis[i].AxisChannel, ref startpls[i]);
                 axis[i]?.DriverCard.MoveRel(axis[i].AxisChannel, axis[i].ToPls(step[i]), axis[i].ToPls(vel[i]));
             }
+
             var axisInps = axis.Select(a => a == null || a.GetInp()).ToArray();
 
             //wait done
-            var err =
-                $"{string.Join(",", axis.Select(a => a == null ? string.Empty : a.Name))} MoveRel {string.Join(",", step.Select(p => p.ToString("F2")))} {string.Join(",", vel.Select(p => p.ToString("F2")))}";
+            var err = $"{string.Join(",", axis.Select(a => a == null ? string.Empty : a.Name))} MoveRel {string.Join(",", step.Select(p => p.ToString("F2")))} {string.Join(",", vel.Select(p => p.ToString("F2")))}";
             timeout = timeout < 0 ? int.MaxValue : timeout;
             var t = 0;
             while (t++ <= timeout)
@@ -756,6 +803,7 @@ namespace Lead.Detect.FrameworkExtension
                 //check alarm
                 if (axis.Any(a => a != null && (a.GetAlarm() || a.GetAstp() || isCheckLimit && (a.GetMel() || a.GetPel()))))
                 {
+                    axis.Stop();
                     var msg = $"{err} LIMIT: MEL {axis.Any(a => a != null && a.GetMel())} PEL {axis.Any(a => a != null && a.GetPel())} or ALARM {axis.Any(a => a != null && a.GetAlarm())} error";
                     task?.Log(msg, LogLevel.Error);
                     task?.ThrowException(msg);
@@ -763,11 +811,10 @@ namespace Lead.Detect.FrameworkExtension
                 }
 
                 if (axis.All(a => a == null
-              || (axisInps[Array.IndexOf(axis, a)] && a.DriverCard.CheckMoveDone(a.AxisChannel))
-              || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp() && a.DriverCard.CheckMoveDone(a.AxisChannel)))
-              )
+                                  || (axisInps[Array.IndexOf(axis, a)] && a.DriverCard.CheckMoveDone(a.AxisChannel))
+                                  || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp() && a.DriverCard.CheckMoveDone(a.AxisChannel)))
+                )
                 {
-
                     var fail = axis.Any(IsMoveErrorHappen);
                     if (fail)
                     {
@@ -785,12 +832,13 @@ namespace Lead.Detect.FrameworkExtension
                 //check axis status
                 if (task != null)
                 {
-                    if (!task.IsRunning)
+                    if (task.RunningState != RunningState.Running && task.RunningState != RunningState.Resetting)
                     {
                         axis.Stop();
+                        task.AbortIfCancel(nameof(MoveRel));
                     }
 
-                    if (task.IsPause)
+                    if (task.RunningState == RunningState.Pause)
                     {
                         axis.Stop();
                         for (int i = 0; i < axis.Length; i++)
@@ -799,13 +847,12 @@ namespace Lead.Detect.FrameworkExtension
                         }
 
                         task.JoinIfPause();
+                        task.AbortIfCancel(nameof(MoveRel));
                         for (int i = 0; i < axis.Length; i++)
                         {
                             axis[i]?.DriverCard.MoveRel(axis[i].AxisChannel, axis[i].ToPls(step[i]) - (pausepls[i] - startpls[i]), axis[i].ToPls(vel[i]));
                         }
                     }
-
-                    task.AbortIfCancel("MoveRel");
                 }
                 else
                 {
@@ -819,7 +866,6 @@ namespace Lead.Detect.FrameworkExtension
             task?.Log($"{err} timeout", LogLevel.Error);
             task?.ThrowException($"{err} timeout");
             return false;
-
         }
 
         public static bool Jump(this IAxisEx[] axis, double[] pos, double[] vel, double jump = -50, int timeout = -1, bool isCheckLimit = true, double zMinLimit = 0)
@@ -836,33 +882,57 @@ namespace Lead.Detect.FrameworkExtension
             }
 
             //Z Range Check
-            axis[2].Error = string.Empty;
-            var curpos = axis[2].GetPos();
-            if (curpos + jump < zMinLimit)
+            if (axis[2] != null)
             {
-                var err = $"Jump Z {jump:F3} Over Range {curpos + jump:F3} < {zMinLimit:F3} error";
-                axis[2].Error = err;
-                task?.ThrowException(err);
-                task?.Log(err, LogLevel.Error);
+                axis[2].Error = string.Empty;
+                var curpos = axis[2].GetPos();
+                if (curpos + jump < zMinLimit)
+                {
+                    var err = $"Jump Z:{jump} Over Range {curpos + jump} < {zMinLimit} error";
+                    axis[2].Error = err;
+                    task?.ThrowException(err);
+                    task?.Log(err, LogLevel.Error);
+                    return false;
+                }
+
+                var ret = MoveRel(axis[2], task, jump, vel[2], timeout, isCheckLimit);
+                if (!ret)
+                {
+                    return false;
+                }
+            }
+
+
+            if (axis.Length == 3)
+            {
+                //xyz platform
+                var ret = MoveAbs(new[] { axis[0], axis[1] }, task, new[] { pos[0], pos[1] }, new[] { vel[0], vel[1] }, timeout, isCheckLimit);
+                if (!ret)
+                {
+                    return false;
+                }
+            }
+            else if (axis.Length == 4)
+            {
+                //xyzu platform
+                var ret = MoveAbs(new[] { axis[0], axis[1], axis[3] }, task, new[] { pos[0], pos[1], pos[3] }, new[] { vel[0], vel[1], vel[3] }, timeout, isCheckLimit);
+                if (!ret)
+                {
+                    return false;
+                }
+            }
+            else
+            {
                 return false;
             }
 
-            var ret = MoveRel(axis[2], task, jump, vel[2], timeout, isCheckLimit);
-            if (!ret)
+            if (axis[2] != null)
             {
-                return false;
-            }
-
-            ret = MoveAbs(new[] { axis[0], axis[1] }, task, new[] { pos[0], pos[1] }, new[] { vel[0], vel[1] }, timeout, isCheckLimit);
-            if (!ret)
-            {
-                return false;
-            }
-
-            ret = MoveAbs(axis[2], task, pos[2], vel[2], timeout, isCheckLimit);
-            if (!ret)
-            {
-                return false;
+                var ret = MoveAbs(axis[2], task, pos[2], vel[2], timeout, isCheckLimit);
+                if (!ret)
+                {
+                    return false;
+                }
             }
 
             return true;
@@ -875,13 +945,13 @@ namespace Lead.Detect.FrameworkExtension
                 return false;
             }
 
-            //Thread.Sleep(10);
+            Thread.Sleep(1);
             var p1 = 0;
             axis.DriverCard.GetCommandPos(axis.AxisChannel, ref p1);
             var p2 = 0;
             axis.DriverCard.GetEncPos(axis.AxisChannel, ref p2);
 
-            int limit = 500;
+            int limit = 200; //0.02mm
             if (p2 - p1 > limit || p1 - p2 > limit)
             {
                 axis.Error = $"PLS ERROR {Math.Abs(p2 - p1)} > {limit}";

@@ -69,17 +69,24 @@
             this.comboBoxMovePlatform = new System.Windows.Forms.ComboBox();
             this.listBoxTestPos = new System.Windows.Forms.ListBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPagePosList = new System.Windows.Forms.TabPage();
+            this.tabPagePosRawData = new System.Windows.Forms.TabPage();
             this.buttonUpdatePosData = new System.Windows.Forms.Button();
             this.richTextBoxPosData = new System.Windows.Forms.RichTextBox();
+            this.tabControlMain = new System.Windows.Forms.TabControl();
+            this.tabPagePos = new System.Windows.Forms.TabPage();
+            this.tabPageMove = new System.Windows.Forms.TabPage();
+            this.platformControl1 = new Lead.Detect.FrameworkExtension.platforms.motionPlatforms.PlatformControl();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tabPagePosList.SuspendLayout();
+            this.tabPagePosRawData.SuspendLayout();
+            this.tabControlMain.SuspendLayout();
+            this.tabPagePos.SuspendLayout();
+            this.tabPageMove.SuspendLayout();
             this.SuspendLayout();
             // 
             // comboBoxTestPos
@@ -106,7 +113,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(784, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(809, 25);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -123,21 +130,21 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "打开";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "另存为";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.clearToolStripMenuItem.Text = "清除所有点位";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
@@ -198,7 +205,7 @@
             this.groupBox1.Controls.Add(this.textBoxArrayStartY);
             this.groupBox1.Controls.Add(this.textBoxArrayYStep);
             this.groupBox1.Controls.Add(this.textBoxArrayYCount);
-            this.groupBox1.Location = new System.Drawing.Point(286, 329);
+            this.groupBox1.Location = new System.Drawing.Point(309, 333);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(486, 96);
             this.groupBox1.TabIndex = 6;
@@ -277,6 +284,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.Controls.Add(this.comboBoxCurPosType);
             this.groupBox2.Controls.Add(this.comboBoxCurPlatform);
             this.groupBox2.Controls.Add(this.labelPosTip);
@@ -286,9 +295,9 @@
             this.groupBox2.Controls.Add(this.buttonCurPlatformMove);
             this.groupBox2.Controls.Add(this.buttonImportAddCurPos);
             this.groupBox2.Controls.Add(this.buttonImportAllPos);
-            this.groupBox2.Location = new System.Drawing.Point(286, 37);
+            this.groupBox2.Location = new System.Drawing.Point(309, 7);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(486, 286);
+            this.groupBox2.Size = new System.Drawing.Size(486, 320);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "导入点位";
@@ -330,10 +339,12 @@
             // 
             // richTextBoxTestPos
             // 
-            this.richTextBoxTestPos.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxTestPos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.richTextBoxTestPos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextBoxTestPos.Location = new System.Drawing.Point(6, 41);
             this.richTextBoxTestPos.Name = "richTextBoxTestPos";
-            this.richTextBoxTestPos.Size = new System.Drawing.Size(376, 239);
+            this.richTextBoxTestPos.Size = new System.Drawing.Size(376, 273);
             this.richTextBoxTestPos.TabIndex = 0;
             this.richTextBoxTestPos.Text = "";
             // 
@@ -368,7 +379,7 @@
             // 
             // buttonImportAllPos
             // 
-            this.buttonImportAllPos.Location = new System.Drawing.Point(388, 232);
+            this.buttonImportAllPos.Location = new System.Drawing.Point(388, 206);
             this.buttonImportAllPos.Name = "buttonImportAllPos";
             this.buttonImportAllPos.Size = new System.Drawing.Size(92, 48);
             this.buttonImportAllPos.TabIndex = 5;
@@ -387,9 +398,9 @@
             this.groupBox3.Controls.Add(this.comboBoxJump);
             this.groupBox3.Controls.Add(this.comboBoxMovePlatform);
             this.groupBox3.Controls.Add(this.comboBoxTestPos);
-            this.groupBox3.Location = new System.Drawing.Point(286, 431);
+            this.groupBox3.Location = new System.Drawing.Point(309, 435);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(486, 117);
+            this.groupBox3.Size = new System.Drawing.Size(486, 113);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "点位测试";
@@ -464,48 +475,50 @@
             this.listBoxTestPos.ItemHeight = 12;
             this.listBoxTestPos.Location = new System.Drawing.Point(3, 3);
             this.listBoxTestPos.Name = "listBoxTestPos";
-            this.listBoxTestPos.Size = new System.Drawing.Size(254, 489);
+            this.listBoxTestPos.Size = new System.Drawing.Size(286, 513);
             this.listBoxTestPos.TabIndex = 9;
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(12, 28);
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.tabControl1.Controls.Add(this.tabPagePosList);
+            this.tabControl1.Controls.Add(this.tabPagePosRawData);
+            this.tabControl1.Location = new System.Drawing.Point(3, 6);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(268, 521);
+            this.tabControl1.Size = new System.Drawing.Size(300, 545);
             this.tabControl1.TabIndex = 10;
             // 
-            // tabPage1
+            // tabPagePosList
             // 
-            this.tabPage1.Controls.Add(this.listBoxTestPos);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(260, 495);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "点位列表";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabPagePosList.Controls.Add(this.listBoxTestPos);
+            this.tabPagePosList.Location = new System.Drawing.Point(4, 22);
+            this.tabPagePosList.Name = "tabPagePosList";
+            this.tabPagePosList.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPagePosList.Size = new System.Drawing.Size(292, 519);
+            this.tabPagePosList.TabIndex = 0;
+            this.tabPagePosList.Text = "点位列表";
+            this.tabPagePosList.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // tabPagePosRawData
             // 
-            this.tabPage2.Controls.Add(this.buttonUpdatePosData);
-            this.tabPage2.Controls.Add(this.richTextBoxPosData);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(260, 495);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "点位数据";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPagePosRawData.Controls.Add(this.buttonUpdatePosData);
+            this.tabPagePosRawData.Controls.Add(this.richTextBoxPosData);
+            this.tabPagePosRawData.Location = new System.Drawing.Point(4, 22);
+            this.tabPagePosRawData.Name = "tabPagePosRawData";
+            this.tabPagePosRawData.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPagePosRawData.Size = new System.Drawing.Size(292, 519);
+            this.tabPagePosRawData.TabIndex = 1;
+            this.tabPagePosRawData.Text = "点位数据";
+            this.tabPagePosRawData.UseVisualStyleBackColor = true;
             // 
             // buttonUpdatePosData
             // 
             this.buttonUpdatePosData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonUpdatePosData.Location = new System.Drawing.Point(3, 465);
             this.buttonUpdatePosData.Name = "buttonUpdatePosData";
-            this.buttonUpdatePosData.Size = new System.Drawing.Size(254, 27);
+            this.buttonUpdatePosData.Size = new System.Drawing.Size(286, 51);
             this.buttonUpdatePosData.TabIndex = 1;
             this.buttonUpdatePosData.Text = "更新";
             this.buttonUpdatePosData.UseVisualStyleBackColor = true;
@@ -518,20 +531,62 @@
             this.richTextBoxPosData.Dock = System.Windows.Forms.DockStyle.Top;
             this.richTextBoxPosData.Location = new System.Drawing.Point(3, 3);
             this.richTextBoxPosData.Name = "richTextBoxPosData";
-            this.richTextBoxPosData.Size = new System.Drawing.Size(254, 462);
+            this.richTextBoxPosData.Size = new System.Drawing.Size(286, 462);
             this.richTextBoxPosData.TabIndex = 0;
             this.richTextBoxPosData.Text = "";
             this.richTextBoxPosData.WordWrap = false;
+            // 
+            // tabControlMain
+            // 
+            this.tabControlMain.Controls.Add(this.tabPagePos);
+            this.tabControlMain.Controls.Add(this.tabPageMove);
+            this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlMain.ItemSize = new System.Drawing.Size(60, 25);
+            this.tabControlMain.Location = new System.Drawing.Point(0, 25);
+            this.tabControlMain.Name = "tabControlMain";
+            this.tabControlMain.SelectedIndex = 0;
+            this.tabControlMain.Size = new System.Drawing.Size(809, 587);
+            this.tabControlMain.TabIndex = 7;
+            // 
+            // tabPagePos
+            // 
+            this.tabPagePos.Controls.Add(this.tabControl1);
+            this.tabPagePos.Controls.Add(this.groupBox3);
+            this.tabPagePos.Controls.Add(this.groupBox2);
+            this.tabPagePos.Controls.Add(this.groupBox1);
+            this.tabPagePos.Location = new System.Drawing.Point(4, 29);
+            this.tabPagePos.Name = "tabPagePos";
+            this.tabPagePos.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPagePos.Size = new System.Drawing.Size(801, 554);
+            this.tabPagePos.TabIndex = 0;
+            this.tabPagePos.Text = "点位";
+            this.tabPagePos.UseVisualStyleBackColor = true;
+            // 
+            // tabPageMove
+            // 
+            this.tabPageMove.Controls.Add(this.platformControl1);
+            this.tabPageMove.Location = new System.Drawing.Point(4, 29);
+            this.tabPageMove.Name = "tabPageMove";
+            this.tabPageMove.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageMove.Size = new System.Drawing.Size(801, 554);
+            this.tabPageMove.TabIndex = 1;
+            this.tabPageMove.Text = "移动";
+            this.tabPageMove.UseVisualStyleBackColor = true;
+            // 
+            // platformControl1
+            // 
+            this.platformControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.platformControl1.Location = new System.Drawing.Point(3, 3);
+            this.platformControl1.Name = "platformControl1";
+            this.platformControl1.Size = new System.Drawing.Size(795, 548);
+            this.platformControl1.TabIndex = 0;
             // 
             // MeasureProjectPosEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 561);
-            this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(809, 612);
+            this.Controls.Add(this.tabControlMain);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MeasureProjectPosEditor";
@@ -546,8 +601,11 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
+            this.tabPagePosList.ResumeLayout(false);
+            this.tabPagePosRawData.ResumeLayout(false);
+            this.tabControlMain.ResumeLayout(false);
+            this.tabPagePos.ResumeLayout(false);
+            this.tabPageMove.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -595,9 +653,13 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label labelPosTip;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPagePosList;
+        private System.Windows.Forms.TabPage tabPagePosRawData;
         private System.Windows.Forms.RichTextBox richTextBoxPosData;
         private System.Windows.Forms.Button buttonUpdatePosData;
+        private System.Windows.Forms.TabControl tabControlMain;
+        private System.Windows.Forms.TabPage tabPagePos;
+        private System.Windows.Forms.TabPage tabPageMove;
+        private FrameworkExtension.platforms.motionPlatforms.PlatformControl platformControl1;
     }
 }

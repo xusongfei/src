@@ -15,17 +15,25 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
         {
         }
 
-        [Description("上相机拍照点")]
-        public List<PosXYZ> CapturePos { get; set; } = new List<PosXYZ>();
-        [Description("上激光测试点")]
-        public List<PosXYZ> UpLaserPos { get; set; } = new List<PosXYZ>();
-        [Description("下激光测试点")]
-        public List<PosXYZ> DownLaserPos { get; set; } = new List<PosXYZ>();
+
+        [Category("产品"), Description("产品编号")]
+        public int TypeId { get; set; }
+
+
+        [Category("测试"), Description("相机拍照点")]
+        public List<PosXYZU> CapturePos { get; set; } = new List<PosXYZU>();
+
+        [Category("测试"), Description("上激光测试点")]
+        public List<PosXYZU> UpLaserPos { get; set; } = new List<PosXYZU>();
+
+        [Category("测试"), Description("下激光测试点")]
+        public List<PosXYZU> DownLaserPos { get; set; } = new List<PosXYZU>();
 
 
         public override string ToString()
         {
             return $"{base.ToString()}\r\n"
+                   + $"TypeId:{TypeId}\r\n"
                    + $"CapturePos:\r\n{string.Join("\r\n", CapturePos.Select(p => p.ToString()))}\r\n"
                    + $"UpLaserPos:\r\n{string.Join("\r\n", UpLaserPos.Select(p => p.ToString()))}\r\n"
                    + $"DownLaserPos:\r\n{string.Join("\r\n", DownLaserPos.Select(p => p.ToString()))}";

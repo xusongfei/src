@@ -67,7 +67,6 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
 
             //config
             propertyGridCommonConfig.SelectedObject = Machine.Ins.Settings;
-            propertyGridMachineConfig.SelectedObject = Machine.Ins.Settings;
             richTextBoxMachine.Text = Machine.Ins.SerializeToString();
 
 
@@ -82,9 +81,13 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
 
 
             //test page
+            var measureTask = Machine.Ins.Find<StationTask>("MeasureTask") as MeasureTask;
+            if (measureTask != null)
+            {
+                lineLaserExDebugControl1.LineLaserEx = (measureTask.Laser1);
+                lineLaserExDebugControl2.LineLaserEx = (measureTask.Laser2);
+            }
 
-            lineLaserExDebugControl1.LineLaserEx = new LmiLaser() { Name = "top", IpStr = "192.168.2.10", JobName = "test" };
-            lineLaserExDebugControl2.LineLaserEx = new LmiLaser() { Name = "down", IpStr = "192.168.1.10", JobName = "test" };
 
             cameraExDebugControl1.Camera = (Machine.Ins.Find<StationTask>("CameraTask") as MeasureTask)?.Camera;
         }
@@ -141,7 +144,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
         private void buttonBrowseMeasureProj_Click(object sender, EventArgs e)
         {
             var station = Machine.Ins.Find<Station>("MainStation");
-            if (station == null || station.AutoState != StationAutoState.WaitReset)
+            if (station == null || station.RunningState != RunningState.WaitReset)
             {
                 MessageBox.Show($"工站未停止，请停止运行后更换测试文件！");
                 return;

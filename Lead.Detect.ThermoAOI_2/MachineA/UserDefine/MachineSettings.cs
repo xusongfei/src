@@ -64,7 +64,12 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine
         [Category("MEASURE"), Description("测试文件路径")]
         public string MeasureProjectFile { get; set; }
 
+        [Category("MEASURE"), Description("拍照错误则退出测量")]
 
+        public bool QuitOnProductError { get; set; } = false;
+
+        [Category("MEASURE"), Description("参考坐标模式")]
+        public bool EnableRelCoordMode { get; set; } = false;
 
 
 

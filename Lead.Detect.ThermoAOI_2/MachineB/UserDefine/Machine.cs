@@ -93,7 +93,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
             }
 
             //初始化关键io
-            Find<IDoEx>("DoLamp")?.SetDo(true);
+            Find<IDoEx>("DOLamp")?.SetDo(true);
 
             LmiLaser.Init();
 
@@ -115,7 +115,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
             //终止关键io
 
 
-            Find<IDoEx>("DoLamp")?.SetDo(false);
+            Find<IDoEx>("DOLamp")?.SetDo(false);
 
             //终止驱动
             Find<IMotionWrapper>("M1").Uninit();

@@ -157,9 +157,9 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
         {
             if (pos is PosXYZU)
             {
-                var xyz = (PosXYZU)pos;
-                var p = (this - xyz);
-                return Math.Sqrt(p.X * p.X + p.Y * p.Y + p.Z * p.Z);
+                var oldPos = (PosXYZU)pos;
+                var p = (this - oldPos);
+                return Math.Sqrt(p.X * p.X + p.Y * p.Y + p.Z * p.Z + p.U * p.U);
             }
 
             throw new Exception("DistanceTo Pos Type Error");
@@ -189,20 +189,22 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
         }
 
 
-        public static PosXYZ Create(string posStr)
+        public static PosXYZU Create(string posStr)
         {
             var data = posStr.Split(',');
 
             int i = 0;
-            var p = new PosXYZ();
+            var p = new PosXYZU();
             p.Index = int.Parse(data[i++]);
             p.Name = data[i++];
             p.X = double.Parse(data[i++]);
             p.Y = double.Parse(data[i++]);
             p.Z = double.Parse(data[i++]);
+            p.U = double.Parse(data[i++]);
             p.OffsetX = double.Parse(data[i++]);
             p.OffsetY = double.Parse(data[i++]);
             p.OffsetZ = double.Parse(data[i++]);
+            p.OffsetU = double.Parse(data[i++]);
             p.Status = bool.Parse(data[i++]);
             p.Description = data[i++];
             p.Flag1 = int.Parse(data[i++]);

@@ -32,7 +32,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
         private void DevMainForm_Load(object sender, EventArgs e)
         {
             Text = $"{Machine.Ins.Settings.Name} {Machine.Ins.Settings.Version}";
-            label1.Text = Machine.Ins.Settings.Name ;
+            label1.Text = Machine.Ins.Settings.Name;
 
             if (!Directory.Exists(@".\Log"))
             {
@@ -40,7 +40,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             }
 
 
-            Machine.Ins.AlarmEvent += ShowAlarm;
+            Machine.Ins.ShowAlarmEvent += ShowShowAlarm;
 
 
             //bind log event
@@ -74,9 +74,9 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
 
 
             //camera controls
-            cameraEx1.BindComponent(new CameraSim());
+            //cameraEx1.BindComponent(new CameraSim());
 
-            cameraEx2.BindComponent(new CameraSim());
+            //cameraEx2.BindComponent(new CameraSim());
 
 
             timer1.Start();
@@ -91,7 +91,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
 
         private void DevMainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Machine.Ins.AlarmEvent -= ShowAlarm;
+            Machine.Ins.ShowAlarmEvent -= ShowShowAlarm;
         }
 
 
@@ -148,17 +148,16 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
 
         private void btnConfig_Click(object sender, EventArgs e)
         {
-            DevConfigForm.Show(MainPanel, DockState.Document);
-            return;
 
-
-            //if (OperationLevel != OperationLevel.Administrator && FrameworkExtenion.IsSimulate == false)
-            //{
-            //    MessageBox.Show($"操作权限异常：{OperationLevel}");
-            //    return;
-            //}
-
-            //DevConfigForm.Show(MainPanel, DockState.Document);
+            if (OperationLevel != OperationLevel.Administrator && FrameworkExtenion.IsSimulate == false)
+            {
+                MessageBox.Show($"操作权限异常：{OperationLevel}");
+                return;
+            }
+            else
+            {
+                DevConfigForm.Show(MainPanel, DockState.Document);
+            }
         }
 
         #endregion
@@ -171,10 +170,10 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
                 DevLogForm?.UpdateLog(tab, log, level);
         }
 
-        public void ShowAlarm(string alarm, LogLevel level)
+        public void ShowShowAlarm(string alarm, LogLevel level)
         {
             if (InvokeRequired)
-                BeginInvoke(new Action<string, LogLevel>(ShowAlarm), alarm, level);
+                BeginInvoke(new Action<string, LogLevel>(ShowShowAlarm), alarm, level);
             else
             {
                 if (level == LogLevel.None)
@@ -190,9 +189,11 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            TabText = $"设备状态:{Machine.Ins.State}:{Machine.Ins.AutoState.GetState()}";
+            TabText = $"设备状态:{Machine.Ins.RunState}:{Machine.Ins.RunningState.GetState()}";
+
+            labelFile.Text = Path.GetFileName(Machine.Ins.Settings.MeasureProjectFile);
         }
 
-      
+
     }
 }

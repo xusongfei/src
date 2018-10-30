@@ -13,7 +13,31 @@ namespace MachineUtilityLib.UtilProduct
         public DateTime StartTime { get; set; } = DateTime.Now;
         public DateTime FinishTime { get; set; } = DateTime.Now;
         public ProductStatus Status { get; set; } = ProductStatus.NONE;
-        public string Error { get; set; }
+
+        private string _error;
+
+        public string Error
+        {
+            get { return _error; }
+            set
+            {
+                if (Status == ProductStatus.NONE)
+                {
+                    _error = value;
+                    Status = ProductStatus.ERROR;
+                }
+                else if (Status == ProductStatus.NG)
+                {
+                    _error = value;
+                    Status = ProductStatus.NG;
+                }
+                else if (Status == ProductStatus.ERROR)
+                {
+                    _error += "," + value;
+                }
+            }
+        }
+
         public double CT { get; set; }
         public string Barcode { get; set; }
         public string ProductType { get; set; }

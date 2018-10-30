@@ -39,7 +39,7 @@ namespace Lead.Detect.ThermoAOI.View
             if (!Directory.Exists(@".\Log")) Directory.CreateDirectory(@".\Log");
 
 
-            Machine.Machine.Ins.AlarmEvent += ShowAlarm;
+            Machine.Machine.Ins.ShowAlarmEvent += ShowShowAlarm;
 
             labelLeft.Text = Machine.Machine.Ins.Find<Station>("LeftStation")?.Name;
             labelRight.Text = Machine.Machine.Ins.Find<Station>("RightStation")?.Name;
@@ -88,7 +88,7 @@ namespace Lead.Detect.ThermoAOI.View
 
         private void DevMainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Machine.Machine.Ins.AlarmEvent -= ShowAlarm;
+            Machine.Machine.Ins.ShowAlarmEvent -= ShowShowAlarm;
         }
 
 
@@ -260,15 +260,16 @@ namespace Lead.Detect.ThermoAOI.View
                 DevLogForm?.UpdateLog(tab, log, level);
         }
 
-        public void ShowAlarm(string alarm, LogLevel level)
+        public void ShowShowAlarm(string alarm, LogLevel level)
         {
             if (InvokeRequired)
-                BeginInvoke(new Action<string, LogLevel>(ShowAlarm), alarm, level);
+                BeginInvoke(new Action<string, LogLevel>(ShowShowAlarm), alarm, level);
             else
             {
                 if (level == LogLevel.None)
                 {
                     this.Show(MainPanel, DockState.Document);
+                    DevAlarmForm.ShowAlarm(alarm, level);
                 }
                 else
                 {
@@ -279,7 +280,7 @@ namespace Lead.Detect.ThermoAOI.View
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            TabText = $"设备状态:{Machine.Machine.Ins.State}:{Machine.Machine.Ins.AutoState.GetState()}";
+            TabText = $"设备状态:{Machine.Machine.Ins.RunState}:{Machine.Machine.Ins.RunningState.GetState()}";
 
             labelLeft.Text = $"左工站（{Machine.Machine.Ins.Settings.ProductionLeft.Display()}）";
             labelRight.Text = $"右工站（{Machine.Machine.Ins.Settings.ProductionRight.Display()}）";

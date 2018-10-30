@@ -21,7 +21,6 @@ namespace Lead.Detect.MeasureComponents.LaserControl
         }
 
 
-
         public void UpdateOperationLevel(OperationLevel level)
         {
             tabPageConfig.Visible = true;
@@ -30,8 +29,8 @@ namespace Lead.Detect.MeasureComponents.LaserControl
 
         public void BindComponent(ILineLaserEx lineLaser)
         {
-
-            tabPageDisplay.Text = lineLaser.ToString();
+            tabPageDisplay.Text = lineLaser.Name;
+            lineLaser.DisplayResultEvent += UpdateAfterTrigger;
         }
 
         public void UpdateAfterTrigger(Image image)
@@ -42,7 +41,8 @@ namespace Lead.Detect.MeasureComponents.LaserControl
             }
             else
             {
-             
+                pictureBox1.Image = image;
+                pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             }
         }
     }

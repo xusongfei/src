@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.frameworkManage;
@@ -26,11 +27,12 @@ namespace Lead.Detect.ThermoAOI2.MachineA
         private void MainForm_Load(object sender, EventArgs e)
         {
             StartPosition = FormStartPosition.CenterScreen;
-            if (!FrameworkExtenion.IsSimulate)
-            {
-                WindowState = FormWindowState.Maximized;
-                BringToFront();
-            }
+
+            var sc = Screen.GetWorkingArea(this);
+            Size = new Size(sc.Width / 2, sc.Height);
+            Location = new Point(sc.Width / 2, 0);
+            //WindowState = FormWindowState.Maximized;
+            BringToFront();
 
             //Text = MotionWrapperExtension.IsSimulate ? "仿真模式" : Machine.Machine.Ins.Settings.Name;
             Text = Machine.Ins.Settings.Name;
@@ -94,11 +96,6 @@ namespace Lead.Detect.ThermoAOI2.MachineA
         }
 
         #region  menu item
-
-        private void deviceEditorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            EnvironmentManager.Ins.ShowPrimsEditor();
-        }
 
 
         private void saveAllToolStripMenuItem_Click(object sender, EventArgs e)

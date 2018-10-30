@@ -36,7 +36,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
 
             Text = $"扫描条码（条码类型 - {BarcodePattern} 条码长度 - {BarcodeLen}）";
 
-            StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterParent;
             TopMost = true;
 
 
@@ -46,11 +46,12 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
 
             timer1.Interval = 300;
             timer1.Enabled = true;
+            timer1.Start();
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
 
-            if (Task.IsRunning)
+            if (Task.RunningState == RunningState.Running)
             {
                 Show();
                 BringToFront();
@@ -70,6 +71,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
                         textBoxBarcode.BackColor = Color.LightCoral;
                         buttonStatus.Text = $"条码NG:{textBoxBarcode.Text.Length}";
                     }
+
                 }
                 else if (textBoxBarcode.Text.Length > 0)
                 {
@@ -84,7 +86,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
                     buttonStatus.Text = "扫描条码";
                 }
             }
-            else if (Task.IsPause)
+            else if (Task.RunningState == RunningState.Pause)
             {
                 this.Hide();
             }

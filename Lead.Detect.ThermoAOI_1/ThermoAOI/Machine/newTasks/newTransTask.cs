@@ -154,7 +154,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
 
 
             //wait measure task
-            while (WaitTaskDown.State != TaskState.WaitRun || WaitTaskUp.State != TaskState.WaitRun)
+            while (WaitTaskDown.RunningState != RunningState.WaitRun || WaitTaskUp.RunningState != RunningState.WaitRun)
             {
                 AbortIfCancel("cancel wait tasks");
                 Thread.Sleep(1);
@@ -182,7 +182,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             DOBtnLight1.SetDo(false);
             DOBtnLight2.SetDo(false);
 
-            State = TaskState.WaitRun;
+            RunningState = RunningState.WaitRun;
             GtController.RunGtService(this);
             return 0;
         }

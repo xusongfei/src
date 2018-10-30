@@ -18,8 +18,6 @@ namespace Lead.Detect.MeasureComponents.LaserControl
         public LineLaserExDebugControl()
         {
             InitializeComponent();
-
-
         }
 
         private void buttonConnect_Click(object sender, EventArgs e)
@@ -34,19 +32,18 @@ namespace Lead.Detect.MeasureComponents.LaserControl
         private void buttonTrigger_Click(object sender, EventArgs e)
         {
             var ret = LineLaserEx.Trigger(string.Empty);
-            richTextBox1.Text = string.Join("\r\n", ret.Select(r => $"{string.Join(",", r.Select(val => val.ToString("F3")))}"));
+            richTextBox1.Text = string.Join("\r\n", ret.Select(r => $"{string.Join(",", r.Select(val => val.Z.ToString("F3")))}"));
         }
 
         private void LineLaserExDebugControl_Load(object sender, EventArgs e)
         {
-
             groupBox1.Text = LineLaserEx?.Name;
         }
 
         private void buttonGetResult_Click(object sender, EventArgs e)
         {
             var ret = LineLaserEx.GetResult();
-            richTextBox1.Text = string.Join("\r\n", ret.Select(r => $"{string.Join(",", r.Select(val => val.ToString("F3")))}"));
+            richTextBox1.Text = string.Join("\r\n", ret.Select(r => $"{string.Join(",", r.Select(val => val.Z.ToString("F3")))}"));
         }
     }
 }

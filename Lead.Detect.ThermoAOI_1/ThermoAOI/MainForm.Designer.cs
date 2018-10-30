@@ -31,8 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gRRTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cORRTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lGCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.日志ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,8 +42,6 @@
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.versionToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.gRRTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cORRTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,7 +61,6 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
             this.saveAllToolStripMenuItem,
             this.gRRTagToolStripMenuItem,
             this.cORRTagToolStripMenuItem});
@@ -70,19 +68,26 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 21);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.openToolStripMenuItem.Text = "设备";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.deviceEditorToolStripMenuItem_Click);
-            // 
             // saveAllToolStripMenuItem
             // 
             this.saveAllToolStripMenuItem.Name = "saveAllToolStripMenuItem";
             this.saveAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAllToolStripMenuItem.Text = "保存";
             this.saveAllToolStripMenuItem.Click += new System.EventHandler(this.saveAllToolStripMenuItem_Click);
+            // 
+            // gRRTagToolStripMenuItem
+            // 
+            this.gRRTagToolStripMenuItem.Name = "gRRTagToolStripMenuItem";
+            this.gRRTagToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.gRRTagToolStripMenuItem.Text = "GRR Tag";
+            this.gRRTagToolStripMenuItem.Click += new System.EventHandler(this.gRRTagToolStripMenuItem_Click);
+            // 
+            // cORRTagToolStripMenuItem
+            // 
+            this.cORRTagToolStripMenuItem.Name = "cORRTagToolStripMenuItem";
+            this.cORRTagToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cORRTagToolStripMenuItem.Text = "CORR Tag";
+            this.cORRTagToolStripMenuItem.Click += new System.EventHandler(this.cORRTagToolStripMenuItem_Click);
             // 
             // windowToolStripMenuItem
             // 
@@ -149,20 +154,6 @@
             this.mainPanel.Size = new System.Drawing.Size(1008, 704);
             this.mainPanel.TabIndex = 6;
             // 
-            // gRRTagToolStripMenuItem
-            // 
-            this.gRRTagToolStripMenuItem.Name = "gRRTagToolStripMenuItem";
-            this.gRRTagToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.gRRTagToolStripMenuItem.Text = "GRR Tag";
-            this.gRRTagToolStripMenuItem.Click += new System.EventHandler(this.gRRTagToolStripMenuItem_Click);
-            // 
-            // cORRTagToolStripMenuItem
-            // 
-            this.cORRTagToolStripMenuItem.Name = "cORRTagToolStripMenuItem";
-            this.cORRTagToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.cORRTagToolStripMenuItem.Text = "CORR Tag";
-            this.cORRTagToolStripMenuItem.Click += new System.EventHandler(this.cORRTagToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -193,7 +184,6 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem versionToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem lGCToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 日志ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 报警ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAllToolStripMenuItem;

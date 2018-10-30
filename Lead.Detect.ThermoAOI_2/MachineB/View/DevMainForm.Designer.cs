@@ -40,8 +40,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSummry = new System.Windows.Forms.TabPage();
-            this.productionCountControl1 = new MachineUtilityLib.UtilControls.ProductionCountControl();
-            this.thermo2ProductDisplayControl1 = new Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2.Thermo2ProductDisplayControl();
+            this.labelFile = new System.Windows.Forms.Label();
             this.tabResult = new System.Windows.Forms.TabPage();
             this.labelBarcode = new System.Windows.Forms.Label();
             this.textBoxProductBarcode = new System.Windows.Forms.TextBox();
@@ -55,6 +54,10 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             this.btnReset = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.lineLaserExDisplayControl2 = new Lead.Detect.MeasureComponents.LaserControl.LineLaserExDisplayControl();
+            this.lineLaserExDisplayControl1 = new Lead.Detect.MeasureComponents.LaserControl.LineLaserExDisplayControl();
+            this.productionCountControl1 = new MachineUtilityLib.UtilControls.ProductionCountControl();
+            this.thermo2ProductDisplayControl1 = new Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2.Thermo2ProductDisplayControl();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -197,6 +200,9 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             // tabSummry
             // 
             this.tabSummry.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tabSummry.Controls.Add(this.labelFile);
+            this.tabSummry.Controls.Add(this.lineLaserExDisplayControl2);
+            this.tabSummry.Controls.Add(this.lineLaserExDisplayControl1);
             this.tabSummry.Controls.Add(this.productionCountControl1);
             this.tabSummry.Controls.Add(this.thermo2ProductDisplayControl1);
             this.tabSummry.Location = new System.Drawing.Point(4, 28);
@@ -207,25 +213,15 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             this.tabSummry.TabIndex = 0;
             this.tabSummry.Text = "生产概况";
             // 
-            // productionCountControl1
+            // labelFile
             // 
-            this.productionCountControl1.BackColor = System.Drawing.Color.White;
-            this.productionCountControl1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.productionCountControl1.Location = new System.Drawing.Point(6, 8);
-            this.productionCountControl1.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
-            this.productionCountControl1.MinimumSize = new System.Drawing.Size(350, 75);
-            this.productionCountControl1.Name = "productionCountControl1";
-            this.productionCountControl1.Size = new System.Drawing.Size(463, 79);
-            this.productionCountControl1.TabIndex = 3;
-            // 
-            // thermo2ProductDisplayControl1
-            // 
-            this.thermo2ProductDisplayControl1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.thermo2ProductDisplayControl1.Location = new System.Drawing.Point(6, 103);
-            this.thermo2ProductDisplayControl1.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
-            this.thermo2ProductDisplayControl1.Name = "thermo2ProductDisplayControl1";
-            this.thermo2ProductDisplayControl1.Size = new System.Drawing.Size(463, 520);
-            this.thermo2ProductDisplayControl1.TabIndex = 2;
+            this.labelFile.BackColor = System.Drawing.Color.Silver;
+            this.labelFile.Location = new System.Drawing.Point(6, 95);
+            this.labelFile.Name = "labelFile";
+            this.labelFile.Size = new System.Drawing.Size(463, 41);
+            this.labelFile.TabIndex = 8;
+            this.labelFile.Text = "测试文件";
+            this.labelFile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tabResult
             // 
@@ -313,6 +309,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel2.MinimumSize = new System.Drawing.Size(86, 300);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(86, 659);
             this.panel2.TabIndex = 1;
@@ -410,6 +407,49 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // lineLaserExDisplayControl2
+            // 
+            this.lineLaserExDisplayControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lineLaserExDisplayControl2.Location = new System.Drawing.Point(478, 406);
+            this.lineLaserExDisplayControl2.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.lineLaserExDisplayControl2.Name = "lineLaserExDisplayControl2";
+            this.lineLaserExDisplayControl2.Size = new System.Drawing.Size(423, 217);
+            this.lineLaserExDisplayControl2.TabIndex = 4;
+            // 
+            // lineLaserExDisplayControl1
+            // 
+            this.lineLaserExDisplayControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lineLaserExDisplayControl1.Location = new System.Drawing.Point(478, 10);
+            this.lineLaserExDisplayControl1.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.lineLaserExDisplayControl1.Name = "lineLaserExDisplayControl1";
+            this.lineLaserExDisplayControl1.Size = new System.Drawing.Size(427, 381);
+            this.lineLaserExDisplayControl1.TabIndex = 4;
+            // 
+            // productionCountControl1
+            // 
+            this.productionCountControl1.BackColor = System.Drawing.Color.White;
+            this.productionCountControl1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.productionCountControl1.Location = new System.Drawing.Point(6, 8);
+            this.productionCountControl1.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.productionCountControl1.MinimumSize = new System.Drawing.Size(350, 75);
+            this.productionCountControl1.Name = "productionCountControl1";
+            this.productionCountControl1.Size = new System.Drawing.Size(463, 79);
+            this.productionCountControl1.TabIndex = 3;
+            // 
+            // thermo2ProductDisplayControl1
+            // 
+            this.thermo2ProductDisplayControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.thermo2ProductDisplayControl1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.thermo2ProductDisplayControl1.Location = new System.Drawing.Point(6, 144);
+            this.thermo2ProductDisplayControl1.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.thermo2ProductDisplayControl1.Name = "thermo2ProductDisplayControl1";
+            this.thermo2ProductDisplayControl1.Size = new System.Drawing.Size(463, 479);
+            this.thermo2ProductDisplayControl1.TabIndex = 2;
+            // 
             // DevMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 15F);
@@ -468,5 +508,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
         private System.Windows.Forms.Button buttonClearAll;
         private MachineUtilityLib.UtilControls.ProductionCountControl productionCountControl1;
         private ThermoAOIFlatnessCalcLib.Thermo2.Thermo2ProductDisplayControl thermo2ProductDisplayControl1;
+        private MeasureComponents.LaserControl.LineLaserExDisplayControl lineLaserExDisplayControl2;
+        private System.Windows.Forms.Label labelFile;
+        private MeasureComponents.LaserControl.LineLaserExDisplayControl lineLaserExDisplayControl1;
     }
 }

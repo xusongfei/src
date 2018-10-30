@@ -8,14 +8,6 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
 {
     public class PlatformXyzuvw : PlatformXyz
     {
-        public IAxisEx AU => Axis[3];
-        public IAxisEx AV => Axis[4];
-        public IAxisEx AW => Axis[5];
-
-        public AxisLimit LimitU { get; set; }
-        public AxisLimit LimitV { get; set; }
-        public AxisLimit LimitW { get; set; }
-
         public PlatformXyzuvw()
         {
             Axis = new IAxisEx[6];

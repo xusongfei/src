@@ -11,6 +11,7 @@ using Lead.Detect.Helper;
 using Lead.Detect.Interfaces;
 using Lead.Detect.Interfaces.Dev;
 using System.IO;
+using System.Threading;
 
 namespace Lead.Detect.PrimLeisai
 {
@@ -261,6 +262,12 @@ namespace Lead.Detect.PrimLeisai
 
         public int AxisSetEnable(int index, int axis, bool enable)
         {
+            csLTDMC.LTDMC.dmc_write_erc_pin((ushort)DevIndex, (ushort)axis, (ushort)0);
+            Thread.Sleep(50);
+            csLTDMC.LTDMC.dmc_write_erc_pin((ushort)DevIndex, (ushort)axis, (ushort)1);
+            Thread.Sleep(50);
+            csLTDMC.LTDMC.dmc_write_erc_pin((ushort)DevIndex, (ushort)axis, (ushort)0);
+            Thread.Sleep(50);
             return csLTDMC.LTDMC.dmc_set_sevon_enable((ushort)DevIndex, (ushort)axis, (ushort)(enable ? 1 : 0));
         }
 
@@ -370,7 +377,7 @@ namespace Lead.Detect.PrimLeisai
             var tDec = 0d;
             var stopVel = 0d;
             csLTDMC.LTDMC.dmc_get_profile((ushort)DevIndex, (ushort)axis, ref minVel, ref maxVel, ref tAcc, ref tDec, ref stopVel);
-            csLTDMC.LTDMC.dmc_set_profile((ushort)DevIndex, (ushort)axis, vel/3d, vel, tAcc, tDec, stopVel);
+            csLTDMC.LTDMC.dmc_set_profile((ushort)DevIndex, (ushort)axis, vel / 3d, vel, tAcc, tDec, stopVel);
             return 0;
         }
 

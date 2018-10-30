@@ -53,9 +53,6 @@
   <ItemGroup>
     <Compile Include="Calibration\MachineACalib.cs" />
     <Compile Include="Calibration\MachineACalibConfig.cs" />
-    <Compile Include="Calibration\MachineBLaserCalib.cs" />
-    <Compile Include="Calibration\MachineBCalibConfig.cs" />
-    <Compile Include="Calibration\MachineBCameraCalib.cs" />
     <Compile Include="Calibration\MeasureCalibForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -35,7 +35,7 @@
             // 
             this.richTextBoxAlarm.BackColor = System.Drawing.SystemColors.ControlLight;
             this.richTextBoxAlarm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxAlarm.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.richTextBoxAlarm.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.richTextBoxAlarm.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxAlarm.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.richTextBoxAlarm.Name = "richTextBoxAlarm";
