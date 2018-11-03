@@ -661,6 +661,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     {
                         _runningFlashCount = 0;
                         Blink(UserEventType.START).Light(UserEventType.START);
+                        OnShowAlarmEvent(string.Empty, LogLevel.None);
                         RunningState = RunningState.Running;
                     }
                     else if (Stations.Any(s => s.Value.Enable && s.Value.RunningState == RunningState.WaitReset))
