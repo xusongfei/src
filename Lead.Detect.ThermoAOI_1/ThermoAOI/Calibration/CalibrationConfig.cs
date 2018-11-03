@@ -80,6 +80,12 @@ namespace Lead.Detect.ThermoAOI.Calibration
         public PlaneParams LeftDownStandardPlaneGT1 { get; set; }
 
         /// <summary>
+        /// 下标定平面 GT2 平面
+        /// </summary>
+        [Category("Left Height Calib ")]
+        public PlaneParams LeftDownStandardPlaneGT2 { get; set; }
+
+        /// <summary>
         /// 标定块高度
         /// </summary>
         [Category("Left Height Calib ")]
@@ -151,6 +157,12 @@ namespace Lead.Detect.ThermoAOI.Calibration
         /// </summary>
         [Category("Right Height Calib ")]
         public PlaneParams RightDownStandardPlaneGT1 { get; set; }
+
+        /// <summary>
+        /// 下标定平面 GT2 平面
+        /// </summary>
+        [Category("Right Height Calib ")]
+        public PlaneParams RightDownStandardPlaneGT2 { get; set; }
 
 
         /// <summary>

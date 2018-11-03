@@ -152,15 +152,17 @@ namespace Lead.Detect.ThermoAOI.Calibration
                 }
                 else if (gt == 2)
                 {
+                    //gt2 convert
                     gtStandardHeight = 0;
+                    var gtCalibWork2 = calib.LeftHeightCalibGt2Pos.Z;
+                    var gtCalibRaw2 = calib.LeftDownStandardPlaneGT2.CalcZ(gtWorkX, gtWorkY);
                     gtDirection = true;
-                    var gt2Raw = calib.LeftHeightCalibGt1Pos.OffsetZ +
-                                 GTTransform.TransGT2ToGT1(gtWork, gtRaw, calib.LeftHeightCalibGt2Pos.Z, calib.LeftHeightCalibGt2Pos.OffsetZ, gtStandardHeight, gtDirection);
+                    var gt2Raw = GTTransform.TransGT2ToGT1(gtWork, gtRaw, gtCalibWork2, gtCalibRaw2, gtStandardHeight, gtDirection) + calib.LeftHeightCalibGt1Pos.OffsetZ;
 
+                    //gt1 convert
                     gtCalibWork = calib.LeftHeightCalibGt1Pos.Z;
                     gtCalibRaw = calib.LeftDownStandardPlaneGT1.CalcZ(gtWorkX, gtWorkY);
                     gtStandardHeight = 0;
-
 
                     gtWork = calib.LeftHeightCalibGt1Pos.Z;
                     gtRaw = gt2Raw;
@@ -186,10 +188,17 @@ namespace Lead.Detect.ThermoAOI.Calibration
                 }
                 else if (gt == 2)
                 {
+                    //gtStandardHeight = 0;
+                    //gtDirection = true;
+                    //var gt2Raw = calib.RightHeightCalibGt1Pos.OffsetZ +
+                    //             GTTransform.TransGT2ToGT1(gtWork, gtRaw, calib.RightHeightCalibGt2Pos.Z, calib.RightHeightCalibGt2Pos.OffsetZ, gtStandardHeight, gtDirection);
+
                     gtStandardHeight = 0;
+                    var gtCalibWork2 = calib.RightHeightCalibGt2Pos.Z;
+                    var gtCalibRaw2 = calib.RightDownStandardPlaneGT2.CalcZ(gtWorkX, gtWorkY);
                     gtDirection = true;
-                    var gt2Raw = calib.RightHeightCalibGt1Pos.OffsetZ +
-                                 GTTransform.TransGT2ToGT1(gtWork, gtRaw, calib.RightHeightCalibGt2Pos.Z, calib.RightHeightCalibGt2Pos.OffsetZ, gtStandardHeight, gtDirection);
+                    var gt2Raw = GTTransform.TransGT2ToGT1(gtWork, gtRaw, gtCalibWork2, gtCalibRaw2, gtStandardHeight, gtDirection) + calib.RightHeightCalibGt1Pos.OffsetZ;
+
 
                     gtCalibWork = calib.RightHeightCalibGt1Pos.Z;
                     gtCalibRaw = calib.RightDownStandardPlaneGT1.CalcZ(gtWorkX, gtWorkY);

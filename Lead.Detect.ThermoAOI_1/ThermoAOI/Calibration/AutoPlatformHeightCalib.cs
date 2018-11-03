@@ -44,7 +44,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
         public PlatformEx Platform2 { get; set; }
 
         [Category("下工站配置")]
-        public PosXYZ PlatformGT1CalibPos { get; set; }
+        public PosXYZ Platform2GT1CalibPos { get; set; }
         [Category("下工站配置")]
         public PosXYZ Platform2GT2CalibPos { get; set; }
 
@@ -53,6 +53,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
         [Category("下工站配置")]
         public ICylinderEx do_gt2_cy { get; set; }
         public List<PosXYZ> Platform2GT1PlaneCalibPos { get; set; }
+        public List<PosXYZ> Platform2GT2PlaneCalibPos { get; set; }
 
         #endregion
 
@@ -77,21 +78,23 @@ namespace Lead.Detect.ThermoAOI.Calibration
         [Category("OUTPUT")]
         public PlaneParams OutputDownStandardPlane { get; set; }
         [Category("OUTPUT")]
+        public PlaneParams OutputDownStandardPlane2 { get; set; }
+        [Category("OUTPUT")]
         public PosXYZ OutputStandardHeight { get; set; }
 
 
 
         public override void InitCalib()
         {
-            do_gt2_cy?.SetDo(this, false);
-            do_clampy_cy.SetDo(this);
+            do_gt2_cy?.SetDo(this, false, ignoreOrWaringOrError: null);
+            do_clampy_cy.SetDo(this, ignoreOrWaringOrError: null);
 
             PlatformCarrier?.EnterAuto(this).MoveAbs("Work");
         }
 
         public override void UninitCalib()
         {
-            do_gt2_cy?.SetDo(this, false);
+            do_gt2_cy?.SetDo(this, false, ignoreOrWaringOrError: null);
 
             if (Platform1 != null)
             {
@@ -178,15 +181,15 @@ namespace Lead.Detect.ThermoAOI.Calibration
 
             Log("下平台GT1高度标定\n----------------------------------------------------------");
             {
-                do_gt2_cy?.SetDo(this, true);
+                do_gt2_cy?.SetDo(this, true, ignoreOrWaringOrError: null);
                 {
 
                     //GT1GT2 高度差标定
-                    OutputGT1CalibPos = PlatformGT1CalibPos;
+                    OutputGT1CalibPos = Platform2GT1CalibPos;
                     //update z
                     if (Platform2 != null && GtController != null)
                     {
-                        Platform2.EnterAuto(this).Jump(PlatformGT1CalibPos, 0);
+                        Platform2.EnterAuto(this).Jump(Platform2GT1CalibPos, 0);
                         Thread.Sleep(1000);
                         OutputGT1CalibPos.OffsetZ = GtController.ReadData()[1];
                     }
@@ -211,7 +214,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
                             foreach (var calibPos in Platform2GT1PlaneCalibPos)
                             {
                                 //product to up platform
-                                var pos = new PosXYZ(calibPos.Data()) { Z = PlatformGT1CalibPos.Z };
+                                var pos = new PosXYZ(calibPos.Data()) { Z = Platform2GT1CalibPos.Z };
                                 Platform2.EnterAuto(this).Jump(Platform2.GetPos("P->DOWN1", pos.Data()), JumpHeight2);
                                 Thread.Sleep(1000);
                                 calibPos.Z = GtController.ReadData()[1];
@@ -224,8 +227,30 @@ namespace Lead.Detect.ThermoAOI.Calibration
                         DataList.Add(OutputDownStandardPlane.ToString());
                     }
 
+                    //GT2标准平面标定
+                    if (Platform2GT2PlaneCalibPos != null)
+                    {
+                        //update z
+                        if (Platform2 != null && GtController != null)
+                        {
+                            foreach (var calibPos in Platform2GT2PlaneCalibPos)
+                            {
+                                //product to up platform
+                                var pos = new PosXYZ(calibPos.Data()) { Z = Platform2GT2CalibPos.Z };
+                                Platform2.EnterAuto(this).Jump(Platform2.GetPos("P->DOWN2", pos.Data()), JumpHeight2);
+                                Thread.Sleep(1000);
+                                calibPos.Z = GtController.ReadData()[2];
+                                DataList.Add(calibPos.ToString());
+                            }
+                        }
+
+                        var fitplane = PlaneParams.FitPlane(Platform2GT2PlaneCalibPos);
+                        OutputDownStandardPlane2 = new PlaneParams() { Normal = fitplane.Normal, Origin = fitplane.Origin };
+                        DataList.Add(OutputDownStandardPlane2.ToString());
+                    }
+
                 }
-                do_gt2_cy?.SetDo(this, false);
+                do_gt2_cy?.SetDo(this, false, ignoreOrWaringOrError: null);
             }
 
 
@@ -275,10 +300,11 @@ namespace Lead.Detect.ThermoAOI.Calibration
 
                         //down
                         Platform2 = Machine.Machine.Ins.Find<PlatformEx>("LeftDown"),
-                        PlatformGT1CalibPos = Machine.Machine.Ins.Find<PlatformEx>("LeftDown")["HeightCalib1"] as PosXYZ,
+                        Platform2GT1CalibPos = Machine.Machine.Ins.Find<PlatformEx>("LeftDown")["HeightCalib1"] as PosXYZ,
                         Platform2GT2CalibPos = Machine.Machine.Ins.Find<PlatformEx>("LeftDown")["HeightCalib2"] as PosXYZ,
                         StandardHeight = Machine.Machine.Ins.Find<PlatformEx>("LeftDown")["StandardHeight"] as PosXYZ,
                         Platform2GT1PlaneCalibPos = Machine.Machine.Ins.Find<PlatformEx>("LeftDown").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
+                        Platform2GT2PlaneCalibPos = Machine.Machine.Ins.Find<PlatformEx>("LeftDown").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
 
                         do_gt2_cy = Machine.Machine.Ins.Find<ICylinderEx>("LGTCylinder"),
 
@@ -307,10 +333,11 @@ namespace Lead.Detect.ThermoAOI.Calibration
 
                         //down
                         Platform2 = Machine.Machine.Ins.Find<PlatformEx>("RightDown"),
-                        PlatformGT1CalibPos = Machine.Machine.Ins.Find<PlatformEx>("RightDown")["HeightCalib1"] as PosXYZ,
+                        Platform2GT1CalibPos = Machine.Machine.Ins.Find<PlatformEx>("RightDown")["HeightCalib1"] as PosXYZ,
                         Platform2GT2CalibPos = Machine.Machine.Ins.Find<PlatformEx>("RightDown")["HeightCalib2"] as PosXYZ,
                         StandardHeight = Machine.Machine.Ins.Find<PlatformEx>("RightDown")["StandardHeight"] as PosXYZ,
                         Platform2GT1PlaneCalibPos = Machine.Machine.Ins.Find<PlatformEx>("RightDown").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
+                        Platform2GT2PlaneCalibPos = Machine.Machine.Ins.Find<PlatformEx>("RightDown").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
 
                         do_gt2_cy = Machine.Machine.Ins.Find<ICylinderEx>("RGTCylinder"),
 
@@ -340,6 +367,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
                         //new
                         Machine.Machine.Ins.Settings.Calibration.LeftUpStandardPlaneGT = calib.OutputUpStandardPlane;
                         Machine.Machine.Ins.Settings.Calibration.LeftDownStandardPlaneGT1 = calib.OutputDownStandardPlane;
+                        Machine.Machine.Ins.Settings.Calibration.LeftDownStandardPlaneGT2 = calib.OutputDownStandardPlane2;
 
 
                         Machine.Machine.Ins.Settings.Calibration.LeftHeightStandard = calib.StandardHeight;
@@ -353,6 +381,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
                         //new
                         Machine.Machine.Ins.Settings.Calibration.RightUpStandardPlaneGT = calib.OutputUpStandardPlane;
                         Machine.Machine.Ins.Settings.Calibration.RightDownStandardPlaneGT1 = calib.OutputDownStandardPlane;
+                        Machine.Machine.Ins.Settings.Calibration.RightDownStandardPlaneGT2 = calib.OutputDownStandardPlane2;
 
                         Machine.Machine.Ins.Settings.Calibration.RightHeightStandard = calib.StandardHeight;
                     }
