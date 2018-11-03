@@ -13,7 +13,7 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1.Calculators
 
         public GeometryCalculator Create()
         {
-            ProductName = "X1311WithFin";
+            ProductName = "X1311FullModule";
 
             GeoCalcs = new List<GDTCalc>()
             {

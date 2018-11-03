@@ -20,21 +20,36 @@ namespace Lead.Detect.DatabaseHelper
 
             if (SqlLiteHelper.DB != null)
             {
-                dataGridView1.DataSource = SqlLiteHelper.DB.From<ProductDataEntity>().Where(p => p.Barcode == textBoxProductBarcode.Text).ToDataTable();
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                try
+                {
+                    dataGridView1.DataSource = SqlLiteHelper.DB.From<ProductDataEntity>().Where(p => p.Barcode == textBoxProductBarcode.Text).ToDataTable();
+                    dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
 
         }
-            
+
 
         private void buttonQueryAll_Click(object sender, EventArgs e)
         {
             if (SqlLiteHelper.DB != null)
             {
-                dataGridView1.DataSource = SqlLiteHelper.DB.From<ProductDataEntity>().ToDataTable();
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                try
+                {
+                    dataGridView1.DataSource = SqlLiteHelper.DB.From<ProductDataEntity>().ToDataTable();
+                    dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
             }
-            
+
         }
 
         private void buttonClearAll_Click(object sender, EventArgs e)
@@ -47,8 +62,15 @@ namespace Lead.Detect.DatabaseHelper
 
             if (SqlLiteHelper.DB != null)
             {
-                SqlLiteHelper.DB.DeleteAll<ProductDataEntity>();
-                MessageBox.Show("清除完成！");
+                try
+                {
+                    SqlLiteHelper.DB.DeleteAll<ProductDataEntity>();
+                    MessageBox.Show("清除完成！");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
     }

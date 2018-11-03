@@ -504,6 +504,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     if (Stations.All(s => !s.Value.Enable || s.Value.RunningState == RunningState.Resetting))
                     {
                         _resettingFlashCount = 0;
+                        Light(UserEventType.RESET);
                         RunningState = RunningState.Resetting;
                         return;
                     }
@@ -526,6 +527,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     //pull up stations state
                     if (Stations.All(s => !s.Value.Enable || s.Value.RunningState == RunningState.WaitRun))
                     {
+                        Light(UserEventType.START);
                         RunningState = RunningState.WaitRun;
                         return;
                     }
@@ -568,6 +570,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     if (Stations.All(s => !s.Value.Enable || s.Value.RunningState == RunningState.Running))
                     {
                         _runningFlashCount = 0;
+                        Light(UserEventType.START);
                         RunningState = RunningState.Running;
                     }
                     else if (Stations.Any(s => s.Value.Enable && s.Value.RunningState == RunningState.WaitReset))
@@ -605,6 +608,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     else if (Stations.Any(s => s.Value.Enable && s.Value.RunningState == RunningState.Pause))
                     {
                         //some station pause
+                        Light(UserEventType.PAUSE);
                         RunningState = RunningState.Pause;
                         return;
                     }

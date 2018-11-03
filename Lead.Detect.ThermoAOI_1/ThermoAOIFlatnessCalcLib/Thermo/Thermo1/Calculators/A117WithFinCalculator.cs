@@ -16,7 +16,7 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1.Calculators
 
         public A117WithFinCalculator Create()
         {
-            ProductName = "A117WithFin";
+            ProductName = "A117FullModule";
 
 
             GeoCalcs = new List<GDTCalc>()

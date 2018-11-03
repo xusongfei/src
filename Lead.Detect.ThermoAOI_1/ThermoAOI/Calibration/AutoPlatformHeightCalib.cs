@@ -135,11 +135,21 @@ namespace Lead.Detect.ThermoAOI.Calibration
                     //update z
                     if (Platform1 != null && GtController != null)
                     {
+                        bool isFirst = true;
+
                         foreach (var calibPos in Platform1GTPlaneCalibPos)
-                        {
+                        {   
                             //product to up platform
-                            var pos = new PosXYZ(calibPos.Data()) { Z = OutputGTCalibPos.Z };
-                            Platform1.Jump(Platform1.GetPos("P->UP", pos.Data()), JumpHeight1);
+                            var pos = new PosXYZ(calibPos.Data()) { Z = Platform1GTCalibPos.Z };
+                            if (isFirst)
+                            {
+                                isFirst = false;
+                                Platform1.Jump(Platform1.GetPos("P->UP", pos.Data()), 0);
+                            }
+                            else
+                            {
+                                Platform1.Jump(Platform1.GetPos("P->UP", pos.Data()), JumpHeight1);
+                            }
                             Thread.Sleep(1000);
                             calibPos.Z = GtController.ReadData()[0];
                             DataList.Add(calibPos.ToString());
@@ -201,7 +211,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
                             foreach (var calibPos in Platform2GT1PlaneCalibPos)
                             {
                                 //product to up platform
-                                var pos = new PosXYZ(calibPos.Data()) { Z = OutputGT1CalibPos.Z };
+                                var pos = new PosXYZ(calibPos.Data()) { Z = PlatformGT1CalibPos.Z };
                                 Platform2.EnterAuto(this).Jump(Platform2.GetPos("P->DOWN1", pos.Data()), JumpHeight2);
                                 Thread.Sleep(1000);
                                 calibPos.Z = GtController.ReadData()[1];
@@ -219,7 +229,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
             }
 
 
-            { 
+            {
                 //复位下平台
                 //move platform2 wait
                 if (Platform2 != null)

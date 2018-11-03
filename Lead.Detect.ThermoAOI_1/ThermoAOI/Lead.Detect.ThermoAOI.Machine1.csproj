@@ -247,6 +247,12 @@
     <None Include="Config\P2\Calib\A117HeightCalibTest.fprj" />
     <None Include="Config\P2\X1311WithFinV7.fprj" />
     <None Include="Config\platforms.pts" />
+    <None Include="Config\pts\LeftCarrier.pts" />
+    <None Include="Config\pts\LeftDown.pts" />
+    <None Include="Config\pts\LeftUp.pts" />
+    <None Include="Config\pts\RightCarrier.pts" />
+    <None Include="Config\pts\RightDown.pts" />
+    <None Include="Config\pts\RightUp.pts" />
     <None Include="Config\RightCarrier.dat" />
     <None Include="Config\RightCarrier.pts" />
     <None Include="Config\RightDown.dat" />

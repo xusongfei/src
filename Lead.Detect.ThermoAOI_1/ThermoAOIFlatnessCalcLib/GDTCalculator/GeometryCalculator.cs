@@ -44,7 +44,7 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalculator
                     g.Clear();
                 }
 
-                if (productData.ProductType == ProductName)
+                if (productData.Description.Contains(ProductName))
                 {
                     var rawPos = new List<PosXYZ>();
                     rawPos.AddRange(productData.RawDataUp);

@@ -49,7 +49,7 @@ namespace Lead.Detect.ThermoAOI.View
             this.labelLeftFile = new System.Windows.Forms.Label();
             this.labelLeft = new System.Windows.Forms.Label();
             this.tabResult = new System.Windows.Forms.TabPage();
-            this.productDatabaseControl1 = new ProductDatabaseControl();
+            this.productDatabaseControl1 = new Lead.Detect.DatabaseHelper.ProductDatabaseControl();
             this.panel2 = new System.Windows.Forms.Panel();
             this.buttonLamp = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
@@ -213,7 +213,8 @@ namespace Lead.Detect.ThermoAOI.View
             // 
             // _thermoProductDisplayControl2
             // 
-            this._thermoProductDisplayControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this._thermoProductDisplayControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._thermoProductDisplayControl2.Location = new System.Drawing.Point(451, 106);
             this._thermoProductDisplayControl2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -233,6 +234,8 @@ namespace Lead.Detect.ThermoAOI.View
             // 
             // labelRightFile
             // 
+            this.labelRightFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelRightFile.BackColor = System.Drawing.Color.Silver;
             this.labelRightFile.Location = new System.Drawing.Point(451, 58);
             this.labelRightFile.Name = "labelRightFile";
@@ -243,6 +246,8 @@ namespace Lead.Detect.ThermoAOI.View
             // 
             // labelRight
             // 
+            this.labelRight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelRight.BackColor = System.Drawing.Color.Silver;
             this.labelRight.Location = new System.Drawing.Point(451, 9);
             this.labelRight.Name = "labelRight";

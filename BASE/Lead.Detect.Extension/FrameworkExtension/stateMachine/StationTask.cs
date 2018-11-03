@@ -136,7 +136,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
             RunningState = RunningState.WaitReset;
             if (_task != null)
             {
-                _task.Wait();
+                _task?.Wait();
                 _task = null;
             }
         }

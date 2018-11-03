@@ -61,17 +61,14 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project
                 {
                     return false;
                 }
-
-                else if (ProductType == ProductType.FullModule)
-                {
-                    if (Height < 60)
-                    {
-                        return false;
-                    }
-                }
-
             }
-
+            else if (ProductType == ProductType.FullModule)
+            {
+                if (Height < 60)
+                {
+                    return false;
+                }
+            }
             return true;
         }
 

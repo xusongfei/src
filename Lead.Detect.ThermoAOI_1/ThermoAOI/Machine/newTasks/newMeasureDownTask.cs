@@ -66,6 +66,9 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             Platform.AssertPosTeached("GtWork2", this);
             Platform.AssertPosTeached($"Barcode{Project.TypeId}", this);
 
+            PosGtWork1 = Platform["GtWork1"] as PosXYZ;
+            PosGtWork2 = Platform["GtWork2"] as PosXYZ;
+
             CfgSettings = Machine.Ins.Settings;
 
             //clear vio
@@ -196,7 +199,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             PosXYZ lastPos = PosXYZ.Zero;
             foreach (var pos in downTestPositions)
             {
-                PosXYZ gtWorkHeight = null;
+                PosXYZ gtWorkHeight = PosXYZ.Zero;
                 var gtIndex = 1;
                 var posOffset = PosXYZ.Zero;
 
