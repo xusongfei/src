@@ -108,7 +108,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             {
                 Product = new Thermo1Product();
                 Product.ProductType = Project.ProductType.ToString();
-                Product.Description = Station.Name + "," + Project.ProductName;
+                Product.Description = Station.Name + "-" + Project.ProductName;
                 Product.SPCItems = Project.SPCItems;
 
                 TestProcessControl.OnTestStartEvent(Product);
@@ -255,7 +255,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             Product = new Thermo1Product()
             {
                 ProductType = Project.ProductType.ToString(),
-                Description = Station.Name + "," + Project.ProductName,
+                Description = Station.Name + "-" + Project.ProductName,
                 SPCItems = Project.SPCItems,
             };
             Product.ClearSpc();
