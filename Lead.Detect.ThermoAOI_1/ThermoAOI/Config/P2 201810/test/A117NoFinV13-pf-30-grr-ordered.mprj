@@ -1,56 +1,44 @@
 <?xml version="1.0"?>
 <MeasureProject1 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ProjectName>A147Module</ProjectName>
-  <Version>10</Version>
-  <ProductName>A147Module</ProductName>
-  <ProductType>FullModule</ProductType>
-  <TypeId>3</TypeId>
-  <Height>64.5</Height>
+  <ProjectName>A117NoFin.fprj</ProjectName>
+  <Version>13</Version>
+  <ProductName>A117NoFin</ProductName>
+  <ProductType>VaporChamber</ProductType>
+  <TypeId>0</TypeId>
+  <Height>1.5</Height>
   <SPCItems>
     <SPCItem>
       <Name>上表面轮廓度</Name>
       <Value>0</Value>
       <ValueMax>0</ValueMax>
       <ValueMin>0</ValueMin>
-      <Description>vc up surface profile</Description>
+      <Description>fin up surface profile</Description>
       <FAI>0</FAI>
-      <SPC>AW</SPC>
-      <SPEC>-71.5</SPEC>
+      <SPC>K</SPC>
+      <SPEC>-10.5</SPEC>
       <UpLimit>0.2</UpLimit>
       <DownLimit>-0.2</DownLimit>
     </SPCItem>
     <SPCItem>
-      <Name>凸台1平面度</Name>
+      <Name>上表面平行度</Name>
       <Value>0</Value>
       <ValueMax>0</ValueMax>
       <ValueMin>0</ValueMin>
-      <Description>pedestal 1 flatness</Description>
+      <Description>fin up surface parallelism</Description>
       <FAI>0</FAI>
-      <SPC>Y</SPC>
+      <SPC>L</SPC>
       <SPEC>0</SPEC>
-      <UpLimit>0.04</UpLimit>
+      <UpLimit>0.26</UpLimit>
       <DownLimit>0</DownLimit>
     </SPCItem>
     <SPCItem>
-      <Name>凸台2轮廓度</Name>
+      <Name>凸台平面度</Name>
       <Value>0</Value>
       <ValueMax>0</ValueMax>
       <ValueMin>0</ValueMin>
-      <Description>pedestal 2 profile</Description>
+      <Description>pedestal flatness</Description>
       <FAI>0</FAI>
-      <SPC>T</SPC>
-      <SPEC>0</SPEC>
-      <UpLimit>0.05</UpLimit>
-      <DownLimit>-0.05</DownLimit>
-    </SPCItem>
-    <SPCItem>
-      <Name>凸台2平行度</Name>
-      <Value>0</Value>
-      <ValueMax>0</ValueMax>
-      <ValueMin>0</ValueMin>
-      <Description>pedestal 2 parallelism</Description>
-      <FAI>0</FAI>
-      <SPC>S</SPC>
+      <SPC>J</SPC>
       <SPEC>0</SPEC>
       <UpLimit>0.04</UpLimit>
       <DownLimit>0</DownLimit>
@@ -62,8 +50,8 @@
       <ValueMin>0</ValueMin>
       <Description>vc down surface profile</Description>
       <FAI>0</FAI>
-      <SPC>V</SPC>
-      <SPEC>-4</SPEC>
+      <SPC>M</SPC>
+      <SPEC>-6</SPEC>
       <UpLimit>0.1</UpLimit>
       <DownLimit>-0.1</DownLimit>
     </SPCItem>
@@ -74,7 +62,7 @@
       <ValueMin>0</ValueMin>
       <Description>inner standoff profile</Description>
       <FAI>0</FAI>
-      <SPC>AG</SPC>
+      <SPC>O</SPC>
       <SPEC>0</SPEC>
       <UpLimit>0.15</UpLimit>
       <DownLimit>-0.15</DownLimit>
@@ -86,7 +74,7 @@
       <ValueMin>0</ValueMin>
       <Description>outer standoff profile</Description>
       <FAI>0</FAI>
-      <SPC>AH</SPC>
+      <SPC>N</SPC>
       <SPEC>5.33</SPEC>
       <UpLimit>0.15</UpLimit>
       <DownLimit>-0.15</DownLimit>
@@ -96,8 +84,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>29.4</X>
-      <Y>-16.3</Y>
+      <X>27</X>
+      <Y>-41</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -111,8 +99,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>29.4</X>
-      <Y>-238.3</Y>
+      <X>27</X>
+      <Y>-216</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -126,8 +114,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>132.9</X>
-      <Y>-238.3</Y>
+      <X>135</X>
+      <Y>-216</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -141,8 +129,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>132.9</X>
-      <Y>-16.3</Y>
+      <X>135</X>
+      <Y>-41</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -156,8 +144,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>47.5</X>
-      <Y>-71.3</Y>
+      <X>50</X>
+      <Y>-81.3</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -171,8 +159,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>47.5</X>
-      <Y>-161</Y>
+      <X>50</X>
+      <Y>-171</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -186,8 +174,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>119.5</X>
-      <Y>-161</Y>
+      <X>114</X>
+      <Y>-171</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -201,8 +189,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>119.5</X>
-      <Y>-71.3</Y>
+      <X>114</X>
+      <Y>-81.3</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -218,9 +206,9 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>outer</Name>
-      <X>25</X>
-      <Y>-10.3</Y>
-      <Z>3.33</Z>
+      <X>27</X>
+      <Y>-41</Y>
+      <Z>5.33</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
       <OffsetZ>0</OffsetZ>
@@ -233,9 +221,9 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>outer</Name>
-      <X>137</X>
-      <Y>-10.3</Y>
-      <Z>3.33</Z>
+      <X>135</X>
+      <Y>-41</Y>
+      <Z>5.33</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
       <OffsetZ>0</OffsetZ>
@@ -248,9 +236,9 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>outer</Name>
-      <X>137</X>
-      <Y>-245</Y>
-      <Z>3.33</Z>
+      <X>135</X>
+      <Y>-216</Y>
+      <Z>5.33</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
       <OffsetZ>0</OffsetZ>
@@ -263,13 +251,58 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>outer</Name>
-      <X>25</X>
-      <Y>-245</Y>
-      <Z>3.33</Z>
+      <X>27</X>
+      <Y>-216</Y>
+      <Z>5.33</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
       <OffsetZ>0</OffsetZ>
       <Description>GT2</Description>
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name>down</Name>
+      <X>36</X>
+      <Y>-188.6</Y>
+      <Z>-6</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description>GT1</Description>
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name>down</Name>
+      <X>126</X>
+      <Y>-188.6</Y>
+      <Z>-6</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description>GT1</Description>
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name>down</Name>
+      <X>81</X>
+      <Y>-128.5</Y>
+      <Z>-6</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description>GT1</Description>
       <Status>false</Status>
       <Flag1>0</Flag1>
       <Flag2>0</Flag2>
@@ -279,222 +312,12 @@
       <Index>0</Index>
       <Name>inner</Name>
       <X>49.64</X>
-      <Y>-218.87</Y>
-      <Z>-2</Z>
+      <Y>-113</Y>
+      <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
       <OffsetZ>0</OffsetZ>
       <Description>GT2</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>down</Name>
-      <X>39</X>
-      <Y>-196.3</Y>
-      <Z>-6</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT1</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>ped2</Name>
-      <X>64.64</X>
-      <Y>-169.87</Y>
-      <Z>-2</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT1</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>ped2</Name>
-      <X>64.64</X>
-      <Y>-203.87</Y>
-      <Z>-2</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT1</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>ped2</Name>
-      <X>98.64</X>
-      <Y>-203.87</Y>
-      <Z>-2</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT1</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>ped2</Name>
-      <X>98.64</X>
-      <Y>-169.87</Y>
-      <Z>-2</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT1</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>ped2</Name>
-      <X>81.64</X>
-      <Y>-186.87</Y>
-      <Z>-2</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT1</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>inner</Name>
-      <X>113.64</X>
-      <Y>-218.87</Y>
-      <Z>-2</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT2</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>inner</Name>
-      <X>113.64</X>
-      <Y>-154.87</Y>
-      <Z>-2</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT2</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>down</Name>
-      <X>123</X>
-      <Y>-133.7</Y>
-      <Z>-6</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT1</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>inner</Name>
-      <X>113.64</X>
-      <Y>-112.45</Y>
-      <Z>-2</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT2</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>inner</Name>
-      <X>49.64</X>
-      <Y>-112.45</Y>
-      <Z>-2</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT2</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>inner</Name>
-      <X>49.64</X>
-      <Y>-154.87</Y>
-      <Z>-2</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT2</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>down</Name>
-      <X>39</X>
-      <Y>-133.7</Y>
-      <Z>-6</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT1</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>down</Name>
-      <X>39</X>
-      <Y>-86.3</Y>
-      <Z>-6</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT1</Description>
       <Status>false</Status>
       <Flag1>0</Flag1>
       <Flag2>0</Flag2>
@@ -503,54 +326,9 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>ped1</Name>
-      <X>64.64</X>
-      <Y>-63.45</Y>
-      <Z>-2</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT1</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>ped1</Name>
-      <X>64.64</X>
-      <Y>-97.45</Y>
-      <Z>-2</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT1</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>ped1</Name>
-      <X>98.64</X>
-      <Y>-97.45</Y>
-      <Z>-2</Z>
-      <OffsetX>0</OffsetX>
-      <OffsetY>0</OffsetY>
-      <OffsetZ>0</OffsetZ>
-      <Description>GT1</Description>
-      <Status>false</Status>
-      <Flag1>0</Flag1>
-      <Flag2>0</Flag2>
-      <Flag3>0</Flag3>
-    </PosXYZ>
-    <PosXYZ>
-      <Index>0</Index>
-      <Name>ped1</Name>
-      <X>98.64</X>
-      <Y>-63.45</Y>
-      <Z>-2</Z>
+      <X>66</X>
+      <Y>-96</Y>
+      <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
       <OffsetZ>0</OffsetZ>
@@ -564,8 +342,23 @@
       <Index>0</Index>
       <Name>ped1</Name>
       <X>81.64</X>
-      <Y>-80.45</Y>
-      <Z>-2</Z>
+      <Y>-81</Y>
+      <Z>0</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description>GT1</Description>
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name>ped1</Name>
+      <X>96</X>
+      <Y>-96</Y>
+      <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
       <OffsetZ>0</OffsetZ>
@@ -579,8 +372,8 @@
       <Index>0</Index>
       <Name>inner</Name>
       <X>113.64</X>
-      <Y>-48.45</Y>
-      <Z>-2</Z>
+      <Y>-113</Y>
+      <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
       <OffsetZ>0</OffsetZ>
@@ -593,8 +386,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>down</Name>
-      <X>102</X>
-      <Y>-50.3</Y>
+      <X>126</X>
+      <Y>-68.4</Y>
       <Z>-6</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -607,9 +400,54 @@
     </PosXYZ>
     <PosXYZ>
       <Index>0</Index>
+      <Name>inner</Name>
+      <X>113.64</X>
+      <Y>-49</Y>
+      <Z>0</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description>GT2</Description>
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name>ped1</Name>
+      <X>96</X>
+      <Y>-66</Y>
+      <Z>0</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description>GT1</Description>
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
+      <Name>ped1</Name>
+      <X>66</X>
+      <Y>-66</Y>
+      <Z>0</Z>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <OffsetZ>0</OffsetZ>
+      <Description>GT1</Description>
+      <Status>false</Status>
+      <Flag1>0</Flag1>
+      <Flag2>0</Flag2>
+      <Flag3>0</Flag3>
+    </PosXYZ>
+    <PosXYZ>
+      <Index>0</Index>
       <Name>down</Name>
-      <X>61.27</X>
-      <Y>-50.3</Y>
+      <X>36</X>
+      <Y>-68.4</Y>
       <Z>-6</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -624,8 +462,8 @@
       <Index>0</Index>
       <Name>inner</Name>
       <X>49.64</X>
-      <Y>-48.45</Y>
-      <Z>-2</Z>
+      <Y>-49</Y>
+      <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
       <OffsetZ>0</OffsetZ>

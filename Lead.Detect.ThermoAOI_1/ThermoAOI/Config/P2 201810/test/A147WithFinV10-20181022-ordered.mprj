@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <MeasureProject1 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ProjectName>A147Module</ProjectName>
+  <ProjectName>A147WithFin.fprj</ProjectName>
   <Version>10</Version>
-  <ProductName>A147Module</ProductName>
+  <ProductName>A147WithFin</ProductName>
   <ProductType>FullModule</ProductType>
-  <TypeId>3</TypeId>
-  <Height>64.5</Height>
+  <TypeId>0</TypeId>
+  <Height>61.5</Height>
   <SPCItems>
     <SPCItem>
       <Name>上表面轮廓度</Name>

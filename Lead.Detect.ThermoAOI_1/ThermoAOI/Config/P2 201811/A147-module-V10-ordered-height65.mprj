@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <MeasureProject1 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ProjectName>A147Module</ProjectName>
+  <ProjectName>A147FullModule</ProjectName>
   <Version>10</Version>
-  <ProductName>A147Module</ProductName>
+  <ProductName>A147FullModule</ProductName>
   <ProductType>FullModule</ProductType>
   <TypeId>3</TypeId>
   <Height>64.5</Height>

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <MeasureProject1 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ProjectName>A117NoFin.fprj</ProjectName>
+  <ProjectName>A117VC</ProjectName>
   <Version>13</Version>
-  <ProductName>A117NoFin</ProductName>
+  <ProductName>A117VC</ProductName>
   <ProductType>VaporChamber</ProductType>
   <TypeId>0</TypeId>
   <Height>1.5</Height>

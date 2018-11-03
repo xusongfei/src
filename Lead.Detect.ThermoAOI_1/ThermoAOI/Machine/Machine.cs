@@ -44,9 +44,9 @@ namespace Lead.Detect.ThermoAOI.Machine
             }
 
             //转换点位
-            PlatformConvert.ConvertPts();
+            //PlatformConvert.ConvertPts();
             //转换测试文件
-            FlatnessFprjConvert.ConvertFprj();
+            //FlatnessFprjConvert.ConvertFprj();
 
             //import machine objects
             if (FrameworkExtenion.IsSimulate)

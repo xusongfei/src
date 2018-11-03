@@ -188,6 +188,12 @@
     <None Include="Config2\CALIB FPRJ\A117FlatnessTest3.fprj" />
     <None Include="Config2\CALIB FPRJ\A117FlatnessTest4.fprj" />
     <None Include="Config2\CALIB FPRJ\A117HeightCalibTest.fprj" />
+    <None Include="Config\A117\A117NoFin_pf_30 %28VC单体%29.mprj" />
+    <None Include="Config\Calculators\A117FullModule.calc" />
+    <None Include="Config\Calculators\A117VC.calc" />
+    <None Include="Config\Calculators\A147FullModule.calc" />
+    <None Include="Config\Calculators\A147VC.calc" />
+    <None Include="Config\Calculators\X1311FullModule.calc" />
     <None Include="Config\LeftCarrier.dat" />
     <None Include="Config\LeftDown.dat" />
     <None Include="Config\LeftUp.dat" />
@@ -222,6 +228,7 @@
     <None Include="Config\P2 201810\A117NoFinV13-pf-30-grr-ordered.mprj" />
     <None Include="Config\P2 201810\A147-module-V10-20181022-ordered-height65.fprj" />
     <None Include="Config\P2 201810\A147-module-V10-20181022-ordered-height65.mprj" />
+    <None Include="Config\P2 201810\A147-module-V10.mprj" />
     <None Include="Config\P2 201810\A147-vc-V10-20181022-ordered.fprj" />
     <None Include="Config\P2 201810\A147-vc-V10-20181022-ordered.mprj" />
     <None Include="Config\P2 201810\A147NoFinV10-20181021-ordered.fprj" />
@@ -237,15 +244,25 @@
     <None Include="Config\P2 201810\A147WithFinV10.fprj" />
     <None Include="Config\P2 201810\A147WithFinV10.mprj" />
     <None Include="Config\p2 spec.md" />
+    <None Include="Config\P2\A117NoFinV13-pf-30-grr.mprj" />
     <None Include="Config\P2\A117NoFinV13-pf-30.fprj" />
+    <None Include="Config\P2\A117NoFinV13-pf-30.mprj" />
     <None Include="Config\P2\A117NoFinV13-pf-31.fprj" />
+    <None Include="Config\P2\A117NoFinV13-pf-31.mprj" />
     <None Include="Config\P2\A117NoFinV13.fprj" />
+    <None Include="Config\P2\A117NoFinV13.mprj" />
     <None Include="Config\P2\A117WithFinV13-pf-30.fprj" />
+    <None Include="Config\P2\A117WithFinV13-pf-30.mprj" />
     <None Include="Config\P2\A117WithFinV13.fprj" />
+    <None Include="Config\P2\A117WithFinV13.mprj" />
     <None Include="Config\P2\A147NoFinV10.fprj" />
+    <None Include="Config\P2\A147NoFinV10.mprj" />
     <None Include="Config\P2\A147WithFinV10.fprj" />
+    <None Include="Config\P2\A147WithFinV10.mprj" />
     <None Include="Config\P2\Calib\A117HeightCalibTest.fprj" />
+    <None Include="Config\P2\Calib\A117HeightCalibTest.mprj" />
     <None Include="Config\P2\X1311WithFinV7.fprj" />
+    <None Include="Config\P2\X1311WithFinV7.mprj" />
     <None Include="Config\platforms.pts" />
     <None Include="Config\pts\LeftCarrier.pts" />
     <None Include="Config\pts\LeftDown.pts" />
@@ -260,6 +277,7 @@
     <None Include="Config\RightUp.dat" />
     <None Include="Config\RightUp.pts" />
     <None Include="Config\Settings.cfg" />
+    <None Include="Config\TEST PROJECT\A117HeightCalibTest.mprj" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -387,8 +405,7 @@
     <None Include="Resources\2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Config\A117\" />
-    <Folder Include="Config\TEST PROJECT\" />
+    <Folder Include="Config\P2 201811\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

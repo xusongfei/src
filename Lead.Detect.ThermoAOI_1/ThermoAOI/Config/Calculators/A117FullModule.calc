@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<GeometryCalculator xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="A117WithFinCalculator">
+  <ProductName>A117FullModule</ProductName>
+  <GeoCalcs>
+    <GDTCalc xsi:type="FlatnessCalc">
+      <Name>J</Name>
+      <Description>pedestal flatness (datum A)</Description>
+      <GDTType>Flatness</GDTType>
+      <IsDatum>true</IsDatum>
+      <ExpectValue>Normal</ExpectValue>
+      <SourcePos>ped1</SourcePos>
+      <Spec>0</Spec>
+      <SpecMin>0</SpecMin>
+      <SpecMax>0</SpecMax>
+      <Value>0</Value>
+      <Data />
+      <Max>0</Max>
+      <Min>0</Min>
+      <Success>false</Success>
+    </GDTCalc>
+    <GDTCalc xsi:type="ProfileOfSurfaceCalc">
+      <Name>M</Name>
+      <Description>vc down surface profile to datum A</Description>
+      <GDTType>ProfileOfSurface</GDTType>
+      <IsDatum>false</IsDatum>
+      <ExpectValue>Min</ExpectValue>
+      <SourcePos>down</SourcePos>
+      <DatumName>J</DatumName>
+      <Spec>0</Spec>
+      <SpecMin>0</SpecMin>
+      <SpecMax>0</SpecMax>
+      <Value>0</Value>
+      <Data />
+      <Max>0</Max>
+      <Min>0</Min>
+      <Success>false</Success>
+    </GDTCalc>
+    <GDTCalc xsi:type="ProfileOfSurfaceCalc">
+      <Name>AB</Name>
+      <Description>fin up surface profile to datum A</Description>
+      <GDTType>ProfileOfSurface</GDTType>
+      <IsDatum>false</IsDatum>
+      <ExpectValue>Min</ExpectValue>
+      <SourcePos>up</SourcePos>
+      <DatumName>J</DatumName>
+      <Spec>0</Spec>
+      <SpecMin>0</SpecMin>
+      <SpecMax>0</SpecMax>
+      <Value>0</Value>
+      <Data />
+      <Max>0</Max>
+      <Min>0</Min>
+      <Success>false</Success>
+    </GDTCalc>
+    <GDTCalc xsi:type="ProfileOfSurfaceCalc">
+      <Name>O</Name>
+      <Description>inner standoff profile to datum A</Description>
+      <GDTType>ProfileOfSurface</GDTType>
+      <IsDatum>false</IsDatum>
+      <ExpectValue>Max</ExpectValue>
+      <SourcePos>inner</SourcePos>
+      <DatumName>J</DatumName>
+      <Spec>0</Spec>
+      <SpecMin>0</SpecMin>
+      <SpecMax>0</SpecMax>
+      <Value>0</Value>
+      <Data />
+      <Max>0</Max>
+      <Min>0</Min>
+      <Success>false</Success>
+    </GDTCalc>
+    <GDTCalc xsi:type="ProfileOfSurfaceCalc">
+      <Name>N</Name>
+      <Description>outer standoff profile to datum A</Description>
+      <GDTType>ProfileOfSurface</GDTType>
+      <IsDatum>false</IsDatum>
+      <ExpectValue>Max</ExpectValue>
+      <SourcePos>outer</SourcePos>
+      <DatumName>J</DatumName>
+      <Spec>0</Spec>
+      <SpecMin>0</SpecMin>
+      <SpecMax>0</SpecMax>
+      <Value>0</Value>
+      <Data />
+      <Max>0</Max>
+      <Min>0</Min>
+      <Success>false</Success>
+    </GDTCalc>
+  </GeoCalcs>
+</GeometryCalculator>
