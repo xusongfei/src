@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.frameworkManage;
@@ -11,9 +10,11 @@ using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.MeasureComponents.LaserControl;
 using Lead.Detect.MeasureComponents.LMILaser;
 using Lead.Detect.MeasureComponents.Thermo2Camera;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2;
-using MachineUtilityLib.UtilProduct;
-using MachineUtilityLib.Utils;
+using Lead.Detect.PlatformCalibration.FittingHelper;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2;
+using MachineUtilityLib.UtilsFramework;
 
 namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 {
@@ -114,9 +115,9 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             Project = MeasureProject.Load(CfgSettings.MeasureProjectFile, typeof(MeasureProjectB)) as MeasureProjectB;
             Project.AssertNoNull(this);
 
-            if(CfgEnableRelCoordMode)
+            if (CfgEnableRelCoordMode)
             {
-                CPlatform.AssertPosTeached("Origin", this);
+                CPlatform.AssertPosTeached("FocusOrigin", this);
                 L1Platform.AssertPosTeached("LaserOrigin", this);
                 L2Platform.AssertPosTeached("LaserOrigin", this);
             }
@@ -297,7 +298,6 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 if (CfgEnableRelCoordMode)
                 {
                     var newPos = CPlatform.GetPos("MOVE", pos.Data());
-
                     Log($"{loopName} {Camera.Name} EnableRelCoordMode Transform {pos} To {newPos}");
                     CPlatform.MoveAbs(newPos);
                 }
@@ -314,11 +314,13 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 {
                     Log($"{loopName} {Camera.Name} Trigger OK {trigger} {result} {Camera.LastError}");
 
-
+                    
                     //parse camera recv result
                     var dataStr = result.Split(':');
                     try
                     {
+                        var profile = loopName == "camera1" ? Product.RawData_C1Profile : Product.RawData_C2Profile;
+
                         //P1S1:0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8
                         //P1S1:Failed
                         if (dataStr.Length >= 2)
@@ -327,18 +329,18 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                             {
                                 dataStr = dataStr[1].Split(',');
 
-                                var dataValues = new List<double>();
+                                var dataList = new List<double>();
                                 for (int i = 0; i < dataStr.Length; i++)
                                 {
                                     if (string.IsNullOrEmpty(dataStr[i]))
                                     {
                                         continue;
                                     }
-
-                                    dataValues.Add(double.Parse(dataStr[i]));
+                                    dataList.Add(double.Parse(dataStr[i]));
                                 }
 
-                                Product.RawData_LineProfile.Add(dataValues);
+                                profile.Add(new List<PosXYZ>());
+                                profile.Last().AddRange(dataList.Select(d => new PosXYZ(0, 0, d)).ToArray());
                             }
                             else
                             {
@@ -348,7 +350,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                                     dataList.Add(0);
                                 }
 
-                                Product.RawData_LineProfile.Add(dataList);
+                                profile.Add(new List<PosXYZ>());
+                                profile.Last().AddRange(dataList.Select(d => new PosXYZ(0, 0, d)));
                             }
                         }
                         else
@@ -358,7 +361,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                     }
                     catch (Exception e)
                     {
-                        Product.Error = Camera.LastError;
+                        Product.Error = "CameraDataFormatError";
                         Log($"{loopName} {Camera} Parse Recv Data Error: {Camera.LastError} {e.Message}");
                     }
                 }
@@ -375,6 +378,26 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                     return;
                 }
             }
+
+
+            //process camera spec result
+            if (loopName == "camera1")
+            {
+                var spcItem = Product.SPCItems.FirstOrDefault(s => s.Description == "C1");
+                if (spcItem != null && Product.RawData_C1Profile.Count > 0)
+                {
+                    Product.SetSpcItem(spcItem.SPC, Product.RawData_C1Profile.Max(p => p.Max(v => v.Z)));
+                }
+            }
+            else if (loopName == "camera2")
+            {
+                var spcItem = Product.SPCItems.FirstOrDefault(s => s.Description == "C2");
+                if (spcItem != null && Product.RawData_C2Profile.Count > 0)
+                {
+                    Product.SetSpcItem(spcItem.SPC, Product.RawData_C2Profile.Max(p => p.Max(v => v.Z)));
+                }
+            }
+
 
             //upate next camera loop start triggerIndex
             triggerIndex += step - 1;
@@ -425,12 +448,11 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 var gridData = laser.GetResult();
                 if (loopName == "laser1" || loopName == "laser2")
                 {
-                    var profile = loopName == "laser1" ? Product.RawData_UpProfile : Product.RawData_DownProfile;
-
                     if (gridData != null)
                     {
                         Log($"{loopName} {laser.Name} GetRawData: \r\nGridNodes: {gridData.Sum(g => g.Count)} \r\nGridCols: {gridData.Count} :\r\n");
 
+                        var profile = loopName == "laser1" ? Product.RawData_UpProfile : Product.RawData_DownProfile;
                         //parse grid data to profile
                         ParseLaserDataToRawProfile(loopName, gridData, profile);
                     }
@@ -466,30 +488,49 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             {
                 Log($"{loopName} {laser.Name} SaveRec Fail: {ex.Message}");
             }
+
+
+            //process laser spec result
+            if (loopName == "laser1")
+            {
+                var spcItem = Product.SPCItems.FirstOrDefault(s => s.Description == "L1");
+                if (spcItem != null && Product.RawData_UpProfile.Count > 0)
+                {
+                    Product.SetSpcItem(spcItem.SPC, Product.RawData_UpProfile.Max(p => p.Max(v => v.Z)));
+                }
+            }
+            else if (loopName == "laser2")
+            {
+                var spcItem = Product.SPCItems.FirstOrDefault(s => s.Description == "L2");
+                if (spcItem != null && Product.RawData_DownProfile.Count > 0)
+                {
+                    Product.SetSpcItem(spcItem.SPC, Product.RawData_DownProfile.Max(p => p.Max(v => v.Z)));
+                }
+            }
         }
 
         private void ParseLaserDataToRawProfile(string loopName, List<List<PosXYZ>> gridData, List<List<PosXYZ>> profile)
         {
             for (var col = 0; col < gridData.Count; col++)
             {
+                //profile add col
                 profile.Add(new List<PosXYZ>());
 
                 //parse laser col data
-                if (gridData[col].Count < 10)
+                if (gridData[col].Count < gridData.Last().Count)
                 {
-                    var colAvg = new PosXYZ(gridData[col].Average(v => v.X), gridData[col].Average(v => v.Y), gridData[col].Average(v => v.Z));
-                    profile.Last().Add(colAvg);
-                    Log($"{loopName} COL:{col} ROW:{gridData[col].Count} Average: {colAvg}");
+                    //get fin bar col raw data
+                    var line = LineParams.FitLine(gridData[col]);
+                    var maxDist = gridData[col].Max(g => line.Distance(g));
+
+                    profile.Last().Add(new PosXYZ(line.OX, line.OY, maxDist));
+                    Log($"{loopName} COL:{col} ROW:{gridData[col].Count} LineDist: {line.OX:F2} {line.OY:F2} {maxDist:F2}");
                 }
                 else
                 {
-                    //raw data
-                    for (int row = 0; row < gridData[col].Count; row++)
-                    {
-                        var raw = new PosXYZ(gridData[col][row].X, gridData[col][row].Y, gridData[col][row].Z);
-                        profile.Last().Add(raw);
-                        Log($"{loopName} COL:{col} ROW:{row} RawData: {raw}");
-                    }
+                    profile.Last().Add(new PosXYZ(0, 0, gridData[col].Count));
+                    Log($"{loopName} COL:{col} ROW:{gridData[col].Count}");
+                    
                 }
             }
         }

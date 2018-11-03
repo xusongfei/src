@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Lead.Detect.Element;
+using Lead.Detect.Element.EleControl;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.loadUtils;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;

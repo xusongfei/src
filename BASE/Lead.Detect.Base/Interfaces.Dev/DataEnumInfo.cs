@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lead.Detect.Interfaces
+namespace Lead.Detect.Interfaces.Dev
 {
     public class DataEnumInfo
     {

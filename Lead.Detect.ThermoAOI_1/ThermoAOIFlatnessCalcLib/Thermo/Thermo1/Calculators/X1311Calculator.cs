@@ -2,7 +2,7 @@
 using Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalcItem;
 using Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalculator;
 
-namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1.Calculators
+namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1.Calculators
 {
     public class X1311Calculator : GeometryCalculator
     {

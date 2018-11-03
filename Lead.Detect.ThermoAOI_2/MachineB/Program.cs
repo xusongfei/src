@@ -3,6 +3,8 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.frameworkManage;
+using Lead.Detect.FrameworkExtension.scriptTask;
+using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.ThermoAOI2.MachineB.UserDefine;
 
 namespace Lead.Detect.ThermoAOI2.MachineB
@@ -55,6 +57,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB
                     EnvironmentManager.Ins.LoadPrims(FrameworkExtenion.IsSimulate ? @".\Config\devsim.dev" : @".\Config\default.dev");
 
                     //load task types to frameworks
+                    FrameworkUserTypeManager.LoadUserTaskTypes(Assembly.GetAssembly(typeof(ScriptStationTask)));
                     FrameworkUserTypeManager.LoadUserTaskTypes(Assembly.GetExecutingAssembly());
                 }
 

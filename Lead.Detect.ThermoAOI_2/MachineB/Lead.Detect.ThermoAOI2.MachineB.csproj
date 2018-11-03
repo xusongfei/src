@@ -38,8 +38,24 @@
     <ApplicationIcon>lead.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dos.ORM, Version=1.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dos.ORM.1.15.0\lib\net40\Dos.ORM.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="lcpi.data.oledb.net4_6, Version=1.8.0.3545, Culture=neutral, PublicKeyToken=ff716095e8002e7e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\lcpi.data.oledb.1.8.0.3545\lib\net46\lcpi.data.oledb.net4_6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="lcpi.lib.net4_6, Version=2.2.0.1687, Culture=neutral, PublicKeyToken=ff716095e8002e7e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\lcpi.lib.2.2.0.1687\lib\net46\lcpi.lib.net4_6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -110,6 +126,7 @@
       <DependentUpon>ScanBarcodeForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Config2\CameraPlatform.dat" />
+    <None Include="Config2\default.db" />
     <None Include="Config2\default.dev" />
     <None Include="Config2\devsim.dev" />
     <None Include="Config2\environment.cfg" />
@@ -121,6 +138,7 @@
     <None Include="Config2\Settings.cfg" />
     <None Include="Config2\TransPlatform.dat" />
     <None Include="Config\CameraPlatform.dat" />
+    <None Include="Config\default.db" />
     <None Include="Config\default.dev">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -143,7 +161,9 @@
     <None Include="Config\Settings.cfg" />
     <None Include="Config\TransPlatform.dat" />
     <None Include="Config\environment.cfg" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -169,6 +189,10 @@
       <Project>{d900d7e5-35cc-4210-b7cc-d20836674c07}</Project>
       <Name>Lead.Detect.Element</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Extension\DatabaseHelper\Lead.Detect.DatabaseHelper.csproj">
+      <Project>{6ea6d1fd-7d09-4d17-ad94-4e6711054de0}</Project>
+      <Name>Lead.Detect.DatabaseHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\BASE\Lead.Detect.Extension\FrameworkExtension\Lead.Detect.FrameworkExtension.csproj">
       <Project>{463f8ee2-5570-40aa-9f85-58473def51fc}</Project>
       <Name>Lead.Detect.FrameworkExtension</Name>
@@ -176,6 +200,10 @@
     <ProjectReference Include="..\..\BASE\Lead.Detect.Extension\MachineUtilityLib\Lead.Detect.MachineUtilityLib.csproj">
       <Project>{195d7e78-9e4c-4575-a82e-582f378674ea}</Project>
       <Name>Lead.Detect.MachineUtilityLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Extension\Utility\Lead.Detect.Utility.csproj">
+      <Project>{1ec60b75-6689-47e1-be8c-63a7ab3325e0}</Project>
+      <Name>Lead.Detect.Utility</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Lead.Detect.ThermoAOI_1\ThermoAOIFlatnessCalcLib\Lead.Detect.ThermoAOIProductCalcLib.csproj">
       <Project>{4dc12809-3d6e-4a62-a9fc-3ba47dfdbe97}</Project>
@@ -189,6 +217,7 @@
   <ItemGroup>
     <Folder Include="Config2\Project\" />
     <Folder Include="Config\Project\backup\" />
+    <Folder Include="Config\ScriptTasks\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

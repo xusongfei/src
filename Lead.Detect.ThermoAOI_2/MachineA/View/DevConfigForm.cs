@@ -11,7 +11,8 @@ using Lead.Detect.FrameworkExtension.userControls;
 using Lead.Detect.MeasureComponents.Calibration;
 using Lead.Detect.ThermoAOI2.MachineA.UserDefine;
 using Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Lead.Detect.ThermoAOI2.MachineA.View
@@ -68,7 +69,16 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
 
             //product
             tabControl1.SelectedTab = tabPageProduct;
-            textBoxMeasureProj.Text = Machine.Ins.Settings.MeasureProjectFile;
+            measureProjectSelctionControl1.Station = Machine.Ins.Find<Station>("MainStation");
+            measureProjectSelctionControl1.ProjecType = typeof(MeasureProjectA);
+            measureProjectSelctionControl1.ProjectFile = Machine.Ins.Settings.MeasureProjectFile;
+            measureProjectSelctionControl1.SelectMeasureProjectUpdateEvent += f =>
+            {
+
+                Machine.Ins.Settings.MeasureProjectFile = f;
+                Machine.Ins.Settings.Save();
+            };
+            measureProjectSelctionControl1.LoadMeasureProject();
 
 
             //calib
@@ -111,67 +121,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
         }
 
 
-        #region project editor
-
-        private void buttonMeasureProjectEditor_Click(object sender, EventArgs e)
-        {
-            var mprjForm = new MeasureProjectEditor()
-            {
-                StartPosition = FormStartPosition.CenterParent,
-                DefaultProducType = typeof(MeasureProjectA),
-
-                Platforms = Machine.Ins.Platforms.Values.ToList(),
-            };
-
-            mprjForm.ShowDialog();
-        }
-
-        private void buttonBrowseMeasureProj_Click(object sender, EventArgs e)
-        {
-            var station = Machine.Ins.Find<Station>("MainStation");
-            if (station == null || station.RunningState != RunningState.WaitReset)
-            {
-                MessageBox.Show($"工站未停止，请停止运行后更换测试文件！");
-                return;
-            }
-
-
-            var fd = new OpenFileDialog
-            {
-                InitialDirectory = @".\Config",
-                Filter = @"(Measure Project)|*.mprj",
-                Multiselect = false
-            };
-
-            if (fd.ShowDialog() == DialogResult.OK)
-            {
-                Machine.Ins.Settings.MeasureProjectFile = fd.FileName.Replace(Directory.GetCurrentDirectory(), ".");
-                textBoxMeasureProj.Text = Machine.Ins.Settings.MeasureProjectFile;
-            }
-        }
-
-        private void buttonOpenMeasureProj_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var mprjForm = new MeasureProjectEditor()
-                {
-                    StartPosition = FormStartPosition.CenterParent,
-                    DefaultProducType = typeof(MeasureProjectA),
-
-                    Platforms = Machine.Ins.Platforms.Values.ToList(),
-                    Project = MeasureProject.Load(textBoxMeasureProj.Text, typeof(MeasureProjectA))
-                };
-
-                mprjForm.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"打开文件异常：{ex.Message}");
-            }
-        }
-
-        #endregion
+     
 
         #region calib
 
@@ -183,8 +133,6 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             }
 
             //select calib type
-
-            var project = MeasureProject.Load("", typeof(MeasureProjectA)) as MeasureProjectA;
 
 
             //show calib form

@@ -1,4 +1,4 @@
-﻿namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1.Calculators
+﻿namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1.Calculators
 {
     public enum X1311Geo
     {

@@ -97,12 +97,12 @@ namespace Lead.Detect.FrameworkExtension
             }
         }
 
-        public static bool SetDo(this ICylinderEx cyex, StationTask task, bool status = true, int timeout = 3000, bool isErrorOnSignalError = true)
+        public static bool SetDo(this ICylinderEx cyex, StationTask task, bool status = true, int timeout = 3000, bool? ignoreOrWaringOrError = false)
         {
-            return SetDo(new[] { cyex }, task, new[] { status }, timeout, isErrorOnSignalError);
+            return SetDo(new[] { cyex }, task, new[] { status }, timeout, ignoreOrWaringOrError);
         }
 
-        public static bool SetDo(this ICylinderEx[] cyex, StationTask task, bool[] status, int timeout = 3000, bool isErrorOnSignalError = true)
+        public static bool SetDo(this ICylinderEx[] cyex, StationTask task, bool[] status, int timeout = 3000, bool? ignoreOrWaringOrError = false)
         {
             for (int i = 0; i < cyex.Length; i++)
             {
@@ -120,15 +120,15 @@ namespace Lead.Detect.FrameworkExtension
             }
 
 
-            return WaitDi(cyex, task, status, timeout, isErrorOnSignalError);
+            return WaitDi(cyex, task, status, timeout, ignoreOrWaringOrError);
         }
 
-        public static bool WaitDi(this ICylinderEx cyex, StationTask task, bool status = true, int timeout = -1, bool isErrorOnSignalError = true)
+        public static bool WaitDi(this ICylinderEx cyex, StationTask task, bool status = true, int timeout = -1)
         {
             return WaitDi(new[] { cyex.DiOrg, cyex.DiWork }, task, new[] { cyex.DriverCard, cyex.DriverCard }, new[] { !status, status }, timeout);
         }
 
-        public static bool WaitDi(this ICylinderEx[] cyex, StationTask task, bool[] status, int timeout = -1, bool showWarning = true)
+        public static bool WaitDi(this ICylinderEx[] cyex, StationTask task, bool[] status, int timeout = -1, bool? ignoreOrWaringOrError = false)
         {
             task?.AbortIfCancel(nameof(WaitDi));
             task?.JoinIfPause();
@@ -158,7 +158,7 @@ namespace Lead.Detect.FrameworkExtension
             var ret = WaitDi(waitdi, task, motion, waitSts, timeout);
             if (!ret)
             {
-                task?.Log($"{err} error", showWarning ? LogLevel.Warning : LogLevel.Debug);
+                task?.Log($"{err} error", ignoreOrWaringOrError == null ? LogLevel.Debug : ((ignoreOrWaringOrError == false) ? LogLevel.Warning : LogLevel.Error));
             }
             else
             {
@@ -416,7 +416,6 @@ namespace Lead.Detect.FrameworkExtension
 
                 Thread.Sleep(1);
             }
-
             return false;
         }
     }
@@ -500,9 +499,8 @@ namespace Lead.Detect.FrameworkExtension
             if (axis != null)
             {
                 axis.DriverCard.GetEncPos(axis.AxisChannel, ref pos);
-                return (int)(100 * axis.ToMm(pos)) / 100d;
+                return (int)(1000 * axis.ToMm(pos)) / 1000d;
             }
-
             return pos;
         }
 
@@ -689,8 +687,7 @@ namespace Lead.Detect.FrameworkExtension
             var axisInps = axis.Select(a => a == null || a.GetInp()).ToArray();
 
             //wait done
-            var err =
-                $"{string.Join(",", axis.Select(a => a == null ? string.Empty : a.Name))} MoveAbs {string.Join(",", pos.Select(p => p.ToString("F2")))} {string.Join(",", vel.Select(p => p.ToString("F2")))}";
+            var err = $"{string.Join(",", axis.Select(a => a == null ? string.Empty : a.Name))} MoveAbs {string.Join(",", pos.Select(p => p.ToString("F2")))} {string.Join(",", vel.Select(p => p.ToString("F2")))}";
             var t = 0;
             timeout = timeout < 0 ? int.MaxValue : timeout;
             while (t++ <= timeout)

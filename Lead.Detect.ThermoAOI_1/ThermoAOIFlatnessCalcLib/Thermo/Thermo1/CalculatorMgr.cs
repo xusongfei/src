@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalculator;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1.Calculators;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1.Calculators;
 
-namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1
+namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1
 {
     public class CalculatorMgr
     {

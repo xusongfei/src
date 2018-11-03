@@ -6,7 +6,7 @@ using Lead.Detect.Base;
 using Lead.Detect.Base.GlobalPrim;
 using Lead.Detect.Interfaces.Dev;
 
-namespace Lead.Detect.Element
+namespace Lead.Detect.Element.EleControl
 {
     public partial class EleVioConfigControl : Form
     {

@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.common;
-using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.loadUtils;
 using Lead.Detect.FrameworkExtension.platforms.calibrations;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.FrameworkExtension.userControls;
-using Lead.Detect.Helper;
 using Lead.Detect.ThermoAOI.Calibration;
 using Lead.Detect.ThermoAOI.Machine.newTasks;
-using Lead.Detect.ThermoAOI.Product;
 using Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalculator;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Lead.Detect.ThermoAOI.View
@@ -67,18 +63,35 @@ namespace Lead.Detect.ThermoAOI.View
             richTextBoxMachine.Text = Machine.Machine.Ins.SerializeToString();
 
 
-            //product
-            textBoxLeftProductFile.Text = Machine.Machine.Ins.Settings.LeftProjectFilePath;
-            textBoxLeftProductFile.ReadOnly = true;
-            textBoxRightProductFile.Text = Machine.Machine.Ins.Settings.RightProjectFilePath;
-            textBoxRightProductFile.ReadOnly = true;
-
-
             //calib
             stationStateControlLeft.Machine = Machine.Machine.Ins;
             stationStateControlLeft.Station = Machine.Machine.Ins.Find<Station>("LeftStation");
             stationStateControlRight.Machine = Machine.Machine.Ins;
             stationStateControlRight.Station = Machine.Machine.Ins.Find<Station>("RightStation");
+
+
+            //product
+            measureProjectSelctionControl1.Station = Machine.Machine.Ins.Find<Station>("LeftStation");
+            measureProjectSelctionControl1.ProjecType = typeof(MeasureProject1);
+            measureProjectSelctionControl1.ProjectFile = Machine.Machine.Ins.Settings.LeftProjectFilePath;
+            measureProjectSelctionControl1.SelectMeasureProjectUpdateEvent += f =>
+            {
+                Machine.Machine.Ins.Settings.LeftProjectFilePath = f;
+                Machine.Machine.Ins.Settings.Save();
+            };
+
+            measureProjectSelctionControl1.LoadMeasureProject();
+
+            measureProjectSelctionControl2.Station = Machine.Machine.Ins.Find<Station>("RightStation");
+            measureProjectSelctionControl2.ProjecType = typeof(MeasureProject1);
+            measureProjectSelctionControl2.ProjectFile = Machine.Machine.Ins.Settings.RightProjectFilePath;
+            measureProjectSelctionControl2.SelectMeasureProjectUpdateEvent += f =>
+            {
+                Machine.Machine.Ins.Settings.RightProjectFilePath = f;
+                Machine.Machine.Ins.Settings.Save();
+            };
+
+            measureProjectSelctionControl2.LoadMeasureProject();
 
 
             tabControlMain.SelectedTab = tabPageProduct;
@@ -122,107 +135,6 @@ namespace Lead.Detect.ThermoAOI.View
         }
 
 
-        #region product
-
-        private void buttonProjectEditor_Click(object sender, EventArgs e)
-        {
-            var prj = new FlatnessProjectEditorForm()
-            {
-                StartPosition = FormStartPosition.CenterScreen,
-            };
-            prj.ShowDialog();
-        }
-
-
-        private void buttonProductCalculatorEditor_Click(object sender, EventArgs e)
-        {
-            var prj = new GeometryCalculatorEditorForm()
-            {
-                StartPosition = FormStartPosition.CenterScreen,
-            };
-
-            prj.ShowDialog();
-        }
-
-        private void buttonOpenLeftProductFile_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var prj = new FlatnessProjectEditorForm
-                {
-                    FlatnessProject = FlatnessProject.Load(Machine.Machine.Ins.Settings.LeftProjectFilePath)
-                };
-                prj.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"LeftProjectFiles Edit Fail: {ex.Message}");
-            }
-        }
-
-        private void buttonOpenRightProductFile_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var prj = new FlatnessProjectEditorForm
-                {
-                    FlatnessProject = FlatnessProject.Load(Machine.Machine.Ins.Settings.RightProjectFilePath)
-                };
-                prj.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"RightProjectFiles Edit Fail: {ex.Message}");
-            }
-        }
-
-
-        private void buttonBrowseLeftProjectFile_Click(object sender, EventArgs e)
-        {
-            if (Machine.Machine.Ins.Find<Station>("LeftStation").RunningState != RunningState.WaitReset)
-            {
-                MessageBox.Show($"左工站未停止，请停止运行后更换测试文件！");
-                return;
-            }
-
-
-            var fd = new OpenFileDialog
-            {
-                InitialDirectory = @".\Config",
-                Filter = @"(Flatness Project)|*.fprj",
-                Multiselect = false
-            };
-
-            if (fd.ShowDialog() == DialogResult.OK)
-            {
-                Machine.Machine.Ins.Settings.LeftProjectFilePath = fd.FileName;
-                textBoxLeftProductFile.Text = fd.FileName;
-            }
-        }
-
-        private void buttonBrowseRightProjectFile_Click(object sender, EventArgs e)
-        {
-            if (Machine.Machine.Ins.Find<Station>("RightStation").RunningState != RunningState.WaitReset)
-            {
-                MessageBox.Show($"右工站未停止，请停止运行后更换测试文件！");
-                return;
-            }
-
-            var fd = new OpenFileDialog
-            {
-                InitialDirectory = @".\Config",
-                Filter = @"(Flatness Project)|*.fprj",
-                Multiselect = false
-            };
-
-            if (fd.ShowDialog() == DialogResult.OK)
-            {
-                Machine.Machine.Ins.Settings.RightProjectFilePath = fd.FileName;
-                textBoxRightProductFile.Text = fd.FileName;
-            }
-        }
-
-        #endregion
 
 
         #region calib
@@ -641,5 +553,16 @@ namespace Lead.Detect.ThermoAOI.View
         }
 
         #endregion
+
+        private void buttonProductCalculatorEditor_Click(object sender, EventArgs e)
+        {
+            var prj = new GeometryCalculatorEditorForm()
+            {
+                StartPosition = FormStartPosition.CenterScreen,
+            };
+
+            prj.ShowDialog();
+
+        }
     }
 }

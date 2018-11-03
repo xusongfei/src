@@ -117,7 +117,7 @@ namespace Lead.Detect.PrimLeisaiIOCard
 
         public int IPrimConnect(ref string result)
         {
-            var ret = csLTDMC.LTDMC.nmc_set_connect_state((ushort)DevIndex, (ushort)Node, 1, (ushort)0);
+            var ret = LTDMC.nmc_set_connect_state((ushort)DevIndex, (ushort)Node, 1, (ushort)0);
             if(ret!=0)
             {
                 throw new Exception($"leisai can connect fail {DevIndex} {Node} {ret}");
@@ -128,7 +128,7 @@ namespace Lead.Detect.PrimLeisaiIOCard
 
         public int IPrimDisConnect(ref string result)
         {
-            csLTDMC.LTDMC.nmc_set_connect_state((ushort)DevIndex, (ushort)Node, 0, (ushort)0);
+            LTDMC.nmc_set_connect_state((ushort)DevIndex, (ushort)Node, 0, (ushort)0);
             PrimConnStat = PrimConnState.UnConnected;
             return 0;
         }
@@ -204,13 +204,13 @@ namespace Lead.Detect.PrimLeisaiIOCard
         {
 
             status = status == 1 ? 0 : 1;
-            return csLTDMC.LTDMC.nmc_write_outbit((ushort)DevIndex, (ushort)Node, (ushort)port, (ushort)status);
+            return LTDMC.nmc_write_outbit((ushort)DevIndex, (ushort)Node, (ushort)port, (ushort)status);
         }
 
         public int ReadSingleDOutput(int index, int i, int port, out int status)
         {
             ushort val = 0;
-            csLTDMC.LTDMC.nmc_read_outbit((ushort)DevIndex, (ushort)Node, (ushort)port, ref val);
+            LTDMC.nmc_read_outbit((ushort)DevIndex, (ushort)Node, (ushort)port, ref val);
             status = val;
             status = status == 0 ? 1 : 0;
             return 0;
@@ -219,7 +219,7 @@ namespace Lead.Detect.PrimLeisaiIOCard
         public int ReadSingleDInput(int index, int i, int port, out int status)
         {
             ushort val = 0;
-            csLTDMC.LTDMC.nmc_read_inbit((ushort)DevIndex, (ushort)Node, (ushort)port, ref val);
+            LTDMC.nmc_read_inbit((ushort)DevIndex, (ushort)Node, (ushort)port, ref val);
             status = val;
             status = status == 0 ? 1 : 0;
             return 0;
@@ -231,84 +231,84 @@ namespace Lead.Detect.PrimLeisaiIOCard
 
         public int GetAxisPositionF(int axis, ref double d)
         {
-            d = csLTDMC.LTDMC.dmc_get_position((ushort)DevIndex, (ushort)axis);
+            d = LTDMC.dmc_get_position((ushort)DevIndex, (ushort)axis);
             return 0;
         }
 
         public int SetAxisPositionOrFeedbackPules(int axis, int pos)
         {
-            return csLTDMC.LTDMC.dmc_set_position((ushort)DevIndex, (ushort)axis, pos);
+            return LTDMC.dmc_set_position((ushort)DevIndex, (ushort)axis, pos);
         }
 
         public int GetAxisCommandF(int axis, ref double d)
         {
-            d = csLTDMC.LTDMC.dmc_get_target_position((ushort)DevIndex, (ushort)axis);
+            d = LTDMC.dmc_get_target_position((ushort)DevIndex, (ushort)axis);
             return 0;
         }
 
         public int AxisSetEnable(int index, int axis, bool enable)
         {
-            return csLTDMC.LTDMC.dmc_set_sevon_enable((ushort)DevIndex, (ushort)axis, (ushort)(enable ? 1 : 0));
+            return LTDMC.dmc_set_sevon_enable((ushort)DevIndex, (ushort)axis, (ushort)(enable ? 1 : 0));
         }
 
         public int AxisAbsMove(int index, int axis, int pos, int vel)
         {
-            return csLTDMC.LTDMC.dmc_pmove((ushort)DevIndex, (ushort)axis, pos, 1);
+            return LTDMC.dmc_pmove((ushort)DevIndex, (ushort)axis, pos, 1);
         }
 
         public int AxisRelMove(int index, int axis, int step, int vel)
         {
-            return csLTDMC.LTDMC.dmc_pmove((ushort)DevIndex, (ushort)axis, step, 0);
+            return LTDMC.dmc_pmove((ushort)DevIndex, (ushort)axis, step, 0);
         }
 
         public bool AxisIsStop(int index, int axis)
         {
-            return csLTDMC.LTDMC.dmc_check_done((ushort)DevIndex, (ushort)axis) == 1;
+            return LTDMC.dmc_check_done((ushort)DevIndex, (ushort)axis) == 1;
         }
 
         public int AxisStopMove(int index, int axis)
         {
-            return csLTDMC.LTDMC.dmc_stop((ushort)DevIndex, (ushort)axis, 0);
+            return LTDMC.dmc_stop((ushort)DevIndex, (ushort)axis, 0);
         }
 
         public int AxisHomeMove(int index, int axis)
         {
-            return csLTDMC.LTDMC.dmc_home_move((ushort)DevIndex, (ushort)axis);
+            return LTDMC.dmc_home_move((ushort)DevIndex, (ushort)axis);
         }
 
         public bool AxisHMV(int motionDevIndex, int axis)
         {
             ushort state = 0;
-            var ret = csLTDMC.LTDMC.dmc_get_home_result((ushort)DevIndex, (ushort)axis, ref state);
+            var ret = LTDMC.dmc_get_home_result((ushort)DevIndex, (ushort)axis, ref state);
             return state == 1;
         }
 
         public bool AxisIsEnble(int index, int axis)
         {
-            return csLTDMC.LTDMC.dmc_get_sevon_enable((ushort)DevIndex, (ushort)axis) == 1;
+            return LTDMC.dmc_get_sevon_enable((ushort)DevIndex, (ushort)axis) == 1;
         }
 
         public bool AxisIsAlarm(int index, int axis)
         {
-            var sts = csLTDMC.LTDMC.dmc_axis_io_status((ushort)DevIndex, (ushort)axis);
+            var sts = LTDMC.dmc_axis_io_status((ushort)DevIndex, (ushort)axis);
             return (sts & (1 << 0)) > 0;
         }
 
         public bool AxisSingalEMG(int index, int axis)
         {
-            var sts = csLTDMC.LTDMC.dmc_axis_io_status((ushort)DevIndex, (ushort)axis);
+            var sts = LTDMC.dmc_axis_io_status((ushort)DevIndex, (ushort)axis);
             return (sts & (1 << 3)) > 0;
         }
 
         public bool LimitMel(int index, int axis)
         {
-            var sts = csLTDMC.LTDMC.dmc_axis_io_status((ushort)DevIndex, (ushort)axis);
+            var sts = LTDMC.dmc_axis_io_status((ushort)DevIndex, (ushort)axis);
             return (sts & (1 << 2)) > 0;
         }
 
         public bool LimitPel(int motionDevIndex, int axis)
         {
-            var sts = csLTDMC.LTDMC.dmc_axis_io_status((ushort)DevIndex, (ushort)axis);
+            var sts = LTDMC.dmc_axis_io_status((ushort)DevIndex, (ushort)axis);
             return (sts & (1 << 1)) > 0;
         }
 
@@ -319,18 +319,18 @@ namespace Lead.Detect.PrimLeisaiIOCard
 
         public bool AxisAstp(int index, int axis)
         {
-            var sts = csLTDMC.LTDMC.dmc_axis_io_status((ushort)DevIndex, (ushort)axis);
+            var sts = LTDMC.dmc_axis_io_status((ushort)DevIndex, (ushort)axis);
             return (sts & (1 << 3)) > 0;
         }
 
         public int AxisSetAcc(int boardId, int axis, double acc)
         {
-            return csLTDMC.LTDMC.dmc_set_profile((ushort)DevIndex, (ushort)axis, acc / 4, acc / 2, acc / 50 * 0.01, acc / 50 * 0.01, acc);
+            return LTDMC.dmc_set_profile((ushort)DevIndex, (ushort)axis, acc / 4, acc / 2, acc / 50 * 0.01, acc / 50 * 0.01, acc);
         }
 
         public int AxisSetDec(int boardId, int axis, double dec)
         {
-            return csLTDMC.LTDMC.dmc_set_profile((ushort)DevIndex, (ushort)axis, dec / 4, dec / 2, dec / 50 * 0.01, dec / 50 * 0.01, dec);
+            return LTDMC.dmc_set_profile((ushort)DevIndex, (ushort)axis, dec / 4, dec / 2, dec / 50 * 0.01, dec / 50 * 0.01, dec);
         }
 
         public int AxisSetHomeVel(int axis, int vel)

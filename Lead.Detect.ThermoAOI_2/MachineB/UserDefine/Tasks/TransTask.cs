@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Lead.Detect.DatabaseHelper;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.ThermoAOI2.MachineB.View;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.ThermoDataConvert;
 using MachineUtilityLib.Utils;
+using MachineUtilityLib.UtilsFramework;
 
 namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 {
@@ -78,6 +83,24 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             VioMeasureStart.SetVio(this, false);
             VioMeasureFinish.SetVio(this, false);
 
+
+            try
+            {
+                Product = new Thermo2ProductB();
+
+                if (Machine.Ins.Settings.EnableFTP)
+                {
+                    var avcdata = ThermoConverter.Convert(Product, "", Machine.Ins.Settings.Description);
+                    avcdata.Save(Machine.Ins.Settings.FTPAddress);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log($"连接FTP ERROR: {ex.Message}", LogLevel.Error);
+            }
+
+
             //reset gui
             TestProcessControl.OnTestStartEvent(null);
 
@@ -122,7 +145,10 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             //create product
             Product = new Thermo2ProductB()
             {
-                Barcode = barcode, SPCItems = Project.SPCItems,
+                ProductType =  Project.ProductType.ToString(),
+                Description = Project.ProductName,
+                Barcode = barcode,
+                SPCItems = Project.SPCItems,
             };
             MeasureTask.Product = Product;
 
@@ -140,20 +166,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
 
             //save product data
-            {
-                Product.UpdateStatus();
-                CfgSettings.Production.Update(Product);
-                TestProcessControl.OnTestFinishEvent(Product);
-                try
-                {
-                    Product.Save();
-                }
-                catch (Exception e)
-                {
-                    Log($"Save Fail:{e.Message}", LogLevel.Warning);
-                    Station.Machine.Beep();
-                }
-            }
+            SaveProductData();
             return 0;
         }
 
@@ -177,6 +190,36 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             return string.Empty;
         }
 
+
+        private void SaveProductData()
+        {
+            {
+                try
+                {
+                    Product.UpdateStatus();
+                    CfgSettings.Production.Update(Product);
+
+                    Product.Save();
+                    Product.ToEntity().Save();
+                    Log("Product Save Finish:" + Product.ToString(), LogLevel.Info);
+
+                    if (Machine.Ins.Settings.EnableFTP)
+                    {
+                        var avcdata = ThermoConverter.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
+                        avcdata.Save(Machine.Ins.Settings.FTPAddress);
+                        avcdata.Save("AVCData");
+                        Log("Upload AvcData Finish:" + avcdata.ToString(), LogLevel.Info);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log($"保存数据失败：{ex.Message}", LogLevel.Warning);
+                    Station.Machine.Beep();
+                }
+            }
+
+            TestProcessControl.OnTestFinishEvent(Product);
+        }
 
     }
 }

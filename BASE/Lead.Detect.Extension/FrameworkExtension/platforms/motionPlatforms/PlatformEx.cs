@@ -298,7 +298,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
 
         public bool AssertPosTeached(string pos, StationTask task)
         {
-            if (this[pos] != null)
+            if (this[pos] == null)
             {
                 task?.Log($"{Name} {pos} not teached", LogLevel.Error);
                 return false;
@@ -413,6 +413,48 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
         {
             Axis.Stop();
         }
+
+
+        /// <summary>
+        /// calculate move timeout ms on axis speed
+        /// </summary>
+        /// <param name="step"></param>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public double GetMoveTimeout(double[] step, int i = -1)
+        {
+            var vel = Vel;
+            var axis = Axis;
+            var timeout = -1d;
+
+            if (i < 0)
+            {
+                for (var s = 0; s < step.Length && s < Vel.Length; s++)
+                {
+                    if (axis[s] != null)
+                    {
+                        var t = Math.Abs(step[s]) / vel[s];
+                        if (t > timeout)
+                        {
+                            timeout = t;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (axis[i] != null)
+                {
+                    timeout = step[i] / Vel[i];
+                }
+                else
+                {
+                    timeout = -1;
+                }
+            }
+            return timeout;
+        }
+
 
         public bool MoveRel(int i, double step, int timeout = -1, bool checkLimit = true)
         {
@@ -603,7 +645,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                 }
                 else
                 {
-                    return null;
+                    throw new NotSupportedException("GetPos");
                 }
             }
             else
@@ -620,7 +662,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                 }
                 else
                 {
-                    return null;
+                    throw new NotSupportedException("GetPos");
                 }
             }
         }

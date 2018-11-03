@@ -1,14 +1,11 @@
-﻿using Lead.Detect.Base.GlobalPrim;
-using Lead.Detect.Interfaces;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Lead.Detect.Base;
-using Lead.Detect.Element.EleControl;
 using Lead.Detect.Interfaces.Dev;
 
-namespace Lead.Detect.Element
+namespace Lead.Detect.Element.EleControl
 {
     public partial class EleDOControl : UserControl, IEleUpdate
     {

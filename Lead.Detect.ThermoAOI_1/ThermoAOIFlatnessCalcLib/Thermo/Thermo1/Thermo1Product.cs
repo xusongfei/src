@@ -2,19 +2,19 @@
 using System.Data;
 using System.Text;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
 
-namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1
+namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1
 {
     public class Thermo1Product : ThermoProduct
     {
         /// <summary>
-        /// 上测试点数据
+        /// 上测试点数据 X: 产品X， Y: 产品Y， Z: GT读数， OffsetX: GT读数备份， OffsetZ: GT工作高度
         /// </summary>
         public List<PosXYZ> RawDataUp { get; set; } = new List<PosXYZ>();
 
         /// <summary>
-        /// 下测试点数据
+        /// 下测试点数据 X: 产品X， Y: 产品Y， Z: GT读数， OffsetX: GT读数备份， OffsetZ: GT工作高度
         /// </summary>
         public List<PosXYZ> RawDataDown { get; set; } = new List<PosXYZ>();
       
@@ -28,12 +28,24 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1
             sb.Append($"{base.CsvHeaders()},");
 
 
+            //spc value
             sb.Append("SPC,");
             foreach (var s in SPCItems)
             {
                 sb.Append($"{s.SPC}-{s.Description},");
             }
+            sb.Append("SPCMIN,");
+            foreach (var s in SPCItems)
+            {
+                sb.Append($"{s.SPC}-MIN,");
+            }
+            sb.Append("SPCMAX,");
+            foreach (var s in SPCItems)
+            {
+                sb.Append($"{s.SPC}-MAX,");
+            }
 
+            //spec description
             sb.Append("SPEC,");
             foreach (var fai in SPCItems)
             {
@@ -65,7 +77,7 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1
             }
 
 
-            //Z GT value backup
+            //Z GT raw value backup
             sb.Append("RawUpGT,");
             foreach (var gt in RawDataUp)
             {

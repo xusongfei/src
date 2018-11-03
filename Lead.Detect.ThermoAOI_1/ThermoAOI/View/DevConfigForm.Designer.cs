@@ -68,15 +68,10 @@ namespace Lead.Detect.ThermoAOI.View
             this.tabPageMachine = new System.Windows.Forms.TabPage();
             this.richTextBoxMachine = new System.Windows.Forms.RichTextBox();
             this.tabPageProduct = new System.Windows.Forms.TabPage();
-            this.buttonBrowseRightProjectFile = new System.Windows.Forms.Button();
-            this.buttonBrowseLeftProjectFile = new System.Windows.Forms.Button();
-            this.buttonOpenRightProductFile = new System.Windows.Forms.Button();
-            this.buttonOpenLeftProductFile = new System.Windows.Forms.Button();
-            this.textBoxRightProductFile = new System.Windows.Forms.TextBox();
-            this.textBoxLeftProductFile = new System.Windows.Forms.TextBox();
-            this.buttonProductCalculatorEditor = new System.Windows.Forms.Button();
-            this.buttonProjectEditor = new System.Windows.Forms.Button();
+            this.measureProjectSelctionControl2 = new Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project.MeasureProjectSelctionControl();
+            this.measureProjectSelctionControl1 = new Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project.MeasureProjectSelctionControl();
             this.tabPageTest = new System.Windows.Forms.TabPage();
+            this.buttonProductCalculatorEditor = new System.Windows.Forms.Button();
             this.buttonRBarcodeTrigger = new System.Windows.Forms.Button();
             this.buttonRBarcodeClose = new System.Windows.Forms.Button();
             this.buttonRBacodeOpen = new System.Windows.Forms.Button();
@@ -513,14 +508,8 @@ namespace Lead.Detect.ThermoAOI.View
             // 
             // tabPageProduct
             // 
-            this.tabPageProduct.Controls.Add(this.buttonBrowseRightProjectFile);
-            this.tabPageProduct.Controls.Add(this.buttonBrowseLeftProjectFile);
-            this.tabPageProduct.Controls.Add(this.buttonOpenRightProductFile);
-            this.tabPageProduct.Controls.Add(this.buttonOpenLeftProductFile);
-            this.tabPageProduct.Controls.Add(this.textBoxRightProductFile);
-            this.tabPageProduct.Controls.Add(this.textBoxLeftProductFile);
-            this.tabPageProduct.Controls.Add(this.buttonProductCalculatorEditor);
-            this.tabPageProduct.Controls.Add(this.buttonProjectEditor);
+            this.tabPageProduct.Controls.Add(this.measureProjectSelctionControl2);
+            this.tabPageProduct.Controls.Add(this.measureProjectSelctionControl1);
             this.tabPageProduct.Location = new System.Drawing.Point(4, 39);
             this.tabPageProduct.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageProduct.Name = "tabPageProduct";
@@ -529,92 +518,27 @@ namespace Lead.Detect.ThermoAOI.View
             this.tabPageProduct.Text = "测量产品设置";
             this.tabPageProduct.UseVisualStyleBackColor = true;
             // 
-            // buttonBrowseRightProjectFile
+            // measureProjectSelctionControl2
             // 
-            this.buttonBrowseRightProjectFile.Location = new System.Drawing.Point(3, 365);
-            this.buttonBrowseRightProjectFile.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonBrowseRightProjectFile.Name = "buttonBrowseRightProjectFile";
-            this.buttonBrowseRightProjectFile.Size = new System.Drawing.Size(116, 60);
-            this.buttonBrowseRightProjectFile.TabIndex = 5;
-            this.buttonBrowseRightProjectFile.Text = "右工站测试文件";
-            this.buttonBrowseRightProjectFile.UseVisualStyleBackColor = true;
-            this.buttonBrowseRightProjectFile.Click += new System.EventHandler(this.buttonBrowseRightProjectFile_Click);
+            this.measureProjectSelctionControl2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.measureProjectSelctionControl2.Location = new System.Drawing.Point(502, 4);
+            this.measureProjectSelctionControl2.Margin = new System.Windows.Forms.Padding(4);
+            this.measureProjectSelctionControl2.Name = "measureProjectSelctionControl2";
+            this.measureProjectSelctionControl2.Size = new System.Drawing.Size(489, 605);
+            this.measureProjectSelctionControl2.TabIndex = 6;
             // 
-            // buttonBrowseLeftProjectFile
+            // measureProjectSelctionControl1
             // 
-            this.buttonBrowseLeftProjectFile.Location = new System.Drawing.Point(8, 163);
-            this.buttonBrowseLeftProjectFile.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonBrowseLeftProjectFile.Name = "buttonBrowseLeftProjectFile";
-            this.buttonBrowseLeftProjectFile.Size = new System.Drawing.Size(116, 60);
-            this.buttonBrowseLeftProjectFile.TabIndex = 5;
-            this.buttonBrowseLeftProjectFile.Text = "左工站测试文件";
-            this.buttonBrowseLeftProjectFile.UseVisualStyleBackColor = true;
-            this.buttonBrowseLeftProjectFile.Click += new System.EventHandler(this.buttonBrowseLeftProjectFile_Click);
-            // 
-            // buttonOpenRightProductFile
-            // 
-            this.buttonOpenRightProductFile.Location = new System.Drawing.Point(797, 365);
-            this.buttonOpenRightProductFile.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonOpenRightProductFile.Name = "buttonOpenRightProductFile";
-            this.buttonOpenRightProductFile.Size = new System.Drawing.Size(162, 60);
-            this.buttonOpenRightProductFile.TabIndex = 4;
-            this.buttonOpenRightProductFile.Text = "右工站产品测试文件编辑";
-            this.buttonOpenRightProductFile.UseVisualStyleBackColor = true;
-            this.buttonOpenRightProductFile.Click += new System.EventHandler(this.buttonOpenRightProductFile_Click);
-            // 
-            // buttonOpenLeftProductFile
-            // 
-            this.buttonOpenLeftProductFile.Location = new System.Drawing.Point(797, 163);
-            this.buttonOpenLeftProductFile.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonOpenLeftProductFile.Name = "buttonOpenLeftProductFile";
-            this.buttonOpenLeftProductFile.Size = new System.Drawing.Size(162, 60);
-            this.buttonOpenLeftProductFile.TabIndex = 4;
-            this.buttonOpenLeftProductFile.Text = "左工站产品测试文件编辑";
-            this.buttonOpenLeftProductFile.UseVisualStyleBackColor = true;
-            this.buttonOpenLeftProductFile.Click += new System.EventHandler(this.buttonOpenLeftProductFile_Click);
-            // 
-            // textBoxRightProductFile
-            // 
-            this.textBoxRightProductFile.Location = new System.Drawing.Point(125, 365);
-            this.textBoxRightProductFile.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBoxRightProductFile.Multiline = true;
-            this.textBoxRightProductFile.Name = "textBoxRightProductFile";
-            this.textBoxRightProductFile.Size = new System.Drawing.Size(666, 60);
-            this.textBoxRightProductFile.TabIndex = 3;
-            // 
-            // textBoxLeftProductFile
-            // 
-            this.textBoxLeftProductFile.Location = new System.Drawing.Point(130, 163);
-            this.textBoxLeftProductFile.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBoxLeftProductFile.Multiline = true;
-            this.textBoxLeftProductFile.Name = "textBoxLeftProductFile";
-            this.textBoxLeftProductFile.Size = new System.Drawing.Size(661, 60);
-            this.textBoxLeftProductFile.TabIndex = 3;
-            // 
-            // buttonProductCalculatorEditor
-            // 
-            this.buttonProductCalculatorEditor.Location = new System.Drawing.Point(457, 20);
-            this.buttonProductCalculatorEditor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonProductCalculatorEditor.Name = "buttonProductCalculatorEditor";
-            this.buttonProductCalculatorEditor.Size = new System.Drawing.Size(248, 55);
-            this.buttonProductCalculatorEditor.TabIndex = 2;
-            this.buttonProductCalculatorEditor.Text = "产品计算文件编辑";
-            this.buttonProductCalculatorEditor.UseVisualStyleBackColor = true;
-            this.buttonProductCalculatorEditor.Click += new System.EventHandler(this.buttonProductCalculatorEditor_Click);
-            // 
-            // buttonProjectEditor
-            // 
-            this.buttonProjectEditor.Location = new System.Drawing.Point(711, 20);
-            this.buttonProjectEditor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonProjectEditor.Name = "buttonProjectEditor";
-            this.buttonProjectEditor.Size = new System.Drawing.Size(248, 55);
-            this.buttonProjectEditor.TabIndex = 2;
-            this.buttonProjectEditor.Text = "产品测试文件编辑";
-            this.buttonProjectEditor.UseVisualStyleBackColor = true;
-            this.buttonProjectEditor.Click += new System.EventHandler(this.buttonProjectEditor_Click);
+            this.measureProjectSelctionControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.measureProjectSelctionControl1.Location = new System.Drawing.Point(4, 4);
+            this.measureProjectSelctionControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.measureProjectSelctionControl1.Name = "measureProjectSelctionControl1";
+            this.measureProjectSelctionControl1.Size = new System.Drawing.Size(489, 605);
+            this.measureProjectSelctionControl1.TabIndex = 6;
             // 
             // tabPageTest
             // 
+            this.tabPageTest.Controls.Add(this.buttonProductCalculatorEditor);
             this.tabPageTest.Controls.Add(this.buttonRBarcodeTrigger);
             this.tabPageTest.Controls.Add(this.buttonRBarcodeClose);
             this.tabPageTest.Controls.Add(this.buttonRBacodeOpen);
@@ -631,6 +555,17 @@ namespace Lead.Detect.ThermoAOI.View
             this.tabPageTest.TabIndex = 16;
             this.tabPageTest.Text = "测试";
             this.tabPageTest.UseVisualStyleBackColor = true;
+            // 
+            // buttonProductCalculatorEditor
+            // 
+            this.buttonProductCalculatorEditor.Location = new System.Drawing.Point(17, 95);
+            this.buttonProductCalculatorEditor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.buttonProductCalculatorEditor.Name = "buttonProductCalculatorEditor";
+            this.buttonProductCalculatorEditor.Size = new System.Drawing.Size(139, 207);
+            this.buttonProductCalculatorEditor.TabIndex = 3;
+            this.buttonProductCalculatorEditor.Text = "产品计算文件编辑";
+            this.buttonProductCalculatorEditor.UseVisualStyleBackColor = true;
+            this.buttonProductCalculatorEditor.Click += new System.EventHandler(this.buttonProductCalculatorEditor_Click);
             // 
             // buttonRBarcodeTrigger
             // 
@@ -667,7 +602,7 @@ namespace Lead.Detect.ThermoAOI.View
             // 
             // buttonRGT
             // 
-            this.buttonRGT.Location = new System.Drawing.Point(84, 218);
+            this.buttonRGT.Location = new System.Drawing.Point(180, 218);
             this.buttonRGT.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonRGT.Name = "buttonRGT";
             this.buttonRGT.Size = new System.Drawing.Size(170, 84);
@@ -711,7 +646,7 @@ namespace Lead.Detect.ThermoAOI.View
             // 
             // buttonLGTTest
             // 
-            this.buttonLGTTest.Location = new System.Drawing.Point(84, 95);
+            this.buttonLGTTest.Location = new System.Drawing.Point(180, 95);
             this.buttonLGTTest.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonLGTTest.Name = "buttonLGTTest";
             this.buttonLGTTest.Size = new System.Drawing.Size(170, 84);
@@ -753,7 +688,6 @@ namespace Lead.Detect.ThermoAOI.View
             this.tabPageSETTINGS.ResumeLayout(false);
             this.tabPageMachine.ResumeLayout(false);
             this.tabPageProduct.ResumeLayout(false);
-            this.tabPageProduct.PerformLayout();
             this.tabPageTest.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -770,7 +704,6 @@ namespace Lead.Detect.ThermoAOI.View
         private System.Windows.Forms.TabPage tPageCalib;
         private System.Windows.Forms.PropertyGrid propertyGridMachineConfig;
         private System.Windows.Forms.PropertyGrid propertyGridCommonConfig;
-        private System.Windows.Forms.Button buttonProjectEditor;
         private System.Windows.Forms.TabPage tPageVio;
         private FrameworkExtension.stateMachine.StationStateControl stationStateControlLeft;
         private FrameworkExtension.stateMachine.StationStateControl stationStateControlRight;
@@ -778,15 +711,9 @@ namespace Lead.Detect.ThermoAOI.View
         private System.Windows.Forms.Button buttonPlatformAlignTest;
         private System.Windows.Forms.RichTextBox richTextBoxCalib;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBoxLeftProductFile;
-        private System.Windows.Forms.Button buttonOpenLeftProductFile;
-        private System.Windows.Forms.Button buttonOpenRightProductFile;
-        private System.Windows.Forms.TextBox textBoxRightProductFile;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox comboBoxPlatformCalib;
         private System.Windows.Forms.Button buttonPlatformAlignCalc;
-        private System.Windows.Forms.Button buttonBrowseRightProjectFile;
-        private System.Windows.Forms.Button buttonBrowseLeftProjectFile;
         private System.Windows.Forms.Button buttonHeightCalibCalc;
         private System.Windows.Forms.TabPage tabPageTest;
         private System.Windows.Forms.Button buttonLGTTest;
@@ -798,7 +725,6 @@ namespace Lead.Detect.ThermoAOI.View
         private System.Windows.Forms.Button buttonRBarcodeClose;
         private System.Windows.Forms.Button buttonLBarcodeTrigger;
         private System.Windows.Forms.Button buttonLBarcodeClose;
-        private System.Windows.Forms.Button buttonProductCalculatorEditor;
         private System.Windows.Forms.TabPage tabPagePlatforms;
         private System.Windows.Forms.TabControl tabControlPlatform;
         private System.Windows.Forms.TabPage tabPage1;
@@ -813,5 +739,8 @@ namespace Lead.Detect.ThermoAOI.View
         private DoControl doControl1;
         private System.Windows.Forms.TabPage tabPageMachine;
         private System.Windows.Forms.RichTextBox richTextBoxMachine;
+        private ThermoAOIFlatnessCalcLib.Thermo.Project.MeasureProjectSelctionControl measureProjectSelctionControl1;
+        private System.Windows.Forms.Button buttonProductCalculatorEditor;
+        private ThermoAOIFlatnessCalcLib.Thermo.Project.MeasureProjectSelctionControl measureProjectSelctionControl2;
     }
 }

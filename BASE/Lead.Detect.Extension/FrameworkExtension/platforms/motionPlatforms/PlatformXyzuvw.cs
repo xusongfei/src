@@ -6,7 +6,7 @@ using Lead.Detect.FrameworkExtension.stateMachine;
 
 namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
 {
-    public class PlatformXyzuvw : PlatformXyz
+    public class PlatformXyzuvw : PlatformEx
     {
         public PlatformXyzuvw()
         {

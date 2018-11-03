@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalcItem;
 
-namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1.Calculators
+namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1.Calculators
 {
     /// <summary>
     /// A117 730-00127 V13  VAPOR CHAMBER

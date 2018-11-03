@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lead.Detect.FrameworkExtension;
-using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
+﻿using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.platforms.safeCheckObjects;
 using System.ComponentModel;

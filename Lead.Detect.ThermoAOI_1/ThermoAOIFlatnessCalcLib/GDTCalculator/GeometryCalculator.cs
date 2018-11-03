@@ -8,9 +8,10 @@ using System.Xml.Serialization;
 using Lead.Detect.FrameworkExtension.common;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalcItem;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1.Calculators;
-using MachineUtilityLib.UtilProduct;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1.Calculators;
 
 namespace Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalculator
 {

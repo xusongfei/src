@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
-namespace csLTDMC //命名空间根据应用程序修改
+namespace Lead.Detect.PrimLeisaiIOCard //命名空间根据应用程序修改
 {
     public partial class LTDMC
     {

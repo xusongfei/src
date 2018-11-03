@@ -2,7 +2,7 @@
 {
     public interface ITsp
     {
-        double RunTcp();
+        double RunTsp();
 
 
          double MinLength { get;  }

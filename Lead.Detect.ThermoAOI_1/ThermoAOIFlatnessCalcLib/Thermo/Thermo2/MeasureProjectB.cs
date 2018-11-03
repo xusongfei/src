@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Linq;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
 
-namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
+namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2
 {
     /// <summary>
     /// profile measure machine project
@@ -15,9 +15,6 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
         {
         }
 
-
-        [Category("产品"), Description("产品编号")]
-        public int TypeId { get; set; }
 
 
         [Category("测试"), Description("相机拍照点")]
@@ -30,10 +27,10 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
         public List<PosXYZU> DownLaserPos { get; set; } = new List<PosXYZU>();
 
 
+
         public override string ToString()
         {
             return $"{base.ToString()}\r\n"
-                   + $"TypeId:{TypeId}\r\n"
                    + $"CapturePos:\r\n{string.Join("\r\n", CapturePos.Select(p => p.ToString()))}\r\n"
                    + $"UpLaserPos:\r\n{string.Join("\r\n", UpLaserPos.Select(p => p.ToString()))}\r\n"
                    + $"DownLaserPos:\r\n{string.Join("\r\n", DownLaserPos.Select(p => p.ToString()))}";

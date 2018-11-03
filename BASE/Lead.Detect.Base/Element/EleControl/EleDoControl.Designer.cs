@@ -1,4 +1,4 @@
-﻿namespace Lead.Detect.Element
+﻿namespace Lead.Detect.Element.EleControl
 {
     partial class EleDOControl
     {

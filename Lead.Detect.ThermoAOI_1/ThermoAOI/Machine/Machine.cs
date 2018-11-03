@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Drawing.Design;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
@@ -8,9 +6,9 @@ using Lead.Detect.FrameworkExtension.motionDriver;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using System.IO;
 using Lead.Detect.FrameworkExtension.frameworkManage;
-using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.ThermoAOI.VersionHelper;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
 
 namespace Lead.Detect.ThermoAOI.Machine
 {
@@ -45,8 +43,10 @@ namespace Lead.Detect.ThermoAOI.Machine
                 throw new Exception("Load MachineSettings Fail!");
             }
 
-
+            //转换点位
             PlatformConvert.ConvertPts();
+            //转换测试文件
+            FlatnessFprjConvert.ConvertFprj();
 
             //import machine objects
             if (FrameworkExtenion.IsSimulate)
@@ -71,8 +71,8 @@ namespace Lead.Detect.ThermoAOI.Machine
                 CalculatorMgr.Ins.Export();
                 CalculatorMgr.Ins.Import();
 
-                var lfprj = FlatnessProject.Load(Settings.LeftProjectFilePath);
-                var rfprj = FlatnessProject.Load(Settings.RightProjectFilePath);
+                var lfprj = MeasureProject.Load(Settings.LeftProjectFilePath, typeof(MeasureProject1));
+                var rfprj = MeasureProject.Load(Settings.RightProjectFilePath, typeof(MeasureProject1));
             }
             catch (Exception)
             {

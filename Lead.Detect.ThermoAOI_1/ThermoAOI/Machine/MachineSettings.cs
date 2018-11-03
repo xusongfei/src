@@ -4,7 +4,8 @@ using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.common;
 using Lead.Detect.ThermoAOI.Calibration;
 using Lead.Detect.ThermoAOI.Common;
-using Lead.Detect.ThermoAOI.Machine.Common;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
 
 namespace Lead.Detect.ThermoAOI.Machine
 {
@@ -45,6 +46,15 @@ namespace Lead.Detect.ThermoAOI.Machine
 
         [Category("Machine")]
         public string Name { set; get; } = "高度通用量测";
+        [Category("Machine")]
+        public string Description { set; get; } = "AOI1";
+    
+        [Category("Machine")]
+        public bool EnableFTP { get; set; } = false;
+        [Category("Machine")]
+        public string FTPAddress { set; get; } = @"192.168.80.10\TestData01";
+
+
 
         [Category("ProjectFile")]
         public string LeftProjectFilePath { get; set; } = @".\Config\left.fprj";

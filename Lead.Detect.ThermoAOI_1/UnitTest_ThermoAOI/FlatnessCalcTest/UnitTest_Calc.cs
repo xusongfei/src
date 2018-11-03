@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
+using Lead.Detect.PlatformCalibration.FittingHelper;
 using Lead.Detect.ThermoAOI.Calibration;
 using Lead.Detect.ThermoAOI.Machine;
-using Lead.Detect.ThermoAOI.Machine.Common;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1.Calculators;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1.Calculators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lead.Detect.UnitTest1.FlatnessCalcTest
@@ -113,12 +113,12 @@ namespace Lead.Detect.UnitTest1.FlatnessCalcTest
                 //calc
                 {
                     //transform
-                    CalibrationConfig.TransformRawData(PlatformType.LTrans, settings.Calibration, p);
-                    calculator.Calculate(p);
+                    //CalibrationConfig.TransformRawData(PlatformType.LTrans, settings.Calibration, p);
+                    //calculator.Calculate(p);
 
-                    Console.WriteLine($"{string.Join(",", p.SPCItems.Select(s => s.Value.ToString("F3")))}");
+                    //Console.WriteLine($"{string.Join(",", p.SPCItems.Select(s => s.Value.ToString("F3")))}");
 
-                    p.Save(@".\Config2\");
+                    //p.Save(@".\Config2\");
                 }
             }
 
@@ -144,5 +144,30 @@ namespace Lead.Detect.UnitTest1.FlatnessCalcTest
             }
 
         }
+
+
+        [TestMethod]
+
+        public void TestMethod_LineTest()
+        {
+
+            var line = LineParams.FitLine(new List<PosXYZ>()
+            {
+                new PosXYZ(0,0,1),
+                new PosXYZ(0,0,2),
+                new PosXYZ(0,0,3),
+            });
+
+
+            Console.WriteLine($"FitLine:{line.Origin} {line.Direction}");
+
+            var dist = line.Distance(new PosXYZ(1, 1, 0));
+
+            Console.WriteLine($"Dist:{dist:F2}");
+
+
+
+        }
+
     }
 }

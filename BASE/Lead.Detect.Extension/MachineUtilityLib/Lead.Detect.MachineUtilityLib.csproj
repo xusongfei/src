@@ -46,28 +46,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UtilControls\ProductionCount.cs" />
-    <Compile Include="UtilControls\ProductionCountControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UtilControls\ProductionCountControl.Designer.cs">
-      <DependentUpon>ProductionCountControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UtilProduct\ProductDataBase.cs" />
-    <Compile Include="UtilProduct\ProductDataDisplayControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UtilProduct\ProductDataDisplayControl.Designer.cs">
-      <DependentUpon>ProductDataDisplayControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UtilProduct\ProductStatus.cs" />
     <Compile Include="Utils\DualStartButton.cs" />
     <Compile Include="Utils\MultiDiSensorCheck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\MultiClampCylinders.cs" />
     <Compile Include="Utils\MultiVaccumWithSensor.cs" />
     <Compile Include="Utils\TestProcessControl.cs" />
-    <Compile Include="UtilTasks\StationTaskExtension.cs" />
+    <Compile Include="UtilsFramework\StationTaskExtension.cs" />
     <Compile Include="UtilViews\DevAlarmForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,11 +71,11 @@
     <Compile Include="UtilViews\FrmPassword.Designer.cs">
       <DependentUpon>FrmPassword.cs</DependentUpon>
     </Compile>
-    <Compile Include="UtilViews\Version.cs">
+    <Compile Include="UtilViews\VersionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UtilViews\Version.Designer.cs">
-      <DependentUpon>Version.cs</DependentUpon>
+    <Compile Include="UtilViews\VersionForm.Designer.cs">
+      <DependentUpon>VersionForm.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -99,16 +84,8 @@
       <Name>Lead.Detect.FrameworkExtension</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="UtilMachines\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="UtilControls\ProductionCountControl.resx">
-      <DependentUpon>ProductionCountControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UtilProduct\ProductDataDisplayControl.resx">
-      <DependentUpon>ProductDataDisplayControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UtilViews\DevAlarmForm.resx">
       <DependentUpon>DevAlarmForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -118,8 +95,8 @@
     <EmbeddedResource Include="UtilViews\FrmPassword.resx">
       <DependentUpon>FrmPassword.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UtilViews\Version.resx">
-      <DependentUpon>Version.cs</DependentUpon>
+    <EmbeddedResource Include="UtilViews\VersionForm.resx">
+      <DependentUpon>VersionForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

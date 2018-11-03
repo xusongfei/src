@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Lead.Detect.Base.GlobalPrim;
 using Lead.Detect.Helper;
 using Lead.Detect.PlatformCalibration;
+using Lead.Detect.PlatformCalibration.FittingHelper;
 using Lead.Detect.ThermoAOI.Machine;
 
 namespace Lead.Detect.UnitTest1

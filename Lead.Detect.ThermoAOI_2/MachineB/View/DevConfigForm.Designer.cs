@@ -57,10 +57,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             this.label5 = new System.Windows.Forms.Label();
             this.stationControl = new Lead.Detect.FrameworkExtension.stateMachine.StationStateControl();
             this.tabPageProduct = new System.Windows.Forms.TabPage();
-            this.buttonBrowseMeasureProj = new System.Windows.Forms.Button();
-            this.buttonOpenMeasureProj = new System.Windows.Forms.Button();
-            this.textBoxMeasureProj = new System.Windows.Forms.TextBox();
-            this.buttonMeasureProjectEditor = new System.Windows.Forms.Button();
+            this.measureProjectSelctionControl1 = new Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project.MeasureProjectSelctionControl();
             this.tabPageTest = new System.Windows.Forms.TabPage();
             this.cameraExDebugControl1 = new Lead.Detect.MeasureComponents.CameraControl.CameraExDebugControl();
             this.lineLaserExDebugControl2 = new Lead.Detect.MeasureComponents.LaserControl.LineLaserExDebugControl();
@@ -373,10 +370,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             // 
             // tabPageProduct
             // 
-            this.tabPageProduct.Controls.Add(this.buttonBrowseMeasureProj);
-            this.tabPageProduct.Controls.Add(this.buttonOpenMeasureProj);
-            this.tabPageProduct.Controls.Add(this.textBoxMeasureProj);
-            this.tabPageProduct.Controls.Add(this.buttonMeasureProjectEditor);
+            this.tabPageProduct.Controls.Add(this.measureProjectSelctionControl1);
             this.tabPageProduct.Location = new System.Drawing.Point(4, 39);
             this.tabPageProduct.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageProduct.Name = "tabPageProduct";
@@ -385,47 +379,15 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             this.tabPageProduct.Text = "产品测试设置";
             this.tabPageProduct.UseVisualStyleBackColor = true;
             // 
-            // buttonBrowseMeasureProj
+            // measureProjectSelctionControl1
             // 
-            this.buttonBrowseMeasureProj.Location = new System.Drawing.Point(18, 124);
-            this.buttonBrowseMeasureProj.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonBrowseMeasureProj.Name = "buttonBrowseMeasureProj";
-            this.buttonBrowseMeasureProj.Size = new System.Drawing.Size(128, 60);
-            this.buttonBrowseMeasureProj.TabIndex = 5;
-            this.buttonBrowseMeasureProj.Text = "当前测试文件 更换";
-            this.buttonBrowseMeasureProj.UseVisualStyleBackColor = true;
-            this.buttonBrowseMeasureProj.Click += new System.EventHandler(this.buttonBrowseMeasureProj_Click);
-            // 
-            // buttonOpenMeasureProj
-            // 
-            this.buttonOpenMeasureProj.Location = new System.Drawing.Point(180, 124);
-            this.buttonOpenMeasureProj.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonOpenMeasureProj.Name = "buttonOpenMeasureProj";
-            this.buttonOpenMeasureProj.Size = new System.Drawing.Size(122, 60);
-            this.buttonOpenMeasureProj.TabIndex = 4;
-            this.buttonOpenMeasureProj.Text = "当前测试文件 编辑";
-            this.buttonOpenMeasureProj.UseVisualStyleBackColor = true;
-            this.buttonOpenMeasureProj.Click += new System.EventHandler(this.buttonOpenMeasureProj_Click);
-            // 
-            // textBoxMeasureProj
-            // 
-            this.textBoxMeasureProj.Location = new System.Drawing.Point(18, 192);
-            this.textBoxMeasureProj.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBoxMeasureProj.Multiline = true;
-            this.textBoxMeasureProj.Name = "textBoxMeasureProj";
-            this.textBoxMeasureProj.Size = new System.Drawing.Size(666, 60);
-            this.textBoxMeasureProj.TabIndex = 3;
-            // 
-            // buttonMeasureProjectEditor
-            // 
-            this.buttonMeasureProjectEditor.Location = new System.Drawing.Point(18, 16);
-            this.buttonMeasureProjectEditor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonMeasureProjectEditor.Name = "buttonMeasureProjectEditor";
-            this.buttonMeasureProjectEditor.Size = new System.Drawing.Size(284, 55);
-            this.buttonMeasureProjectEditor.TabIndex = 2;
-            this.buttonMeasureProjectEditor.Text = "新建 产品测试文件";
-            this.buttonMeasureProjectEditor.UseVisualStyleBackColor = true;
-            this.buttonMeasureProjectEditor.Click += new System.EventHandler(this.buttonMeasureProjectEditor_Click);
+            this.measureProjectSelctionControl1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.measureProjectSelctionControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.measureProjectSelctionControl1.Location = new System.Drawing.Point(0, 0);
+            this.measureProjectSelctionControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.measureProjectSelctionControl1.Name = "measureProjectSelctionControl1";
+            this.measureProjectSelctionControl1.Size = new System.Drawing.Size(600, 618);
+            this.measureProjectSelctionControl1.TabIndex = 0;
             // 
             // tabPageTest
             // 
@@ -443,18 +405,18 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             // 
             // cameraExDebugControl1
             // 
-            this.cameraExDebugControl1.Location = new System.Drawing.Point(9, 378);
+            this.cameraExDebugControl1.Location = new System.Drawing.Point(9, 297);
             this.cameraExDebugControl1.Margin = new System.Windows.Forms.Padding(4);
             this.cameraExDebugControl1.Name = "cameraExDebugControl1";
-            this.cameraExDebugControl1.Size = new System.Drawing.Size(482, 231);
+            this.cameraExDebugControl1.Size = new System.Drawing.Size(482, 312);
             this.cameraExDebugControl1.TabIndex = 1;
             // 
             // lineLaserExDebugControl2
             // 
-            this.lineLaserExDebugControl2.Location = new System.Drawing.Point(9, 193);
+            this.lineLaserExDebugControl2.Location = new System.Drawing.Point(500, 8);
             this.lineLaserExDebugControl2.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.lineLaserExDebugControl2.Name = "lineLaserExDebugControl2";
-            this.lineLaserExDebugControl2.Size = new System.Drawing.Size(482, 175);
+            this.lineLaserExDebugControl2.Size = new System.Drawing.Size(482, 281);
             this.lineLaserExDebugControl2.TabIndex = 0;
             // 
             // lineLaserExDebugControl1
@@ -462,7 +424,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             this.lineLaserExDebugControl1.Location = new System.Drawing.Point(9, 8);
             this.lineLaserExDebugControl1.Margin = new System.Windows.Forms.Padding(4);
             this.lineLaserExDebugControl1.Name = "lineLaserExDebugControl1";
-            this.lineLaserExDebugControl1.Size = new System.Drawing.Size(482, 175);
+            this.lineLaserExDebugControl1.Size = new System.Drawing.Size(482, 281);
             this.lineLaserExDebugControl1.TabIndex = 0;
             // 
             // DevConfigForm
@@ -497,7 +459,6 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             this.tabPageCalib.ResumeLayout(false);
             this.tabPageCalib.PerformLayout();
             this.tabPageProduct.ResumeLayout(false);
-            this.tabPageProduct.PerformLayout();
             this.tabPageTest.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -509,14 +470,10 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
         private System.Windows.Forms.TabPage tabPageIO;
         private System.Windows.Forms.TabPage tabPageProduct;
         private System.Windows.Forms.TabPage tabPageCalib;
-        private System.Windows.Forms.Button buttonMeasureProjectEditor;
         private System.Windows.Forms.TabPage tabPageVio;
         private FrameworkExtension.stateMachine.StationStateControl stationControl;
         private System.Windows.Forms.RichTextBox richTextBoxAlignData;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button buttonOpenMeasureProj;
-        private System.Windows.Forms.TextBox textBoxMeasureProj;
-        private System.Windows.Forms.Button buttonBrowseMeasureProj;
         private System.Windows.Forms.TabPage tabPageTest;
         private System.Windows.Forms.TabPage tabPagePlatforms;
         private System.Windows.Forms.TabControl tabControlPlatform;
@@ -538,5 +495,6 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
         private MeasureComponents.LaserControl.LineLaserExDebugControl lineLaserExDebugControl1;
         private MeasureComponents.LaserControl.LineLaserExDebugControl lineLaserExDebugControl2;
         private MeasureComponents.CameraControl.CameraExDebugControl cameraExDebugControl1;
+        private ThermoAOIFlatnessCalcLib.Thermo.Project.MeasureProjectSelctionControl measureProjectSelctionControl1;
     }
 }

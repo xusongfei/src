@@ -27,7 +27,7 @@ namespace MachineUtilityLib.UtilControls
 
         public override string ToString()
         {
-            return $"Total:{TotalCount}\r\nOK:{OKCount}\r\nNG:{NGCount}\r\n";
+            return $"ALL:{TotalCount}\r\nOK:{OKCount}\r\nNG:{NGCount}\r\n";
         }
 
         public void Update(ProductDataBase product)

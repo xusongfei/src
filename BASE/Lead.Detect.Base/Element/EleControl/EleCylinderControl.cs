@@ -3,12 +3,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Lead.Detect.Base;
-using Lead.Detect.Base.GlobalPrim;
-using Lead.Detect.Element.EleControl;
-using Lead.Detect.Interfaces;
 using Lead.Detect.Interfaces.Dev;
 
-namespace Lead.Detect.Element
+namespace Lead.Detect.Element.EleControl
 {
     public partial class EleCylinderControl : UserControl, IEleUpdate
     {

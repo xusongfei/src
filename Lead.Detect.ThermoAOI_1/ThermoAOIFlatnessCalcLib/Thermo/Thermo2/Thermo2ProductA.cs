@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Text;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
 
-namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2
+namespace Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2
 {
     public class Thermo2ProductA : ThermoProduct
     {
-        [Description("测试点")]
         public List<PosXYZ> CapturePos { get; set; } = new List<PosXYZ>();
 
 

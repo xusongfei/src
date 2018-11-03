@@ -119,7 +119,7 @@ namespace Lead.Detect.ThermoAOITrajectoryLib
         }
 
 
-        public double RunTcp()
+        public double RunTsp()
         {
             vexnum = pos.Count;
             isTraverseDeep = false;

@@ -504,7 +504,6 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     if (Stations.All(s => !s.Value.Enable || s.Value.RunningState == RunningState.Resetting))
                     {
                         _resettingFlashCount = 0;
-                        //Blink(UserEventType.RESET).Light(UserEventType.RESET);
                         RunningState = RunningState.Resetting;
                         return;
                     }
@@ -527,7 +526,6 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     //pull up stations state
                     if (Stations.All(s => !s.Value.Enable || s.Value.RunningState == RunningState.WaitRun))
                     {
-                        Blink(UserEventType.START).Light(UserEventType.START);
                         RunningState = RunningState.WaitRun;
                         return;
                     }
@@ -570,7 +568,6 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     if (Stations.All(s => !s.Value.Enable || s.Value.RunningState == RunningState.Running))
                     {
                         _runningFlashCount = 0;
-                        Blink(UserEventType.START).Light(UserEventType.START);
                         RunningState = RunningState.Running;
                     }
                     else if (Stations.Any(s => s.Value.Enable && s.Value.RunningState == RunningState.WaitReset))
@@ -608,7 +605,6 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     else if (Stations.Any(s => s.Value.Enable && s.Value.RunningState == RunningState.Pause))
                     {
                         //some station pause
-                        //Blink(UserEventType.PAUSE).Light(UserEventType.PAUSE);
                         RunningState = RunningState.Pause;
                         return;
                     }
@@ -660,7 +656,6 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     if (Stations.All(s => !s.Value.Enable || s.Value.RunningState == RunningState.Running))
                     {
                         _runningFlashCount = 0;
-                        Blink(UserEventType.START).Light(UserEventType.START);
                         OnShowAlarmEvent(string.Empty, LogLevel.None);
                         RunningState = RunningState.Running;
                     }

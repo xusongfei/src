@@ -3,7 +3,6 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Lead.Detect.DatabaseHelper;
-using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 
 namespace Lead.Detect.ThermoAOI
@@ -39,7 +38,7 @@ namespace Lead.Detect.ThermoAOI
 
                 //simulate mode enable
                 FrameworkExtenion.IsDebugFramework = false;
-                FrameworkExtenion.IsSimulate = false;
+                FrameworkExtenion.IsSimulate = true;
                 if (FrameworkExtenion.IsSimulate)
                 {
                     if (MessageBox.Show("进入仿真模式？", "", MessageBoxButtons.YesNo) == DialogResult.No)

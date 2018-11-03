@@ -33,23 +33,36 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="geometry3Sharp, Version=1.0.144.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\geometry3Sharp.1.0.144\lib\net45\geometry3Sharp.dll</HintPath>
+    <Reference Include="geometry3Sharp, Version=1.0.289.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\geometry3Sharp.1.0.289\lib\net45\geometry3Sharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=4.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.4.5.1\lib\net40\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=4.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MathNet.Numerics.4.6.0\lib\net40\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlaneFitHelper.cs" />
+    <Compile Include="FittingHelper\LineParams.cs" />
+    <Compile Include="FittingHelper\PlaneFitHelper.cs" />
+    <Compile Include="FittingHelper\PlaneParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RigidAlign.cs" />
+    <Compile Include="Transformation\RigidAlign.cs" />
+    <Compile Include="Transformation\XyzPlarformCalibration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FrameworkExtension\Lead.Detect.FrameworkExtension.csproj">
+      <Project>{463f8ee2-5570-40aa-9f85-58473def51fc}</Project>
+      <Name>Lead.Detect.FrameworkExtension</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -43,6 +43,7 @@
             this.comboBoxDownStation = new System.Windows.Forms.ComboBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.buttonDownOptimize = new System.Windows.Forms.Button();
+            this.另存为mprjToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,7 +62,8 @@
             this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
-            this.saveToolStripMenuItem});
+            this.saveToolStripMenuItem,
+            this.另存为mprjToolStripMenuItem});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
             this.projectToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.projectToolStripMenuItem.Text = "文件";
@@ -69,21 +71,21 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "新建";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "打开";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "另存为";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -192,6 +194,13 @@
             this.buttonDownOptimize.UseVisualStyleBackColor = true;
             this.buttonDownOptimize.Click += new System.EventHandler(this.buttonDownOptimize_Click);
             // 
+            // 另存为mprjToolStripMenuItem
+            // 
+            this.另存为mprjToolStripMenuItem.Name = "另存为mprjToolStripMenuItem";
+            this.另存为mprjToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.另存为mprjToolStripMenuItem.Text = "另存为mprj";
+            this.另存为mprjToolStripMenuItem.Click += new System.EventHandler(this.另存为mprjToolStripMenuItem_Click);
+            // 
             // FlatnessProjectEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -236,5 +245,6 @@
         private System.Windows.Forms.ComboBox comboBoxDownStation;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button buttonDownOptimize;
+        private System.Windows.Forms.ToolStripMenuItem 另存为mprjToolStripMenuItem;
     }
 }

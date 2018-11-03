@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Lead.Detect.Element;
-using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.common;
-using Lead.Detect.FrameworkExtension.platforms;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.Helper;
+using Lead.Detect.ThermoAOI.Machine;
 
-namespace Lead.Detect.ThermoAOI.Machine.Common
+namespace Lead.Detect.ThermoAOI.VersionHelper
 {
     public class AxisPosConfig : UserSettings<AxisPosConfig>
     {

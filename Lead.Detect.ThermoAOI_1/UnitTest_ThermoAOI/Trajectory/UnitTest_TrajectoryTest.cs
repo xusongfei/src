@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
 using Lead.Detect.ThermoAOITrajectoryLib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -40,7 +40,7 @@ namespace Lead.Detect.UnitTest1.Trajectory
                 Console.WriteLine(pos.Count);
                 Console.WriteLine("----------------------------------");
                 var tcp = new BackTsp(new PosGraph(pos));
-                Console.WriteLine(tcp.RunTcp());
+                Console.WriteLine(tcp.RunTsp());
                 Console.WriteLine("----------------------------------");
             }
 
@@ -49,7 +49,7 @@ namespace Lead.Detect.UnitTest1.Trajectory
                 Console.WriteLine(pos.Count);
                 Console.WriteLine("----------------------------------");
                 var tcp = new DpTsp(new PosGraph(pos));
-                Console.WriteLine(tcp.RunTcp());
+                Console.WriteLine(tcp.RunTsp());
                 Console.WriteLine("----------------------------------");
             }
 

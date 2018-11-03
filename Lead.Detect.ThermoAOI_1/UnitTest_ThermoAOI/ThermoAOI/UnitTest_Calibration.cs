@@ -5,10 +5,12 @@ using System.Linq;
 using Lead.Detect.FrameworkExtension.platforms;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.PlatformCalibration;
+using Lead.Detect.PlatformCalibration.FittingHelper;
+using Lead.Detect.PlatformCalibration.Transformation;
 using Lead.Detect.ThermoAOI.Calibration;
 using Lead.Detect.ThermoAOI.Machine;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1.Calculators;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1.Calculators;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -468,11 +470,8 @@ namespace Lead.Detect.UnitTest1.ThermoAOI
         {
             CalibrationConfig calib = new CalibrationConfig()
             {
-                LeftHeightGt = new PosXYZ(0, 0, 2.561),
                 LeftHeightCalibGtPos = new PosXYZ(0, 0, 96.99),
 
-                LeftHeightGt1 = new PosXYZ(0, 0, 2.331),
-                LeftHeightGt2 = new PosXYZ(0, 0, 3.387),
                 LeftHeightCalibGt1Pos = new PosXYZ(0, 0, 0),
                 LeftHeightCalibGt2Pos = new PosXYZ(0, 0, 0),
 

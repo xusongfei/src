@@ -6,17 +6,16 @@ using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.platforms.safeCheckObjects;
 using Lead.Detect.FrameworkExtension.stateMachine;
+using Lead.Detect.PlatformCalibration.Transformation;
 using Lead.Detect.ThermoAOI.Calibration;
 using Lead.Detect.ThermoAOI.Common;
-using Lead.Detect.ThermoAOI.Machine.Common;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
 
 namespace Lead.Detect.ThermoAOI.Machine.newTasks
 {
     public class newMeasureUpTask : StationTask
     {
-        public PlatformType PlatformType;
-
         [Description("INPUT")]
         public IVioEx VioTransFinish;
 
@@ -26,9 +25,6 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
 
         public PlatformEx Platform;
         public double PlatformJumpHeight;
-        public PosXYZ PosWait;
-        public PosXYZ PosGtWork;
-
 
         /// <summary>
         /// Gt控制器,从transTask加载
@@ -39,10 +35,10 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
         /// 产品测试数据,从transTask加载
         /// </summary>
         [Description("INPUT")]
-        public Thermo1Product ProductData;
+        public Thermo1Product Product;
 
 
-        public ProductSettings CfgProductSettings;
+        public MeasureProject1 Project;
         public CalibrationConfig CfgCalib;
 
 
@@ -58,22 +54,12 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             VioTransFinish.SetVio(this, false);
             VioMeasureFinish.SetVio(this, false);
 
-            PosWait = Platform["Wait"] as PosXYZ;
-            if (PosWait == null)
-            {
-                ThrowException($"{Name} not teach Wait");
-                return -1;
-            }
-            PosGtWork = Platform["GtWork"] as PosXYZ;
-            if (PosGtWork == null)
-            {
-                ThrowException($"{Name} not teach GtWork");
-                return -1;
-            }
+            Platform.AssertPosTeached("Wait", this);
+            Platform.AssertPosTeached("GtWork", this);
 
             Platform.EnterAuto(this).Servo();
             Platform.EnterAuto(this).Home(new[] { 1, 1, 0 }, -1);
-            Platform.EnterAuto(this).MoveAbs(PosWait, checkLimit: false);
+            Platform.EnterAuto(this).MoveAbs("Wait", checkLimit: false);
 
             return 0;
         }
@@ -81,34 +67,39 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
         protected override int RunLoop()
         {
             //in case of manual operations
-            Platform.EnterAuto(this);
+            Platform.AssertAutoMode(this);
 
-
+            var safeHeight = Platform["GtWork"].Data()[2] - Project.Height;
+            if (Platform.CurPos[2] > safeHeight)
+            {
+                Log($"{Name} {Platform.Name} SafeHeightError:{Platform.CurPos[2]:F2}>{safeHeight:F2}", LogLevel.Error);
+            }
 
             //wait vio start
             VioTransFinish.WaitVioAndClear(this);
             {
                 //move wait
-                Platform.MoveAbs(PosWait);
+                Platform.MoveAbs("Wait");
 
                 //measure up test positions
                 bool isFirst = true;
-                foreach (var testPos in CfgProductSettings.UpTestPositions)
+                foreach (var pos in Project.UpTestPositions)
                 {
                     //transform gt work
-                    var newpos = testPos;
+                    var newpos = pos;
                     if (Station.Id == 1)
                     {
-                        newpos = testPos + Machine.Ins.Settings.Common.LeftGTSYSOffset;
+                        newpos = pos + Machine.Ins.Settings.Common.LeftGTSYSOffset;
                     }
                     else if (Station.Id == 2)
                     {
-                        newpos = testPos + Machine.Ins.Settings.Common.RightGTSYSOffset;
+                        newpos = pos + Machine.Ins.Settings.Common.RightGTSYSOffset;
                     }
 
-                    var gtWorkZ = PosGtWork.Z - CfgProductSettings.Height;
-                    var gtWork = CalibrationConfig.TransformToPlatformPos(CfgCalib, PlatformType, newpos, gtWorkZ);
-                    Log($"Transform {testPos.Name} {testPos.Description} {newpos} To {gtWork}");
+                    var gtWorkZ = Platform["GtWork"].Data()[2] - Project.Height;
+
+                    var gtWork = new PosXYZ(Platform.GetPos("P->UP", newpos.Data())) { Z = gtWorkZ };
+                    Log($"Transform {pos.Name} {pos.Description} {newpos} To {gtWork}");
 
                     //move gt work
                     if (isFirst)
@@ -126,12 +117,12 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                     var gtRaw = GtController?.ReadData();
                     if (gtRaw != null)
                     {
-                        ProductData.RawDataUp.Add(new PosXYZ()
+                        Product.RawDataUp.Add(new PosXYZ()
                         {
-                            Name = testPos.Name,
-                            Description = testPos.Description,
-                            X = testPos.X,
-                            Y = testPos.Y,
+                            Name = pos.Name,
+                            Description = pos.Description,
+                            X = pos.X,
+                            Y = pos.Y,
                             Z = gtRaw[0],
                             OffsetX = gtRaw[0],
                             OffsetZ = gtWorkZ,
@@ -141,9 +132,9 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                 }
 
                 //move wait
-                if (CfgProductSettings.UpTestPositions.Count > 0)
+                if (Project.UpTestPositions.Count > 0)
                 {
-                    Platform.Jump(PosWait, PlatformJumpHeight);
+                    Platform.Jump("Wait", PlatformJumpHeight);
                 }
 
             }
@@ -154,8 +145,8 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
 
             if (Machine.Ins.Settings.Common.IsRepeatTest)
             {
-                ProductData.Save("RepeatUp");
-                ProductData.RawDataUp.Clear();
+                Product.Save("RepeatUp");
+                Product.RawDataUp.Clear();
             }
             return 0;
         }
@@ -166,8 +157,6 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
     {
         public newLeftMeasureUp(int id, string name, Station station) : base(id, name, station)
         {
-            PlatformType = PlatformType.LUp;
-
             VioTransFinish = Machine.Ins.Find<IVioEx>("LTransFinishUp");
             VioMeasureFinish = Machine.Ins.Find<IVioEx>("LMeasureFinishUp");
 
@@ -177,6 +166,37 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             Platform.SafeChecks.Add(new UpSafeCheck(Machine.Ins.Find<PlatformEx>("LeftCarrier"), SafeCheckType.Auto));
             Platform.SafeChecks.Add(new UpSafeCheck(Machine.Ins.Find<PlatformEx>("LeftCarrier"), SafeCheckType.ManualHome));
             Platform.SafeChecks.Add(new UpSafeCheck(Machine.Ins.Find<PlatformEx>("LeftCarrier"), SafeCheckType.Manual));
+
+
+            var pToUp = new Func<double[], double[]>(d =>
+            {
+                var pnew = XyzPlarformCalibration.AffineTransform(new PosXYZ(d), Machine.Ins.Settings.Calibration.LeftUpTransform);
+                return pnew.Data();
+            });
+            var upToP = new Func<double[], double[]>(d =>
+            {
+                var pnew = XyzPlarformCalibration.AffineInverseTransform(Machine.Ins.Settings.Calibration.LeftUpTransform, new PosXYZ(d));
+                return pnew.Data();
+            });
+
+
+            var upToDown = new Func<double[], double[]>(d =>
+            {
+                var pnew = XyzPlarformCalibration.AffineTransform(new PosXYZ(d), Machine.Ins.Settings.Calibration.LeftTransform);
+                return pnew.Data();
+            });
+            var downToUp = new Func<double[], double[]>(d =>
+            {
+                var pnew = XyzPlarformCalibration.AffineInverseTransform(Machine.Ins.Settings.Calibration.LeftTransform, new PosXYZ(d));
+                return pnew.Data();
+            });
+
+
+            Platform.PosConvertFuncs.Add("P->UP", pToUp);
+            Platform.PosConvertFuncs.Add("UP->P", upToP);
+            Platform.PosConvertFuncs.Add("UP->DOWN", upToDown);
+            Platform.PosConvertFuncs.Add("DOWN->UP", downToUp);
+
         }
 
         protected override int ResetLoop()
@@ -187,14 +207,14 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             try
             {
                 //load product settings
-                var fprj = FlatnessProject.Load(Machine.Ins.Settings.LeftProjectFilePath);
-                if (fprj == null)
+                var prj = MeasureProject.Load(Machine.Ins.Settings.LeftProjectFilePath, typeof(MeasureProject1)) as MeasureProject1;
+                if (prj == null)
                 {
                     ThrowException(Machine.Ins.Settings.LeftProjectFilePath);
                 }
                 else
                 {
-                    CfgProductSettings = fprj.ProductSettings;
+                    Project = prj;
                 }
             }
             catch (Exception ex)
@@ -212,8 +232,6 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
     {
         public newRightMeasureUp(int id, string name, Station station) : base(id, name, station)
         {
-            PlatformType = PlatformType.RUp;
-
             VioTransFinish = Machine.Ins.Find<IVioEx>("RTransFinishUp");
             VioMeasureFinish = Machine.Ins.Find<IVioEx>("RMeasureFinishUp");
 
@@ -223,6 +241,36 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             Platform.SafeChecks.Add(new UpSafeCheck(Machine.Ins.Find<PlatformEx>("RightCarrier"), SafeCheckType.Auto));
             Platform.SafeChecks.Add(new UpSafeCheck(Machine.Ins.Find<PlatformEx>("RightCarrier"), SafeCheckType.ManualHome));
             Platform.SafeChecks.Add(new UpSafeCheck(Machine.Ins.Find<PlatformEx>("RightCarrier"), SafeCheckType.Manual));
+
+
+            var pToUp = new Func<double[], double[]>(d =>
+            {
+                var pnew = XyzPlarformCalibration.AffineTransform(new PosXYZ(d), Machine.Ins.Settings.Calibration.RightUpTransform);
+                return pnew.Data();
+            });
+            var upToP = new Func<double[], double[]>(d =>
+            {
+                var pnew = XyzPlarformCalibration.AffineInverseTransform(Machine.Ins.Settings.Calibration.RightUpTransform, new PosXYZ(d));
+                return pnew.Data();
+            });
+
+
+            var upToDown = new Func<double[], double[]>(d =>
+            {
+                var pnew = XyzPlarformCalibration.AffineTransform(new PosXYZ(d), Machine.Ins.Settings.Calibration.RightTransform);
+                return pnew.Data();
+            });
+            var downToUp = new Func<double[], double[]>(d =>
+            {
+                var pnew = XyzPlarformCalibration.AffineInverseTransform(Machine.Ins.Settings.Calibration.RightTransform, new PosXYZ(d));
+                return pnew.Data();
+            });
+
+
+            Platform.PosConvertFuncs.Add("P->UP", pToUp);
+            Platform.PosConvertFuncs.Add("UP->P", upToP);
+            Platform.PosConvertFuncs.Add("UP->DOWN", upToDown);
+            Platform.PosConvertFuncs.Add("DOWN->UP", downToUp);
         }
 
         protected override int ResetLoop()
@@ -233,14 +281,14 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             try
             {
                 //load product settings
-                var fprj = FlatnessProject.Load(Machine.Ins.Settings.RightProjectFilePath);
-                if (fprj == null)
+                var prj = MeasureProject.Load(Machine.Ins.Settings.RightProjectFilePath, typeof(MeasureProject1)) as MeasureProject1;
+                if (prj == null)
                 {
                     ThrowException(Machine.Ins.Settings.RightProjectFilePath);
                 }
                 else
                 {
-                    CfgProductSettings = fprj.ProductSettings;
+                    Project = prj;
                 }
             }
             catch (Exception ex)

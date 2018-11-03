@@ -13,7 +13,14 @@ namespace Lead.Detect.DatabaseHelper
         {
             DB = new DbSession(new Database(new SqliteProvider($@"Data Source={file};Version=3;")));
         }
+    }
 
 
+    public static class DatabaseExtension
+    {
+        public static void Save(this ProductDataEntity entity)
+        {
+            SqlLiteHelper.DB?.Insert(entity);
+        }
     }
 }

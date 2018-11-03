@@ -96,7 +96,7 @@ namespace Lead.Detect.ThermoAOITrajectoryLib
         public int[] Order { get; private set; }
 
 
-        public double RunTcp()
+        public double RunTsp()
         {
             N = pos.Count;
             D = Graph;

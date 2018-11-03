@@ -2,7 +2,8 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.common;
-using MachineUtilityLib.UtilControls;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
 
 namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
 {
@@ -43,6 +44,15 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
 
         [Category("Machine")]
         public string Name { set; get; } = "MACHINE B";
+        [Category("Machine")]
+        public string Description { set; get; } = "AOI3";
+    
+        [Category("Machine")]
+        public bool EnableFTP { get; set; } = false;
+        [Category("Machine")]
+        public string FTPAddress { set; get; } = @"192.168.80.10\TestData03";
+
+
 
         [Category("Machine")]
         public string Version { get; set; } = "v0.0.1";

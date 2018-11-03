@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.frameworkManage;
+using Lead.Detect.FrameworkExtension.scriptTask;
+using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.MachineIOTest.UserDefine;
 
 namespace Lead.Detect.MachineIOTest
@@ -48,6 +50,7 @@ namespace Lead.Detect.MachineIOTest
                     EnvironmentManager.Ins.LoadPrims(EnvironmentManager.Ins.LastDevProject);
 
                     //load task types to frameworks
+                    FrameworkUserTypeManager.LoadUserTaskTypes(Assembly.GetAssembly(typeof(ScriptStationTask)));
                     FrameworkUserTypeManager.LoadUserTaskTypes(Assembly.GetExecutingAssembly());
                 }
                 {

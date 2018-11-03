@@ -1,7 +1,7 @@
 ﻿using Lead.Detect.FrameworkExtension.platforms.calibrations;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.MeasureComponents.Thermo2Camera;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2;
 
 namespace Lead.Detect.MeasureComponents.Calibration
 {

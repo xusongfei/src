@@ -5,6 +5,7 @@ using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.FrameworkExtension.motionDriver;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using System.Windows.Forms;
+using Lead.Detect.FrameworkExtension.scriptTask;
 using Lead.Detect.MeasureComponents.LMILaser;
 
 namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
@@ -49,6 +50,14 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
             {
                 p.Value.Load();
             }
+
+            foreach (var p in Tasks.Values)
+            {
+                if (p is ScriptStationTask)
+                {
+                    (p as ScriptStationTask)?.Load();
+                }
+            }
         }
 
 
@@ -61,6 +70,14 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
             foreach (var p in Platforms.Values)
             {
                 p.Save();
+            }
+
+            foreach (var p in Tasks.Values)
+            {
+                if (p is ScriptStationTask)
+                {
+                    (p as ScriptStationTask)?.Save();
+                }
             }
 
             //save the machine settings

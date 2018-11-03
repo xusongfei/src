@@ -14,10 +14,10 @@ namespace Lead.Detect.DatabaseHelper
         public static void Main()
         {
             SqlLiteHelper.InitDatabase();
-            SqlLiteHelper.DB.Insert(new ProductTestDataEntity() {StartTime = "0001"});
+            SqlLiteHelper.DB.Insert(new ProductDataEntity() {StartTime = "0001"});
             Console.WriteLine("finish");
 
-            foreach (var productTestDataEntity in SqlLiteHelper.DB.From<ProductTestDataEntity>().ToList())
+            foreach (var productTestDataEntity in SqlLiteHelper.DB.From<ProductDataEntity>().ToList())
             {
                 Console.WriteLine(productTestDataEntity.StartTime.ToString());
             }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
 
 namespace Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalcItem
 {

@@ -1,4 +1,8 @@
-﻿namespace Lead.Detect.ThermoAOI.Calibration
+﻿using System;
+using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
+
+namespace Lead.Detect.ThermoAOI.Calibration
 {
     public class GTTransform
     {
@@ -90,6 +94,139 @@
 
                     return (calibOrigin - raw2Offset + work2Offset) * -1;
                 }
+            }
+        }
+
+
+        /// <summary>
+        /// 转换当前点gt到产品坐标系
+        /// </summary>
+        /// <param name="platform"></param>
+        /// <param name="calib"></param>
+        /// <param name="gtPos"></param>
+        /// <returns></returns>
+        public static double TransGtRaw(string platform, CalibrationConfig calib, PosXYZ gtPos)
+        {
+            var gtWork = gtPos.OffsetZ;
+            var gtRaw = gtPos.Z;
+            var gtDesc = gtPos.Description;
+            var gtWorkX = gtPos.X;
+            var gtWorkY = gtPos.Y;
+
+            var gt = 0;
+            switch (gtDesc)
+            {
+                case "GT":
+                    gt = 0;
+                    break;
+                case "GT1":
+                    gt = 1;
+                    break;
+                case "GT2":
+                    gt = 2;
+                    break;
+                default:
+                    throw new Exception("gt Error");
+            }
+
+            var gtCalibWork = 0d;
+            var gtCalibRaw = 0d;
+            var gtStandardHeight = 0d;
+            var gtDirection = false;
+
+            if (platform == "LeftStation")
+            {
+                if (gt == 0)
+                {
+                    gtCalibWork = calib.LeftHeightCalibGtPos.Z;
+                    gtCalibRaw = calib.LeftUpStandardPlaneGT.CalcZ(gtWorkX, gtWorkY);
+                    gtStandardHeight = calib.LeftHeightStandard.Z;
+                    gtDirection = false;
+                }
+                else if (gt == 1)
+                {
+                    gtCalibWork = calib.LeftHeightCalibGt1Pos.Z;
+                    gtCalibRaw = calib.LeftDownStandardPlaneGT1.CalcZ(gtWorkX, gtWorkY);
+                    gtStandardHeight = 0;
+                    gtDirection = true;
+                }
+                else if (gt == 2)
+                {
+                    gtStandardHeight = 0;
+                    gtDirection = true;
+                    var gt2Raw = calib.LeftHeightCalibGt1Pos.OffsetZ +
+                                 GTTransform.TransGT2ToGT1(gtWork, gtRaw, calib.LeftHeightCalibGt2Pos.Z, calib.LeftHeightCalibGt2Pos.OffsetZ, gtStandardHeight, gtDirection);
+
+                    gtCalibWork = calib.LeftHeightCalibGt1Pos.Z;
+                    gtCalibRaw = calib.LeftDownStandardPlaneGT1.CalcZ(gtWorkX, gtWorkY);
+                    gtStandardHeight = 0;
+
+
+                    gtWork = calib.LeftHeightCalibGt1Pos.Z;
+                    gtRaw = gt2Raw;
+
+                    return GTTransform.TransGT2ToGT1(gtWork, gtRaw, gtCalibWork, gtCalibRaw, gtStandardHeight, gtDirection) + calib.LeftGt2ZOffset.OffsetZ;
+                }
+            }
+            else if (platform == "RightStation")
+            {
+                if (gt == 0)
+                {
+                    gtCalibWork = calib.RightHeightCalibGtPos.Z;
+                    gtCalibRaw = calib.RightUpStandardPlaneGT.CalcZ(gtWorkX, gtWorkY);
+                    gtStandardHeight = calib.RightHeightStandard.Z;
+                    gtDirection = false;
+                }
+                else if (gt == 1)
+                {
+                    gtCalibWork = calib.RightHeightCalibGt1Pos.Z;
+                    gtCalibRaw = calib.RightDownStandardPlaneGT1.CalcZ(gtWorkX, gtWorkY);
+                    gtStandardHeight = 0;
+                    gtDirection = true;
+                }
+                else if (gt == 2)
+                {
+                    gtStandardHeight = 0;
+                    gtDirection = true;
+                    var gt2Raw = calib.RightHeightCalibGt1Pos.OffsetZ +
+                                 GTTransform.TransGT2ToGT1(gtWork, gtRaw, calib.RightHeightCalibGt2Pos.Z, calib.RightHeightCalibGt2Pos.OffsetZ, gtStandardHeight, gtDirection);
+
+                    gtCalibWork = calib.RightHeightCalibGt1Pos.Z;
+                    gtCalibRaw = calib.RightDownStandardPlaneGT1.CalcZ(gtWorkX, gtWorkY);
+                    gtStandardHeight = 0;
+
+
+                    gtWork = calib.RightHeightCalibGt1Pos.Z;
+                    gtRaw = gt2Raw;
+
+                    return GTTransform.TransGT2ToGT1(gtWork, gtRaw, gtCalibWork, gtCalibRaw, gtStandardHeight, gtDirection) + calib.RightGt2ZOffset.OffsetZ;
+                }
+            }
+            else
+            {
+                throw new Exception("Platform Error");
+            }
+
+            return GTTransform.TransGT2ToGT1(gtWork, gtRaw, gtCalibWork, gtCalibRaw, gtStandardHeight, gtDirection);
+        }
+
+
+        /// <summary>
+        /// 转换GT读数到产品坐标系
+        /// </summary>
+        /// <param name="station"></param>
+        /// <param name="calib"></param>
+        /// <param name="productData"></param>
+        public static void TransformRawData(string station, CalibrationConfig calib, Thermo1Product productData)
+        {
+            foreach (var p in productData.RawDataUp)
+            {
+                p.Z = TransGtRaw(station, calib, p);
+            }
+
+            foreach (var p in productData.RawDataDown)
+            {
+                p.Z = TransGtRaw(station, calib, p);
             }
         }
     }

@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Collections.Generic;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
 using Lead.Detect.ThermoAOITrajectoryLib;
 
 namespace Lead.Detect.ThermoAOI.Product
@@ -230,7 +230,7 @@ namespace Lead.Detect.ThermoAOI.Product
                     orderpos.Add(ped2pos.Last());
 
                     var trajDp = new DpTsp(new PosGraph(orderpos));
-                    trajDp.RunTcp();
+                    trajDp.RunTsp();
 
                     var order = trajDp.Order;
 
@@ -256,7 +256,7 @@ namespace Lead.Detect.ThermoAOI.Product
                     var orderpos = new List<PosXYZ>();
                     orderpos.AddRange(pos);
                     var trajDp = new DpTsp(new PosGraph(orderpos));
-                    trajDp.RunTcp();
+                    trajDp.RunTsp();
 
                     var order = trajDp.Order;
 
@@ -278,6 +278,19 @@ namespace Lead.Detect.ThermoAOI.Product
             }
 
 
+        }
+
+        private void 另存为mprjToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var sfd = new SaveFileDialog();
+            sfd.InitialDirectory = @".\Config";
+            sfd.Filter = @"(All Files)|*.*|(Measure Project)|*.mprj";
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                FlatnessProject = propertyGrid1.SelectedObject as FlatnessProject;
+                FlatnessProject?.Convert().Save(sfd.FileName);
+            }
         }
     }
 }

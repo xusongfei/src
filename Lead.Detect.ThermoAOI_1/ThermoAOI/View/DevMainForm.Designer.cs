@@ -1,5 +1,5 @@
-﻿using Lead.Detect.ThermoAOI.Product;
-using Lead.Detect.ThermoAOIDisplayLib;
+﻿using Lead.Detect.DatabaseHelper;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
 
 namespace Lead.Detect.ThermoAOI.View
 {
@@ -42,20 +42,14 @@ namespace Lead.Detect.ThermoAOI.View
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSummry = new System.Windows.Forms.TabPage();
+            this._thermoProductDisplayControl2 = new Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product.ThermoProductDisplayControl();
+            this._thermoProductDisplayControl1 = new Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product.ThermoProductDisplayControl();
             this.labelRightFile = new System.Windows.Forms.Label();
             this.labelRight = new System.Windows.Forms.Label();
             this.labelLeftFile = new System.Windows.Forms.Label();
             this.labelLeft = new System.Windows.Forms.Label();
-            this.productRight = new Lead.Detect.ThermoAOI.Product.ProductTestDisplayControl();
-            this.productLeft = new Lead.Detect.ThermoAOI.Product.ProductTestDisplayControl();
             this.tabResult = new System.Windows.Forms.TabPage();
-            this.displayControl1 = new Lead.Detect.ThermoAOIDisplayLib.DisplayControl();
-            this.labelBarcode = new System.Windows.Forms.Label();
-            this.textBoxProductBarcode = new System.Windows.Forms.TextBox();
-            this.buttonQueryProduct = new System.Windows.Forms.Button();
-            this.buttonClearAll = new System.Windows.Forms.Button();
-            this.buttonQueryAll = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.productDatabaseControl1 = new ProductDatabaseControl();
             this.panel2 = new System.Windows.Forms.Panel();
             this.buttonLamp = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
@@ -71,7 +65,6 @@ namespace Lead.Detect.ThermoAOI.View
             this.tabControl1.SuspendLayout();
             this.tabSummry.SuspendLayout();
             this.tabResult.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -204,12 +197,12 @@ namespace Lead.Detect.ThermoAOI.View
             // tabSummry
             // 
             this.tabSummry.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tabSummry.Controls.Add(this._thermoProductDisplayControl2);
+            this.tabSummry.Controls.Add(this._thermoProductDisplayControl1);
             this.tabSummry.Controls.Add(this.labelRightFile);
             this.tabSummry.Controls.Add(this.labelRight);
             this.tabSummry.Controls.Add(this.labelLeftFile);
             this.tabSummry.Controls.Add(this.labelLeft);
-            this.tabSummry.Controls.Add(this.productRight);
-            this.tabSummry.Controls.Add(this.productLeft);
             this.tabSummry.Location = new System.Drawing.Point(4, 28);
             this.tabSummry.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabSummry.Name = "tabSummry";
@@ -218,12 +211,32 @@ namespace Lead.Detect.ThermoAOI.View
             this.tabSummry.TabIndex = 0;
             this.tabSummry.Text = "生产概况";
             // 
+            // _thermoProductDisplayControl2
+            // 
+            this._thermoProductDisplayControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._thermoProductDisplayControl2.Location = new System.Drawing.Point(451, 106);
+            this._thermoProductDisplayControl2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._thermoProductDisplayControl2.Name = "_thermoProductDisplayControl2";
+            this._thermoProductDisplayControl2.Size = new System.Drawing.Size(453, 511);
+            this._thermoProductDisplayControl2.TabIndex = 8;
+            // 
+            // _thermoProductDisplayControl1
+            // 
+            this._thermoProductDisplayControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this._thermoProductDisplayControl1.Location = new System.Drawing.Point(9, 106);
+            this._thermoProductDisplayControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._thermoProductDisplayControl1.Name = "_thermoProductDisplayControl1";
+            this._thermoProductDisplayControl1.Size = new System.Drawing.Size(434, 511);
+            this._thermoProductDisplayControl1.TabIndex = 7;
+            // 
             // labelRightFile
             // 
             this.labelRightFile.BackColor = System.Drawing.Color.Silver;
-            this.labelRightFile.Location = new System.Drawing.Point(458, 58);
+            this.labelRightFile.Location = new System.Drawing.Point(451, 58);
             this.labelRightFile.Name = "labelRightFile";
-            this.labelRightFile.Size = new System.Drawing.Size(440, 41);
+            this.labelRightFile.Size = new System.Drawing.Size(453, 41);
             this.labelRightFile.TabIndex = 6;
             this.labelRightFile.Text = "右工站";
             this.labelRightFile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -231,9 +244,9 @@ namespace Lead.Detect.ThermoAOI.View
             // labelRight
             // 
             this.labelRight.BackColor = System.Drawing.Color.Silver;
-            this.labelRight.Location = new System.Drawing.Point(458, 9);
+            this.labelRight.Location = new System.Drawing.Point(451, 9);
             this.labelRight.Name = "labelRight";
-            this.labelRight.Size = new System.Drawing.Size(440, 41);
+            this.labelRight.Size = new System.Drawing.Size(453, 41);
             this.labelRight.TabIndex = 6;
             this.labelRight.Text = "右工站";
             this.labelRight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -248,7 +261,6 @@ namespace Lead.Detect.ThermoAOI.View
             this.labelLeftFile.TabIndex = 6;
             this.labelLeftFile.Text = "左工站";
             this.labelLeftFile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelLeftFile.Click += new System.EventHandler(this.labelLeftFile_Click);
             // 
             // labelLeft
             // 
@@ -261,36 +273,10 @@ namespace Lead.Detect.ThermoAOI.View
             this.labelLeft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelLeft.DoubleClick += new System.EventHandler(this.labelLeft_DoubleClick);
             // 
-            // productRight
-            // 
-            this.productRight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.productRight.Location = new System.Drawing.Point(458, 106);
-            this.productRight.Margin = new System.Windows.Forms.Padding(6, 10, 6, 10);
-            this.productRight.Name = "productRight";
-            this.productRight.Size = new System.Drawing.Size(440, 501);
-            this.productRight.TabIndex = 5;
-            // 
-            // productLeft
-            // 
-            this.productLeft.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.productLeft.Location = new System.Drawing.Point(9, 106);
-            this.productLeft.Margin = new System.Windows.Forms.Padding(9, 16, 9, 16);
-            this.productLeft.Name = "productLeft";
-            this.productLeft.Size = new System.Drawing.Size(434, 502);
-            this.productLeft.TabIndex = 4;
-            // 
             // tabResult
             // 
             this.tabResult.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.tabResult.Controls.Add(this.displayControl1);
-            this.tabResult.Controls.Add(this.labelBarcode);
-            this.tabResult.Controls.Add(this.textBoxProductBarcode);
-            this.tabResult.Controls.Add(this.buttonQueryProduct);
-            this.tabResult.Controls.Add(this.buttonClearAll);
-            this.tabResult.Controls.Add(this.buttonQueryAll);
-            this.tabResult.Controls.Add(this.dataGridView1);
+            this.tabResult.Controls.Add(this.productDatabaseControl1);
             this.tabResult.Location = new System.Drawing.Point(4, 28);
             this.tabResult.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabResult.Name = "tabResult";
@@ -299,81 +285,18 @@ namespace Lead.Detect.ThermoAOI.View
             this.tabResult.TabIndex = 1;
             this.tabResult.Text = "结果查询";
             // 
-            // displayControl1
+            // productDatabaseControl1
             // 
-            this.displayControl1.Location = new System.Drawing.Point(287, 9);
-            this.displayControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.displayControl1.Name = "displayControl1";
-            this.displayControl1.Size = new System.Drawing.Size(315, 288);
-            this.displayControl1.TabIndex = 4;
-            this.displayControl1.upx = 0F;
-            this.displayControl1.upy = 0F;
-            this.displayControl1.upz = -1F;
-            this.displayControl1.vx = -200F;
-            this.displayControl1.vy = 0F;
-            this.displayControl1.vz = -50F;
-            // 
-            // labelBarcode
-            // 
-            this.labelBarcode.AutoSize = true;
-            this.labelBarcode.Location = new System.Drawing.Point(9, 167);
-            this.labelBarcode.Name = "labelBarcode";
-            this.labelBarcode.Size = new System.Drawing.Size(69, 19);
-            this.labelBarcode.TabIndex = 3;
-            this.labelBarcode.Text = "产品条码";
-            // 
-            // textBoxProductBarcode
-            // 
-            this.textBoxProductBarcode.Location = new System.Drawing.Point(8, 192);
-            this.textBoxProductBarcode.Name = "textBoxProductBarcode";
-            this.textBoxProductBarcode.Size = new System.Drawing.Size(272, 27);
-            this.textBoxProductBarcode.TabIndex = 2;
-            // 
-            // buttonQueryProduct
-            // 
-            this.buttonQueryProduct.Location = new System.Drawing.Point(8, 226);
-            this.buttonQueryProduct.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonQueryProduct.Name = "buttonQueryProduct";
-            this.buttonQueryProduct.Size = new System.Drawing.Size(272, 72);
-            this.buttonQueryProduct.TabIndex = 1;
-            this.buttonQueryProduct.Text = "查询产品数据";
-            this.buttonQueryProduct.UseVisualStyleBackColor = true;
-            this.buttonQueryProduct.Click += new System.EventHandler(this.buttonQueryProduct_Click);
-            // 
-            // buttonClearAll
-            // 
-            this.buttonClearAll.Location = new System.Drawing.Point(633, 4);
-            this.buttonClearAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonClearAll.Name = "buttonClearAll";
-            this.buttonClearAll.Size = new System.Drawing.Size(272, 72);
-            this.buttonClearAll.TabIndex = 1;
-            this.buttonClearAll.Text = "清除所有数据";
-            this.buttonClearAll.UseVisualStyleBackColor = true;
-            this.buttonClearAll.Click += new System.EventHandler(this.buttonClearAll_Click);
-            // 
-            // buttonQueryAll
-            // 
-            this.buttonQueryAll.Location = new System.Drawing.Point(8, 9);
-            this.buttonQueryAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonQueryAll.Name = "buttonQueryAll";
-            this.buttonQueryAll.Size = new System.Drawing.Size(272, 72);
-            this.buttonQueryAll.TabIndex = 1;
-            this.buttonQueryAll.Text = "查询全部数据";
-            this.buttonQueryAll.UseVisualStyleBackColor = true;
-            this.buttonQueryAll.Click += new System.EventHandler(this.buttonQueryAll_Click);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.productDatabaseControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(8, 306);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(897, 312);
-            this.dataGridView1.TabIndex = 0;
+            this.productDatabaseControl1.BackColor = System.Drawing.Color.White;
+            this.productDatabaseControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.productDatabaseControl1.Location = new System.Drawing.Point(5, 7);
+            this.productDatabaseControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.productDatabaseControl1.Name = "productDatabaseControl1";
+            this.productDatabaseControl1.Size = new System.Drawing.Size(899, 610);
+            this.productDatabaseControl1.TabIndex = 0;
             // 
             // panel2
             // 
@@ -507,8 +430,6 @@ namespace Lead.Detect.ThermoAOI.View
             this.tabControl1.ResumeLayout(false);
             this.tabSummry.ResumeLayout(false);
             this.tabResult.ResumeLayout(false);
-            this.tabResult.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -532,18 +453,12 @@ namespace Lead.Detect.ThermoAOI.View
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button buttonLamp;
-        private ProductTestDisplayControl productRight;
-        private ProductTestDisplayControl productLeft;
         private System.Windows.Forms.Label labelLeft;
         private System.Windows.Forms.Label labelRight;
         private System.Windows.Forms.Label labelRightFile;
         private System.Windows.Forms.Label labelLeftFile;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button buttonQueryAll;
-        private System.Windows.Forms.Button buttonQueryProduct;
-        private System.Windows.Forms.Label labelBarcode;
-        private System.Windows.Forms.TextBox textBoxProductBarcode;
-        private System.Windows.Forms.Button buttonClearAll;
-        private DisplayControl displayControl1;
+        private ThermoProductDisplayControl _thermoProductDisplayControl1;
+        private ThermoProductDisplayControl _thermoProductDisplayControl2;
+        private ProductDatabaseControl productDatabaseControl1;
     }
 }

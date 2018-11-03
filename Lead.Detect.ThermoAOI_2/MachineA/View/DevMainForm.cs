@@ -58,11 +58,11 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             var transTask = Machine.Ins.Find<StationTask>("TransTask") as TransTask;
             if (transTask != null)
             {
-                transTask.TestProcessControl.TestStartEvent += p => thermo2ProductDisplayControl1.UpdateStart();
-                transTask.TestProcessControl.TestingEvent += p => thermo2ProductDisplayControl1.UpdateTesting(p);
+                transTask.TestProcessControl.TestStartEvent += p => _thermoProductDisplayControl1.UpdateStart();
+                transTask.TestProcessControl.TestingEvent += p => _thermoProductDisplayControl1.UpdateTesting(p);
                 transTask.TestProcessControl.TestFinishEvent += p =>
                 {
-                    thermo2ProductDisplayControl1.UpdateResult(p);
+                    _thermoProductDisplayControl1.UpdateResult(p);
                     productionCountControl1.UpdateProduction(Machine.Ins.Settings.Production);
                 };
 

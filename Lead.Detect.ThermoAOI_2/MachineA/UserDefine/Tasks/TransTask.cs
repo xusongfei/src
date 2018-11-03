@@ -1,96 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Lead.Detect.DatabaseHelper;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.ThermoDataConvert;
 using MachineUtilityLib.Utils;
+using MachineUtilityLib.UtilsFramework;
 
 namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
 {
-    public class CarrierLoader
-    {
-        public StationTask Task;
-
-        public ICylinderEx CyLeft;
-        public ICylinderEx CyBack;
-        public ICylinderEx CyRight;
-        public ICylinderEx CyFront;
-
-
-        public IDoEx Vaccum1;
-        public IDoEx Vaccum2;
-
-        public IDiEx VaccumSensor1;
-        public IDiEx VaccumSensor2;
-
-
-        public IDiEx CarrierSensor1;
-        public IDiEx CarrierSensor2;
-
-
-        public bool IsProductExists()
-        {
-            return CarrierSensor1.GetDiSts() || CarrierSensor2.GetDiSts();
-        }
-
-
-
-        public void ClampVC()
-        {
-            if (!CyLeft.WaitDi(Task, timeout: 0, isErrorOnSignalError: false) || !CyBack.WaitDi(Task, timeout: 0, isErrorOnSignalError: false))
-            {
-                new[] { CyLeft, CyFront }.SetDo(Task, new[] { true, true });
-            }
-
-            new[] { CyRight, CyBack }.SetDo(Task, new[] { true, true });
-
-            Vaccum1.SetDo(true);
-            Vaccum2.SetDo(true);
-
-            new[] { CyRight, CyBack }.SetDo(Task, new[] { false, false });
-            new[] { CyLeft, CyFront }.SetDo(Task, new[] { false, false });
-        }
-
-
-        public void ClampModule()
-        {
-            if (!CyLeft.WaitDi(Task, timeout: 0, isErrorOnSignalError: false) || !CyBack.WaitDi(Task, timeout: 0, isErrorOnSignalError: false))
-            {
-                new[] { CyLeft, CyFront }.SetDo(Task, new[] { true, true });
-            }
-
-            new[] { CyRight, CyBack }.SetDo(Task, new[] { true, true });
-
-            //Vaccum1.SetDo(true);
-            //Vaccum2.SetDo(true);
-
-            //new[] { CyRight, CyBack }.SetDo(Task, new[] { false, false });
-            //new[] { CyLeft, CyFront }.SetDo(Task, new[] { false, false });
-        }
-
-
-        public void ReleaseVC()
-        {
-            new[] { CyLeft, CyFront }.SetDo(Task, new[] { true, true });
-
-            Vaccum1.SetDo(false);
-            Vaccum2.SetDo(false);
-        }
-
-
-        public void ReleaseModule()
-        {
-            new[] { CyLeft, CyFront }.SetDo(Task, new[] { true, true });
-            new[] { CyRight, CyBack }.SetDo(Task, new[] { false, false });
-            Vaccum1.SetDo(false);
-            Vaccum2.SetDo(false);
-        }
-
-    }
-
-
-
     /// <summary>
     /// Machine A 传送任务
     /// </summary>
@@ -173,6 +97,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
 
             Platform.AssertPosTeached("Wait", this);
 
+
             //reset vio
             VioMeasureStart.SetVio(this, false);
             VioMeasureFinish.SetVio(this, false);
@@ -185,6 +110,25 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
             else
             {
                 CarrierLoader.ReleaseVC();
+            }
+
+
+            try
+            {
+                Product = new Thermo2ProductA();
+                Product.ProductType = Project.ProductName;
+                Product.Description = Station.Name;
+                Product.SPCItems = Project.SPCItems;
+                if (Machine.Ins.Settings.EnableFTP)
+                {
+                    var avcdata = ThermoConverter.Convert(Product, "", Machine.Ins.Settings.Description);
+                    avcdata.Save(Machine.Ins.Settings.FTPAddress);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log($"连接FTP ERROR: {ex.Message}", LogLevel.Error);
             }
 
 
@@ -229,7 +173,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
                 var vcSensorPattern = new[] { true, true, false };
                 var moduleSensorPattern = new[] { true, true, true };
                 bool[] sensor;
-                if (Project.ProductName.Contains("NoFin") || Project.ProductName.ToUpper().Contains("VC"))
+                if (Project.ProductType == ProductType.VaporChamber)
                 {
                     sensor = vcSensorPattern;
                 }
@@ -250,7 +194,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
             Log("Start:" + Product.ToString(), LogLevel.Info);
 
             //clamp cylinders
-            if (Project.ProductName.Contains("NoFin") || Project.ProductName.ToUpper().Contains("VC"))
+            if (Project.ProductType == ProductType.VaporChamber)
             {
                 CarrierLoader.ClampVC();
             }
@@ -272,27 +216,49 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
             //move wait pos
             Platform.MoveAbs("Wait");
 
-            if (Project.ProductName.Contains("WithFin") || Project.ProductName.Contains("Module"))
+            if (Project.ProductType == ProductType.VaporChamber)
             {
-                CarrierLoader.ReleaseModule();
+                CarrierLoader.ReleaseVC();
+                
             }
             else
             {
-                CarrierLoader.ReleaseVC();
+                CarrierLoader.ReleaseModule();
             }
 
 
+            SaveProductData();
+            return 0;
+        }
+
+        private void SaveProductData()
+        {
             //todo process data
             {
-                Product.UpdateStatus();
-                Product.Save();
-                CfgSettings.Production.Update(Product);
+                try
+                {
+                    Product.UpdateStatus();
+                    Product.Save();
+                    Product.ToEntity().Save();
+                    CfgSettings.Production.Update(Product);
+                    Log("Save Product Finish:" + Product.ToString(), LogLevel.Info);
 
-                Log("Finish:" + Product.ToString(), LogLevel.Info);
+                    if (Machine.Ins.Settings.EnableFTP)
+                    {
+                        var avcdata = ThermoConverter.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
+                        avcdata.Save(Machine.Ins.Settings.FTPAddress);
+                        avcdata.Save("AVCData");
+                        Log("Upload AvcData Finish:" + avcdata.ToString(), LogLevel.Info);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log($"保存数据失败：{ex.Message}", LogLevel.Warning);
+                    Station.Machine.Beep();
+                }
             }
 
             TestProcessControl.OnTestFinishEvent(Product);
-            return 0;
         }
     }
 }

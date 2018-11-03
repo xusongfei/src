@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CommonStruct.Communicate;
 using CommonStruct.LC3D;
 
-namespace Lead.Detect.Interfaces
+namespace Lead.Detect.Prim3DAgl
 {
     public interface I3DAgl
     {

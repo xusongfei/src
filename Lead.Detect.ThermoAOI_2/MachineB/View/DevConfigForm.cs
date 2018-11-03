@@ -4,13 +4,15 @@ using System.Linq;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.loadUtils;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
+using Lead.Detect.FrameworkExtension.scriptTask;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.FrameworkExtension.userControls;
 using Lead.Detect.MeasureComponents.LaserControl;
 using Lead.Detect.MeasureComponents.LMILaser;
 using Lead.Detect.ThermoAOI2.MachineB.UserDefine;
 using Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Lead.Detect.ThermoAOI2.MachineB.View
@@ -73,7 +75,17 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
 
             //product
             tabControl1.SelectedTab = tabPageProduct;
-            textBoxMeasureProj.Text = Machine.Ins.Settings.MeasureProjectFile;
+            measureProjectSelctionControl1.Station = Machine.Ins.Find<Station>("MainStation");
+            measureProjectSelctionControl1.ProjecType = typeof(MeasureProjectB);
+            measureProjectSelctionControl1.ProjectFile = Machine.Ins.Settings.MeasureProjectFile;
+            measureProjectSelctionControl1.SelectMeasureProjectUpdateEvent += f =>
+            {
+                Machine.Ins.Settings.MeasureProjectFile = f;
+                Machine.Ins.Settings.Save();
+            };
+            measureProjectSelctionControl1.LoadMeasureProject();
+
+
 
             //calib
             stationControl.Machine = Machine.Ins;
@@ -90,6 +102,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
 
 
             cameraExDebugControl1.Camera = (Machine.Ins.Find<StationTask>("CameraTask") as MeasureTask)?.Camera;
+
+            //scriptTaskControl1.ScriptStationTask = Machine.Ins.Find<StationTask>("MeasureTask") as ScriptStationTask;
         }
 
 
@@ -121,69 +135,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
         {
         }
 
-        private void buttonMeasureProjectEditor_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var mprjForm = new MeasureProjectEditor()
-                {
-                    StartPosition = FormStartPosition.CenterParent,
-                    DefaultProducType = typeof(MeasureProjectB),
-
-                    Platforms = Machine.Ins.Platforms.Values.ToList(),
-                };
-
-                mprjForm.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"打开文件异常：{ex.Message}");
-            }
-        }
-
-        private void buttonBrowseMeasureProj_Click(object sender, EventArgs e)
-        {
-            var station = Machine.Ins.Find<Station>("MainStation");
-            if (station == null || station.RunningState != RunningState.WaitReset)
-            {
-                MessageBox.Show($"工站未停止，请停止运行后更换测试文件！");
-                return;
-            }
-
-
-            var fd = new OpenFileDialog
-            {
-                InitialDirectory = @".\Config",
-                Filter = @"(Measure Project)|*.mprj",
-                Multiselect = false
-            };
-
-            if (fd.ShowDialog() == DialogResult.OK)
-            {
-                Machine.Ins.Settings.MeasureProjectFile = fd.FileName.Replace(Directory.GetCurrentDirectory(), ".");
-                textBoxMeasureProj.Text = Machine.Ins.Settings.MeasureProjectFile;
-            }
-        }
-
-        private void buttonOpenMeasureProj_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var mprjForm = new MeasureProjectEditor()
-                {
-                    StartPosition = FormStartPosition.CenterParent,
-                    DefaultProducType = typeof(MeasureProjectB),
-
-                    Platforms = Machine.Ins.Platforms.Values.ToList(),
-                    Project = MeasureProject.Load(textBoxMeasureProj.Text, typeof(MeasureProjectB))
-                };
-
-                mprjForm.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"打开文件异常：{ex.Message}");
-            }
-        }
+        
+      
     }
 }

@@ -9,10 +9,9 @@ using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
-using Lead.Detect.Helper;
-using Lead.Detect.ThermoAOI.Common;
 using Lead.Detect.ThermoAOI.Machine.newTasks;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
+using MachineUtilityLib.UtilViews;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Lead.Detect.ThermoAOI.View
@@ -61,22 +60,25 @@ namespace Lead.Detect.ThermoAOI.View
             var leftTrans = Machine.Machine.Ins.Find<StationTask>("LeftTrans") as newTransTask;
             if (leftTrans != null)
             {
-                leftTrans.TestStartEvent += UpdateLStart;
-                leftTrans.TestingEvent += UpdateLTesting;
-                leftTrans.TestFinishEvent += UpdateLTestResult;
+                leftTrans.TestProcessControl.TestStartEvent += UpdateLStart;
+                leftTrans.TestProcessControl.TestingEvent += UpdateLTesting;
+                leftTrans.TestProcessControl.TestFinishEvent += UpdateLTestResult;
+
+                _thermoProductDisplayControl1.Station = leftTrans.Station;
             }
 
             var rightTrans = Machine.Machine.Ins.Find<StationTask>("RightTrans") as newTransTask;
             if (rightTrans != null)
             {
-                rightTrans.TestStartEvent += UpdateRStart;
-                rightTrans.TestingEvent += UpdateRTesting;
-                rightTrans.TestFinishEvent += UpdateRTestResult;
+                rightTrans.TestProcessControl.TestStartEvent += UpdateRStart;
+                rightTrans.TestProcessControl.TestingEvent += UpdateRTesting;
+                rightTrans.TestProcessControl.TestFinishEvent += UpdateRTestResult;
+
+                _thermoProductDisplayControl2.Station = rightTrans.Station;
             }
 
             timer1.Start();
 
-            ShowTestPoints();
         }
 
 
@@ -146,51 +148,19 @@ namespace Lead.Detect.ThermoAOI.View
 
         #endregion
 
-        #region query panel
 
-
-        private void buttonQueryAll_Click(object sender, EventArgs e)
-        {
-
-            dataGridView1.DataSource = SqlLiteHelper.DB.From<ProductTestDataEntity>().ToDataTable();
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        }
-
-        private void buttonClearAll_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("清除所有本地数据？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
-            {
-                return;
-            }
-
-            SqlLiteHelper.DB.DeleteAll<ProductTestDataEntity>();
-
-            MessageBox.Show("清除完成！");
-        }
-        private void buttonQueryProduct_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(textBoxProductBarcode.Text))
-            {
-                MessageBox.Show("条码为空！");
-                return;
-            }
-
-            dataGridView1.DataSource = SqlLiteHelper.DB.From<ProductTestDataEntity>().Where(p => p.Barcode == textBoxProductBarcode.Text).ToDataTable();
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        }
-        #endregion
 
         #region display result
 
-        public void UpdateLStart()
+        public void UpdateLStart(Thermo1Product product)
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new Action(UpdateLStart));
+                BeginInvoke(new Action<Thermo1Product>(UpdateLStart), product);
             }
             else
             {
-                productLeft.UpdateStart();
+                _thermoProductDisplayControl1.UpdateStart();
             }
         }
 
@@ -203,7 +173,7 @@ namespace Lead.Detect.ThermoAOI.View
             }
             else
             {
-                productLeft.UpdateTesting(data);
+                _thermoProductDisplayControl1.UpdateTesting(data);
             }
         }
         public void UpdateLTestResult(Thermo1Product data)
@@ -214,18 +184,18 @@ namespace Lead.Detect.ThermoAOI.View
             }
             else
             {
-                productLeft.UpdateResult(data);
+                _thermoProductDisplayControl1.UpdateResult(data);
             }
         }
-        public void UpdateRStart()
+        public void UpdateRStart(Thermo1Product product)
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new Action(UpdateRStart));
+                BeginInvoke(new Action<Thermo1Product>(UpdateRStart), product);
             }
             else
             {
-                productRight.UpdateStart();
+                _thermoProductDisplayControl2.UpdateStart();
             }
         }
         public void UpdateRTesting(Thermo1Product data)
@@ -236,7 +206,7 @@ namespace Lead.Detect.ThermoAOI.View
             }
             else
             {
-                productRight.UpdateTesting(data);
+                _thermoProductDisplayControl2.UpdateTesting(data);
             }
         }
         public void UpdateRTestResult(Thermo1Product data)
@@ -247,7 +217,7 @@ namespace Lead.Detect.ThermoAOI.View
             }
             else
             {
-                productRight.UpdateResult(data);
+                _thermoProductDisplayControl2.UpdateResult(data);
             }
         }
         #endregion
@@ -309,34 +279,12 @@ namespace Lead.Detect.ThermoAOI.View
             }
         }
 
-
-        private void ShowTestPoints()
+        private void textBoxProductBarcode_TextChanged(object sender, EventArgs e)
         {
-            List<PosXYZ> pos = new List<PosXYZ>();
 
-            pos.Add(new PosXYZ(26.4, -41.25, -10.1634656250032) { Status = false });
-            pos.Add(new PosXYZ(26.4, -216.25, -10.1671531249992) { Status = false });
-            pos.Add(new PosXYZ(135.2, -216.25, -10.3912197916618) { Status = false });
-            pos.Add(new PosXYZ(135.2, -41.25, -10.1985322916657) { Status = false });
-            pos.Add(new PosXYZ(57.67, -94.58, -10.2268653333341) { Status = false });
-            pos.Add(new PosXYZ(57.67, -162.81, -10.2560192083326) { Status = false });
-            pos.Add(new PosXYZ(103.94, -162.81, -10.2539562916642) { Status = false });
-            pos.Add(new PosXYZ(103.94, -94.58, -10.2078024166657) { Status = false });
-            pos.Add(new PosXYZ(64.49, -66.55, 0.243366209398313) { Status = true });
-            pos.Add(new PosXYZ(64.49, -96.55, 0.280177180953067) { Status = true });
-            pos.Add(new PosXYZ(94.49, -96.55, 0.299250468875222) { Status = true });
-            pos.Add(new PosXYZ(94.49, -66.55, 0.277439497320468) { Status = true });
-            pos.Add(new PosXYZ(79.49, -81.55, 0.274308339136768) { Status = true });
-            pos.Add(new PosXYZ(47.49, -49.55, 0.299865129028064) { Status = true });
-            pos.Add(new PosXYZ(47.49, -113.55, 0.291395201678207) { Status = true });
-            pos.Add(new PosXYZ(111.49, -113.55, 0.263751549245471) { Status = true });
-            pos.Add(new PosXYZ(111.49, -49.55, 0.274221476595328) { Status = true });
-
-
-            displayControl1.UpdatePos(pos);
         }
 
-        private void labelLeftFile_Click(object sender, EventArgs e)
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

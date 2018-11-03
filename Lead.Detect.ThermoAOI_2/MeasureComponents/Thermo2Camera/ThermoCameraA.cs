@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
-using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using System.Windows.Forms;
 
 namespace Lead.Detect.MeasureComponents.Thermo2Camera
@@ -305,65 +303,5 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
 
             MessageBox.Show(sb.ToString());
         }
-    }
-
-
-    public class ThermoCameraASim : ThermoCameraA
-    {
-        public new string Name { get; set; }
-        public new string IP { get; set; }
-        public new int Port { get; set; }
-        public new string LastError { get; set; }
-        public new bool Connect()
-        {
-            return true;
-        }
-
-        public new bool Disconnect()
-        {
-            return true;
-        }
-
-        public new Image GrabOne()
-        {
-            return null;
-        }
-
-        public new bool Trigger(string msg)
-        {
-            return true;
-        }
-
-        public new bool Trigger(string msg, PosXYZ pos)
-        {
-            return true;
-        }
-
-        public new string GetResult(string resultInfo, int timeout)
-        {
-            return "OK";
-        }
-
-
-        public new bool SwitchProduct(int product)
-        {
-            TriggerResult = "SWITCH OK";
-            return true;
-        }
-
-        public new bool TriggerBarcode()
-        {
-            TriggerResult = "TEST BARCODE";
-            return true;
-        }
-        public new bool TriggerProduct(int step)
-        {
-
-            TriggerResult = "PRODUCT OK";
-            return true;
-        }
-
-
-
     }
 }

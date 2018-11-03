@@ -4,11 +4,11 @@ using System.Linq;
 using Lead.Detect.FrameworkExtension.platforms;
 using Lead.Detect.FrameworkExtension.platforms.calibrations;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
-using Lead.Detect.Helper;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using System.Windows.Forms;
 using System;
 using Lead.Detect.FrameworkExtension;
+using Lead.Detect.PlatformCalibration.Transformation;
 
 namespace Lead.Detect.ThermoAOI.Calibration
 {
@@ -17,22 +17,25 @@ namespace Lead.Detect.ThermoAOI.Calibration
         [Category("PLATFORM")]
         public PlatformEx PlatformCarrier { get; set; }
 
+
+
         [Category("PLATFORM")]
         public PlatformEx PlatformUp { get; set; }
-
         [Category("PLATFORM")]
         public double PlatformUpJumpHeight { get; set; } = -30;
 
 
+
+        [Category("CALIBRATION")]
+        public List<PosXYZ> ProductPos { get; set; }
         [Category("CALIBRATION")]
         public List<PosXYZ> PlatformUpPos { get; set; }
 
-        [Category("CALIBRATION")]
-        public List<PosXYZ> StandardPos { get; set; }
 
-
+       
         [Category("OUTPUT")]
         public TransformParams OutputTransform { get; set; }
+
 
 
         public override void InitCalib()
@@ -44,6 +47,9 @@ namespace Lead.Detect.ThermoAOI.Calibration
         {
             PlatformUp?.EnterAuto(this).Jump("Wait", PlatformUpJumpHeight);
             PlatformCarrier?.EnterAuto(this).MoveAbs("Wait");
+
+            PlatformUp?.ExitAuto();
+            PlatformCarrier?.ExitAuto();
         }
 
 
@@ -68,7 +74,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
 
 
             {
-                var ret = XyzPlarformCalibration.CalcAffineTransform(StandardPos.Select(p => new PosXYZ(p.X, p.Y, 0)).ToList(), PlatformUpPos.Select(p => new PosXYZ(p.X, p.Y, 0)).ToList());
+                var ret = XyzPlarformCalibration.CalcAffineTransform(ProductPos.Select(p => new PosXYZ(p.X, p.Y, 0)).ToList(), PlatformUpPos.Select(p => new PosXYZ(p.X, p.Y, 0)).ToList());
 
                 Log($"计算产品坐标到上平台转换矩阵:\r\n"
                     + $"{ret.Item1[0, 0]:F6},{ret.Item1[0, 1]:F6},{ret.Item1[0, 2]:F6},{ret.Item1[0, 3]:F6}\r\n"
@@ -92,7 +98,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
                     {
                         CalibInfo = $"LeftUpXYCalib",
                         Station = Machine.Machine.Ins.Find<Station>("LeftStation"),
-                        StandardPos = Machine.Machine.Ins.Find<PlatformEx>("LeftUp").Positions.FindAll(p => p.Name.StartsWith("UpP") && !p.Name.StartsWith("UpPAlign")).Cast<PosXYZ>().ToList(),
+                        ProductPos = Machine.Machine.Ins.Find<PlatformEx>("LeftUp").Positions.FindAll(p => p.Name.StartsWith("UpP") && !p.Name.StartsWith("UpPAlign")).Cast<PosXYZ>().ToList(),
                         PlatformUpPos = Machine.Machine.Ins.Find<PlatformEx>("LeftUp").Positions.FindAll(p => p.Name.StartsWith("UpPAlign")).Cast<PosXYZ>().ToList(),
                     };
 
@@ -101,7 +107,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
                     {
                         CalibInfo = $"RightUpXYCalib",
                         Station = Machine.Machine.Ins.Find<Station>("RightStation"),
-                        StandardPos = Machine.Machine.Ins.Find<PlatformEx>("RightUp").Positions.FindAll(p => p.Name.StartsWith("UpP") && !p.Name.StartsWith("UpPAlign")).Cast<PosXYZ>().ToList(),
+                        ProductPos = Machine.Machine.Ins.Find<PlatformEx>("RightUp").Positions.FindAll(p => p.Name.StartsWith("UpP") && !p.Name.StartsWith("UpPAlign")).Cast<PosXYZ>().ToList(),
                         PlatformUpPos = Machine.Machine.Ins.Find<PlatformEx>("RightUp").Positions.FindAll(p => p.Name.StartsWith("UpPAlign")).Cast<PosXYZ>().ToList(),
                     };
             }

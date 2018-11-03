@@ -10,7 +10,8 @@ using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.ThermoAOI.Machine;
 using Lead.Detect.ThermoAOI.View;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
+using MachineUtilityLib.UtilViews;
 using WeifenLuo.WinFormsUI.Docking;
 using PrimConfigForm = Lead.Detect.Base.PrimView.PrimConfigForm;
 

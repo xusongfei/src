@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading;
-using System.Windows.Forms;
 using Lead.Detect.DatabaseHelper;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
@@ -10,11 +9,14 @@ using Lead.Detect.FrameworkExtension.platforms.safeCheckObjects;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.ThermoAOI.Calibration;
 using Lead.Detect.ThermoAOI.Common;
-using Lead.Detect.ThermoAOI.Machine.Common;
-using Lead.Detect.ThermoAOI.Product;
 using Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalculator;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo1;
-using MachineUtilityLib.UtilProduct;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.ThermoDataConvert;
+using MachineUtilityLib.Utils;
 
 namespace Lead.Detect.ThermoAOI.Machine.newTasks
 {
@@ -23,12 +25,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
     /// </summary>
     public class newTransTask : StationTask
     {
-        public PlatformType PlatformType;
-
-        public event Action TestStartEvent;
-        public event Action<Thermo1Product> TestingEvent;
-        public event Action<Thermo1Product> TestFinishEvent;
-
+        public TestProcessControl<Thermo1Product> TestProcessControl = new TestProcessControl<Thermo1Product>();
 
         public IDiEx DISensorCheck1;
         public IDiEx DISensorCheck2;
@@ -69,17 +66,14 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
 
         public IDoEx DOBrakeZPress;
         public PlatformEx Platform;
-        public IPlatformPos PosWait;
-        public IPlatformPos PosWork;
 
         public KeyenceGT GtController;
         public string GtAddress;
         public int GtPort;
 
-        public Thermo1Product ProductData;
-        public FlatnessProject CfgFlatnessProject;
-        public ProductSettings CfgProductSettings;
-        public CalibrationConfig CfgCalib;
+        public Thermo1Product Product;
+        public MeasureProject1 Project;
+        public MachineSettings CfgSettings;
         public GeometryCalculator GeometryCalculator;
 
 
@@ -91,25 +85,46 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
 
         protected override int ResetLoop()
         {
-            ResetLoop_LoadAxisPos();
+            Platform.AssertPosTeached("Wait", this);
+            Platform.AssertPosTeached("Work", this);
 
-            CfgCalib = Machine.Ins.Settings.Calibration;
+            CfgSettings = Machine.Ins.Settings;
 
-            if (!CfgProductSettings.CheckIfNormal())
+
+            if (!Project.CheckIfNormal())
             {
-                ThrowException($"Product Name Error: {CfgProductSettings.ProductName}");
+                ThrowException($"Project Error: {Project.ProductName}");
             }
 
-            GeometryCalculator = CalculatorMgr.Ins.New(CfgProductSettings.ProductName);
+
+            GeometryCalculator = CalculatorMgr.Ins.New(Project.ProductName);
             if (GeometryCalculator == null || !GeometryCalculator.CheckIfNormal())
             {
-                ThrowException($"Station {Name} Load GeometryCalculator for {CfgProductSettings.ProductName} Fail");
+                ThrowException($"Station {Name} Load GeometryCalculator for {Project.ProductName} Fail");
             }
 
-            ProductData = new Thermo1Product();
-            ProductData.ProductType = CfgProductSettings.ProductName;
-            ProductData.Description = Station.Name;
-            ProductData.SPCItems = CfgProductSettings.SPCItems;
+
+            try
+            {
+                Product = new Thermo1Product();
+                Product.ProductType = Project.ProductType.ToString();
+                Product.Description = Station.Name + "," + Project.ProductName;
+                Product.SPCItems = Project.SPCItems;
+
+                TestProcessControl.OnTestStartEvent(Product);
+
+                if (Machine.Ins.Settings.EnableFTP)
+                {
+                    var avcdata = ThermoConverter.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
+                    avcdata.Save(Machine.Ins.Settings.FTPAddress);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log($"连接FTP ERROR: {ex.Message}", LogLevel.Error);
+            }
+
 
             DOBtnLight1.SetDo(false);
             DOBtnLight2.SetDo(false);
@@ -117,7 +132,6 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             DOBtnLight1.SetDo();
             DOBtnLight2.SetDo();
 
-            OnTestStartEvent();
 
             //reset vio
             VioTransInp.SetVio(this, false);
@@ -165,13 +179,15 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
 
             DOBrakeZPress.SetDo();
 
+            Clamp(true);
+
             //home platform
             Platform.EnterAuto(this).Servo();
             Platform.EnterAuto(this).Home();
-            Platform.EnterAuto(this).MoveAbs(PosWait, checkLimit: false);
+            Platform.EnterAuto(this).MoveAbs("Wait", checkLimit: false);
 
             //cy clamp
-            new[] { DoClampCylinderX, DoClampCylinderY }.SetDo(this, new[] { false, false }, 300, false);
+            Clamp(false);
 
             //check sensor
             //while (!DISensorCheck1.GetDiSts( false) || !DISensorCheck2.GetDiSts( false))
@@ -187,25 +203,15 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             return 0;
         }
 
-        private void ResetLoop_LoadAxisPos()
+        private void Clamp(bool status)
         {
-            PosWait = Platform["Wait"];
-            if (PosWait == null)
-            {
-                ThrowException($"{Name} not teach Wait");
-            }
-
-            PosWork = Platform["Work"];
-            if (PosWork == null)
-            {
-                ThrowException($"{Name} not teach Work");
-            }
+            new[] { DoClampCylinderX, DoClampCylinderY }.SetDo(this, new[] { status, status }, 100, null);
         }
 
         protected override int RunLoop()
         {
             //in case of manual operations
-            Platform.EnterAuto(this);
+            Platform.AssertAutoMode(this);
 
 
             //wait start
@@ -223,7 +229,8 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                     break;
                 }
             }
-            Station.ShowAlarm(string.Empty, LogLevel.None);
+            Log(string.Empty, LogLevel.None);
+
 
             if ((Station.Id == 1 && Machine.Ins.Settings.Common.LeftFinSensorCheck)
              || (Station.Id == 2 && Machine.Ins.Settings.Common.RightFinSensorCheck))
@@ -245,44 +252,40 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             }
 
             //new product
-            ProductData = new Thermo1Product()
+            Product = new Thermo1Product()
             {
-                StartTime = DateTime.Now,
-                ProductType = CfgProductSettings.ProductName,
-                Description = Station.Name,
-                SPCItems = CfgProductSettings.SPCItems,
+                ProductType = Project.ProductType.ToString(),
+                Description = Station.Name + "," + Project.ProductName,
+                SPCItems = Project.SPCItems,
             };
-            ProductData.ClearSpc();
+            Product.ClearSpc();
             //push data to measure tasks
-            WaitTaskDown.ProductData = ProductData;
-            WaitTaskUp.ProductData = ProductData;
-            OnTestStartEvent();
-            OnTestingEvent(ProductData);
+            WaitTaskDown.Product = Product;
+            WaitTaskUp.Product = Product;
+            TestProcessControl.OnTestStartEvent(Product);
+            TestProcessControl.OnTestingEvent(Product);
 
             DOBtnLight1.SetDo();
             DOBtnLight2.SetDo();
 
             //cy clamp
-            if (CfgFlatnessProject.ProjectName.Contains("HeightCalib"))
+            if (Project.ProjectName.Contains("HeightCalib"))
             {
-                DoClampCylinderY.SetDo(this, true, 100, isErrorOnSignalError: false);
+                DoClampCylinderY.SetDo(this, true, 100, ignoreOrWaringOrError: null);
             }
             else
             {
-                new[] { DoClampCylinderX, DoClampCylinderY }.SetDo(this, new[] { true, true }, 100, isErrorOnSignalError: false);
+                Clamp(true);
             }
 
-            //Thread.Sleep(300);
+
             //move work 
-            Platform.MoveAbs(0, PosWork);
+            Platform.MoveAbs(0, "Work");
             {
                 VioTransInp.SetVio(this);
 
                 //start waiting
-                Log("Measure Start...\n-----------------------------------------------", LogLevel.Info);
-                //clear measure finish vio
-                VioMeasureFinishUp.SetVio(this, false);
-                VioMeasureFinishDown.SetVio(this, false);
+                Log("Measure Start......\n-----------------------------------------------", LogLevel.Info);
                 //set measure start
                 VioTransFinishUp.SetVio(this);
                 VioTransFinishDown.SetVio(this);
@@ -290,85 +293,40 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
 
                     //wait barcode finish update barcode
                     VioBarcodeFinish.WaitVioAndClear(this);
-                    OnTestingEvent(ProductData);
+                    TestProcessControl.OnTestingEvent(Product);
 
                 }
                 //wait measure finish
                 VioMeasureFinishUp.WaitVioAndClear(this);
                 VioMeasureFinishDown.WaitVioAndClear(this);
-                Log("Measure Finish\n-----------------------------------------------", LogLevel.Info);
+                Log("Measure Finish......\n-----------------------------------------------", LogLevel.Info);
 
             }
             //move wait pos
-            Platform.MoveAbs(0, PosWait);
+            Platform.MoveAbs(0, "Wait");
 
             //update results
             //calc flatness
             if (GeometryCalculator != null)
             {
                 //transform raw data to same coord
-                CalibrationConfig.TransformRawData(PlatformType, CfgCalib, ProductData);
-                var data = GeometryCalculator.Calculate(ProductData);
-                Log($"Flatness Calc {data.ToString()}", LogLevel.Debug);
+                GTTransform.TransformRawData(Station.Name, CfgSettings.Calibration, Product);
+                var data = GeometryCalculator.Calculate(Product);
+                Log($"Flatness Calc: {data.ToString()}");
             }
-            ProductData.FinishTime = DateTime.Now;
-            ProductData.UpdateStatus();
 
             SaveProductData();
 
-            Log(ProductData.ToString());
-            OnTestFinishEvent(ProductData);
-
-            if (Machine.Ins.Settings.Common.BeepOnProductNG && ProductData.Status != ProductStatus.OK)
-            {
-                Station.Machine.Beep();
-            }
-
-            new[] { DoClampCylinderX, DoClampCylinderY }.SetDo(this, new[] { false, false }, 300, false);
-
+            Clamp(false);
             DOBtnLight1.SetDo(false);
             DOBtnLight2.SetDo(false);
 
             return 0;
         }
 
-        private void SaveProductData()
-        {
-            try
-            {
-                if (Station.Id == 1)
-                {
-                    Machine.Ins.Settings.ProductionLeft.TotalCount++;
-                    if (ProductData.Status == ProductStatus.OK)
-                        Machine.Ins.Settings.ProductionLeft.OKCount++;
-                    else
-                        Machine.Ins.Settings.ProductionLeft.NGCount++;
-
-                    ProductData.Save("LeftData");
-                    SqlLiteHelper.DB.Insert(ProductData.ToEntity());
-                }
-                else if (Station.Id == 2)
-                {
-                    Machine.Ins.Settings.ProductionRight.TotalCount++;
-                    if (ProductData.Status == ProductStatus.OK)
-                        Machine.Ins.Settings.ProductionRight.OKCount++;
-                    else
-                        Machine.Ins.Settings.ProductionRight.NGCount++;
-
-                    ProductData.Save("RightData");
-                    SqlLiteHelper.DB.Insert(ProductData.ToEntity());
-                }
-            }
-            catch (Exception e)
-            {
-                Station.Machine.Beep();
-                MessageBox.Show($"保存数据失败：{e.Message}");
-            }
-        }
-
         private bool CheckProductFin()
         {
-            var noFin = CfgProductSettings.ProductName.Contains("NoFin");
+            var noFin = Project.ProductType == ProductType.VaporChamber;
             if (noFin)
             {
                 //fin sensor1 must be true (upfin)
@@ -378,14 +336,14 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                 {
                     Station.Machine.Beep();
 
-                    var err = $"{Station.Name} - {Name} - {CfgProductSettings.ProductName} FIN 传感器异常";
+                    var err = $"{Station.Name} - {Name} - {Project.ProductName} FIN 传感器异常";
                     Log(err, LogLevel.Warning);
                     //MessageBox.Show(err, "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
             }
 
-            var withFin = CfgProductSettings.ProductName.Contains("WithFin");
+            var withFin = Project.ProductType == ProductType.FullModule;
             if (withFin)
             {
                 //fin sensor1 must be false (upfin)
@@ -395,7 +353,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                 {
                     Station.Machine.Beep();
 
-                    var err = $"{Station.Name} - {Name} - {CfgProductSettings.ProductName} FIN 传感器异常";
+                    var err = $"{Station.Name} - {Name} - {Project.ProductName} FIN 传感器异常";
                     Log(err, LogLevel.Warning);
                     //MessageBox.Show(err, "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
@@ -405,20 +363,53 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
         }
 
 
-        protected virtual void OnTestStartEvent()
+        private void SaveProductData()
         {
-            TestStartEvent?.Invoke();
-        }
-        protected virtual void OnTestingEvent(Thermo1Product obj)
-        {
-            TestingEvent?.Invoke(obj);
-        }
-        protected virtual void OnTestFinishEvent(Thermo1Product obj)
-        {
-            TestFinishEvent?.Invoke(obj);
-        }
+            //save production data
+            {
+                try
+                {
+                    Product.UpdateStatus();
+                    if (Station.Id == 1)
+                    {
+                        Machine.Ins.Settings.ProductionLeft.Update(Product);
+                        Product.Save("LeftData");
+                        Product.ToEntity().Save();
+                    }
+                    else if (Station.Id == 2)
+                    {
+                        Machine.Ins.Settings.ProductionRight.Update(Product);
+                        Product.Save("RightData");
+                        Product.ToEntity().Save();
+                    }
+
+                    Log($"Save Product Finish: {Product}");
+
+                    if (Machine.Ins.Settings.EnableFTP)
+                    {
+                        var avcdata = ThermoConverter.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
+                        avcdata.Save(Machine.Ins.Settings.FTPAddress);
+                        avcdata.Save("AVCData");
+                        Log("Upload AvcData Finish:" + avcdata.ToString(), LogLevel.Info);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log($"保存数据失败：{ex.Message}", LogLevel.Warning);
+                    Station.Machine.Beep();
+                }
+
+                TestProcessControl.OnTestFinishEvent(Product);
 
 
+                if (Machine.Ins.Settings.Common.BeepOnProductNG && Product.Status != ProductStatus.OK)
+                {
+                    Station.Machine.Beep();
+                }
+            }
+        }
+
+      
     }
 
 
@@ -426,8 +417,6 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
     {
         public newLeftTransTask(int id, string name, Station station) : base(id, name, station)
         {
-            PlatformType = PlatformType.LTrans;
-
             DISensorCheck1 = Machine.Ins.Find<IDiEx>("LDISensorCheck1");
             DISensorCheck2 = Machine.Ins.Find<IDiEx>("LDISensorCheck2");
             DISensorCheckFin1 = Machine.Ins.Find<IDiEx>("LDISensorCheckFin1");
@@ -469,15 +458,12 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             //load product settings
             try
             {
-                CfgFlatnessProject = FlatnessProject.Load(Machine.Ins.Settings.LeftProjectFilePath);
-                if (CfgFlatnessProject == null)
+                Project = MeasureProject.Load(Machine.Ins.Settings.LeftProjectFilePath, typeof(MeasureProject1)) as MeasureProject1;
+                if (Project == null)
                 {
                     ThrowException(Machine.Ins.Settings.LeftProjectFilePath);
                 }
-                else
-                {
-                    CfgProductSettings = CfgFlatnessProject.ProductSettings;
-                }
+
             }
             catch (Exception ex)
             {
@@ -493,8 +479,6 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
     {
         public newRightTransTask(int id, string name, Station station) : base(id, name, station)
         {
-            PlatformType = PlatformType.RTrans;
-
             DISensorCheck1 = Machine.Ins.Find<IDiEx>("RDISensorCheck1");
             DISensorCheck2 = Machine.Ins.Find<IDiEx>("RDISensorCheck2");
             DISensorCheckFin1 = Machine.Ins.Find<IDiEx>("RDISensorCheckFin1");
@@ -536,14 +520,10 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             try
             {
                 //load product settings
-                CfgFlatnessProject = FlatnessProject.Load(Machine.Ins.Settings.RightProjectFilePath);
-                if (CfgFlatnessProject == null)
+                Project = MeasureProject.Load(Machine.Ins.Settings.RightProjectFilePath, typeof(MeasureProject1)) as MeasureProject1;
+                if (Project == null)
                 {
                     ThrowException(Machine.Ins.Settings.RightProjectFilePath);
-                }
-                else
-                {
-                    CfgProductSettings = CfgFlatnessProject.ProductSettings;
                 }
             }
             catch (Exception ex)

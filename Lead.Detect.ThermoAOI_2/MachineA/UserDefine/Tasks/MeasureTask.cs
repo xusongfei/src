@@ -6,9 +6,10 @@ using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.MeasureComponents.Thermo2Camera;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo2;
-using MachineUtilityLib.UtilProduct;
-using MachineUtilityLib.Utils;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
+using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2;
+using MachineUtilityLib.UtilsFramework;
 
 namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
 {
@@ -199,6 +200,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
                         }
                     }
                 }
+
 
                 //process result
                 try

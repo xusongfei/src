@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Lead.Detect.Interfaces
+﻿namespace Lead.Detect._2DAgl
 {
     public class Class1
     {

@@ -3,6 +3,7 @@ using System.Linq;
 using g3;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.PlatformCalibration;
+using Lead.Detect.PlatformCalibration.FittingHelper;
 
 namespace Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalcItem
 {

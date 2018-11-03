@@ -310,19 +310,21 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                         if (i >= 0 && _platform.Axis[i] != null)
                         {
                             var axis = _platform.Axis[i];
-
                             var step = double.Parse(comboBox_Step[i].Text);
+                            bool isCheckLimit = true;
+
                             if (step > 10 || axis.GetMel() || axis.GetPel())
                             {
                                 if (MessageBox.Show($"{axis.Name} 开始移动 {step} mm  正限位 {axis.GetPel()} 负限位 {axis.GetMel()}?",
-                                        "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
-                                    == DialogResult.No)
+                                        "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
                                 {
                                     return;
                                 }
+
+                                isCheckLimit = false;
                             }
 
-                            var ret = _platform.ExitAuto().MoveRel(i, step, 10000, true);
+                            var ret = _platform.ExitAuto().MoveRel(i, step, 10000, isCheckLimit);
                             if (!ret)
                             {
                                 MessageBox.Show($"{axis.Name} 移动异常: {_platform.ShowStatus()} {axis.Error}！");
@@ -336,17 +338,19 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                         {
                             var axis = _platform.Axis[i];
                             var step = double.Parse(comboBox_Step[i].Text);
+                            var isCheckLimit = true;
+
                             if (step > 10 || axis.GetMel() || axis.GetPel())
                             {
                                 if (MessageBox.Show($"{axis.Name} 开始移动 -{step} mm  正限位 {axis.GetPel()} 负限位 {axis.GetMel()}?",
-                                        "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
-                                    == DialogResult.No)
+                                        "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
                                 {
                                     return;
                                 }
+                                isCheckLimit = false;
                             }
 
-                            var ret = _platform.ExitAuto().MoveRel(i, -step, 10000, true);
+                            var ret = _platform.ExitAuto().MoveRel(i, -step, 10000, isCheckLimit);
                             if (!ret)
                             {
                                 MessageBox.Show($"{axis.Name} 移动异常: {_platform.ShowStatus()} {axis.Error}！");

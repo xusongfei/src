@@ -45,6 +45,7 @@ namespace MachineUtilityLib.UtilViews
                     {
                         Dock = DockStyle.Fill,
                         ReadOnly = true,
+                        WordWrap = false,
                     });
                     tabControl1.TabPages[tab].Controls.Add(richTextBoxs[tab]);
                 }
