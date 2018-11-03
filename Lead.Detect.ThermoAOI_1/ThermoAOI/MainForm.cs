@@ -75,28 +75,34 @@ namespace Lead.Detect.ThermoAOI
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //if (e.CloseReason != CloseReason.UserClosing)
-            //    return;
-
             if (MessageBox.Show("是否退出当前程序", "重要消息提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
             {
                 e.Cancel = true;
             }
             else
             {
-                Machine.Machine.Ins.Stop();
-                _devConfigForm.FrameworkDeactivate();
-                Application.DoEvents();
-                Thread.Sleep(300);
-                Application.DoEvents();
-                e.Cancel = false;
+                try
+                {
+                    Machine.Machine.Ins.Stop();
+                    _devConfigForm.FrameworkDeactivate();
+                    Application.DoEvents();
+                    Thread.Sleep(800);
+                    Application.DoEvents();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    e.Cancel = false;
+                }
             }
         }
 
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _devConfigForm.FrameworkDeactivate();
             Application.DoEvents();
             Thread.Sleep(100);
             Application.DoEvents();

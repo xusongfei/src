@@ -77,22 +77,29 @@ namespace Lead.Detect.ThermoAOI2.MachineA
             }
             else
             {
-                Machine.Ins.Stop();
-                _devConfigForm.FrameworkDeactivate();
-                Application.DoEvents();
-                Thread.Sleep(300);
-                Application.DoEvents();
-                e.Cancel = false;
+                try
+                {
+                    Machine.Ins.Stop();
+                    _devConfigForm.FrameworkDeactivate();
+                    Application.DoEvents();
+                    Thread.Sleep(800);
+                    Application.DoEvents();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    e.Cancel = false;
+                }
             }
         }
 
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _devConfigForm.FrameworkDeactivate();
-            Application.DoEvents();
-            Thread.Sleep(100);
-            Application.DoEvents();
+           
         }
 
         #region  menu item
