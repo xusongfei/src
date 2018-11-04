@@ -34,7 +34,7 @@ namespace Lead.Detect.ThermoAOI.Machine1
 
             //Text = MotionWrapperExtension.IsSimulate ? "仿真模式" : Machine.Machine.Ins.Settings.Name;
             Text = Machine.Machine.Ins.Settings.Name;
-
+            Text = $"{Machine.Machine.Ins.Settings.Name} {Machine.Machine.Ins.Settings.Version}";
 
             _devAlarmForm = new DevAlarmForm()
             {

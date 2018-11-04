@@ -535,6 +535,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     {
                         //some station not reset success
                         PostEvent(UserEventType.STOP, this);
+                        Beep();
                         return;
                     }
 
@@ -603,6 +604,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     {
                         //some station run error
                         PostEvent(UserEventType.STOP, this);
+                        Beep();
                         return;
                     }
                     else if (Stations.Any(s => s.Value.Enable && s.Value.RunningState == RunningState.Pause))

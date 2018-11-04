@@ -139,7 +139,6 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
                 {
                     Platform.Jump(pos, 0);
                 }
-
                 Log($"{Platform.Name} Wait At {pos}");
             }
 

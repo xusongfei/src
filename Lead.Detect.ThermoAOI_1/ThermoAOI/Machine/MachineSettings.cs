@@ -45,11 +45,14 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine
         [Category("Machine")]
         public string Name { set; get; } = "高度通用量测";
         [Category("Machine")]
+        public string Version { get; set; } = "v1.11.4";
+        [Category("Machine")]
         public string Description { set; get; } = "AOI1";
-    
-        [Category("Machine")]
+
+
+        [Category("FTP")]
         public bool EnableFTP { get; set; } = false;
-        [Category("Machine")]
+        [Category("FTP")]
         public string FTPAddress { set; get; } = @"192.168.80.10\TestData01";
 
 

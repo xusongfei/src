@@ -295,7 +295,6 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
             if (level == LogLevel.Error || level == LogLevel.Fatal)
             {
                 Machine.PostEvent(UserEventType.STOP, this);
-                Machine.Beep();
             }
             else if (level == LogLevel.Warning)
             {
