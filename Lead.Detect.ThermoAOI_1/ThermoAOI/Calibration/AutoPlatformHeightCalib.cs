@@ -150,11 +150,11 @@ namespace Lead.Detect.ThermoAOI.Machine1.Calibration
                             if (isFirst)
                             {
                                 isFirst = false;
-                                Platform1.Jump(Platform1.GetPos("P->UP", pos.Data()), 0);
+                                Platform1?.EnterAuto(this).Jump(Platform1.GetPos("P->UP", pos.Data()), 0);
                             }
                             else
                             {
-                                Platform1.Jump(Platform1.GetPos("P->UP", pos.Data()), JumpHeight1);
+                                Platform1?.EnterAuto(this).Jump(Platform1.GetPos("P->UP", pos.Data()), JumpHeight1);
                             }
                             Thread.Sleep(1000);
                             calibPos.Z = GtController.ReadData()[0];

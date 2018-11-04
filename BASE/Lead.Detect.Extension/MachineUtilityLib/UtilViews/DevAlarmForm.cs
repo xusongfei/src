@@ -41,6 +41,7 @@ namespace Lead.Detect.MachineUtilityLib.UtilViews
                             richTextBoxAlarm.SelectionColor = Color.Red;
                             break;
                         default:
+                            richTextBoxAlarm.SelectionColor = Color.LightCoral;
                             return;
                     }
 
