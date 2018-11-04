@@ -202,11 +202,6 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
             return 0;
         }
 
-        private void Clamp(bool status)
-        {
-            new[] { DoClampCylinderX, DoClampCylinderY }.SetDo(this, new[] { status, status }, 100, null);
-        }
-
         protected override int RunLoop()
         {
             //in case of manual operations
@@ -231,8 +226,8 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
             Log(string.Empty, LogLevel.None);
 
 
-            if ((Station.Id == 1 && Machine.Ins.Settings.Common.LeftFinSensorCheck)
-             || (Station.Id == 2 && Machine.Ins.Settings.Common.RightFinSensorCheck))
+            if ((Station.Id == 1 && Machine.Ins.Settings.Common.LeftSensorCheck)
+             || (Station.Id == 2 && Machine.Ins.Settings.Common.RightSensorCheck))
             {
                 //检查定位传感器
                 if (!DISensorCheck1.GetDiSts() || !DISensorCheck2.GetDiSts())
@@ -242,6 +237,11 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
                     return 0;
                 }
 
+            }
+
+            if ((Station.Id == 1 && Machine.Ins.Settings.Common.LeftSensorCheck)
+            || (Station.Id == 2 && Machine.Ins.Settings.Common.RightSensorCheck))
+            {
                 //检查fin传感器
                 if (!CheckProductFin())
                 {
@@ -359,6 +359,11 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
         }
 
 
+        private void Clamp(bool status)
+        {
+            new[] { DoClampCylinderX, DoClampCylinderY }.SetDo(this, new[] { status, status }, 100, null);
+        }
+
         private void SaveProductData()
         {
             //save production data
@@ -405,7 +410,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
             }
         }
 
-      
+
     }
 
 

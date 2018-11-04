@@ -12,25 +12,24 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine
 
         #region auto
 
-        [Category("AUTO TRY RUN")]
+        [Category("AUTO")]
         public bool LeftAutoTryRun { get; set; } = false;
-
-        [Category("AUTO TRY RUN")]
+        [Category("AUTO")]
         public bool RightAutoTryRun { get; set; } = false;
-
-
-        [Category("AUTO")]
-        public bool LeftFinSensorCheck { get; set; } = true;
-
-        [Category("AUTO")]
-        public bool RightFinSensorCheck { get; set; } = true;
-
         [Category("AUTO")]
         public bool BeepOnProductNG { get; set; } = false;
 
 
-        [Category("AUTO TEST")]
-        public bool IsRepeatTest { get; set; } = false;
+        [Category("FIN SENSOR 产品FIN高度传感器")]
+        public bool LeftFinSensorCheck { get; set; } = true;
+        [Category("FIN SENSOR 产品FIN高度传感器")]
+        public bool RightFinSensorCheck { get; set; } = true;
+
+
+        [Category("SENSOR 定位传感器")]
+        public bool LeftSensorCheck { get; set; } = true;
+        [Category("SENSOR 定位传感器")]
+        public bool RightSensorCheck { get; set; } = true;
 
         #endregion
 
