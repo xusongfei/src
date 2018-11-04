@@ -6,13 +6,12 @@ using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
+using Lead.Detect.MachineUtilityLib.Utils;
+using Lead.Detect.MachineUtilityLib.UtilsFramework;
 using Lead.Detect.ThermoAOI2.MachineB.View;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.ThermoDataConvert;
-using MachineUtilityLib.Utils;
-using MachineUtilityLib.UtilsFramework;
+using Lead.Detect.ThermoAOIProductLib.Thermo;
+using Lead.Detect.ThermoAOIProductLib.Thermo2;
+using Lead.Detect.ThermoAOIProductLib.ThermoDataConvert;
 
 namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 {
@@ -90,7 +89,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
                 if (Machine.Ins.Settings.EnableFTP)
                 {
-                    var avcdata = ThermoConverter.Convert(Product, "", Machine.Ins.Settings.Description);
+                    var avcdata = ThermoProductConvertHelper.Convert(Product, "", Machine.Ins.Settings.Description);
                     avcdata.Save(Machine.Ins.Settings.FTPAddress);
                 }
 
@@ -145,7 +144,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             //create product
             Product = new Thermo2ProductB()
             {
-                ProductType =  Project.ProductType.ToString(),
+                ProductType =  Project.ThermoProductType.ToString(),
                 Description = Project.ProductName,
                 Barcode = barcode,
                 SPCItems = Project.SPCItems,
@@ -205,7 +204,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
                     if (Machine.Ins.Settings.EnableFTP)
                     {
-                        var avcdata = ThermoConverter.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
+                        var avcdata = ThermoProductConvertHelper.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
                         avcdata.Save(Machine.Ins.Settings.FTPAddress);
                         avcdata.Save("AVCData");
                         Log("Upload AvcData Finish:" + avcdata.ToString(), LogLevel.Info);

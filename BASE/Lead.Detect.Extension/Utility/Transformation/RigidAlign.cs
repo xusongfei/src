@@ -5,7 +5,7 @@ using System.Text;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
-namespace Lead.Detect.PlatformCalibration.Transformation
+namespace Lead.Detect.Utility.Transformation
 {
     public class RigidAlign
     {

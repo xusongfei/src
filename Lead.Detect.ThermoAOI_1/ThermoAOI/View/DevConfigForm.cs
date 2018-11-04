@@ -8,13 +8,13 @@ using Lead.Detect.FrameworkExtension.platforms.calibrations;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.FrameworkExtension.userControls;
-using Lead.Detect.ThermoAOI.Calibration;
-using Lead.Detect.ThermoAOI.Machine.newTasks;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalculator;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
+using Lead.Detect.ThermoAOI.Machine1.Calibration;
+using Lead.Detect.ThermoAOI.Machine1.Machine.newTasks;
+using Lead.Detect.ThermoAOIProductLib.Thermo1;
+using Lead.Detect.ThermoAOIProductLib.Thermo1Calculator;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Lead.Detect.ThermoAOI.View
+namespace Lead.Detect.ThermoAOI.Machine1.View
 {
     public partial class DevConfigForm : DockContent, IFrameworkControl
     {
@@ -556,7 +556,7 @@ namespace Lead.Detect.ThermoAOI.View
 
         private void buttonProductCalculatorEditor_Click(object sender, EventArgs e)
         {
-            var prj = new GeometryCalculatorEditorForm()
+            var prj = new Thermo1GeometryCalculatorEditorForm()
             {
                 StartPosition = FormStartPosition.CenterScreen,
             };

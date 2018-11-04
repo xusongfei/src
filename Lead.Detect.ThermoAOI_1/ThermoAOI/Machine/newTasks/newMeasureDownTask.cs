@@ -1,17 +1,17 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.platforms.safeCheckObjects;
 using Lead.Detect.FrameworkExtension.stateMachine;
-using Lead.Detect.ThermoAOI.Common;
-using System.Linq;
-using Lead.Detect.PlatformCalibration.Transformation;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
+using Lead.Detect.MachineUtilityLib.UtilsFramework;
+using Lead.Detect.ThermoAOI.Machine1.Common;
+using Lead.Detect.ThermoAOIProductLib.Thermo1;
+using Lead.Detect.Utility.Transformation;
 
-namespace Lead.Detect.ThermoAOI.Machine.newTasks
+namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
 {
     public class newMeasureDownTask : StationTask
     {
@@ -39,6 +39,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
         /// </summary>
         [Description("INPUT")]
         public KeyenceGT GtController;
+
         /// <summary>
         /// 产品测试数据,从transTask加载
         /// </summary>
@@ -60,6 +61,15 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
 
         protected override int ResetLoop()
         {
+            //load cfg
+            CfgSettings = Machine.Ins.Settings;
+
+            //clear vio
+            VioTransInp.SetVio(this, false);
+            VioBarcodeFinish.SetVio(this, false);
+            VioTransFinish.SetVio(this, false);
+            VioMeasureFinish.SetVio(this, false);
+
             //load axis pos
             Platform.AssertPosTeached("Wait", this);
             Platform.AssertPosTeached("GtWork1", this);
@@ -68,14 +78,6 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
 
             PosGtWork1 = Platform["GtWork1"] as PosXYZ;
             PosGtWork2 = Platform["GtWork2"] as PosXYZ;
-
-            CfgSettings = Machine.Ins.Settings;
-
-            //clear vio
-            VioTransInp.SetVio(this, false);
-            VioBarcodeFinish.SetVio(this, false);
-            VioTransFinish.SetVio(this, false);
-            VioMeasureFinish.SetVio(this, false);
 
 
             if (!DoGTCylinder.SetDo(this, false, ignoreOrWaringOrError: true))
@@ -90,6 +92,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                 {
                     BarcodeController.Close();
                 }
+
                 BarcodeController.Open(BarcodeCOM);
             }
             catch (Exception e)
@@ -122,10 +125,22 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                 ThrowException($"GT Cylinder SET Fail!");
             }
 
+
+            //optimize wait position
             if (!CfgSettings.Common.OptimizeDownWait)
             {
                 //move to wait
                 Platform.MoveAbs("Wait");
+            }
+            else
+            {
+                var pos = $"Barcode{Project.TypeId}";
+                if (Platform.ExistsPos(pos))
+                {
+                    Platform.Jump(pos, 0);
+                }
+
+                Log($"{Platform.Name} Wait At {pos}");
             }
 
             //safe height check
@@ -137,15 +152,11 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             //read barcode
             VioTransInp.WaitVioAndClear(this);
             {
-                if (Project.TypeId == 1 || Project.TypeId == 2 || Project.TypeId == 3)
+                var pos = $"Barcode{Project.TypeId}";
+                if (Platform.ExistsPos(pos))
                 {
-                    var pos = $"Barcode{Project.TypeId}";
-                    if (Platform.ExistsPos(pos))
-                    {
-                        Platform.Jump(pos, 0);
-                        ReadBarcode();
-                    }
-
+                    Platform.Jump(pos, 0);
+                    ReadBarcode();
                 }
             }
             VioBarcodeFinish.SetVio(this);
@@ -156,23 +167,22 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                 //measure down pos
                 MeasureDownGt();
 
+                //reset z axis
+                Platform.MoveAbs(2, "Wait");
+                Platform.Home(2);
+
+                if (!CfgSettings.Common.OptimizeDownWait)
                 {
-                    //move z safe pos
-                    Platform.Home(2);
+                    Platform.MoveAbs("Wait", checkLimit: false);
+                }
+                else
+                {
                     Platform.MoveAbs(2, "Wait", checkLimit: false);
-                    //move to wait pos
-                    Platform.MoveAbs("Wait");
                 }
             }
             //set vio finish
             VioMeasureFinish.SetVio(this);
 
-
-            if (Machine.Ins.Settings.Common.IsRepeatTest)
-            {
-                Product.Save("RepeatDown");
-                Product.RawDataDown.Clear();
-            }
             return 0;
         }
 
@@ -184,11 +194,11 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                 Log($"Read Barcode: {Product.Barcode}");
             }
         }
+
         private void MeasureDownGt()
         {
             //start measure
-            var downTestPositions = Project.DownTestPositions;
-            if (downTestPositions.Count == 0)
+            if (Project.DownTestPositions.Count == 0)
             {
                 Log($"MeasureGt No Test Points");
                 return;
@@ -197,76 +207,146 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             //run measure loop
             bool isFirst = true;
             PosXYZ lastPos = PosXYZ.Zero;
-            foreach (var pos in downTestPositions)
+            foreach (var pos in Project.DownTestPositions)
             {
-                PosXYZ gtWorkHeight = PosXYZ.Zero;
-                var gtIndex = 1;
-                var posOffset = PosXYZ.Zero;
+                int gt;
+                PosXYZ gtWorkZ;
+                PosXYZ newpos;
 
-                if (!AddPosOffset(pos, ref gtIndex, ref gtWorkHeight, ref posOffset))
+                //add pos offset
+                if (!AddPosOffset(pos, out gt, out gtWorkZ, out newpos))
                 {
-                    Log($"AddPosOffset GT Raw Index {gtIndex} Error");
+                    Log($"AddPosOffset GT Raw Index {gt} Error");
                     continue;
                 }
 
-                //transform posWithOffset to gr work pos;
-                var gtPosZ = gtWorkHeight.Z - pos.Z;
+
+                //convert pos to gt pos
+                var gtPosZ = gtWorkZ.Z - pos.Z;
                 var gtPos = PosXYZ.Zero;
-                if (gtIndex == 1)
+                if (gt == 1)
                 {
-                    gtPos = new PosXYZ(Platform.GetPos("P->DOWN1", posOffset.Data())) { Z = gtPosZ };
+                    gtPos = new PosXYZ(Platform.GetPos("P->DOWN1", newpos.Data())) { Z = gtPosZ };
                 }
-                else if (gtIndex == 2)
+                else if (gt == 2)
                 {
-                    gtPos = new PosXYZ(Platform.GetPos("P->DOWN2", posOffset.Data())) { Z = gtPosZ };
+                    gtPos = new PosXYZ(Platform.GetPos("P->DOWN2", newpos.Data())) { Z = gtPosZ };
                 }
                 else
                 {
-                    Log($"GT Raw Index {gtIndex} Error", LogLevel.Error);
+                    Log($"GT Raw Index {gt} Error", LogLevel.Error);
                 }
-                Log($"Transform {pos.Name} {pos.Description} {posOffset} To {gtPos}");
+
+                Log($"Transform {pos.Name} {pos.Description} {newpos} To {gtPos}");
 
 
-                //move to test pos
-                if (isFirst)
+                //jump gt pos
+                PlatformJumpPos(isFirst, pos, lastPos, gtPos);
+                lastPos = pos;
+                isFirst = false;
+
+                //read gt
+                System.Threading.Thread.Sleep(CfgSettings.Common.GtReadDelay);
+                var gtRaw = GtController?.ReadData();
+                if (gtRaw != null)
                 {
-                    isFirst = false;
+                    Product.RawDataDown.Add(new PosXYZ()
+                    {
+                        Name = pos.Name,
+                        Description = pos.Description,
+                        X = pos.X,
+                        Y = pos.Y,
+                        Z = gtRaw[gt],
+                        OffsetX = gtRaw[gt],
+                        OffsetZ = gtPosZ,
+                    });
+                }
+                else
+                {
+                    Log($"GtController ReadData Error", LogLevel.Error);
+                }
+            }
+
+        }
+
+        private bool AddPosOffset(PosXYZ pos, out int gt, out PosXYZ gtWork, out PosXYZ newpos)
+        {
+            //add sys offset
+            if (pos.Description == "GT1")
+            {
+                gt = 1;
+                var leftGtSysOffset = CfgSettings.Common.LeftGT1SYSOffset;
+                var rightGtSysOffset = CfgSettings.Common.RightGT1SYSOffset;
+                gtWork = PosGtWork1;
+                if (Station.Id == 1)
+                {
+                    newpos = pos + leftGtSysOffset;
+                }
+                else if (Station.Id == 2)
+                {
+                    newpos = pos + rightGtSysOffset;
+                }
+                else
+                {
+                    newpos = PosXYZ.Zero;
+                    return false;
+                }
+            }
+            else if (pos.Description == "GT2")
+            {
+                gt = 2;
+                var leftGtSysOffset = CfgSettings.Common.LeftGT2SYSOffset;
+                var rightGtSysOffset = CfgSettings.Common.RightGT2SYSOffset;
+                gtWork = PosGtWork2;
+                if (Station.Id == 1)
+                {
+                    newpos = pos + leftGtSysOffset;
+                }
+                else if (Station.Id == 2)
+                {
+                    newpos = pos + rightGtSysOffset;
+                }
+                else
+                {
+                    newpos = PosXYZ.Zero;
+                    return false;
+                }
+            }
+            else
+            {
+                gt = 0;
+                newpos = PosXYZ.Zero;
+                gtWork = PosXYZ.Zero;
+                return false;
+            }
+
+            return true;
+        }
+
+        private void PlatformJumpPos(bool isFirst, PosXYZ pos, PosXYZ lastPos, PosXYZ gtPos)
+        {
+            if (isFirst)
+            {
+                if (pos.Name == "outer")
+                {
+                    if (!DoGTCylinder.SetDo(this, false, ignoreOrWaringOrError: true))
+                    {
+                        ThrowException($"GT Cylinder RESET Fail!");
+                    }
+                }
+                Log($"{Platform.Name} {Platform.Description} Jump {pos}");
+                Platform.Jump(gtPos, 0);
+            }
+            else
+            {
+                if (pos.Name == "outer" || pos.Name == "down")
+                {
                     if (pos.Name == "outer")
                     {
                         if (!DoGTCylinder.SetDo(this, false, ignoreOrWaringOrError: true))
                         {
                             ThrowException($"GT Cylinder RESET Fail!");
                         }
-                    }
-                    Log($"{Platform.Name} {Platform.Description} Jump {pos}");
-                    Platform.Jump(gtPos, 0);
-                }
-                else
-                {
-                    if (pos.Name == "outer" || pos.Name == "down")
-                    {
-                        if (pos.Name == "outer")
-                        {
-                            if (!DoGTCylinder.SetDo(this, false, ignoreOrWaringOrError: true))
-                            {
-                                ThrowException($"GT Cylinder RESET Fail!");
-                            }
-                        }
-                        else
-                        {
-                            if (lastPos.Name == "outer")
-                            {
-                                if (!DoGTCylinder.SetDo(this, true, ignoreOrWaringOrError: true))
-                                {
-                                    ThrowException($"GT Cylinder SET Fail!");
-                                }
-                            }
-                        }
-
-                        var outerJumpHeight = 0.5 - Platform.CurPos[2];
-
-                        Log($"{Platform.Name} {Platform.Description} Jump {pos}");
-                        Platform.Jump(gtPos, outerJumpHeight);
                     }
                     else
                     {
@@ -277,115 +357,63 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                                 ThrowException($"GT Cylinder SET Fail!");
                             }
                         }
-
-                        //calc jump height
-                        var jumpHeight = 0d;
-                        if (pos.Z > lastPos.Z)
-                        {
-                            //need long dist jump
-                            jumpHeight = lastPos.Z - pos.Z + PlatformJumpHeight;
-
-                            //check jump height
-                            var lastGtValue = Product.RawDataDown.Last().OffsetX + 0.2;
-                            var a147offset = 2d;
-                            var gtOffset = pos.Description == "GT1" ? 0 : 3;
-                            var minJumpHeight = lastPos.Z - pos.Z - (lastGtValue + a147offset + gtOffset);
-                            if (jumpHeight > minJumpHeight)
-                            {
-                                //not enough jump height to avoid gt1 collision
-                                Log($"not enough jump height {jumpHeight} to avoid gt1 collision {minJumpHeight:F2}", LogLevel.Warning);
-                                jumpHeight = minJumpHeight;
-                            }
-                        }
-                        else
-                        {
-                            jumpHeight = PlatformJumpHeight;
-
-                            //check jump height
-                            var lastGtValue = Product.RawDataDown.Last().OffsetX + 0.2;
-                            var a147offset = 2d;
-                            var gtOffset = pos.Description == "GT1" ? 0 : 3;
-                            var minJumpHeight = -(lastGtValue + a147offset + gtOffset);
-                            if (jumpHeight > minJumpHeight)
-                            {
-                                //not enough jump height to avoid gt1 collision
-                                Log($"not enough jump height {jumpHeight} to avoid gt1 collision {minJumpHeight:F2}", LogLevel.Warning);
-                                jumpHeight = minJumpHeight;
-                            }
-                        }
-
-                        Log($"{Platform.Name} {Platform.Description} Jump {pos}");
-                        Platform.Jump(gtPos, jumpHeight);
                     }
-                }
 
-                lastPos = pos;
+                    var outerJumpHeight = 0.5 - Platform.CurPos[2];
 
-                //read gt raw
-                System.Threading.Thread.Sleep(500);
-                var gtRaw = GtController?.ReadData();
-                if (gtRaw != null)
-                {
-                    Product.RawDataDown.Add(new PosXYZ()
-                    {
-                        Name = pos.Name,
-                        Description = pos.Description,
-                        X = pos.X,
-                        Y = pos.Y,
-                        Z = gtRaw[gtIndex],
-                        OffsetX = gtRaw[gtIndex],
-                        OffsetZ = gtPosZ,
-                    });
+                    Log($"{Platform.Name} {Platform.Description} Jump {pos}");
+                    Platform.Jump(gtPos, outerJumpHeight);
                 }
                 else
                 {
-                    Log($"GtController ReadData Error", LogLevel.Error);
-                }
+                    if (lastPos.Name == "outer")
+                    {
+                        if (!DoGTCylinder.SetDo(this, true, ignoreOrWaringOrError: true))
+                        {
+                            ThrowException($"GT Cylinder SET Fail!");
+                        }
+                    }
 
-            }//end measure loop
+                    //calc jump height
+                    var jumpHeight = 0d;
+                    if (pos.Z > lastPos.Z)
+                    {
+                        //need long dist jump
+                        jumpHeight = lastPos.Z - pos.Z + PlatformJumpHeight;
 
-        }
+                        //check jump height
+                        var lastGtValue = Product.RawDataDown.Last().OffsetX + 0.2;
+                        var a147offset = 2d;
+                        var gtOffset = pos.Description == "GT1" ? 0 : 3;
+                        var minJumpHeight = lastPos.Z - pos.Z - (lastGtValue + a147offset + gtOffset);
+                        if (jumpHeight > minJumpHeight)
+                        {
+                            //not enough jump height to avoid gt1 collision
+                            Log($"not enough jump height {jumpHeight} to avoid gt1 collision {minJumpHeight:F2}", LogLevel.Warning);
+                            jumpHeight = minJumpHeight;
+                        }
+                    }
+                    else
+                    {
+                        jumpHeight = PlatformJumpHeight;
 
-        private bool AddPosOffset(PosXYZ pos, ref int gtIndex, ref PosXYZ gtWork, ref PosXYZ posWithOffset)
-        {
-            //add sys offset
-            {
-                if (pos.Description == "GT1")
-                {
-                    gtIndex = 1;
-                    var leftGtSysOffset = CfgSettings.Common.LeftGT1SYSOffset;
-                    var rightGtSysOffset = CfgSettings.Common.RightGT1SYSOffset;
-                    gtWork = PosGtWork1;
-                    if (Station.Id == 1)
-                    {
-                        posWithOffset = pos + leftGtSysOffset;
+                        //check jump height
+                        var lastGtValue = Product.RawDataDown.Last().OffsetX + 0.2;
+                        var a147offset = 2d;
+                        var gtOffset = pos.Description == "GT1" ? 0 : 3;
+                        var minJumpHeight = -(lastGtValue + a147offset + gtOffset);
+                        if (jumpHeight > minJumpHeight)
+                        {
+                            //not enough jump height to avoid gt1 collision
+                            Log($"not enough jump height {jumpHeight} to avoid gt1 collision {minJumpHeight:F2}", LogLevel.Warning);
+                            jumpHeight = minJumpHeight;
+                        }
                     }
-                    else if (Station.Id == 2)
-                    {
-                        posWithOffset = pos + rightGtSysOffset;
-                    }
-                }
-                else if (pos.Description == "GT2")
-                {
-                    gtIndex = 2;
-                    var leftGtSysOffset = CfgSettings.Common.LeftGT2SYSOffset;
-                    var rightGtSysOffset = CfgSettings.Common.RightGT2SYSOffset;
-                    gtWork = PosGtWork2;
-                    if (Station.Id == 1)
-                    {
-                        posWithOffset = pos + leftGtSysOffset;
-                    }
-                    else if (Station.Id == 2)
-                    {
-                        posWithOffset = pos + rightGtSysOffset;
-                    }
-                }
-                else
-                {
-                    return false;
+
+                    Log($"{Platform.Name} {Platform.Description} Jump {pos}");
+                    Platform.Jump(gtPos, jumpHeight);
                 }
             }
-            return true;
         }
     }
 
@@ -468,7 +496,6 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             });
 
 
-
             Platform.PosConvertFuncs.Add("P->DOWN1", pToDown1);
             Platform.PosConvertFuncs.Add("P->DOWN2", pToDown2);
             Platform.PosConvertFuncs.Add("DOWN1->P", down1ToP);
@@ -478,7 +505,6 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             Platform.PosConvertFuncs.Add("DOWN1->UP", down1ToUp);
             Platform.PosConvertFuncs.Add("UP->DOWN2", upToDown2);
             Platform.PosConvertFuncs.Add("DOWN2->UP", down2ToUp);
-
         }
 
         protected override int ResetLoop()
@@ -490,15 +516,8 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             try
             {
                 //load product settings
-                var prj = MeasureProject1.Load(Machine.Ins.Settings.LeftProjectFilePath, typeof(MeasureProject1)) as MeasureProject1;
-                if (prj == null)
-                {
-                    ThrowException(Machine.Ins.Settings.LeftProjectFilePath);
-                }
-                else
-                {
-                    Project = prj;
-                }
+                Project = MeasureProject1.Load(Machine.Ins.Settings.LeftProjectFilePath, typeof(MeasureProject1)) as MeasureProject1;
+                Project.AssertNoNull(this);
             }
             catch (Exception ex)
             {
@@ -529,7 +548,6 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             Platform.SafeChecks.Add(new DownSafeCheck(Machine.Ins.Find<PlatformEx>("RightCarrier"), DoGTCylinder, SafeCheckType.Auto));
             Platform.SafeChecks.Add(new DownSafeCheck(Machine.Ins.Find<PlatformEx>("RightCarrier"), DoGTCylinder, SafeCheckType.ManualHome));
             Platform.SafeChecks.Add(new DownSafeCheck(Machine.Ins.Find<PlatformEx>("RightCarrier"), DoGTCylinder, SafeCheckType.Manual));
-
 
 
             var pToDown1 = new Func<double[], double[]>(d =>
@@ -591,7 +609,6 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             });
 
 
-
             Platform.PosConvertFuncs.Add("P->DOWN1", pToDown1);
             Platform.PosConvertFuncs.Add("P->DOWN2", pToDown2);
             Platform.PosConvertFuncs.Add("DOWN1->P", down1ToP);
@@ -601,7 +618,6 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             Platform.PosConvertFuncs.Add("DOWN1->UP", down1ToUp);
             Platform.PosConvertFuncs.Add("UP->DOWN2", upToDown2);
             Platform.PosConvertFuncs.Add("DOWN2->UP", down2ToUp);
-
         }
 
         protected override int ResetLoop()
@@ -613,15 +629,8 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             try
             {
                 //load product settings
-                var prj = MeasureProject.Load(Machine.Ins.Settings.RightProjectFilePath, typeof(MeasureProject1)) as MeasureProject1;
-                if (prj == null)
-                {
-                    ThrowException(Machine.Ins.Settings.RightProjectFilePath);
-                }
-                else
-                {
-                    Project = prj;
-                }
+                Project = MeasureProject1.Load(Machine.Ins.Settings.RightProjectFilePath, typeof(MeasureProject1)) as MeasureProject1;
+                Project.AssertNoNull(this);
             }
             catch (Exception ex)
             {
@@ -632,5 +641,4 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             return base.ResetLoop();
         }
     }
-
 }

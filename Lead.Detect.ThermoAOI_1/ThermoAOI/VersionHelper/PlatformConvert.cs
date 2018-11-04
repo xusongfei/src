@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml.Serialization;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 
-namespace Lead.Detect.ThermoAOI.VersionHelper
+namespace Lead.Detect.ThermoAOI.Machine1.VersionHelper
 {
     public class PlatformConvert
     {

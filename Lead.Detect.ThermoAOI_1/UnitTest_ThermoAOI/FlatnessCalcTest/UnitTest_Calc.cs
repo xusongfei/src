@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
-using Lead.Detect.PlatformCalibration.FittingHelper;
-using Lead.Detect.ThermoAOI.Calibration;
-using Lead.Detect.ThermoAOI.Machine;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1.Calculators;
+using Lead.Detect.ThermoAOI.Machine1.Machine;
+using Lead.Detect.ThermoAOIProductLib.Thermo1;
+using Lead.Detect.Utility.FittingHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lead.Detect.UnitTest1.FlatnessCalcTest
@@ -106,21 +104,7 @@ namespace Lead.Detect.UnitTest1.FlatnessCalcTest
 
 
 
-            var calculator = new A117NoFinCalculator().Create();
-
-            foreach (var p in rawDatas)
-            {
-                //calc
-                {
-                    //transform
-                    //CalibrationConfig.TransformRawData(PlatformType.LTrans, settings.Calibration, p);
-                    //calculator.Calculate(p);
-
-                    //Console.WriteLine($"{string.Join(",", p.SPCItems.Select(s => s.Value.ToString("F3")))}");
-
-                    //p.Save(@".\Config2\");
-                }
-            }
+        
 
 
             {

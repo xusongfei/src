@@ -1,21 +1,13 @@
 ﻿using System;
-using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using Lead.Detect.Base;
-using Lead.Detect.Base.GlobalPrim;
-using Lead.Detect.Element;
-using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.frameworkManage;
-using Lead.Detect.FrameworkExtension.stateMachine;
-using Lead.Detect.ThermoAOI.Machine;
-using Lead.Detect.ThermoAOI.View;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
-using MachineUtilityLib.UtilViews;
+using Lead.Detect.MachineUtilityLib.UtilViews;
+using Lead.Detect.ThermoAOI.Machine1.View;
+using Lead.Detect.ThermoAOIProductLib.Thermo1;
 using WeifenLuo.WinFormsUI.Docking;
-using PrimConfigForm = Lead.Detect.Base.PrimView.PrimConfigForm;
 
-namespace Lead.Detect.ThermoAOI
+namespace Lead.Detect.ThermoAOI.Machine1
 {
     public partial class MainForm : Form
     {
@@ -101,20 +93,7 @@ namespace Lead.Detect.ThermoAOI
         }
 
 
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.DoEvents();
-            Thread.Sleep(100);
-            Application.DoEvents();
-        }
         #region  menu item
-
-        private void deviceEditorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var deviceEditor = new DevPrimsEditorForm();
-            deviceEditor.ShowDialog();
-        }
-
 
         private void saveAllToolStripMenuItem_Click(object sender, EventArgs e)
         {

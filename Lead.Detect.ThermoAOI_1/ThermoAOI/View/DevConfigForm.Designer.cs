@@ -1,8 +1,8 @@
-﻿using Lead.Detect.Element;
-using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
+﻿using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.userControls;
+using Lead.Detect.ThermoAOIProductLib.Thermo;
 
-namespace Lead.Detect.ThermoAOI.View
+namespace Lead.Detect.ThermoAOI.Machine1.View
 {
     partial class DevConfigForm
     {
@@ -68,8 +68,8 @@ namespace Lead.Detect.ThermoAOI.View
             this.tabPageMachine = new System.Windows.Forms.TabPage();
             this.richTextBoxMachine = new System.Windows.Forms.RichTextBox();
             this.tabPageProduct = new System.Windows.Forms.TabPage();
-            this.measureProjectSelctionControl2 = new Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project.MeasureProjectSelctionControl();
-            this.measureProjectSelctionControl1 = new Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project.MeasureProjectSelctionControl();
+            this.measureProjectSelctionControl2 = new MeasureProjectSelctionControl();
+            this.measureProjectSelctionControl1 = new MeasureProjectSelctionControl();
             this.tabPageTest = new System.Windows.Forms.TabPage();
             this.buttonProductCalculatorEditor = new System.Windows.Forms.Button();
             this.buttonRBarcodeTrigger = new System.Windows.Forms.Button();
@@ -739,8 +739,8 @@ namespace Lead.Detect.ThermoAOI.View
         private DoControl doControl1;
         private System.Windows.Forms.TabPage tabPageMachine;
         private System.Windows.Forms.RichTextBox richTextBoxMachine;
-        private ThermoAOIFlatnessCalcLib.Thermo.Project.MeasureProjectSelctionControl measureProjectSelctionControl1;
+        private MeasureProjectSelctionControl measureProjectSelctionControl1;
         private System.Windows.Forms.Button buttonProductCalculatorEditor;
-        private ThermoAOIFlatnessCalcLib.Thermo.Project.MeasureProjectSelctionControl measureProjectSelctionControl2;
+        private MeasureProjectSelctionControl measureProjectSelctionControl2;
     }
 }

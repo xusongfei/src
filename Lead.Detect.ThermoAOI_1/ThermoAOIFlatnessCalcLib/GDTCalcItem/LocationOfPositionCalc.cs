@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 
-namespace Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalcItem
+namespace Lead.Detect.ThermoAOIProductLib.GDTCalcItem
 {
     /// <summary>
     /// 位置度计算

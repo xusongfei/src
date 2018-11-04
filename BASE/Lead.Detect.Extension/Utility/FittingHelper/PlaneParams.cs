@@ -4,7 +4,7 @@ using System.Linq;
 using g3;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 
-namespace Lead.Detect.PlatformCalibration.FittingHelper
+namespace Lead.Detect.Utility.FittingHelper
 {
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class PlaneParams

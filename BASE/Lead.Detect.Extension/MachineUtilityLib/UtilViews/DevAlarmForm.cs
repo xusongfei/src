@@ -3,7 +3,7 @@ using System.Drawing;
 using Lead.Detect.FrameworkExtension;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace MachineUtilityLib.UtilViews
+namespace Lead.Detect.MachineUtilityLib.UtilViews
 {
     public partial class DevAlarmForm : DockContent
     {
@@ -27,23 +27,31 @@ namespace MachineUtilityLib.UtilViews
             }
             else
             {
-                switch (level)
+                try
                 {
-                    case LogLevel.Warning:
-                        if (MainPanel != null) Show(MainPanel, DockState.Document);
-                        richTextBoxAlarm.ForeColor = Color.LightCoral;
-                        break;
-                    case LogLevel.Error:
-                    case LogLevel.Fatal:
-                        if (MainPanel != null) Show(MainPanel, DockState.Document);
-                        richTextBoxAlarm.ForeColor = Color.Red;
-                        break;
-                    default:
-                        return;
+                    switch (level)
+                    {
+                        case LogLevel.Warning:
+                            if (MainPanel != null) Show(MainPanel, DockState.Document);
+                            richTextBoxAlarm.SelectionColor = Color.LightCoral;
+                            break;
+                        case LogLevel.Error:
+                        case LogLevel.Fatal:
+                            if (MainPanel != null) Show(MainPanel, DockState.Document);
+                            richTextBoxAlarm.SelectionColor = Color.Red;
+                            break;
+                        default:
+                            return;
+                    }
+
+                    richTextBoxAlarm.AppendText($"{DateTime.Now.ToString("yyyyMMdd-HHmmss.fff")} - {level} - {msg}\r\n");
+                    richTextBoxAlarm.ScrollToCaret();
+                }
+                catch (Exception)
+                {
+                    
                 }
 
-                richTextBoxAlarm.AppendText($"{DateTime.Now.ToString("yyyyMMdd-HHmmss.fff")} - {level} - {msg}\r\n");
-                richTextBoxAlarm.ScrollToCaret();
             }
         }
 

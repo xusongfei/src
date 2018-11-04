@@ -4,13 +4,12 @@ using System.IO;
 using System.Linq;
 using Lead.Detect.FrameworkExtension.platforms;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
-using Lead.Detect.PlatformCalibration;
-using Lead.Detect.PlatformCalibration.FittingHelper;
-using Lead.Detect.PlatformCalibration.Transformation;
-using Lead.Detect.ThermoAOI.Calibration;
-using Lead.Detect.ThermoAOI.Machine;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1.Calculators;
+using Lead.Detect.ThermoAOI.Machine1.Calibration;
+using Lead.Detect.ThermoAOI.Machine1.Machine;
+using Lead.Detect.ThermoAOIProductLib.Thermo1;
+using Lead.Detect.ThermoAOIProductLib.Thermo1Calculator;
+using Lead.Detect.Utility.FittingHelper;
+using Lead.Detect.Utility.Transformation;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,6 +18,45 @@ namespace Lead.Detect.UnitTest1.ThermoAOI
     [TestClass]
     public class UnitTest_Calibration
     {
+        [TestMethod]
+        public void Test_RigidTransform()
+        {
+            var p1 = new PosXYZ(1, 1, 0);
+            var p2 = new PosXYZ(1, 5, 0);
+            var p3 = new PosXYZ(1, 10, 0);
+
+            Console.WriteLine($"p1:{p1}");
+            Console.WriteLine($"p2:{p2}");
+            Console.WriteLine($"p3:{p3}");
+
+            var p1r = p1.RotateAt(new PosXYZ(), 2).Translate(new PosXYZ(10, 10, 0));
+            var p2r = p2.RotateAt(new PosXYZ(), 2).Translate(new PosXYZ(10, 10, 0));
+            var p3r = p3.RotateAt(new PosXYZ(), 2).Translate(new PosXYZ(10, 10, 0));
+
+            Console.WriteLine($"p1r:{p1r}");
+            Console.WriteLine($"p2r:{p2r}");
+            Console.WriteLine($"p3r:{p3r}");
+
+
+            var ret = XyzPlarformCalibration.CalcAlignTransform(new List<PosXYZ>() { p1, p2, p3 }, new List<PosXYZ>() { p1r, p2r, p3r });
+
+            for (int i = 0; i < ret.Item1.GetLength(0); i++)
+            {
+                for (int j = 0; j < ret.Item1.GetLength(1); j++)
+                {
+                    Console.Write(ret.Item1[i,j].ToString("F3"));
+                    Console.Write(",");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+
+
+        }
+
+
+
+
         [TestMethod]
         public void Test_FitTest()
         {
@@ -110,7 +148,7 @@ namespace Lead.Detect.UnitTest1.ThermoAOI
 
             for (int i = 0; i < cpuPos.Count; i++)
             {
-                cpuPos[i] = cpuPos[i].Scale(new PosXYZ(10.3,10.31,1)).RotateAt(new PosXYZ(), 42.2).Translate(new PosXYZ(10, 11.2d, 0));
+                cpuPos[i] = cpuPos[i].Scale(new PosXYZ(10.3, 10.31, 1)).RotateAt(new PosXYZ(), 42.2).Translate(new PosXYZ(10, 11.2d, 0));
             }
 
             List<PosXYZ> oldcpupos = new List<PosXYZ>()
@@ -199,7 +237,7 @@ namespace Lead.Detect.UnitTest1.ThermoAOI
             var data = File.ReadAllLines(@".\Config\20180807.csv");
 
 
-            var calc = CalculatorMgr.Ins.New(project.ProductSettings.ProductName);
+            var calc = Thermo1CalculatorMgr.Ins.New(project.ProductSettings.ProductName);
 
 
             var prodata = new Thermo1Product()
@@ -260,7 +298,6 @@ namespace Lead.Detect.UnitTest1.ThermoAOI
 
                     //Console.WriteLine($"data1:");
 
-                    var a117wf = calc as A117WithFinCalculator;
 
 
                 }

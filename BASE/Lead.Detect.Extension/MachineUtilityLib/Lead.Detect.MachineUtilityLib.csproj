@@ -7,8 +7,8 @@
     <ProjectGuid>{195D7E78-9E4C-4575-A82E-582F378674EA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MachineUtilityLib</RootNamespace>
-    <AssemblyName>MachineUtilityLib</AssemblyName>
+    <RootNamespace>Lead.Detect.MachineUtilityLib</RootNamespace>
+    <AssemblyName>Lead.Detect.MachineUtilityLib</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -84,7 +84,6 @@
       <Name>Lead.Detect.FrameworkExtension</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="UtilViews\DevAlarmForm.resx">
       <DependentUpon>DevAlarmForm.cs</DependentUpon>

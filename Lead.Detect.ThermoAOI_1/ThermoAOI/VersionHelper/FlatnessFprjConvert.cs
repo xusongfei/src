@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
+using Lead.Detect.ThermoAOIProductLib.Thermo1;
 
-namespace Lead.Detect.ThermoAOI.VersionHelper
+namespace Lead.Detect.ThermoAOI.Machine1.VersionHelper
 {
     public class FlatnessFprjConvert
     {

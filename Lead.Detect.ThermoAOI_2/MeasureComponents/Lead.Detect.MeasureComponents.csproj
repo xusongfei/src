@@ -96,11 +96,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Thermo2Camera\ThermoCameraASim.cs" />
     <Compile Include="Thermo2Camera\ThermoCameraB.cs" />
     <Compile Include="Thermo2Camera\ThermoCameraA.cs" />
     <Compile Include="Thermo2Camera\ThermoCameraBase.cs" />
-    <Compile Include="Thermo2Camera\ThermoCameraBSim.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="LMILaser\gosdk_x64\GoSdk.dll" />
@@ -142,9 +140,9 @@
       <Project>{463f8ee2-5570-40aa-9f85-58473def51fc}</Project>
       <Name>Lead.Detect.FrameworkExtension</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Lead.Detect.ThermoAOI_1\ThermoAOIFlatnessCalcLib\Lead.Detect.ThermoAOIProductCalcLib.csproj">
+    <ProjectReference Include="..\..\Lead.Detect.ThermoAOI_1\ThermoAOIFlatnessCalcLib\Lead.Detect.ThermoAOIProductLib.csproj">
       <Project>{4dc12809-3d6e-4a62-a9fc-3ba47dfdbe97}</Project>
-      <Name>Lead.Detect.ThermoAOIProductCalcLib</Name>
+      <Name>Lead.Detect.ThermoAOIProductLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

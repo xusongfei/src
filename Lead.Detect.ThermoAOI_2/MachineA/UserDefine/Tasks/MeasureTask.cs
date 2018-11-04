@@ -5,11 +5,11 @@ using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
+using Lead.Detect.MachineUtilityLib.UtilsFramework;
 using Lead.Detect.MeasureComponents.Thermo2Camera;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2;
-using MachineUtilityLib.UtilsFramework;
+using Lead.Detect.ThermoAOIProductLib.ProductBase;
+using Lead.Detect.ThermoAOIProductLib.Thermo;
+using Lead.Detect.ThermoAOIProductLib.Thermo2;
 
 namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
 {
@@ -40,14 +40,8 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
             VioMeasureStart = station.Machine.Find<IVioEx>("VioMeasureStart");
             VioMeasureFinish = station.Machine.Find<IVioEx>("VioMeasureFinish");
 
-            if (FrameworkExtenion.IsSimulate)
-            {
-                Camera = new ThermoCameraASim();
-            }
-            else
-            {
-                Camera = new ThermoCameraA();
-            }
+
+            Camera = new ThermoCameraA();
 
 
             Platform = station.Machine.Find<PlatformEx>("MeasurePlatform");

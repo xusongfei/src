@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 
-namespace MachineUtilityLib.UtilViews
+namespace Lead.Detect.MachineUtilityLib.UtilViews
 {
     public partial class FrmPassword : Form
     {

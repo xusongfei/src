@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Lead.Detect.MeasureComponents.CameraControl;
 using System.Windows.Forms;
+using Lead.Detect.FrameworkExtension.frameworkManage;
 
 namespace Lead.Detect.MeasureComponents.Thermo2Camera
 {
@@ -27,7 +26,13 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         /// <returns></returns>
         public override bool Trigger(string msg)
         {
+         
             LastError = string.Empty;
+            if (FrameworkExtenion.IsSimulate)
+            {
+                return true;
+            }
+
             var ret = base.Trigger(msg);
             if (ret)
             {
@@ -103,18 +108,25 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         /// <returns></returns>
         public bool TriggerProduct(int step)
         {
+            //defence check
             if (_product <= 0)
             {
                 LastError = "NOT SELECT PRODUCT";
                 return false;
             }
-
             if (!SwitchProductMsg.ContainsKey(_product) || !TriggerProductMsg.ContainsKey(step))
             {
                 LastError = $"Trigger Step {step} Error";
                 return false;
             }
 
+
+            //trigger run
+            if (FrameworkExtenion.IsSimulate)
+            {
+                TriggerResult = $"{SwitchProductMsg[_product] + TriggerProductMsg[step]}:0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8";
+                return true;
+            }
 
             var ret = Trigger(TriggerProductMsg[step]);
             if (ret)

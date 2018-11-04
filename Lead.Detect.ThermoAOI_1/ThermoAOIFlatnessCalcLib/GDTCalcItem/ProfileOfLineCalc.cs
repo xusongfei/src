@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 
-namespace Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalcItem
+namespace Lead.Detect.ThermoAOIProductLib.GDTCalcItem
 {
     /// <summary>
     /// 线轮廓度计算

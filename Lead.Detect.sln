@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lead.Detect.Prims", "Lead.Detect.Prims", "{831B8A18-9D1C-46C1-BD3C-BB0E27E1F9AE}"
 EndProject
@@ -51,7 +51,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lead.Detect.PrimVirtualCard
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lead.Detect.DatabaseHelper", "BASE\Lead.Detect.Extension\DatabaseHelper\Lead.Detect.DatabaseHelper.csproj", "{6EA6D1FD-7D09-4D17-AD94-4E6711054DE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lead.Detect.ThermoAOIProductCalcLib", "Lead.Detect.ThermoAOI_1\ThermoAOIFlatnessCalcLib\Lead.Detect.ThermoAOIProductCalcLib.csproj", "{4DC12809-3D6E-4A62-A9FC-3BA47DFDBE97}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lead.Detect.ThermoAOIProductLib", "Lead.Detect.ThermoAOI_1\ThermoAOIFlatnessCalcLib\Lead.Detect.ThermoAOIProductLib.csproj", "{4DC12809-3D6E-4A62-A9FC-3BA47DFDBE97}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lead.Detect.ThermoAOIDisplayLib", "Lead.Detect.ThermoAOI_1\ThermoAOIDisplayLib\Lead.Detect.ThermoAOIDisplayLib.csproj", "{7DDC2940-C7F3-4E02-89DB-4BE8DDE689F6}"
 EndProject

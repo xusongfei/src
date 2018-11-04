@@ -7,18 +7,17 @@ using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.platforms.safeCheckObjects;
 using Lead.Detect.FrameworkExtension.stateMachine;
-using Lead.Detect.ThermoAOI.Calibration;
-using Lead.Detect.ThermoAOI.Common;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalculator;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.ThermoDataConvert;
-using MachineUtilityLib.Utils;
+using Lead.Detect.MachineUtilityLib.Utils;
+using Lead.Detect.MachineUtilityLib.UtilsFramework;
+using Lead.Detect.ThermoAOI.Machine1.Calibration;
+using Lead.Detect.ThermoAOI.Machine1.Common;
+using Lead.Detect.ThermoAOIProductLib.ProductBase;
+using Lead.Detect.ThermoAOIProductLib.Thermo;
+using Lead.Detect.ThermoAOIProductLib.Thermo1;
+using Lead.Detect.ThermoAOIProductLib.Thermo1Calculator;
+using Lead.Detect.ThermoAOIProductLib.ThermoDataConvert;
 
-namespace Lead.Detect.ThermoAOI.Machine.newTasks
+namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
 {
     /// <summary>
     /// 载具平移任务
@@ -74,7 +73,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
         public Thermo1Product Product;
         public MeasureProject1 Project;
         public MachineSettings CfgSettings;
-        public GeometryCalculator GeometryCalculator;
+        public Thermo1GeometryCalculator Thermo1GeometryCalculator;
 
 
         public newTransTask(int id, string name, Station station) : base(id, name, station)
@@ -97,17 +96,17 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             }
 
 
-            GeometryCalculator = CalculatorMgr.Ins.New(Project.ProductName);
-            if (GeometryCalculator == null || !GeometryCalculator.CheckIfNormal())
+            Thermo1GeometryCalculator = Thermo1CalculatorMgr.Ins.New(Project.ProductName);
+            if (Thermo1GeometryCalculator == null || !Thermo1GeometryCalculator.CheckIfNormal())
             {
-                ThrowException($"Station {Name} Load GeometryCalculator for {Project.ProductName} Fail");
+                ThrowException($"Station {Name} Load Thermo1GeometryCalculator for {Project.ProductName} Fail");
             }
 
 
             try
             {
                 Product = new Thermo1Product();
-                Product.ProductType = Project.ProductType.ToString();
+                Product.ProductType = Project.ThermoProductType.ToString();
                 Product.Description = Station.Name + "-" + Project.ProductName;
                 Product.SPCItems = Project.SPCItems;
 
@@ -115,7 +114,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
 
                 if (Machine.Ins.Settings.EnableFTP)
                 {
-                    var avcdata = ThermoConverter.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
+                    var avcdata = ThermoProductConvertHelper.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
                     avcdata.Save(Machine.Ins.Settings.FTPAddress);
                 }
 
@@ -254,7 +253,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             //new product
             Product = new Thermo1Product()
             {
-                ProductType = Project.ProductType.ToString(),
+                ProductType = Project.ThermoProductType.ToString(),
                 Description = Station.Name + "-" + Project.ProductName,
                 SPCItems = Project.SPCItems,
             };
@@ -307,11 +306,11 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
 
             //update results
             //calc flatness
-            if (GeometryCalculator != null)
+            if (Thermo1GeometryCalculator != null)
             {
                 //transform raw data to same coord
                 GTTransform.TransformRawData(Station.Name, CfgSettings.Calibration, Product);
-                var data = GeometryCalculator.Calculate(Product);
+                var data = Thermo1GeometryCalculator.Calculate(Product);
                 Log($"Flatness Calc: {data.ToString()}");
             }
 
@@ -326,8 +325,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
 
         private bool CheckProductFin()
         {
-            var noFin = Project.ProductType == ProductType.VaporChamber;
-            if (noFin)
+            if (Project.ThermoProductType == ThermoProductType.VaporChamber)
             {
                 //fin sensor1 must be true (upfin)
                 //fin sensor2 must be false
@@ -335,16 +333,12 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                 if (!status)
                 {
                     Station.Machine.Beep();
-
                     var err = $"{Station.Name} - {Name} - {Project.ProductName} FIN 传感器异常";
                     Log(err, LogLevel.Warning);
-                    //MessageBox.Show(err, "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
             }
-
-            var withFin = Project.ProductType == ProductType.FullModule;
-            if (withFin)
+            else if (Project.ThermoProductType == ThermoProductType.FullModule)
             {
                 //fin sensor1 must be false (upfin)
                 //fin sensor2 must be false
@@ -352,12 +346,14 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
                 if (!status)
                 {
                     Station.Machine.Beep();
-
                     var err = $"{Station.Name} - {Name} - {Project.ProductName} FIN 传感器异常";
                     Log(err, LogLevel.Warning);
-                    //MessageBox.Show(err, "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
+            }
+            else
+            {
+                return false;
             }
             return true;
         }
@@ -387,7 +383,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
 
                     if (Machine.Ins.Settings.EnableFTP)
                     {
-                        var avcdata = ThermoConverter.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
+                        var avcdata = ThermoProductConvertHelper.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
                         avcdata.Save(Machine.Ins.Settings.FTPAddress);
                         avcdata.Save("AVCData");
                         Log("Upload AvcData Finish:" + avcdata.ToString(), LogLevel.Info);
@@ -459,10 +455,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             try
             {
                 Project = MeasureProject.Load(Machine.Ins.Settings.LeftProjectFilePath, typeof(MeasureProject1)) as MeasureProject1;
-                if (Project == null)
-                {
-                    ThrowException(Machine.Ins.Settings.LeftProjectFilePath);
-                }
+                Project.AssertNoNull(this);
 
             }
             catch (Exception ex)
@@ -521,10 +514,7 @@ namespace Lead.Detect.ThermoAOI.Machine.newTasks
             {
                 //load product settings
                 Project = MeasureProject.Load(Machine.Ins.Settings.RightProjectFilePath, typeof(MeasureProject1)) as MeasureProject1;
-                if (Project == null)
-                {
-                    ThrowException(Machine.Ins.Settings.RightProjectFilePath);
-                }
+                Project.AssertNoNull(this);
             }
             catch (Exception ex)
             {

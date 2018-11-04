@@ -42,7 +42,7 @@ namespace Lead.Detect.MeasureComponents.CameraControl
             return string.Empty;
         }
 
-        public string GetResult(string resultInfo, int timeout = 0)
+        public string GetResult(string resultInfo, int timeout)
         {
             return "OK";
         }

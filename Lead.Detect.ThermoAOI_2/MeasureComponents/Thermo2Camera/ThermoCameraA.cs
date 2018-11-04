@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Lead.Detect.FrameworkExtension.frameworkManage;
 
 namespace Lead.Detect.MeasureComponents.Thermo2Camera
 {
@@ -22,8 +23,13 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
 
         public override bool Trigger(string msg)
         {
-            //起始终止符判断
             LastError = string.Empty;
+            if (FrameworkExtenion.IsSimulate)
+            {
+                return true;
+            }
+
+            //起始终止符判断
             var ret = base.Trigger(msg);
             if (ret)
             {
@@ -32,7 +38,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
                     return true;
                 }
                 //trigger return msg error
-                LastError = "RecvTriggerMsgFormatError";
+                LastError = "RecvTriggerFormatError";
                 return false;
             }
             else
@@ -44,7 +50,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         }
 
 
-        public static readonly string FAIL_MSG = "3.0";
+        public static readonly string FAIL_MSG = "3,0";
 
 
         public Dictionary<int, string> ProductMsg = new Dictionary<int, string>()
@@ -59,13 +65,6 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
 
 
         private int _product = 0;
-        public Dictionary<string, int> ProductIndexDict = new Dictionary<string, int>()
-        {
-            {"A117VC", 1 },
-            {"A117MDL", 2 },
-            {"A147VC", 3 },
-            {"A147MDL", 4 },
-        };
 
 
         public Dictionary<int, int> ProductTriggerStep = new Dictionary<int, int>()
@@ -74,22 +73,17 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
             {2, 100 }, //a147 vc
             {3, 100 }, //a117 module
             {4, 100 }, //a147 module
-            {5, 100 },
-            {6, 100 },
-            {7, 100 },
-            {8, 100 },
         };
 
 
 
         public bool SwitchProduct(int product)
         {
-            if (!ProductMsg.ContainsKey(product))
+           if (!ProductMsg.ContainsKey(product))
             {
                 LastError = $"SwitchProduct {product} Error";
                 return false;
             }
-
             _product = product;
             return true;
         }
@@ -97,6 +91,12 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
 
         public bool TriggerBarcode()
         {
+            if (FrameworkExtenion.IsSimulate)
+            {
+                TriggerResult = "TESTBARCODE";
+                return true;
+            }
+
             var ret = Trigger($"0,{_product}");
             if (ret)
             {
@@ -107,6 +107,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
                     LastError = $"FAILMSG {triggerResult}";
                     return false;
                 }
+
 
                 var data = triggerResult.Split(',');
                 if (data.Length < 2)
@@ -155,6 +156,12 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
                 return false;
             }
 
+            if (FrameworkExtenion.IsSimulate)
+            {
+                TriggerResult = "OK";
+                return true;
+            }
+
             var sendMsg = $"1,{_product},{step}";
 
             var ret = Trigger(sendMsg);
@@ -191,13 +198,18 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
 
         public bool TriggerCalib(int step)
         {
-
             if (!ProductMsg.ContainsKey(_product)
                 || !ProductTriggerStep.ContainsKey(_product)
                 || !(step > 0 && step < ProductTriggerStep[_product]))
             {
                 LastError = $"TRIGGER CALIB {step} Error";
                 return false;
+            }
+
+            if (FrameworkExtenion.IsSimulate)
+            {
+                TriggerResult = "OK";
+                return true;
             }
 
             var sendMsg = $"2,{_product},{step}";
@@ -244,6 +256,12 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         {
             if (!string.IsNullOrEmpty(resultInfo))
             {
+                if (FrameworkExtenion.IsSimulate)
+                {
+                    TriggerResult = "OK";
+                    return "OK,1,2,3,4,5,6,7,8,9,10";
+                }
+
                 var resultMsg = ReadMsg(timeout);
                 if (resultMsg.StartsWith("2,1") || resultMsg.StartsWith("2,0"))
                 {
@@ -288,7 +306,6 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         public override void Test()
         {
             var sb = new StringBuilder();
-
 
             SwitchProduct(1);
 

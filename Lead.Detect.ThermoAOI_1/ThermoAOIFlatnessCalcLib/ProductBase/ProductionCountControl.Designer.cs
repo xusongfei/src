@@ -1,4 +1,4 @@
-﻿namespace Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase
+﻿namespace Lead.Detect.ThermoAOIProductLib.ProductBase
 {
     partial class ProductionCountControl
     {

@@ -1,11 +1,11 @@
-﻿using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
+﻿using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.Drawing.Design;
+using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.platforms.safeCheckObjects;
-using System.ComponentModel;
-using System.Drawing.Design;
-using System.ComponentModel.Design;
 
-namespace Lead.Detect.ThermoAOI.Machine
+namespace Lead.Detect.ThermoAOI.Machine1.Machine
 {
     public class CarrierSafeCheck : SafeCheckObject
     {

@@ -1,6 +1,6 @@
 ﻿using Lead.Detect.FrameworkExtension.stateMachine;
 
-namespace MachineUtilityLib.UtilsFramework
+namespace Lead.Detect.MachineUtilityLib.UtilsFramework
 {
     public static class StationTaskExtension
     {

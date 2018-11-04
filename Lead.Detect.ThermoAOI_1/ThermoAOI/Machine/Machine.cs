@@ -1,16 +1,16 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
+using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.motionDriver;
 using Lead.Detect.FrameworkExtension.stateMachine;
-using System.IO;
-using Lead.Detect.FrameworkExtension.frameworkManage;
-using Lead.Detect.ThermoAOI.VersionHelper;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
+using Lead.Detect.ThermoAOIProductLib.Thermo;
+using Lead.Detect.ThermoAOIProductLib.Thermo1;
+using Lead.Detect.ThermoAOIProductLib.Thermo1Calculator;
 
-namespace Lead.Detect.ThermoAOI.Machine
+namespace Lead.Detect.ThermoAOI.Machine1.Machine
 {
     /// <summary>
     /// 设备定义
@@ -68,8 +68,8 @@ namespace Lead.Detect.ThermoAOI.Machine
             //thermo aoi 测试文件加载
             try
             {
-                CalculatorMgr.Ins.Export();
-                CalculatorMgr.Ins.Import();
+                Thermo1CalculatorMgr.Ins.Export();
+                Thermo1CalculatorMgr.Ins.Import();
 
                 var lfprj = MeasureProject.Load(Settings.LeftProjectFilePath, typeof(MeasureProject1));
                 var rfprj = MeasureProject.Load(Settings.RightProjectFilePath, typeof(MeasureProject1));

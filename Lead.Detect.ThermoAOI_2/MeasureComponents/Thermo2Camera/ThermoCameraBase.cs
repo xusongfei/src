@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Net.Sockets;
 using System.Text;
+using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.MeasureComponents.CameraControl;
 
@@ -18,6 +19,10 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
 
         public bool Connect()
         {
+            if (FrameworkExtenion.IsSimulate)
+            {
+                return true;
+            }
             if (_client != null)
             {
                 Disconnect();
@@ -37,6 +42,10 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
 
         public bool Disconnect()
         {
+            if (FrameworkExtenion.IsSimulate)
+            {
+                return true;
+            }
             if (_client != null)
             {
                 _ns = null;
@@ -63,6 +72,11 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         /// <param name="msg"></param>
         public virtual bool Trigger(string msg)
         {
+            if (FrameworkExtenion.IsSimulate)
+            {
+                return true;
+            }
+
             try
             {
                 TriggerResult = string.Empty;
@@ -121,6 +135,10 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
 
         public string ReadMsg(int timeout = 6000)
         {
+            if (FrameworkExtenion.IsSimulate)
+            {
+                return String.Empty;
+            }
             try
             {
                 int timeoutCount = 0;
@@ -156,7 +174,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         /// <param name="resultInfo"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public virtual string GetResult(string resultInfo, int timeout = 0)
+        public virtual string GetResult(string resultInfo, int timeout = 3000)
         {
             return TriggerResult;
         }

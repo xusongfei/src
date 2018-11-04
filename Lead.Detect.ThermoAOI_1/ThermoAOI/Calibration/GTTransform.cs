@@ -1,9 +1,12 @@
 ﻿using System;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
+using Lead.Detect.ThermoAOIProductLib.Thermo1;
 
-namespace Lead.Detect.ThermoAOI.Calibration
+namespace Lead.Detect.ThermoAOI.Machine1.Calibration
 {
+    /// <summary>
+    /// Gt间转换计算
+    /// </summary>
     public class GTTransform
     {
         /// <summary>
@@ -138,6 +141,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
             {
                 if (gt == 0)
                 {
+                    //gt convert to calib coord
                     gtCalibWork = calib.LeftHeightCalibGtPos.Z;
                     gtCalibRaw = calib.LeftUpStandardPlaneGT.CalcZ(gtWorkX, gtWorkY);
                     gtStandardHeight = calib.LeftHeightStandard.Z;
@@ -145,6 +149,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
                 }
                 else if (gt == 1)
                 {
+                    //gt1 convert to calib coord
                     gtCalibWork = calib.LeftHeightCalibGt1Pos.Z;
                     gtCalibRaw = calib.LeftDownStandardPlaneGT1.CalcZ(gtWorkX, gtWorkY);
                     gtStandardHeight = 0;
@@ -152,7 +157,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
                 }
                 else if (gt == 2)
                 {
-                    //gt2 convert
+                    //gt2 convert to calib coord
                     gtStandardHeight = 0;
                     var gtCalibWork2 = calib.LeftHeightCalibGt2Pos.Z;
                     var gtCalibRaw2 = calib.LeftDownStandardPlaneGT2.CalcZ(gtWorkX, gtWorkY);
@@ -160,7 +165,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
                     gtDirection = true;
                     var gt2Raw = GTTransform.TransGT2ToGT1(gtWork, gtRaw, gtCalibWork2, gtCalibRaw2, gtStandardHeight, gtDirection) + gt1OffsetZ;
 
-                    //gt1 convert
+                    //gt1 convert to calib coord
                     gtCalibWork = calib.LeftHeightCalibGt1Pos.Z;
                     gtCalibRaw = calib.LeftDownStandardPlaneGT1.CalcZ(gtWorkX, gtWorkY);
                     gtStandardHeight = 0;
@@ -175,6 +180,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
             {
                 if (gt == 0)
                 {
+                    //gt convert to calib coord
                     gtCalibWork = calib.RightHeightCalibGtPos.Z;
                     gtCalibRaw = calib.RightUpStandardPlaneGT.CalcZ(gtWorkX, gtWorkY);
                     gtStandardHeight = calib.RightHeightStandard.Z;
@@ -182,6 +188,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
                 }
                 else if (gt == 1)
                 {
+                    //gt1 convert to calib coord
                     gtCalibWork = calib.RightHeightCalibGt1Pos.Z;
                     gtCalibRaw = calib.RightDownStandardPlaneGT1.CalcZ(gtWorkX, gtWorkY);
                     gtStandardHeight = 0;
@@ -189,11 +196,16 @@ namespace Lead.Detect.ThermoAOI.Calibration
                 }
                 else if (gt == 2)
                 {
+
+                    //single point calib convert
                     //gtStandardHeight = 0;
                     //gtDirection = true;
                     //var gt2Raw = calib.RightHeightCalibGt1Pos.OffsetZ +
                     //             GTTransform.TransGT2ToGT1(gtWork, gtRaw, calib.RightHeightCalibGt2Pos.Z, calib.RightHeightCalibGt2Pos.OffsetZ, gtStandardHeight, gtDirection);
 
+
+                    //plane calib convert
+                    //gt2 convert to calib pos
                     gtStandardHeight = 0;
                     var gtCalibWork2 = calib.RightHeightCalibGt2Pos.Z;
                     var gtCalibRaw2 = calib.RightDownStandardPlaneGT2.CalcZ(gtWorkX, gtWorkY);
@@ -201,7 +213,7 @@ namespace Lead.Detect.ThermoAOI.Calibration
                     gtDirection = true;
                     var gt2Raw = GTTransform.TransGT2ToGT1(gtWork, gtRaw, gtCalibWork2, gtCalibRaw2, gtStandardHeight, gtDirection) + gt1OffsetZ;
                   
-
+                    //gt1 convert to calib pos
                     gtCalibWork = calib.RightHeightCalibGt1Pos.Z;
                     gtCalibRaw = calib.RightDownStandardPlaneGT1.CalcZ(gtWorkX, gtWorkY);
                     gtStandardHeight = 0;

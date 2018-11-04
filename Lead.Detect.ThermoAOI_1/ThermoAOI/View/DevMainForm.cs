@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using Lead.Detect.DatabaseHelper;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.common;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.frameworkManage;
-using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
-using Lead.Detect.ThermoAOI.Machine.newTasks;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
-using MachineUtilityLib.UtilViews;
+using Lead.Detect.MachineUtilityLib.UtilViews;
+using Lead.Detect.ThermoAOI.Machine1.Machine.newTasks;
+using Lead.Detect.ThermoAOIProductLib.Thermo1;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Lead.Detect.ThermoAOI.View
+namespace Lead.Detect.ThermoAOI.Machine1.View
 {
     public partial class DevMainForm : DockContent
     {
@@ -279,14 +276,5 @@ namespace Lead.Detect.ThermoAOI.View
             }
         }
 
-        private void textBoxProductBarcode_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
     }
 }

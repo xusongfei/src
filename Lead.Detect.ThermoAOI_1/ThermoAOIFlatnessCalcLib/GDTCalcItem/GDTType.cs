@@ -1,4 +1,4 @@
-﻿namespace Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalcItem
+﻿namespace Lead.Detect.ThermoAOIProductLib.GDTCalcItem
 {
     public enum GDTType
     {

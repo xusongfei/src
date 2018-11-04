@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using g3;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
-using Lead.Detect.PlatformCalibration;
-using Lead.Detect.PlatformCalibration.FittingHelper;
+using Lead.Detect.Utility.FittingHelper;
 
-namespace Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalcItem
+namespace Lead.Detect.ThermoAOIProductLib.GDTCalcItem
 {
     /// <summary>
     /// 平行度计算

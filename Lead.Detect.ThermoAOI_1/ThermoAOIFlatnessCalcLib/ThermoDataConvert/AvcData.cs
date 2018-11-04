@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
+using Lead.Detect.ThermoAOIProductLib.ProductBase;
 
-namespace Lead.Detect.ThermoAOIFlatnessCalcLib.ThermoDataConvert
+namespace Lead.Detect.ThermoAOIProductLib.ThermoDataConvert
 {
     public class AvcData
     {

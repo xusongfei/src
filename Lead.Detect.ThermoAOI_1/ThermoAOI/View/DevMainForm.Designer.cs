@@ -1,7 +1,7 @@
 ﻿using Lead.Detect.DatabaseHelper;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
+using Lead.Detect.ThermoAOIProductLib.Thermo;
 
-namespace Lead.Detect.ThermoAOI.View
+namespace Lead.Detect.ThermoAOI.Machine1.View
 {
     partial class DevMainForm
     {
@@ -39,11 +39,12 @@ namespace Lead.Detect.ThermoAOI.View
             this.btnLogin = new System.Windows.Forms.Button();
             this.btnConfig = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSummry = new System.Windows.Forms.TabPage();
-            this._thermoProductDisplayControl2 = new Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product.ThermoProductDisplayControl();
-            this._thermoProductDisplayControl1 = new Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product.ThermoProductDisplayControl();
+            this._thermoProductDisplayControl2 = new ThermoProductDisplayControl();
+            this._thermoProductDisplayControl1 = new ThermoProductDisplayControl();
             this.labelRightFile = new System.Windows.Forms.Label();
             this.labelRight = new System.Windows.Forms.Label();
             this.labelLeftFile = new System.Windows.Forms.Label();
@@ -55,7 +56,6 @@ namespace Lead.Detect.ThermoAOI.View
             this.btnStop = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -160,6 +160,10 @@ namespace Lead.Detect.ThermoAOI.View
             this.pictureBox1.TabIndex = 10;
             this.pictureBox1.TabStop = false;
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -213,9 +217,8 @@ namespace Lead.Detect.ThermoAOI.View
             // 
             // _thermoProductDisplayControl2
             // 
-            this._thermoProductDisplayControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this._thermoProductDisplayControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this._thermoProductDisplayControl2.Location = new System.Drawing.Point(451, 106);
             this._thermoProductDisplayControl2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._thermoProductDisplayControl2.Name = "_thermoProductDisplayControl2";
@@ -234,8 +237,6 @@ namespace Lead.Detect.ThermoAOI.View
             // 
             // labelRightFile
             // 
-            this.labelRightFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelRightFile.BackColor = System.Drawing.Color.Silver;
             this.labelRightFile.Location = new System.Drawing.Point(451, 58);
             this.labelRightFile.Name = "labelRightFile";
@@ -246,8 +247,6 @@ namespace Lead.Detect.ThermoAOI.View
             // 
             // labelRight
             // 
-            this.labelRight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelRight.BackColor = System.Drawing.Color.Silver;
             this.labelRight.Location = new System.Drawing.Point(451, 9);
             this.labelRight.Name = "labelRight";
@@ -296,11 +295,11 @@ namespace Lead.Detect.ThermoAOI.View
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.productDatabaseControl1.BackColor = System.Drawing.Color.White;
-            this.productDatabaseControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.productDatabaseControl1.Location = new System.Drawing.Point(5, 7);
+            this.productDatabaseControl1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.productDatabaseControl1.Location = new System.Drawing.Point(7, 7);
             this.productDatabaseControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.productDatabaseControl1.Name = "productDatabaseControl1";
-            this.productDatabaseControl1.Size = new System.Drawing.Size(899, 610);
+            this.productDatabaseControl1.Size = new System.Drawing.Size(897, 610);
             this.productDatabaseControl1.TabIndex = 0;
             // 
             // panel2
@@ -405,10 +404,6 @@ namespace Lead.Detect.ThermoAOI.View
             this.btnStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnStart.UseVisualStyleBackColor = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // DevMainForm
             // 

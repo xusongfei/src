@@ -2,12 +2,10 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.common;
-using Lead.Detect.ThermoAOI.Calibration;
-using Lead.Detect.ThermoAOI.Common;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
+using Lead.Detect.ThermoAOI.Machine1.Calibration;
+using Lead.Detect.ThermoAOIProductLib.ProductBase;
 
-namespace Lead.Detect.ThermoAOI.Machine
+namespace Lead.Detect.ThermoAOI.Machine1.Machine
 {
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class MachineSettings : UserSettings<MachineSettings>

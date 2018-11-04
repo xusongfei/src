@@ -1,5 +1,6 @@
 ﻿using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.userControls;
+using Lead.Detect.ThermoAOIProductLib.Thermo;
 
 namespace Lead.Detect.ThermoAOI2.MachineB.View
 {
@@ -57,7 +58,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             this.label5 = new System.Windows.Forms.Label();
             this.stationControl = new Lead.Detect.FrameworkExtension.stateMachine.StationStateControl();
             this.tabPageProduct = new System.Windows.Forms.TabPage();
-            this.measureProjectSelctionControl1 = new Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project.MeasureProjectSelctionControl();
+            this.measureProjectSelctionControl1 = new MeasureProjectSelctionControl();
             this.tabPageTest = new System.Windows.Forms.TabPage();
             this.cameraExDebugControl1 = new Lead.Detect.MeasureComponents.CameraControl.CameraExDebugControl();
             this.lineLaserExDebugControl2 = new Lead.Detect.MeasureComponents.LaserControl.LineLaserExDebugControl();
@@ -495,6 +496,6 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
         private MeasureComponents.LaserControl.LineLaserExDebugControl lineLaserExDebugControl1;
         private MeasureComponents.LaserControl.LineLaserExDebugControl lineLaserExDebugControl2;
         private MeasureComponents.CameraControl.CameraExDebugControl cameraExDebugControl1;
-        private ThermoAOIFlatnessCalcLib.Thermo.Project.MeasureProjectSelctionControl measureProjectSelctionControl1;
+        private MeasureProjectSelctionControl measureProjectSelctionControl1;
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using Lead.Detect.FrameworkExtension.platforms;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 
-namespace Lead.Detect.PlatformCalibration.Transformation
+namespace Lead.Detect.Utility.Transformation
 {
     public class XyzPlarformCalibration
     {

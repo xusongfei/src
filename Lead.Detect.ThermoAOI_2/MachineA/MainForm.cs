@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.frameworkManage;
+using Lead.Detect.MachineUtilityLib.UtilViews;
 using Lead.Detect.ThermoAOI2.MachineA.UserDefine;
 using Lead.Detect.ThermoAOI2.MachineA.View;
-using MachineUtilityLib.UtilViews;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Lead.Detect.ThermoAOI2.MachineA
@@ -96,11 +96,6 @@ namespace Lead.Detect.ThermoAOI2.MachineA
             }
         }
 
-
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-           
-        }
 
         #region  menu item
 

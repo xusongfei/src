@@ -4,11 +4,13 @@ using System.Linq;
 using Lead.Detect.FrameworkExtension.common;
 using Lead.Detect.FrameworkExtension.platforms;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
-using Lead.Detect.PlatformCalibration.FittingHelper;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
+using Lead.Detect.Utility.FittingHelper;
 
-namespace Lead.Detect.ThermoAOI.Calibration
+namespace Lead.Detect.ThermoAOI.Machine1.Calibration
 {
+    /// <summary>
+    /// 标定参数
+    /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class CalibrationConfig : UserSettings<CalibrationConfig>
     {

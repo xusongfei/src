@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Forms;
+using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.platforms;
 using Lead.Detect.FrameworkExtension.platforms.calibrations;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
-using System.Windows.Forms;
-using System;
-using Lead.Detect.FrameworkExtension;
-using Lead.Detect.PlatformCalibration.Transformation;
+using Lead.Detect.Utility.Transformation;
 
-namespace Lead.Detect.ThermoAOI.Calibration
+namespace Lead.Detect.ThermoAOI.Machine1.Calibration
 {
+    /// <summary>
+    /// 治具坐标系到上平台坐标系标定
+    /// </summary>
     public class AutoPlatformProduct2UpCalib : AutoCalib
     {
         [Category("PLATFORM")]

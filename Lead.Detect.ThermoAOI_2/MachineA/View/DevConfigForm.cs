@@ -11,8 +11,7 @@ using Lead.Detect.FrameworkExtension.userControls;
 using Lead.Detect.MeasureComponents.Calibration;
 using Lead.Detect.ThermoAOI2.MachineA.UserDefine;
 using Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2;
+using Lead.Detect.ThermoAOIProductLib.Thermo2;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Lead.Detect.ThermoAOI2.MachineA.View

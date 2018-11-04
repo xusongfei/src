@@ -7,14 +7,14 @@ using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
+using Lead.Detect.MachineUtilityLib.UtilsFramework;
 using Lead.Detect.MeasureComponents.LaserControl;
 using Lead.Detect.MeasureComponents.LMILaser;
 using Lead.Detect.MeasureComponents.Thermo2Camera;
-using Lead.Detect.PlatformCalibration.FittingHelper;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2;
-using MachineUtilityLib.UtilsFramework;
+using Lead.Detect.ThermoAOIProductLib.ProductBase;
+using Lead.Detect.ThermoAOIProductLib.Thermo;
+using Lead.Detect.ThermoAOIProductLib.Thermo2;
+using Lead.Detect.Utility.FittingHelper;
 
 namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 {
@@ -47,14 +47,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             VioMeasureStart = station.Machine.Find<IVioEx>("VioMeasureStart");
             VioMeasureFinish = station.Machine.Find<IVioEx>("VioMeasureFinish");
 
-            if (FrameworkExtenion.IsSimulate)
-            {
-                Camera = new ThermoCameraBSim();
-            }
-            else
-            {
-                Camera = new ThermoCameraB();
-            }
+            Camera = new ThermoCameraB();
 
             CPlatform = station.Machine.Find<PlatformEx>("CameraPlatform");
             {
@@ -314,7 +307,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 {
                     Log($"{loopName} {Camera.Name} Trigger OK {trigger} {result} {Camera.LastError}");
 
-                    
+
                     //parse camera recv result
                     var dataStr = result.Split(':');
                     try
@@ -530,7 +523,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 {
                     profile.Last().Add(new PosXYZ(0, 0, gridData[col].Count));
                     Log($"{loopName} COL:{col} ROW:{gridData[col].Count}");
-                    
+
                 }
             }
         }

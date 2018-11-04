@@ -5,13 +5,11 @@ using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.ThermoDataConvert;
-using MachineUtilityLib.Utils;
-using MachineUtilityLib.UtilsFramework;
+using Lead.Detect.MachineUtilityLib.Utils;
+using Lead.Detect.MachineUtilityLib.UtilsFramework;
+using Lead.Detect.ThermoAOIProductLib.Thermo;
+using Lead.Detect.ThermoAOIProductLib.Thermo2;
+using Lead.Detect.ThermoAOIProductLib.ThermoDataConvert;
 
 namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
 {
@@ -121,7 +119,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
                 Product.SPCItems = Project.SPCItems;
                 if (Machine.Ins.Settings.EnableFTP)
                 {
-                    var avcdata = ThermoConverter.Convert(Product, "", Machine.Ins.Settings.Description);
+                    var avcdata = ThermoProductConvertHelper.Convert(Product, "", Machine.Ins.Settings.Description);
                     avcdata.Save(Machine.Ins.Settings.FTPAddress);
                 }
 
@@ -173,7 +171,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
                 var vcSensorPattern = new[] { true, true, false };
                 var moduleSensorPattern = new[] { true, true, true };
                 bool[] sensor;
-                if (Project.ProductType == ProductType.VaporChamber)
+                if (Project.ThermoProductType == ThermoProductType.VaporChamber)
                 {
                     sensor = vcSensorPattern;
                 }
@@ -194,7 +192,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
             Log("Start:" + Product.ToString(), LogLevel.Info);
 
             //clamp cylinders
-            if (Project.ProductType == ProductType.VaporChamber)
+            if (Project.ThermoProductType == ThermoProductType.VaporChamber)
             {
                 CarrierLoader.ClampVC();
             }
@@ -216,7 +214,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
             //move wait pos
             Platform.MoveAbs("Wait");
 
-            if (Project.ProductType == ProductType.VaporChamber)
+            if (Project.ThermoProductType == ThermoProductType.VaporChamber)
             {
                 CarrierLoader.ReleaseVC();
                 
@@ -245,7 +243,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
 
                     if (Machine.Ins.Settings.EnableFTP)
                     {
-                        var avcdata = ThermoConverter.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
+                        var avcdata = ThermoProductConvertHelper.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
                         avcdata.Save(Machine.Ins.Settings.FTPAddress);
                         avcdata.Save("AVCData");
                         Log("Upload AvcData Finish:" + avcdata.ToString(), LogLevel.Info);

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MachineUtilityLib.UtilViews
+namespace Lead.Detect.MachineUtilityLib.UtilViews
 {
     partial class FrmPassword
     {

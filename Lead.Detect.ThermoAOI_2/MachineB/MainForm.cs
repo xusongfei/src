@@ -4,9 +4,9 @@ using System.Threading;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.frameworkManage;
+using Lead.Detect.MachineUtilityLib.UtilViews;
 using Lead.Detect.ThermoAOI2.MachineB.UserDefine;
 using Lead.Detect.ThermoAOI2.MachineB.View;
-using MachineUtilityLib.UtilViews;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Lead.Detect.ThermoAOI2.MachineB
@@ -99,9 +99,6 @@ namespace Lead.Detect.ThermoAOI2.MachineB
         }
 
 
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-        }
         #region  menu item
 
         private void saveAllToolStripMenuItem_Click(object sender, EventArgs e)

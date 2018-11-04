@@ -205,9 +205,9 @@
       <Project>{1ec60b75-6689-47e1-be8c-63a7ab3325e0}</Project>
       <Name>Lead.Detect.Utility</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Lead.Detect.ThermoAOI_1\ThermoAOIFlatnessCalcLib\Lead.Detect.ThermoAOIProductCalcLib.csproj">
+    <ProjectReference Include="..\..\Lead.Detect.ThermoAOI_1\ThermoAOIFlatnessCalcLib\Lead.Detect.ThermoAOIProductLib.csproj">
       <Project>{4dc12809-3d6e-4a62-a9fc-3ba47dfdbe97}</Project>
-      <Name>Lead.Detect.ThermoAOIProductCalcLib</Name>
+      <Name>Lead.Detect.ThermoAOIProductLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\MeasureComponents\Lead.Detect.MeasureComponents.csproj">
       <Project>{61f293a2-a669-4d8c-a31d-ded0eae846a2}</Project>

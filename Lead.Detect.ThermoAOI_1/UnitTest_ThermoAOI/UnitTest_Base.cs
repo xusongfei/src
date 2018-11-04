@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Lead.Detect.Base.GlobalPrim;
-using Lead.Detect.Helper;
-using Lead.Detect.PlatformCalibration;
-using Lead.Detect.PlatformCalibration.FittingHelper;
-using Lead.Detect.ThermoAOI.Machine;
+using Lead.Detect.Utility.FittingHelper;
 
 namespace Lead.Detect.UnitTest1
 {

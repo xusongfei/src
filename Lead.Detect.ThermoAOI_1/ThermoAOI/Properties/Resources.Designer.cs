@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Lead.Detect.ThermoAOI.Properties {
+namespace Lead.Detect.ThermoAOI.Machine1.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Lead.Detect.ThermoAOI.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Lead.Detect.ThermoAOI.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Lead.Detect.ThermoAOI.Machine1.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 
-namespace Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalcItem
+namespace Lead.Detect.ThermoAOIProductLib.GDTCalcItem
 {
     public interface IGDTCalc
     {

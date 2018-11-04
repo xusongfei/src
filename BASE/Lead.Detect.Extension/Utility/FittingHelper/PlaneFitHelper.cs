@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using g3;
 
-namespace Lead.Detect.PlatformCalibration.FittingHelper
+namespace Lead.Detect.Utility.FittingHelper
 {
     public class PlaneFitHelper
     {

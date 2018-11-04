@@ -7,8 +7,8 @@
     <ProjectGuid>{B43E31C6-1F33-4EAF-AAD0-91943AA90C1B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lead.Detect.ThermoAOI</RootNamespace>
-    <AssemblyName>Lead.Detect.ThermoAOI</AssemblyName>
+    <RootNamespace>Lead.Detect.ThermoAOI.Machine1</RootNamespace>
+    <AssemblyName>Lead.Detect.ThermoAOI.Machine1</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -37,7 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Lead.Detect.ThermoAOI.Program</StartupObject>
+    <StartupObject>Lead.Detect.ThermoAOI.Machine1.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>lead.ico</ApplicationIcon>
@@ -50,8 +50,8 @@
       <HintPath>..\..\packages\Dos.ORM.1.15.0\lib\net40\Dos.ORM.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="geometry3Sharp, Version=1.0.144.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\geometry3Sharp.1.0.144\lib\net45\geometry3Sharp.dll</HintPath>
+    <Reference Include="geometry3Sharp, Version=1.0.289.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\geometry3Sharp.1.0.289\lib\net45\geometry3Sharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="lcpi.data.oledb.net4_5_1, Version=1.8.0.3545, Culture=neutral, PublicKeyToken=ff716095e8002e7e, processorArchitecture=MSIL">
@@ -207,11 +207,6 @@
     <None Include="Config\P1\左工位不带Fin测试点位\A117NoFinNewL.fprj" />
     <None Include="Config\P1\左工位带Fin测试点位\A117WithFinNewL.fprj" />
     <None Include="Config\P1\带Fin标定点位\A117WithFinNewCalib.fprj" />
-    <None Include="Config\Calculators\A117NoFin.calc" />
-    <None Include="Config\Calculators\A117WithFin.calc" />
-    <None Include="Config\Calculators\A147NoFin.calc" />
-    <None Include="Config\Calculators\A147WithFin.calc" />
-    <None Include="Config\Calculators\X1311WithFin.calc" />
     <None Include="Config\default.db" />
     <None Include="Config\default.dev" />
     <None Include="Config\devsim.dev" />
@@ -264,12 +259,6 @@
     <None Include="Config\P2\X1311WithFinV7.fprj" />
     <None Include="Config\P2\X1311WithFinV7.mprj" />
     <None Include="Config\platforms.pts" />
-    <None Include="Config\pts\LeftCarrier.pts" />
-    <None Include="Config\pts\LeftDown.pts" />
-    <None Include="Config\pts\LeftUp.pts" />
-    <None Include="Config\pts\RightCarrier.pts" />
-    <None Include="Config\pts\RightDown.pts" />
-    <None Include="Config\pts\RightUp.pts" />
     <None Include="Config\RightCarrier.dat" />
     <None Include="Config\RightCarrier.pts" />
     <None Include="Config\RightDown.dat" />
@@ -331,9 +320,9 @@
       <Project>{b0ce046f-e89f-4a83-8ca1-25fb5c807e1b}</Project>
       <Name>Lead.Detect.ThermoAOITrajectoryLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ThermoAOIFlatnessCalcLib\Lead.Detect.ThermoAOIProductCalcLib.csproj">
+    <ProjectReference Include="..\ThermoAOIFlatnessCalcLib\Lead.Detect.ThermoAOIProductLib.csproj">
       <Project>{4DC12809-3D6E-4A62-A9FC-3BA47DFDBE97}</Project>
-      <Name>Lead.Detect.ThermoAOIProductCalcLib</Name>
+      <Name>Lead.Detect.ThermoAOIProductLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

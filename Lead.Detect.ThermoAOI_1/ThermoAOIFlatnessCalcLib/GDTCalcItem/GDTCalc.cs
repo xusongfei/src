@@ -3,10 +3,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
+using Lead.Detect.ThermoAOIProductLib.ProductBase;
 
-namespace Lead.Detect.ThermoAOIFlatnessCalcLib.GDTCalcItem
+namespace Lead.Detect.ThermoAOIProductLib.GDTCalcItem
 {
 
     public enum ExpectCalcValue

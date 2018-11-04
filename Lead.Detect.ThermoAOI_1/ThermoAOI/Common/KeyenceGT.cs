@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.stateMachine;
-using System.Diagnostics;
-using System.Threading;
 
-namespace Lead.Detect.ThermoAOI.Common
+namespace Lead.Detect.ThermoAOI.Machine1.Common
 {
     public class KeyenceGT : TcpClient
     {

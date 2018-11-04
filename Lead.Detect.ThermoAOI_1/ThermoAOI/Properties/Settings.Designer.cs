@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Lead.Detect.ThermoAOI.Properties {
+namespace Lead.Detect.ThermoAOI.Machine1.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

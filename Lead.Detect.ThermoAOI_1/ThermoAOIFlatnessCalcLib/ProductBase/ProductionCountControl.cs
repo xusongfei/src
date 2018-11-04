@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase
+namespace Lead.Detect.ThermoAOIProductLib.ProductBase
 {
     public partial class ProductionCountControl : UserControl
     {

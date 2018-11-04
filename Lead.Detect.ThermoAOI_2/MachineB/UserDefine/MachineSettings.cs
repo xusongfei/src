@@ -2,8 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.common;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
+using Lead.Detect.ThermoAOIProductLib.ProductBase;
 
 namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
 {

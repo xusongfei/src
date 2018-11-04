@@ -6,10 +6,10 @@ using Lead.Detect.FrameworkExtension.common;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.stateMachine;
+using Lead.Detect.MachineUtilityLib.UtilViews;
 using Lead.Detect.MeasureComponents.CameraControl;
 using Lead.Detect.ThermoAOI2.MachineA.UserDefine;
 using Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks;
-using MachineUtilityLib.UtilViews;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Lead.Detect.ThermoAOI2.MachineA.View

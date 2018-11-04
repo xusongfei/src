@@ -4,7 +4,7 @@ using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.stateMachine;
 
-namespace MachineUtilityLib.Utils
+namespace Lead.Detect.MachineUtilityLib.Utils
 {
     public class MultiDiSensorCheck
     {

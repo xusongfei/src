@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
+using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.platforms.calibrations;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
-using Lead.Detect.ThermoAOI.Common;
-using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.stateMachine;
-using Lead.Detect.ThermoAOI.Machine.newTasks;
-using System.Linq;
-using Lead.Detect.PlatformCalibration.FittingHelper;
+using Lead.Detect.ThermoAOI.Machine1.Common;
+using Lead.Detect.ThermoAOI.Machine1.Machine.newTasks;
+using Lead.Detect.Utility.FittingHelper;
 
-namespace Lead.Detect.ThermoAOI.Calibration
+namespace Lead.Detect.ThermoAOI.Machine1.Calibration
 {
+    /// <summary>
+    /// gt/gt1/gt2 高度坐标系标定
+    /// </summary>
     class AutoPlatformHeightCalib : AutoCalib
     {
         #region trans

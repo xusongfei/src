@@ -1,20 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using Lead.Detect.FrameworkExtension;
+using System.Windows.Forms;
+using Lead.Detect.FrameworkExtension; 
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.platforms;
 using Lead.Detect.FrameworkExtension.platforms.calibrations;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
-using System.Windows.Forms;
-using System;
-using Lead.Detect.PlatformCalibration.Transformation;
+using Lead.Detect.Utility.Transformation;
 
-namespace Lead.Detect.ThermoAOI.Calibration
+namespace Lead.Detect.ThermoAOI.Machine1.Calibration
 {
     /// <summary>
-    ///
+    /// 上下坐标系标定
     /// gen1:
     ///     calibrate by manual methods,
     ///     save aligned points to AlignPosUp && AlignPosDown
@@ -56,14 +56,12 @@ namespace Lead.Detect.ThermoAOI.Calibration
 
         [Category("标定")]
         public List<PosXYZ> AlignPosUp { get; set; }
-
         [Category("标定")]
         public List<PosXYZ> AlignPosDown { get; set; }
 
 
         [Category("OUTPUT")]
         public TransformParams OutputTransForm { get; set; }
-
         [Category("OUTPUT")]
         public PosXYZ OutputPlatform2GtOffset { get; set; }
 

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 
-namespace Lead.Detect.ThermoAOI.Common
+namespace Lead.Detect.ThermoAOI.Machine1.Common
 {
     public class BarcodeHelper : SerialPort
     {

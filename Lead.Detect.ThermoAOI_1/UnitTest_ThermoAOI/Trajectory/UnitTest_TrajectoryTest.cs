@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo1;
+using Lead.Detect.ThermoAOIProductLib.Thermo1;
 using Lead.Detect.ThermoAOITrajectoryLib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

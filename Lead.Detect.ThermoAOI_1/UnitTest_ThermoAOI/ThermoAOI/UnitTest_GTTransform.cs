@@ -1,5 +1,5 @@
 ﻿using System;
-using Lead.Detect.ThermoAOI.Calibration;
+using Lead.Detect.ThermoAOI.Machine1.Calibration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lead.Detect.UnitTest1.ThermoAOI

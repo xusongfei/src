@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 
-namespace Lead.Detect.ThermoAOI.Machine
+namespace Lead.Detect.ThermoAOI.Machine1.Machine
 {
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class CommonConfig
@@ -33,6 +33,8 @@ namespace Lead.Detect.ThermoAOI.Machine
         public bool IsRepeatTest { get; set; } = false;
 
         #endregion
+
+
         #region  components
 
         [Category("Barcode")]
@@ -53,6 +55,10 @@ namespace Lead.Detect.ThermoAOI.Machine
 
         [Category("GT")]
         public int RightGtPort { get; set; } = 64000;
+
+
+        [Category("GT")]
+        public int GtReadDelay { get; set; } = 500;
 
         #endregion
 

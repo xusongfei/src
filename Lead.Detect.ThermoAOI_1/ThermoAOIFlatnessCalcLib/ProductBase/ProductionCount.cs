@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase
+namespace Lead.Detect.ThermoAOIProductLib.ProductBase
 {
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class ProductionCount
@@ -29,7 +29,7 @@ namespace Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase
             return $"ALL:{TotalCount}\r\nOK:{OKCount}\r\nNG:{NGCount}\r\n";
         }
 
-        public void Update(ProductDataBase product)
+        public void Update(Product product)
         {
             TotalCount++;
             if (product.Status == ProductStatus.OK)

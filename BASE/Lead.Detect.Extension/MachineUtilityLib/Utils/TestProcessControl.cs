@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MachineUtilityLib.Utils
+namespace Lead.Detect.MachineUtilityLib.Utils
 {
     public class TestProcessControl<TData>
     {

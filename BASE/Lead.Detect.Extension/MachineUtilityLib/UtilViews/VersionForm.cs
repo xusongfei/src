@@ -1,7 +1,7 @@
 ﻿using System;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace MachineUtilityLib.UtilViews
+namespace Lead.Detect.MachineUtilityLib.UtilViews
 {
     public partial class VersionForm : DockContent
     {

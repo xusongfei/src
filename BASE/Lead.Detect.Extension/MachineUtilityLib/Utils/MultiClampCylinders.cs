@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.stateMachine;
 
-namespace MachineUtilityLib.Utils
+namespace Lead.Detect.MachineUtilityLib.Utils
 {
     public class MultiClampCylinders
     {

@@ -11,8 +11,7 @@ using Lead.Detect.MeasureComponents.LaserControl;
 using Lead.Detect.MeasureComponents.LMILaser;
 using Lead.Detect.ThermoAOI2.MachineB.UserDefine;
 using Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Project;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2;
+using Lead.Detect.ThermoAOIProductLib.Thermo2;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Lead.Detect.ThermoAOI2.MachineB.View

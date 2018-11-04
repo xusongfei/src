@@ -1,8 +1,7 @@
 ﻿
 using Lead.Detect.DatabaseHelper;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product;
-using Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Thermo2;
+using Lead.Detect.ThermoAOIProductLib.ProductBase;
+using Lead.Detect.ThermoAOIProductLib.Thermo;
 
 namespace Lead.Detect.ThermoAOI2.MachineB.View
 {
@@ -48,8 +47,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             this.labelFile = new System.Windows.Forms.Label();
             this.lineLaserExDisplayControl2 = new Lead.Detect.MeasureComponents.LaserControl.LineLaserExDisplayControl();
             this.lineLaserExDisplayControl1 = new Lead.Detect.MeasureComponents.LaserControl.LineLaserExDisplayControl();
-            this.productionCountControl1 = new Lead.Detect.ThermoAOIFlatnessCalcLib.ProductBase.ProductionCountControl();
-            this._thermoProductDisplayControl1 = new Lead.Detect.ThermoAOIFlatnessCalcLib.Thermo.Product.ThermoProductDisplayControl();
+            this.productionCountControl1 = new ProductionCountControl();
+            this._thermoProductDisplayControl1 = new ThermoProductDisplayControl();
             this.tabResult = new System.Windows.Forms.TabPage();
             this.productDatabaseControl1 = new Lead.Detect.DatabaseHelper.ProductDatabaseControl();
             this.panel2 = new System.Windows.Forms.Panel();
