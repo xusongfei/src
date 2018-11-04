@@ -238,6 +238,10 @@
     <None Include="Config\P2 201810\A147WithFinV10-20181022-ordered.mprj" />
     <None Include="Config\P2 201810\A147WithFinV10.fprj" />
     <None Include="Config\P2 201810\A147WithFinV10.mprj" />
+    <None Include="Config\P2 201811\A117-module-V13-pf-30-ordered.mprj" />
+    <None Include="Config\P2 201811\A117-vc-V13-pf-30-ordered.mprj" />
+    <None Include="Config\P2 201811\A147-module-V10-ordered.mprj" />
+    <None Include="Config\P2 201811\X1311-module-V7.mprj" />
     <None Include="Config\p2 spec.md" />
     <None Include="Config\P2\A117NoFinV13-pf-30-grr.mprj" />
     <None Include="Config\P2\A117NoFinV13-pf-30.fprj" />
@@ -393,9 +397,7 @@
     <None Include="Resources\aeroplane.png" />
     <None Include="Resources\2.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Config\P2 201811\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <MeasureProject1 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ProjectName>A147VC</ProjectName>
+  <ProjectName>A147FullModule</ProjectName>
   <Version>10</Version>
-  <ProductName>A147VC</ProductName>
-  <ThermoProductType>VaporChamber</ThermoProductType>
-  <TypeId>1</TypeId>
-  <PartID>1</PartID>
-  <Height>1.5</Height>
+  <ProductName>A147FullModule</ProductName>
+  <ThermoProductType>FullModule</ThermoProductType>
+  <TypeId>3</TypeId>
+  <PartID>3</PartID>
+  <Height>62.5</Height>
   <SPCItems>
     <SPCItem>
       <Name>上表面轮廓度</Name>
@@ -15,22 +15,10 @@
       <ValueMin>0</ValueMin>
       <Description>vc up surface profile</Description>
       <FAI>0</FAI>
-      <SPC>W</SPC>
-      <SPEC>-8.5</SPEC>
+      <SPC>AW</SPC>
+      <SPEC>-71.5</SPEC>
       <UpLimit>0.2</UpLimit>
       <DownLimit>-0.2</DownLimit>
-    </SPCItem>
-    <SPCItem>
-      <Name>上表面平行度</Name>
-      <Value>0</Value>
-      <ValueMax>0</ValueMax>
-      <ValueMin>0</ValueMin>
-      <Description>vc up parallelism</Description>
-      <FAI>0</FAI>
-      <SPC>X</SPC>
-      <SPEC>0</SPEC>
-      <UpLimit>0.26</UpLimit>
-      <DownLimit>0</DownLimit>
     </SPCItem>
     <SPCItem>
       <Name>凸台1平面度</Name>
@@ -109,8 +97,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>25</X>
-      <Y>-10.3</Y>
+      <X>29.4</X>
+      <Y>-16.3</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -124,8 +112,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>25</X>
-      <Y>-245</Y>
+      <X>29.4</X>
+      <Y>-238.3</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -139,8 +127,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>137</X>
-      <Y>-245</Y>
+      <X>132.9</X>
+      <Y>-238.3</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -154,8 +142,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>137</X>
-      <Y>-10.3</Y>
+      <X>132.9</X>
+      <Y>-16.3</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -169,8 +157,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>49.64</X>
-      <Y>-94.3</Y>
+      <X>47.5</X>
+      <Y>-71.3</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -184,8 +172,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>49.64</X>
-      <Y>-172.3</Y>
+      <X>47.5</X>
+      <Y>-161</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -199,8 +187,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>113.64</X>
-      <Y>-172.3</Y>
+      <X>119.5</X>
+      <Y>-161</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
@@ -214,8 +202,8 @@
     <PosXYZ>
       <Index>0</Index>
       <Name>up</Name>
-      <X>113.64</X>
-      <Y>-94.3</Y>
+      <X>119.5</X>
+      <Y>-71.3</Y>
       <Z>0</Z>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
