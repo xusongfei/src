@@ -649,6 +649,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     else if (DiStart.Count > 0 && DiStart.Any(e => e.Value.GetDiSts()))
                     {
                         PostEvent(UserEventType.CONTINUE, this);
+                        OnShowAlarmEvent(string.Empty, LogLevel.None);
                         return;
                     }
                     else if (DiReset.Count > 0 && DiReset.Any(e => e.Value.GetDiSts()))

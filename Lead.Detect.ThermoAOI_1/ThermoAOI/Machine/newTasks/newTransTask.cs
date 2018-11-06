@@ -239,8 +239,8 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
 
             }
 
-            if ((Station.Id == 1 && Machine.Ins.Settings.Common.LeftSensorCheck)
-            || (Station.Id == 2 && Machine.Ins.Settings.Common.RightSensorCheck))
+            if ((Station.Id == 1 && Machine.Ins.Settings.Common.LeftFinSensorCheck)
+            || (Station.Id == 2 && Machine.Ins.Settings.Common.RightFinSensorCheck))
             {
                 //检查fin传感器
                 if (!CheckProductFin())
