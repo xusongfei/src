@@ -1,0 +1,63 @@
+
+-----------------------------------------------------------
+A117 730-00127 V13
+-----------------------------------------------------------
+VAPOR CHAMBER
+
+K - 10.5 (+-0.2) - vc up surface profile to datum A
+L - 0.26 - parallelism to datum A
+
+J - 0 (0.04) - pedestal flatness (datum A)
+M - 6 (+-0.1) - vc down surface profile to datum A
+O - 0 (+-0.15) - inner standoff profile to datum A
+N - 5.33 (+-0.15) - outer standoff profile to datum A
+
+
+FULL THERMAL MODULE
+
+AB - 71.50(+-0.2) - fin up surface profile to datum A
+
+J - 0 (0.04) - pedestal flatness (datum A)
+M - 6 (+-0.1) - vc down surface profile to datum A
+O - 0 (+-0.15) - inner standoff profile to datum A
+N - 5.33 (+-0.15) - outer standoff profile to datum A
+
+
+-----------------------------------------------------------
+A147 730-00129 V10
+-----------------------------------------------------------
+VAPOR CHAMBER
+
+W - 10.5 (+-0.2) - vc up surface profile to datum A
+X - 0.26 - parallelism to datum A
+
+Y - 0 (0.04) - pedestal1 flatness (datum A)
+T - 0 (0.10) - pedestal2 profile to datum A
+S - 0 (0.04) - pedestal2 parallelism to datum A
+V - 6 (+-0.10) - vc down surface profile to datum A
+AG - 0 (+-0.15) - inner standoff profile to datum A
+AH - 5.33 (+-0.15) - outer standoff profile to datum A
+
+
+FULL THERMAL MODULE
+
+AW - 71.50(+-0.2) - fin up surface profile to datum A
+
+Y - 0 (0.04) - pedestal1 flatness (datum A)
+T - 0 (0.10) - pedestal2 profile to datum A
+S - 0 (0.04) - pedestal2 parallelism to datum A
+V - 6 (+-0.10) - vc down surface profile to datum A
+AG - 0 (+-0.15) - inner standoff profile to datum A
+AH - 5.33 (+-0.15) - outer standoff profile to datum A
+
+
+-----------------------------------------------------------
+X1311 604-21853 V07
+-----------------------------------------------------------
+
+D - 0.077 - flatness
+
+I - 3.00 (+-0.10) - height1
+H - 3.00 (+-0.10) - height2
+
+
