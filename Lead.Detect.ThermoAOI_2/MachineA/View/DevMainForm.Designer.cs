@@ -45,10 +45,10 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSummry = new System.Windows.Forms.TabPage();
             this.labelFile = new System.Windows.Forms.Label();
-            this.productionCountControl1 = new ProductionCountControl();
-            this._thermoProductDisplayControl1 = new ThermoProductDisplayControl();
+            this.productionCountControl1 = new Lead.Detect.ThermoAOIProductLib.ProductBase.ProductionCountControl();
+            this._thermoProductDisplayControl1 = new Lead.Detect.ThermoAOIProductLib.Thermo.ThermoProductDisplayControl();
             this.tabResult = new System.Windows.Forms.TabPage();
-            this.productDatabaseControl1 = new ProductDatabaseControl();
+            this.productDatabaseControl1 = new Lead.Detect.DatabaseHelper.ProductDatabaseControl();
             this.panel2 = new System.Windows.Forms.Panel();
             this.buttonLamp = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
@@ -255,6 +255,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.productDatabaseControl1.BackColor = System.Drawing.Color.White;
+            this.productDatabaseControl1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.productDatabaseControl1.Location = new System.Drawing.Point(9, 7);
             this.productDatabaseControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.productDatabaseControl1.Name = "productDatabaseControl1";

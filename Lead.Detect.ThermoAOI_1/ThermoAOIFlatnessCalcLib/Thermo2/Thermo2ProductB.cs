@@ -24,8 +24,14 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
         public List<List<PosXYZ>> RawData_C2Profile { get; set; } = new List<List<PosXYZ>>();
 
 
+        /// <summary>
+        /// 激光测量数据, 按fin排列
+        /// </summary>
         [Description("上激光原始数据")]
         public List<List<PosXYZ>> RawData_UpProfile { get; set; } = new List<List<PosXYZ>>();
+        /// <summary>
+        /// 激光测量数据, 按fin排列
+        /// </summary>
         [Description("下激光原始数据")]
         public List<List<PosXYZ>> RawData_DownProfile { get; set; } = new List<List<PosXYZ>>();
 

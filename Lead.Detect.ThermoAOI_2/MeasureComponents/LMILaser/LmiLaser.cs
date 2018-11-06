@@ -8,6 +8,7 @@ using Lmi3d.Zen;
 using Lmi3d.Zen.Io;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Linq;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 
@@ -222,51 +223,65 @@ namespace Lead.Detect.MeasureComponents.LMILaser
                 //parse dataSet
                 for (int i = 0; i < dataSet.Count; i++)
                 {
-                    GoDataMsg dataObj = (GoDataMsg) dataSet.Get(i);
+                    GoDataMsg dataObj = (GoDataMsg)dataSet.Get(i);
 
                     switch (dataObj.MessageType)
                     {
                         case GoDataMessageType.Measurement:
-                        {
-                            //GoMeasurementMsg measurementMsg = (GoMeasurementMsg)dataObj;
-                            //if (measurementMsg != null)
-                            //{
-                            //    var output = new List<double[]>();
-                            //    for (var k = 0; k < measurementMsg.Count; ++k)
-                            //    {
-                            //        GoMeasurementData measurementData = measurementMsg.Get(k);
-                            //        var data = new double[3];
-                            //        data[0] = measurementMsg.Id;
-                            //        data[1] = measurementData.Value;
-                            //        data[2] = measurementData.Decision;
-                            //        output.Add(data);
-                            //    }
-                            //    return output;
-                            //}
-                        }
+                            {
+                                //GoMeasurementMsg measurementMsg = (GoMeasurementMsg)dataObj;
+                                //if (measurementMsg != null)
+                                //{
+                                //    var output = new List<double[]>();
+                                //    for (var k = 0; k < measurementMsg.Count; ++k)
+                                //    {
+                                //        GoMeasurementData measurementData = measurementMsg.Get(k);
+                                //        var data = new double[3];
+                                //        data[0] = measurementMsg.Id;
+                                //        data[1] = measurementData.Value;
+                                //        data[2] = measurementData.Decision;
+                                //        output.Add(data);
+                                //    }
+                                //    return output;
+                                //}
+                            }
                             break;
 
                         case GoDataMessageType.Generic:
-                        {
-                            GoGenericMsg genericMsg = dataObj as GoGenericMsg;
-                            if (genericMsg != null)
                             {
-                                byte[] buffer = new byte[genericMsg.BufferSize];
-                                Marshal.Copy(genericMsg.BufferData, buffer, 0, (int) genericMsg.BufferSize);
-
-                                var gridRawData = FlatnessParser.Parse(buffer);
-
-                                var output = FlatnessParser.GetGridOutput(gridRawData);
-
-
-                                if (DisplayResultEvent != null)
+                                GoGenericMsg genericMsg = dataObj as GoGenericMsg;
+                                if (genericMsg != null)
                                 {
-                                    DisplayResultEvent.Invoke(FlatnessParser.CreateDisplay(gridRawData));
-                                }
+                                    byte[] buffer = new byte[genericMsg.BufferSize];
+                                    Marshal.Copy(genericMsg.BufferData, buffer, 0, (int)genericMsg.BufferSize);
 
-                                return output;
+                                    var gridRawData = FlatnessParser.Parse(buffer);
+
+                                    var output = FlatnessParser.GetGridOutput(gridRawData);
+
+                                    if (FlatnessParser.GridParseMethod == GridParseMethod.RigidAlignAndOrderByX)
+                                    {
+                                        if (DisplayResultEvent != null)
+                                        {
+                                            var dataList = new List<PosXYZ>();
+                                            foreach (var d in output)
+                                            {
+                                                dataList.AddRange(d);
+                                            }
+                                            DisplayResultEvent.Invoke(FlatnessParser.CreateDisplay(dataList));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (DisplayResultEvent != null)
+                                        {
+                                            DisplayResultEvent.Invoke(FlatnessParser.CreateDisplay(gridRawData));
+                                        }
+                                    }
+
+                                    return output;
+                                }
                             }
-                        }
                             break;
                     }
                 }

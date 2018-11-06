@@ -1,18 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using Lead.Detect.FrameworkExtension.common;
 using Lead.Detect.FrameworkExtension.stateMachine;
 
 namespace Lead.Detect.FrameworkExtension.frameworkManage
 {
+
+    public class FrameworkConfig : UserSettings<FrameworkConfig>
+    {
+        public FrameworkConfig()
+        {
+            
+        }
+
+        public void Load()
+        {
+            var f = @".\Config\framework.cfg";
+            if (!File.Exists(f))
+            {
+                Save(f);
+            }
+            else
+            {
+                Ins = Load(f);
+            }
+        }
+
+        public static FrameworkConfig Ins { get; private set; } = new FrameworkConfig();
+
+
+        public bool IsSimulate { get; set; }
+
+        public bool IsDebug { get; set; }
+
+
+        public override bool CheckIfNormal()
+        {
+            return true;
+        }
+    }
+
     public static class FrameworkExtenion
     {
         public static bool IsDebugFramework = false;
 
         public static bool IsSimulate = false;
-
 
         public static string FrameworkExceptionHead = "FRAMEWORK EXCEPTION";
 

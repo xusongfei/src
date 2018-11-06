@@ -10,6 +10,7 @@
       <ValueMax>0</ValueMax>
       <ValueMin>0</ValueMin>
       <FAI>0</FAI>
+      <SPC>STS</SPC>
       <SPEC>1</SPEC>
       <UpLimit>0</UpLimit>
       <DownLimit>0</DownLimit>

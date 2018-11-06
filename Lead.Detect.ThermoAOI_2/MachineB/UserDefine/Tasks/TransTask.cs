@@ -144,11 +144,12 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             //create product
             Product = new Thermo2ProductB()
             {
+                Barcode = barcode,
                 ProductType =  Project.ThermoProductType.ToString(),
                 Description = Project.ProductName,
-                Barcode = barcode,
                 SPCItems = Project.SPCItems,
             };
+            Product.ClearSpc();
             MeasureTask.Product = Product;
 
 

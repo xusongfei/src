@@ -15,15 +15,17 @@ namespace Lead.Detect.Utility.FittingHelper
 
 
         public double OX { get { return Origin.x; } }
-
         public double OY { get { return Origin.y; } }
+        public double OZ { get { return Origin.z; } }
 
 
         public double Distance(PosXYZ pos)
         {
             var offset = new Vector3d(pos.X, pos.Y, pos.Z) - Origin;
 
-            return offset.Cross(Direction).Length;
+            var distVector = offset.Cross(Direction);
+
+            return distVector.z > 0 ? distVector.Length : -distVector.Length;
         }
 
 

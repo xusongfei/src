@@ -30,6 +30,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
         public IVioEx VioMeasureFinish;
 
 
+
         public MeasureTask MeasureTask;
 
         public PlatformEx Platform;
@@ -186,8 +187,13 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
             }
 
             //create new product, pass to measure task
-            Product = new Thermo2ProductA();
-            Product.SPCItems = Project.SPCItems;
+            Product = new Thermo2ProductA
+            {
+                ProductType = Project.ThermoProductType.ToString(),
+                Description = Project.ProductName,
+                SPCItems = Project.SPCItems
+            };
+            Product.ClearSpc();
             MeasureTask.Product = Product;
             Log("Start:" + Product.ToString(), LogLevel.Info);
 
@@ -217,7 +223,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
             if (Project.ThermoProductType == ThermoProductType.VaporChamber)
             {
                 CarrierLoader.ReleaseVC();
-                
+
             }
             else
             {

@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
-using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.MachineUtilityLib.UtilsFramework;
@@ -115,7 +115,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
 
             if (Platform.CurPos[2] > safeHeight)
             {
-                Log($"Platform {Platform.Name} Z SAFE Height Error {Platform.CurPos[2]:F2} > {safeHeight:F2}", LogLevel.Error);
+                Log($"Platform {Platform.Name} Z SAFE Height Error: {Platform.CurPos[2]:F2} > {safeHeight:F2}", LogLevel.Error);
             }
 
 
@@ -206,13 +206,38 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
                         Product.Status = msgData[0] == "OK" ? ProductStatus.OK : ProductStatus.NG;
                         if (msgData.Length > 2)
                         {
+                            var spcItems = new List<Tuple<string, double>>();
+
+                            //parse msgData to spcs
                             for (int i = 1; i < msgData.Length; i++)
                             {
                                 if (string.IsNullOrEmpty(msgData[i]))
                                 {
                                     continue;
                                 }
-                                Product.RawData.Add(double.Parse(msgData[i]));
+
+                                var spc = msgData[i].Split(':');
+                                if (spc.Length >= 2)
+                                {
+                                    try
+                                    {
+                                        var s = spc[0].Split('_')[1];
+                                        var val = double.Parse(spc[1]);
+                                        spcItems.Add(new Tuple<string, double>(s, val));
+
+                                        Product.RawData.Add(val);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Log($"{spc[0]} {spc[1]} SetSpcError:{e.Message}");
+                                    }
+                                }
+                            }
+
+                            //set spc
+                            foreach (var s in spcItems)
+                            {
+                                Product.SetSpcItem(s.Item1, s.Item2);
                             }
                         }
                         Log($"Camera GetResult: {result}");

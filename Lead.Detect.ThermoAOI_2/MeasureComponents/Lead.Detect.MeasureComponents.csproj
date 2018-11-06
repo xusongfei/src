@@ -140,6 +140,10 @@
       <Project>{463f8ee2-5570-40aa-9f85-58473def51fc}</Project>
       <Name>Lead.Detect.FrameworkExtension</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\BASE\Lead.Detect.Extension\Utility\Lead.Detect.Utility.csproj">
+      <Project>{1ec60b75-6689-47e1-be8c-63a7ab3325e0}</Project>
+      <Name>Lead.Detect.Utility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Lead.Detect.ThermoAOI_1\ThermoAOIFlatnessCalcLib\Lead.Detect.ThermoAOIProductLib.csproj">
       <Project>{4dc12809-3d6e-4a62-a9fc-3ba47dfdbe97}</Project>
       <Name>Lead.Detect.ThermoAOIProductLib</Name>

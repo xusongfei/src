@@ -45,18 +45,18 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
         public string Name { set; get; } = "MACHINE B";
         [Category("Machine")]
         public string Description { set; get; } = "AOI3";
-    
-        [Category("Machine")]
-        public bool EnableFTP { get; set; } = false;
-        [Category("Machine")]
-        public string FTPAddress { set; get; } = @"192.168.80.10\TestData03";
-
-
-
         [Category("Machine")]
         public string Version { get; set; } = "v0.0.1";
         [Category("Machine")]
         public ProductionCount Production { get; set; } = new ProductionCount();
+
+
+        [Category("FTP")]
+        public bool EnableFTP { get; set; } = false;
+        [Category("FTP")]
+        public string FTPAddress { set; get; } = @"192.168.80.10\TestData03";
+
+
 
         #region common
 
@@ -68,78 +68,61 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
         public int BarcodeLength { get; set; }
 
 
-        [Category("COMMON"), Description("传感器使能")]
+        [Category("SENSOR"), Description("传感器使能")]
         public bool SensorEnable { get; set; }
+
+
         [Category("COMMON"), Description("自动测试")]
         public bool AutoDryRun { get; set; }
+        [Category("COMMON"), Description("测试异常则退出")]
+        public bool QuitOnProductError { get; set; }
+
+
+        [Category("MEASURE"), Description("参考坐标模式")]
+        public bool EnableRelCoordMode { get; set; } = false;
 
 
         [Category("MEASURE"), Description("测试文件路径")]
         public string MeasureProjectFile { get; set; }
 
-        [Category("MEASURE"), Description("测试异常则退出")]
-        public bool QuitOnProductError { get; set; }
-
-
-
-        [Category("MEASURE"), Description("参考坐标模式")]
-        public bool EnableRelCoordMode { get; set; } = false;
 
         #endregion
 
 
         #region components
 
-        [Category("COMPONENTS"), Description("相机")]
+
+        [Category("CAMERA"), Description("相机")]
         public string CameraIP { get; set; } = "127.0.0.1";
-        [Category("COMPONENTS"), Description("相机")]
+        [Category("CAMERA"), Description("相机")]
         public int CameraPort { get; set; } = 50000;
 
 
-        [Category("COMPONENTS"), Description("上激光")]
+        [Category("LASER UP"), Description("上激光")]
         public string Laser1IP { get; set; } = "192.168.1.10";
-        [Category("COMPONENTS"), Description("上激光")]
+        [Category("LASER UP"), Description("上激光")]
         public string Laser1AcceleratorIp { get; set; } = "192.168.1.111";
-        [Category("COMPONENTS"), Description("上激光")]
+        [Category("LASER UP"), Description("上激光")]
         public int Laser1Port { get; set; }
 
 
-        [Category("COMPONENTS"), Description("下激光")]
+        [Category("LASER DOWN"), Description("下激光")]
         public string Laser2IP { get; set; } = "192.168.2.10";
-        [Category("COMPONENTS"), Description("下激光")]
+        [Category("LASER DOWN"), Description("下激光")]
         public string Laser2AcceleratorIp { get; set; } = "192.168.2.111";
-        [Category("COMPONENTS"), Description("下激光")]
+        [Category("LASER DOWN"), Description("下激光")]
         public int Laser2Port { get; set; }
 
-        [Category("COMPONENTS"), Description("激光")]
+
+        [Category("LASER"), Description("激光")]
+        public bool EnableLaserAccelerator { get; set; }
+        [Category("LASER"), Description("激光")]
         public bool EnableSaveRec { get; set; }
-        [Category("COMPONENTS"), Description("激光")]
+        [Category("LASER"), Description("激光")]
         public string RecFolder { get; set; } = @"..\..\..";
 
-        [Category("COMPONENTS"), Description("激光")]
-        public bool EnableLaserAccelerator { get; set; }
-
-
-
 
         #endregion
-
-        #region laser result config
-
-
-        //[Category("激光测量数据"), Description("上激光")]
-        //public int UpLaserRowCount { get; set; } = 8;
-        //[Category("激光测量数据"), Description("上激光")]
-        //public int UpLaserColumnCount { get; set; } = 25;
-
-
-        //[Category("激光测量数据"), Description("下激光")]
-        //public int DownLaserRowCount { get; set; } = 4;
-        //[Category("激光测量数据"), Description("下激光")]
-        //public int DownLaserColumnCount { get; set; } = 25;
-
-        #endregion
-
 
 
         public override bool CheckIfNormal()

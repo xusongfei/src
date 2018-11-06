@@ -27,18 +27,35 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
         public void SetSpcItem(int fai, double val)
         {
             var item = SPCItems.FirstOrDefault(f => f.FAI == fai);
-            if (item != null)
+            if (item != null && (Math.Abs(item.Value) < float.Epsilon || item.CheckSpec()))
             {
                 item.Value = val;
+                if (val > item.Value)
+                {
+                    item.ValueMax = val;
+                }
+                else
+                {
+                    item.ValueMin = val;
+                }
             }
         }
 
         public void SetSpcItem(string spc, double val)
         {
             var item = SPCItems.FirstOrDefault(f => f.SPC == spc);
-            if (item != null)
+            //not set val or ok
+            if (item != null && (Math.Abs(item.Value) < float.Epsilon || item.CheckSpec()))
             {
                 item.Value = val;
+                if (val > item.Value)
+                {
+                    item.ValueMax = val;
+                }
+                else
+                {
+                    item.ValueMin = val;
+                }
             }
         }
 

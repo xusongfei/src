@@ -38,8 +38,8 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
 
             SetVaccum(true);
 
-            SetDatumn(false, 300, null);
             Clamp(false, 300, null);
+            SetDatumn(false, 300, null);
         }
 
 
@@ -52,14 +52,16 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
 
         public void ClampModule()
         {
-            SetDatumn(true, 300, false);
+            SetDatumn(true, 300, null);
             Clamp(true, 300, null);
+            SetVaccum(false);
         }
 
 
         public void ReleaseModule()
         {
-            SetDatumn(false, 100, null);
+            SetDatumn(true, 300, null);
+            Clamp(false, 300, null);
             SetVaccum(false);
         }
 

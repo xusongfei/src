@@ -47,8 +47,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             this.labelFile = new System.Windows.Forms.Label();
             this.lineLaserExDisplayControl2 = new Lead.Detect.MeasureComponents.LaserControl.LineLaserExDisplayControl();
             this.lineLaserExDisplayControl1 = new Lead.Detect.MeasureComponents.LaserControl.LineLaserExDisplayControl();
-            this.productionCountControl1 = new ProductionCountControl();
-            this._thermoProductDisplayControl1 = new ThermoProductDisplayControl();
+            this.productionCountControl1 = new Lead.Detect.ThermoAOIProductLib.ProductBase.ProductionCountControl();
+            this._thermoProductDisplayControl1 = new Lead.Detect.ThermoAOIProductLib.Thermo.ThermoProductDisplayControl();
             this.tabResult = new System.Windows.Forms.TabPage();
             this.productDatabaseControl1 = new Lead.Detect.DatabaseHelper.ProductDatabaseControl();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -280,7 +280,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             // 
             this.productDatabaseControl1.BackColor = System.Drawing.Color.White;
             this.productDatabaseControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.productDatabaseControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.productDatabaseControl1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.productDatabaseControl1.Location = new System.Drawing.Point(3, 2);
             this.productDatabaseControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.productDatabaseControl1.Name = "productDatabaseControl1";

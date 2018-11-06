@@ -2,9 +2,9 @@
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using Lead.Detect.DatabaseHelper;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.scriptTask;
-using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.ThermoAOI2.MachineB.UserDefine;
 
 namespace Lead.Detect.ThermoAOI2.MachineB
@@ -38,7 +38,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB
 
                 //simulate mode enable
                 FrameworkExtenion.IsDebugFramework = false;
-                FrameworkExtenion.IsSimulate = true;
+                FrameworkExtenion.IsSimulate = false;
                 if (FrameworkExtenion.IsSimulate)
                 {
                     if (MessageBox.Show("进入仿真模式？", "", MessageBoxButtons.YesNo) == DialogResult.No)
@@ -62,7 +62,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB
                 }
 
 
-                //SqlLiteHelper.InitDatabase();
+                SqlLiteHelper.InitDatabase();
 
                 //initialize machine settings
                 Machine.Ins.Load();

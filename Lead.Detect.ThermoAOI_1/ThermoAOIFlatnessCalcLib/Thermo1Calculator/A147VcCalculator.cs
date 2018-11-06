@@ -27,7 +27,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo1Calculator
                         Description = "vc up surface profile to datum A",
                         DatumName = A147Geo.Y.ToString(),
                         SourcePos = "up",
-                        ExpectValue = ExpectCalcValue.Min,
+                        ExpectValue = ExpectCalcValue.Normal,
                     }
                 },
                 //X - 0.26 - parallelism to datum A
@@ -87,7 +87,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo1Calculator
                         Description = "vc down surface profile to datum A",
                         DatumName = A147Geo.Y.ToString(),
                         SourcePos = "down",
-                        ExpectValue = ExpectCalcValue.Min,
+                        ExpectValue = ExpectCalcValue.Normal,
                     }
                 },
 
@@ -100,7 +100,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo1Calculator
                         Description = "inner standoff profile to datum A",
                         DatumName = A147Geo.Y.ToString(),
                         SourcePos = "inner",
-                        ExpectValue = ExpectCalcValue.Max,
+                        ExpectValue = ExpectCalcValue.Normal,
                     }
                 },
                 //AH - 5.33 (+-0.15) - outer standoff profile to datum A
@@ -111,7 +111,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo1Calculator
                         Description = "outer standoff profile to datum A",
                         DatumName = A147Geo.Y.ToString(),
                         SourcePos = "outer",
-                        ExpectValue = ExpectCalcValue.Max,
+                        ExpectValue = ExpectCalcValue.Normal,
                     }
                 },
             };

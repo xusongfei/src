@@ -35,7 +35,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
         public string ProductName { get; set; }
 
         [Category("产品信息"), Description("产品类型")]
-        public ThermoProductType ThermoProductType { get; set; }
+        public ThermoProductType ThermoProductType { get; set; } = ThermoProductType.FullModule;
 
         [Category("产品信息"), Description("产品类型")]
         public int TypeId { get; set; }
@@ -44,7 +44,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
         public string PartID { get; set; }
 
         [Category("产品信息"), Description("产品高度")]
-        public double Height { get; set; }
+        public double Height { get; set; } = 61.5;
 
 
 
@@ -57,7 +57,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
         {
             if (ThermoProductType == ThermoProductType.VaporChamber)
             {
-                if (Height > 10)
+                if (Height > 6)
                 {
                     return false;
                 }

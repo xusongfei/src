@@ -5,11 +5,22 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
+using Lead.Detect.Utility.Transformation;
 
 namespace Lead.Detect.MeasureComponents.LMILaser
 {
+    public enum GridParseMethod
+    {
+        RigidAlignAndOrderByX,
+
+        ColCountParseByY,
+    }
+
     public class FlatnessParser
     {
+        public static GridParseMethod GridParseMethod = GridParseMethod.RigidAlignAndOrderByX;
+
+
         public static List<PosXYZ> Parse(byte[] buffer)
         {
             var results = new List<PosXYZ>();
@@ -17,9 +28,9 @@ namespace Lead.Detect.MeasureComponents.LMILaser
             {
                 using (var br = new BinaryReader(ms))
                 {
-                    var status = (int)br.ReadUInt16();
-                    var flatnessNum = (int)br.ReadUInt32();
-                    var version = (int)br.ReadUInt32();
+                    var status = (int) br.ReadUInt16();
+                    var flatnessNum = (int) br.ReadUInt32();
+                    var version = (int) br.ReadUInt32();
 
                     switch (version)
                     {
@@ -34,7 +45,7 @@ namespace Lead.Detect.MeasureComponents.LMILaser
                                 flatnessData.Add(br.ReadDouble());
                             }
 
-                            var nodeNum = (int)br.ReadUInt32();
+                            var nodeNum = (int) br.ReadUInt32();
                             List<double> nodeData = new List<double>(nodeNum * 3);
                             for (int j = 0; j < nodeNum; j++)
                             {
@@ -62,16 +73,16 @@ namespace Lead.Detect.MeasureComponents.LMILaser
                                     var nz = nodeData[index + 2];
 
                                     var dist = (nx * a + ny * b + nz * c + d) / p;
-                                    results.Add(new PosXYZ(nx, ny, dist) { OffsetZ = nz });
+                                    results.Add(new PosXYZ(nx, ny, dist) {OffsetZ = nz});
                                 }
                             }
                             else
                             {
                                 results.Clear();
                             }
+
                             break;
                     }
-
                 }
             }
 
@@ -79,94 +90,126 @@ namespace Lead.Detect.MeasureComponents.LMILaser
         }
 
 
-        public static List<List<PosXYZ>> GetGridOutput(List<PosXYZ> gridRawPoints)
+        public static List<List<PosXYZ>> GetGridOutput(List<PosXYZ> gridNodes)
         {
-            var output = new List<List<PosXYZ>>();
+            switch (GridParseMethod)
             {
-                var rowy = gridRawPoints.First().Y;
+                case GridParseMethod.RigidAlignAndOrderByX:
+                    return ParseByRigidAlign(gridNodes);
+                case GridParseMethod.ColCountParseByY:
+                    return ParseByColumnCount(gridNodes);
+            }
 
+            return null;
+        }
 
-                //get cols
-                var rows = 0;
-                var cols = 0;
-                while (true)
+        private static List<List<PosXYZ>> ParseByColumnCount(List<PosXYZ> gridNodes)
+        {
+            {
+                var output = new List<List<PosXYZ>>();
                 {
-                    if (Math.Abs(gridRawPoints[cols].Y - rowy) > 4.5)
+                    var rowy = gridNodes.First().Y;
+
+                    //get column count
+                    var gridRowCount = 0;
+                    var gridColumnCount = 0;
+                    while (true)
                     {
-                        break;
-                    }
-                    cols++;
-                }
-
-                rows = gridRawPoints.Count / cols;
-                //cols = results.Count / rows;
-
-
-                for (int c = 0; c < cols; c++)
-                {
-                    output.Add(new List<PosXYZ>());
-                    for (int r = 0; r < rows; r++)
-                    {
-                        output[c].Add(new PosXYZ());
-                    }
-                }
-
-
-                for (int row = 0; row < rows; row++)
-                {
-                    for (int col = 0; col < cols; col++)
-                    {
-                        var index = row * cols + col;
-                        if (index > gridRawPoints.Count - 1)
+                        if (Math.Abs(gridNodes[gridColumnCount].Y - rowy) > 4.5)
                         {
                             break;
                         }
-                        var r = gridRawPoints[index];
-                        output[col][row] = (new PosXYZ(r.X, r.Y, r.Z) { OffsetZ = r.OffsetZ });
+
+                        gridColumnCount++;
                     }
-                }
-            }
+
+                    //get row count
+                    gridRowCount = gridNodes.Count / gridColumnCount;
 
 
-            {
-                //parse all grid nodes to rows and cols
-                var ResultColCount = 1;
-                var ResultRowCount = gridRawPoints.Count;
-                if (gridRawPoints.Count >= ResultRowCount * ResultColCount)
-                {
-                    for (var col = 0; col < ResultColCount; col++)
+                    //init output
+                    for (int c = 0; c < gridColumnCount; c++)
                     {
-                        var rowData = new List<PosXYZ>();
-                        for (var row = 0; row < ResultRowCount; row++)
+                        output.Add(new List<PosXYZ>());
+                        for (int r = 0; r < gridRowCount; r++)
                         {
-                            rowData.Add(gridRawPoints[col * ResultRowCount + row]);
+                            output[c].Add(new PosXYZ());
                         }
-                        output.Add(rowData);
+                    }
+
+
+                    //put grid data to rows and cols
+                    for (int row = 0; row < gridRowCount; row++)
+                    {
+                        for (int col = 0; col < gridColumnCount; col++)
+                        {
+                            var index = row * gridColumnCount + col;
+                            if (index > gridNodes.Count - 1)
+                            {
+                                //some point loss
+                                break;
+                            }
+
+                            var node = gridNodes[index];
+                            output[col][row] = (new PosXYZ(node.X, node.Y, node.Z) {OffsetZ = node.OffsetZ});
+                        }
                     }
                 }
+
+                {
+                    //add all raw grid nodes
+                    var resultColCount = 1;
+                    var resultRowCount = gridNodes.Count;
+                    if (gridNodes.Count >= resultRowCount * resultColCount)
+                    {
+                        for (var col = 0; col < resultColCount; col++)
+                        {
+                            var rowData = new List<PosXYZ>();
+                            for (var row = 0; row < resultRowCount; row++)
+                            {
+                                rowData.Add(gridNodes[col * resultRowCount + row]);
+                            }
+
+                            output.Add(rowData);
+                        }
+                    }
+                }
+
+                return output;
             }
-
-
-            //{
-            //    //order gird by x 
-            //    var resultsOrdered = results.OrderBy(p => p.X).ToList();
-            //    var n = 0;
-            //    while (n < resultsOrdered.Count)
-            //    {
-            //        var colx = resultsOrdered[n].X;
-            //        var colPos = resultsOrdered.FindAll(p => Math.Abs(p.X - colx) < 2).ToList();
-            //        output.Add(colPos);
-            //        n += colPos.Count;
-            //    }
-            //}
-
-
-            return output;
-
-
-
         }
 
+        private static List<List<PosXYZ>> ParseByRigidAlign(List<PosXYZ> gridNodes)
+        {
+            var p1 = gridNodes[0];
+            var p2 = gridNodes[1];
+
+            var p1g = new PosXYZ();
+            var p2g = new PosXYZ(new PosXYZ(p1.X, p1.Y, 0).DistanceTo(new PosXYZ(p2.X, p2.Y, 0)), 0, 0);
+
+            var rigidTrans = XyzPlarformCalibration.CalcAlignTransform(new List<PosXYZ>() {p1, p2}, new List<PosXYZ>() {p1g, p2g});
+
+
+            var transGridNodes = gridNodes.Select(g => XyzPlarformCalibration.AlignTransform(g, rigidTrans.Item1)).ToList();
+
+            {
+                var output = new List<List<PosXYZ>>();
+                //order gird by x 
+                var orderedNodes = transGridNodes.OrderBy(p => p.X).ToList();
+                var n = 0;
+                while (n < orderedNodes.Count)
+                {
+                    var colx = orderedNodes[n].X;
+                    var colPos = orderedNodes.FindAll(p => Math.Abs(p.X - colx) < 2).ToList();
+                    output.Add(colPos);
+                    n += colPos.Count;
+                }
+
+                output.Add(transGridNodes);
+
+                return output;
+            }
+        }
 
 
         public static Bitmap CreateDisplay(List<PosXYZ> pos)
@@ -179,23 +222,23 @@ namespace Lead.Detect.MeasureComponents.LMILaser
             var yMin = pos.Min(p => p.Y);
             var zMin = pos.Min(p => p.Z);
 
-            var width = xMax - xMin;
-            var height = yMax - yMin;
+            var width = xMax - xMin + 50;
+            var height = yMax - yMin + 50;
             var range = zMax - zMin;
 
             if (width > height)
             {
-                var img = new Bitmap((int)width + 1, (int)height + 1, PixelFormat.Format24bppRgb);
+                var img = new Bitmap((int) width + 1, (int) height + 1, PixelFormat.Format24bppRgb);
 
                 for (int i = 0; i < pos.Count; i++)
                 {
-                    var gray = (int)((pos[i].Z - zMin) / range * 255);
-                    int w = (int)((int)(pos[i].X - xMin) % width);
-                    int h = (int)((int)(pos[i].Y - yMin) % height);
+                    var gray = (int) ((pos[i].Z - zMin) / range * 255);
+                    int w = (int) ((int) (pos[i].X - xMin) % width) + 25;
+                    int h = (int) ((int) (pos[i].Y - yMin) % height) + 25;
                     img.SetPixel(w, h, Color.FromArgb(gray, gray, gray));
                 }
-                return img;
 
+                return img;
             }
             else
             {
@@ -203,21 +246,18 @@ namespace Lead.Detect.MeasureComponents.LMILaser
                 width = height;
                 height = temp;
 
-                var img = new Bitmap((int)width + 1, (int)height + 1, PixelFormat.Format24bppRgb);
+                var img = new Bitmap((int) width + 1, (int) height + 1, PixelFormat.Format24bppRgb);
 
                 for (int i = 0; i < pos.Count; i++)
                 {
-                    var gray = (int)((pos[i].Z - zMin) / range * 255);
-                    int h = (int)((int)(pos[i].X - xMin) % height);
-                    int w = (int)((int)(pos[i].Y - yMin) % width);
+                    var gray = (int) ((pos[i].Z - zMin) / range * 255);
+                    int h = (int) ((int) (pos[i].X - xMin) % height) + 25;
+                    int w = (int) ((int) (pos[i].Y - yMin) % width) + 25;
                     img.SetPixel(w, h, Color.FromArgb(gray, gray, gray));
                 }
+
                 return img;
             }
-
-
-
-
         }
     }
 }

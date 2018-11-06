@@ -79,7 +79,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
 
         public bool SwitchProduct(int product)
         {
-           if (!ProductMsg.ContainsKey(product))
+            if (!ProductMsg.ContainsKey(product))
             {
                 LastError = $"SwitchProduct {product} Error";
                 return false;
@@ -252,7 +252,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         /// <param name="resultInfo"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public override string GetResult(string resultInfo,int timeout = 3000)
+        public override string GetResult(string resultInfo, int timeout = 3000)
         {
             if (!string.IsNullOrEmpty(resultInfo))
             {
@@ -265,31 +265,18 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
                 var resultMsg = ReadMsg(timeout);
                 if (resultMsg.StartsWith("2,1") || resultMsg.StartsWith("2,0"))
                 {
-                    var data = resultMsg.Split(',');
-
-                    var fais = data.Skip(2);
-                    var sb = new StringBuilder();
-                    foreach (var fai in fais)
-                    {
-                        if (string.IsNullOrEmpty(fai))
-                        {
-                            continue;
-                        }
-                        sb.Append(fai.Split(':')[1]);
-                        sb.Append(",");
-                    }
 
                     if (resultMsg.StartsWith("2,1"))
                     {
-                        return "OK," + sb.ToString();
+                        return "OK," + resultMsg.Substring(4);
                     }
                     else if (resultMsg.StartsWith("2,0"))
                     {
-                        return "NG," + sb.ToString();
+                        return "NG," + resultMsg.Substring(4);
                     }
                     else
                     {
-                        return "ERROR," + sb.ToString();
+                        return "ERROR," + resultMsg.Substring(4);
                     }
                 }
                 else

@@ -419,22 +419,25 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 {
                     laserStart = laserPlatform.GetPos("MOVE", laserStart);
                     laserEnd = laserPlatform.GetPos("MOVE", laserEnd);
-
                     Log($"{loopName} {laser.Name} EnableRelCoordMode Transform");
                 }
 
 
-                //move laser trigger start pos                   
-                laserPlatform.MoveAbs(laserStart);
+                //trigger laser
+                {
+                    //move laser trigger start pos                   
+                    laserPlatform.MoveAbs(laserStart);
 
-                //start laser trigger
-                laser.SetJob($"{laserPos[laserIndex].Description}");
-                laser.Trigger(string.Empty);
-                Log($"{loopName} {laser.Name} Start LaserTrigger {step} {laserPos[laserIndex].Description}");
+                    //start laser trigger
+                    laser.SetJob($"{laserPos[laserIndex].Description}");
+                    laser.Trigger(string.Empty);
+                    Log($"{loopName} {laser.Name} Start LaserTrigger {step} {laserPos[laserIndex].Description} {laser.LastError}");
 
-                //move laser trigger end pos
-                laserPlatform.MoveAbs(laserEnd);
-                Log($"{loopName} {laser.Name} Finish LaserTrigger {step} {laserPos[laserIndex].Description}");
+                    //move laser trigger end pos
+                    laserPlatform.MoveAbs(laserEnd);
+                    Log($"{loopName} {laser.Name} Finish LaserTrigger {step} {laserPos[laserIndex].Description} {laser.LastError}");
+                }
+       
 
 
                 //get laser result
@@ -443,7 +446,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 {
                     if (gridData != null)
                     {
-                        Log($"{loopName} {laser.Name} GetRawData: \r\nGridNodes: {gridData.Sum(g => g.Count)} \r\nGridCols: {gridData.Count} :\r\n");
+                        Log($"{loopName} {laser.Name} GetLaserGridData: \r\nGridNodes: {gridData.Sum(g => g.Count)} \r\nGridCols: {gridData.Count} :\r\n");
 
                         var profile = loopName == "laser1" ? Product.RawData_UpProfile : Product.RawData_DownProfile;
                         //parse grid data to profile
@@ -457,7 +460,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 else
                 {
                     Product.Error = "LaserLoopError";
-                    Log($"{loopName} {laser.Name} loop name error", LogLevel.Error);
+                    Log($"{loopName} {laser.Name} loop name error: {laser.LastError}", LogLevel.Error);
                 }
 
 
@@ -486,6 +489,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             //process laser spec result
             if (loopName == "laser1")
             {
+                //上表面SPC
                 var spcItem = Product.SPCItems.FirstOrDefault(s => s.Description == "L1");
                 if (spcItem != null && Product.RawData_UpProfile.Count > 0)
                 {
@@ -494,6 +498,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             }
             else if (loopName == "laser2")
             {
+                //下表面SPC
                 var spcItem = Product.SPCItems.FirstOrDefault(s => s.Description == "L2");
                 if (spcItem != null && Product.RawData_DownProfile.Count > 0)
                 {
@@ -502,28 +507,40 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             }
         }
 
-        private void ParseLaserDataToRawProfile(string loopName, List<List<PosXYZ>> gridData, List<List<PosXYZ>> profile)
+
+
+        /// <summary>
+        /// parse fin grid data to fin calc data
+        /// 解析fin测量点原始高度数据到计算spec值
+        /// </summary>
+        /// <param name="loopName"></param>
+        /// <param name="gridDataOfFin"></param>
+        /// <param name="profile"></param>
+        private void ParseLaserDataToRawProfile(string loopName, List<List<PosXYZ>> gridDataOfFin, List<List<PosXYZ>> profile)
         {
-            for (var col = 0; col < gridData.Count; col++)
+            for (var col = 0; col < gridDataOfFin.Count; col++)
             {
-                //profile add col
+                //profile add fin col spec data
                 profile.Add(new List<PosXYZ>());
 
                 //parse laser col data
-                if (gridData[col].Count < gridData.Last().Count)
+                //最后一列数据为所有原始数据，do not parse
+                if (gridDataOfFin[col].Count < gridDataOfFin.Last().Count)
                 {
                     //get fin bar col raw data
-                    var line = LineParams.FitLine(gridData[col]);
-                    var maxDist = gridData[col].Max(g => line.Distance(g));
+                    var line = LineParams.FitLine(gridDataOfFin[col]);
+                    var maxDist = gridDataOfFin[col].Max(g => line.Distance(g));
+                    var minDist = gridDataOfFin[col].Min(g => line.Distance(g));
 
-                    profile.Last().Add(new PosXYZ(line.OX, line.OY, maxDist));
-                    Log($"{loopName} COL:{col} ROW:{gridData[col].Count} LineDist: {line.OX:F2} {line.OY:F2} {maxDist:F2}");
+                    profile.Last().Add(new PosXYZ(line.OX, line.OY, maxDist - minDist));
+                    Log($"{loopName} COL:{col} ROW:{gridDataOfFin[col].Count} LineDist: {line.OX:F2} {line.OY:F2} MAX:{maxDist:F2} MIN:{minDist:F2} FLATNESS:{maxDist - minDist:F2}");
                 }
                 else
                 {
-                    profile.Last().Add(new PosXYZ(0, 0, gridData[col].Count));
-                    Log($"{loopName} COL:{col} ROW:{gridData[col].Count}");
+                    //parse last col of raw data
 
+                    //profile.Last().Add(new PosXYZ(0, 0, gridDataOfFin.Last().Count));
+                    //Log($"{loopName} COL:{col} ROW:{gridDataOfFin[col].Count} RawData: {gridDataOfFin[col].Count}");
                 }
             }
         }

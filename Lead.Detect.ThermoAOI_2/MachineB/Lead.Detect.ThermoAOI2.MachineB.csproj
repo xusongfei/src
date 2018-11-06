@@ -150,13 +150,14 @@
     <None Include="Config\machine.cfg" />
     <None Include="Config\machinesim.cfg" />
     <None Include="Config\param0-b.ini" />
-    <None Include="Config\Project\11-25-J-LASERDOWN.mprj" />
-    <None Include="Config\Project\11-25-J.mprj" />
-    <None Include="Config\Project\117-1022-2.mprj" />
-    <None Include="Config\Project\117-1022-little.mprj" />
-    <None Include="Config\Project\117-1022.mprj" />
-    <None Include="Config\Project\147 1020.mprj" />
-    <None Include="Config\Project\147-module-20181021-org.mprj" />
+    <None Include="Config\Project\backup\11-25-J-LASERDOWN.mprj" />
+    <None Include="Config\Project\backup\11-25-J.mprj" />
+    <None Include="Config\Project\backup\117-1022-2.mprj" />
+    <None Include="Config\Project\backup\117-1022-little.mprj" />
+    <None Include="Config\Project\backup\117-1022.mprj" />
+    <None Include="Config\Project\backup\147 1020.mprj" />
+    <None Include="Config\Project\backup\147-module-20181021-org.mprj" />
+    <None Include="Config\Project\147-module-20181026-c8.mprj" />
     <None Include="Config\Project\147-module-20181029-c8.mprj" />
     <None Include="Config\Settings.cfg" />
     <None Include="Config\TransPlatform.dat" />
@@ -216,8 +217,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Config2\Project\" />
-    <Folder Include="Config\Project\backup\" />
-    <Folder Include="Config\ScriptTasks\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

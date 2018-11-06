@@ -45,5 +45,11 @@ namespace Lead.Detect.Utility.Transformation
             return new Tuple<double[,], double>(ret.Item1, ret.Item2);
         }
 
+        public static PosXYZ AlignTransform(PosXYZ pos, double[,] trans)
+        {
+            return new PosXYZ(RigidAlign.Transform(pos.Data(), trans)) { Z = pos.Z };
+        }
+
+
     }
 }
