@@ -80,18 +80,18 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
         public virtual void Terminate()
         {
             PostEvent(UserEventType.STOP, this);
-
-            DoLightRed.All(d => d.Value.SetDo(false));
-            DoLightYellow.All(d => d.Value.SetDo(false));
-            DoLightGreen.All(d => d.Value.SetDo(false));
-            DoBuzzer.All(d => d.Value.SetDo(false));
-
+  
+            
             //make sure all events handled
             _isrunning = false;
             if (_mainThread.IsAlive)
             {
                 _mainThread.Join();
             }
+            DoLightRed.All(d => d.Value.SetDo(false));
+            DoLightYellow.All(d => d.Value.SetDo(false));
+            DoLightGreen.All(d => d.Value.SetDo(false));
+            DoBuzzer.All(d => d.Value.SetDo(false));
         }
 
         public void Start()

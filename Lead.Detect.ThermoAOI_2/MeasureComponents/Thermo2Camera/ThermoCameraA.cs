@@ -21,7 +21,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         }
 
 
-        public override bool Trigger(string msg)
+        public override bool Trigger(string msg, int timeout = 6000)
         {
             LastError = string.Empty;
             if (FrameworkExtenion.IsSimulate)
@@ -30,7 +30,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
             }
 
             //起始终止符判断
-            var ret = base.Trigger(msg);
+            var ret = base.Trigger(msg, timeout);
             if (ret)
             {
                 if (!string.IsNullOrEmpty(TriggerResult))

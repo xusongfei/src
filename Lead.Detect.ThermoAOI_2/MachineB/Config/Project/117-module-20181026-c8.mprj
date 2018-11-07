@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <MeasureProjectB xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ProjectName>A117Module</ProjectName>
+  <ProjectName>A117FullModule</ProjectName>
   <Version>v0.11</Version>
-  <ProductName>117WithFin</ProductName>
+  <ProductName>117FullModule</ProductName>
+  <ThermoProductType>FullModule</ThermoProductType>
+  <TypeId>1</TypeId>
+  <PartID>1</PartID>
+  <Height>61.5</Height>
   <SPCItems>
     <SPCItem>
       <Name>STATUS</Name>
@@ -16,7 +20,6 @@
       <DownLimit>0</DownLimit>
     </SPCItem>
   </SPCItems>
-  <TypeId>1</TypeId>
   <CapturePos>
     <PosXYZU>
       <Index>0</Index>

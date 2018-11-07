@@ -6,6 +6,7 @@ using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.motionDriver;
 using Lead.Detect.FrameworkExtension.stateMachine;
+using Lead.Detect.ThermoAOI.Machine1.VersionHelper;
 using Lead.Detect.ThermoAOIProductLib.Thermo;
 using Lead.Detect.ThermoAOIProductLib.Thermo1;
 using Lead.Detect.ThermoAOIProductLib.Thermo1Calculator;
@@ -46,7 +47,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine
             //转换点位
             //PlatformConvert.ConvertPts();
             //转换测试文件
-            //FlatnessFprjConvert.ConvertFprj();
+            FlatnessFprjConvert.ConvertFprj();
 
             //import machine objects
             if (FrameworkExtenion.IsSimulate)

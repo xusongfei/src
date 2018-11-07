@@ -36,9 +36,11 @@ namespace Lead.Detect.ThermoAOI2.MachineB
             {
                 GC.Collect();
 
+                FrameworkConfig.Ins.Load();
+
                 //simulate mode enable
-                FrameworkExtenion.IsDebugFramework = false;
-                FrameworkExtenion.IsSimulate = false;
+                FrameworkExtenion.IsDebugFramework = FrameworkConfig.Ins.IsDebug;
+                FrameworkExtenion.IsSimulate = FrameworkConfig.Ins.IsSimulate;
                 if (FrameworkExtenion.IsSimulate)
                 {
                     if (MessageBox.Show("进入仿真模式？", "", MessageBoxButtons.YesNo) == DialogResult.No)

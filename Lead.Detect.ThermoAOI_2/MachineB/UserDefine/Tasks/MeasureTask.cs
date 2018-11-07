@@ -373,13 +373,22 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             }
 
 
+            UpdateCameraSpcs(loopName);
+
+
+            //upate next camera loop start triggerIndex
+            triggerIndex += step - 1;
+        }
+
+        private void UpdateCameraSpcs(string loopName)
+        {
             //process camera spec result
             if (loopName == "camera1")
             {
                 var spcItem = Product.SPCItems.FirstOrDefault(s => s.Description == "C1");
                 if (spcItem != null && Product.RawData_C1Profile.Count > 0)
                 {
-                    Product.SetSpcItem(spcItem.SPC, Product.RawData_C1Profile.Max(p => p.Max(v => v.Z)));
+                    Product.SetSpcItem(spcItem.SPC, Product.RawData_C1Profile.Max(p => p.Select(v => v.Z).Max()));
                 }
             }
             else if (loopName == "camera2")
@@ -387,13 +396,9 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 var spcItem = Product.SPCItems.FirstOrDefault(s => s.Description == "C2");
                 if (spcItem != null && Product.RawData_C2Profile.Count > 0)
                 {
-                    Product.SetSpcItem(spcItem.SPC, Product.RawData_C2Profile.Max(p => p.Max(v => v.Z)));
+                    Product.SetSpcItem(spcItem.SPC, Product.RawData_C2Profile.Max(p => p.Select(v => v.Z).Max()));
                 }
             }
-
-
-            //upate next camera loop start triggerIndex
-            triggerIndex += step - 1;
         }
 
 
@@ -437,7 +442,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                     laserPlatform.MoveAbs(laserEnd);
                     Log($"{loopName} {laser.Name} Finish LaserTrigger {step} {laserPos[laserIndex].Description} {laser.LastError}");
                 }
-       
+
 
 
                 //get laser result
@@ -486,6 +491,11 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             }
 
 
+            UpdateLaserSpcs(loopName);
+        }
+
+        private void UpdateLaserSpcs(string loopName)
+        {
             //process laser spec result
             if (loopName == "laser1")
             {
@@ -493,7 +503,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 var spcItem = Product.SPCItems.FirstOrDefault(s => s.Description == "L1");
                 if (spcItem != null && Product.RawData_UpProfile.Count > 0)
                 {
-                    Product.SetSpcItem(spcItem.SPC, Product.RawData_UpProfile.Max(p => p.Max(v => v.Z)));
+                    Product.SetSpcItem(spcItem.SPC, Product.RawData_UpProfile.Max(list => list.Count > 0 ? list.Max(p => p.Z) : 0));
                 }
             }
             else if (loopName == "laser2")
@@ -502,11 +512,10 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 var spcItem = Product.SPCItems.FirstOrDefault(s => s.Description == "L2");
                 if (spcItem != null && Product.RawData_DownProfile.Count > 0)
                 {
-                    Product.SetSpcItem(spcItem.SPC, Product.RawData_DownProfile.Max(p => p.Max(v => v.Z)));
+                    Product.SetSpcItem(spcItem.SPC, Product.RawData_DownProfile.Max(list => list.Count > 0 ? list.Max(p => p.Z) : 0));
                 }
             }
         }
-
 
 
         /// <summary>
@@ -520,13 +529,13 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
         {
             for (var col = 0; col < gridDataOfFin.Count; col++)
             {
-                //profile add fin col spec data
-                profile.Add(new List<PosXYZ>());
-
                 //parse laser col data
                 //最后一列数据为所有原始数据，do not parse
                 if (gridDataOfFin[col].Count < gridDataOfFin.Last().Count)
-                {
+                {   
+                    //profile add fin col spec data
+                    profile.Add(new List<PosXYZ>());
+
                     //get fin bar col raw data
                     var line = LineParams.FitLine(gridDataOfFin[col]);
                     var maxDist = gridDataOfFin[col].Max(g => line.Distance(g));
@@ -538,7 +547,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 else
                 {
                     //parse last col of raw data
-
+                    //profile add fin col spec data
+                    //profile.Add(new List<PosXYZ>());
                     //profile.Last().Add(new PosXYZ(0, 0, gridDataOfFin.Last().Count));
                     //Log($"{loopName} COL:{col} ROW:{gridDataOfFin[col].Count} RawData: {gridDataOfFin[col].Count}");
                 }

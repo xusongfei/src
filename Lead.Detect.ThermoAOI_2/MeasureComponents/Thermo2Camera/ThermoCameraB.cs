@@ -24,7 +24,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public override bool Trigger(string msg)
+        public override bool Trigger(string msg, int timeout = 6000)
         {
          
             LastError = string.Empty;
@@ -33,7 +33,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
                 return true;
             }
 
-            var ret = base.Trigger(msg);
+            var ret = base.Trigger(msg, timeout);
             if (ret)
             {
                 var triggerResult = TriggerResult;
@@ -91,7 +91,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
             }
 
             _product = product;
-            var ret = Trigger(SwitchProductMsg[product]);
+            var ret = Trigger(SwitchProductMsg[product], 100);
             if (!ret)
             {
 

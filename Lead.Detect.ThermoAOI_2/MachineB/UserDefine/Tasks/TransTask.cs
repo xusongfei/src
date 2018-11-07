@@ -154,7 +154,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
 
             //start measure
-            MultiClampCylinders.Clamp(this);
+            MultiClampCylinders.Clamp(this, 300);
             TestProcessControl.OnTestStartEvent(Product);
             VioMeasureStart.SetVio(this, true);
             {
@@ -201,14 +201,14 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
                     Product.Save();
                     Product.ToEntity().Save();
-                    Log("Product Save Finish:" + Product.ToString(), LogLevel.Info);
+                    Log("Product Save Finish:" + Product, LogLevel.Info);
 
                     if (Machine.Ins.Settings.EnableFTP)
                     {
                         var avcdata = ThermoProductConvertHelper.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
                         avcdata.Save(Machine.Ins.Settings.FTPAddress);
                         avcdata.Save("AVCData");
-                        Log("Upload AvcData Finish:" + avcdata.ToString(), LogLevel.Info);
+                        Log("Upload AvcData Finish:" + avcdata, LogLevel.Info);
                     }
                 }
                 catch (Exception ex)

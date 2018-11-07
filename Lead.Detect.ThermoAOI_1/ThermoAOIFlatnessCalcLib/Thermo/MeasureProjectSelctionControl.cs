@@ -90,7 +90,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
 
             var fd = new OpenFileDialog
             {
-                InitialDirectory = @".\Config",
+                InitialDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Config"),
                 Filter = @"(Measure Project)|*.mprj",
                 Multiselect = false
             };

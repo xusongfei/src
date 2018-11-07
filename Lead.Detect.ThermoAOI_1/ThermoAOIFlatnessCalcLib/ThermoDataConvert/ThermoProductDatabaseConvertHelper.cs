@@ -86,14 +86,14 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
 
             var sb = new StringBuilder();
             sb.Append("Camera1,");
-            sb.Append(string.Join(",", data.RawData_C1Profile.Select(p => $"{p:F3}")));
+            sb.Append(string.Join(",", data.RawData_C1Profile.Select(p => p.Max(v => v.Z))));
             sb.Append("Camera2,");
-            sb.Append(string.Join(",", data.RawData_C2Profile.Select(p => $"{p:F3}")));
+            sb.Append(string.Join(",", data.RawData_C2Profile.Select(p => p.Max(v => v.Z))));
 
             sb.Append("Up,");
-            sb.Append(string.Join(",", data.RawData_UpProfile.Select(p => $"{p:F3}")));
+            sb.Append(string.Join(",", data.RawData_UpProfile.Select(p => p.Max(v => v.Z))));
             sb.Append("Down,");
-            sb.Append(string.Join(",", data.RawData_DownProfile.Select(p => $"{p:F3}")));
+            sb.Append(string.Join(",", data.RawData_DownProfile.Select(p => p.Max(v => v.Z))));
 
             en.Raws = sb.ToString();
 

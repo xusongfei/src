@@ -1,16 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Text;
-using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.ThermoAOIProductLib.Thermo;
 
 namespace Lead.Detect.ThermoAOIProductLib.Thermo2
 {
     public class Thermo2ProductA : ThermoProduct
     {
-        public List<PosXYZ> CapturePos { get; set; } = new List<PosXYZ>();
-
-
         public List<double> RawData { get; set; } = new List<double>();
 
 
@@ -23,8 +19,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
             sb.Append("CAMERA,");
             for (int i = 0; i < RawData.Count; i++)
             {
-                sb.Append($"RawData{i}");
-                sb.Append(',');
+                sb.Append($"RawData{i},");
             }
             return sb.ToString();
         }

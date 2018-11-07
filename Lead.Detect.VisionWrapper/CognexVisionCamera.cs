@@ -58,6 +58,11 @@ namespace Lead.Detect.VisionWrapper
             return;
         }
 
+        public bool Trigger(string msg, int timeout)
+        {
+            return true;
+        }
+
         public bool Trigger(string msg)
         {
             return true;

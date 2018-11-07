@@ -72,7 +72,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
         {
             var fd = new OpenFileDialog()
             {
-                InitialDirectory = @".\Config",
+                InitialDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Config"),
                 Filter = "(Test Points)|*.pts",
             };
 
@@ -109,7 +109,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
         {
             var fd = new SaveFileDialog()
             {
-                InitialDirectory = @".\Config",
+                InitialDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Config\\Project"),
                 Filter = "(Test Points)|*.pts",
             };
 

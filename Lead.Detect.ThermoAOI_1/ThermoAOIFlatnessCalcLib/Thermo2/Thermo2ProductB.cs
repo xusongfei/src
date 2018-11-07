@@ -10,13 +10,6 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
     public class Thermo2ProductB : ThermoProduct
     {
 
-        [Description("测试点")]
-        public List<PosXYZU> CapturePos { get; set; } = new List<PosXYZU>();
-        [Description("测试点")]
-        public List<PosXYZU> Laser1Pos { get; set; } = new List<PosXYZU>();
-        [Description("测试点")]
-        public List<PosXYZU> Laser2Pos { get; set; } = new List<PosXYZU>();
-
 
         [Description("相机原始数据")]
         public List<List<PosXYZ>> RawData_C1Profile { get; set; } = new List<List<PosXYZ>>();
@@ -69,6 +62,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
                     sb.Append($"LU-C{i}R{j},");
                 }
             }
+
             sb.Append("LASER2,");
             for (int i = 0; i < RawData_DownProfile.Count; i++)
             {
@@ -113,6 +107,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
                     sb.Append($"{RawData_UpProfile[i][j].Z:F3},");
                 }
             }
+
             sb.Append("LASER2,");
             for (int i = 0; i < RawData_DownProfile.Count; i++)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -34,7 +35,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
         private void 打开ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var ofd = new OpenFileDialog();
-            ofd.InitialDirectory = @".\Config\Project";
+            ofd.InitialDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Config");
             ofd.Filter = @"(Measure Project)|*.mprj|(All Files)|*.*";
             if (ofd.ShowDialog() == DialogResult.OK)
             {
@@ -46,7 +47,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
         private void 另存为ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var sfd = new SaveFileDialog();
-            sfd.InitialDirectory = @".\Config\Project";
+            sfd.InitialDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Config\\Project");
             sfd.Filter = @"(Measure Project)|*.mprj|(All Files)|*.*";
 
             if (sfd.ShowDialog() == DialogResult.OK)

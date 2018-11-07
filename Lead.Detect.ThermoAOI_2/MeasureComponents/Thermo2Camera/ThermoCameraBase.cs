@@ -70,7 +70,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         /// 触发相机
         /// </summary>
         /// <param name="msg"></param>
-        public virtual bool Trigger(string msg)
+        public virtual bool Trigger(string msg, int timeout = 6000)
         {
             if (FrameworkExtenion.IsSimulate)
             {
@@ -93,7 +93,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
                     _ns.Write(msgBytes, 0, msgBytes.Length);
 
                     int timeoutCount = 0;
-                    while (!_ns.DataAvailable && timeoutCount++ < 6000)
+                    while (!_ns.DataAvailable && timeoutCount++ < timeout)
                     {
                         System.Threading.Thread.Sleep(1);
                     }
@@ -121,7 +121,6 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
             }
             return true;
         }
-
 
         /// <summary>
         /// 

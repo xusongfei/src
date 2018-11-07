@@ -32,6 +32,11 @@ namespace Lead.Detect.MeasureComponents.CameraControl
             return true;
         }
 
+        public bool Trigger(string msg, int timeout)
+        {
+            return true;
+        }
+
         public bool Trigger(string msg, PosXYZ pos)
         {
             return true;

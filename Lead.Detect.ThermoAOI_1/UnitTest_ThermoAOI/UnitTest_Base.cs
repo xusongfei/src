@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Lead.Detect.Base.GlobalPrim;
+using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.Utility.FittingHelper;
 
 namespace Lead.Detect.UnitTest1
@@ -16,6 +17,8 @@ namespace Lead.Detect.UnitTest1
         {
             Console.WriteLine(Convert.ToInt32(1.4));
             Console.WriteLine(Convert.ToInt32(1.5));
+
+            Console.WriteLine(new List<PosXYZ>() {new PosXYZ(1, 2, 3d)}.Max(p => p.Z).ToString("F3"));
         }
 
 

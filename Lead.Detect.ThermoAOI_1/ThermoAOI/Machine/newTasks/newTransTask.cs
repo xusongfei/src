@@ -19,6 +19,44 @@ using Lead.Detect.ThermoAOIProductLib.ThermoDataConvert;
 
 namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
 {
+
+    public class XyClamper
+    {
+        public StationTask Task;
+
+        public ICylinderEx CyX;
+        public ICylinderEx CyY;
+
+        public void ClampVC()
+        {
+            CyY.SetDo(Task, true, 100, null);
+            CyY.SetDo(Task, false, 150, null);
+            CyX.SetDo(Task, true, 200, null);
+            CyX.SetDo(Task, false, 100, null);
+            CyY.SetDo(Task, true, 100, null);
+        }
+
+        public void ClampModule()
+        {
+            CyY.SetDo(Task, true, 100, null);
+            CyY.SetDo(Task, false, 100, null);
+            CyX.SetDo(Task, true, 100, null);
+            CyX.SetDo(Task, false, 100, null);
+            CyY.SetDo(Task, true, 100, null);
+            CyX.SetDo(Task, true, 100, null);
+        }
+
+        public void Release()
+        {
+            CyY.SetDo(Task, false, 100, null);
+            CyX.SetDo(Task, false, 100, null);
+        }
+
+    }
+
+
+
+
     /// <summary>
     /// 载具平移任务
     /// </summary>
@@ -32,6 +70,8 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
         public IDiEx DISensorCheckFin2;
         public IDiEx DIStart1;
         public IDiEx DIStart2;
+
+        public XyClamper Clamper;
 
 
         public ICylinderEx DoClampCylinderX;
@@ -84,6 +124,13 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
 
         protected override int ResetLoop()
         {
+            Clamper = new XyClamper()
+            {
+                Task = this,
+                CyX = DoClampCylinderX,
+                CyY = DoClampCylinderY,
+            };
+
             Platform.AssertPosTeached("Wait", this);
             Platform.AssertPosTeached("Work", this);
 
@@ -186,7 +233,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
             Platform.EnterAuto(this).MoveAbs("Wait", checkLimit: false);
 
             //cy clamp
-            Clamp(false);
+            Clamper.Release();
 
             //check sensor
             //while (!DISensorCheck1.GetDiSts( false) || !DISensorCheck2.GetDiSts( false))
@@ -272,8 +319,16 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
             {
                 DoClampCylinderY.SetDo(this, true, 100, ignoreOrWaringOrError: null);
             }
-            else
+            else if (Project.ThermoProductType == ThermoProductType.FullModule)
             {
+                Clamper.ClampModule();
+            }
+            else if (Project.ThermoProductType == ThermoProductType.VaporChamber)
+            {
+                Clamper.ClampVC();
+            }
+            else
+            { 
                 Clamp(true);
             }
 
@@ -316,7 +371,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.Machine.newTasks
 
             SaveProductData();
 
-            Clamp(false);
+            Clamper.Release();
             DOBtnLight1.SetDo(false);
             DOBtnLight2.SetDo(false);
 

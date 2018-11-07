@@ -28,9 +28,9 @@ namespace Lead.Detect.MeasureComponents.LMILaser
             {
                 using (var br = new BinaryReader(ms))
                 {
-                    var status = (int) br.ReadUInt16();
-                    var flatnessNum = (int) br.ReadUInt32();
-                    var version = (int) br.ReadUInt32();
+                    var status = (int)br.ReadUInt16();
+                    var flatnessNum = (int)br.ReadUInt32();
+                    var version = (int)br.ReadUInt32();
 
                     switch (version)
                     {
@@ -45,7 +45,7 @@ namespace Lead.Detect.MeasureComponents.LMILaser
                                 flatnessData.Add(br.ReadDouble());
                             }
 
-                            var nodeNum = (int) br.ReadUInt32();
+                            var nodeNum = (int)br.ReadUInt32();
                             List<double> nodeData = new List<double>(nodeNum * 3);
                             for (int j = 0; j < nodeNum; j++)
                             {
@@ -73,7 +73,7 @@ namespace Lead.Detect.MeasureComponents.LMILaser
                                     var nz = nodeData[index + 2];
 
                                     var dist = (nx * a + ny * b + nz * c + d) / p;
-                                    results.Add(new PosXYZ(nx, ny, dist) {OffsetZ = nz});
+                                    results.Add(new PosXYZ(nx, ny, dist) { OffsetZ = nz });
                                 }
                             }
                             else
@@ -151,7 +151,7 @@ namespace Lead.Detect.MeasureComponents.LMILaser
                             }
 
                             var node = gridNodes[index];
-                            output[col][row] = (new PosXYZ(node.X, node.Y, node.Z) {OffsetZ = node.OffsetZ});
+                            output[col][row] = (new PosXYZ(node.X, node.Y, node.Z) { OffsetZ = node.OffsetZ });
                         }
                     }
                 }
@@ -187,7 +187,7 @@ namespace Lead.Detect.MeasureComponents.LMILaser
             var p1g = new PosXYZ();
             var p2g = new PosXYZ(new PosXYZ(p1.X, p1.Y, 0).DistanceTo(new PosXYZ(p2.X, p2.Y, 0)), 0, 0);
 
-            var rigidTrans = XyzPlarformCalibration.CalcAlignTransform(new List<PosXYZ>() {p1, p2}, new List<PosXYZ>() {p1g, p2g});
+            var rigidTrans = XyzPlarformCalibration.CalcAlignTransform(new List<PosXYZ>() { p1, p2 }, new List<PosXYZ>() { p1g, p2g });
 
 
             var transGridNodes = gridNodes.Select(g => XyzPlarformCalibration.AlignTransform(g, rigidTrans.Item1)).ToList();
@@ -222,19 +222,25 @@ namespace Lead.Detect.MeasureComponents.LMILaser
             var yMin = pos.Min(p => p.Y);
             var zMin = pos.Min(p => p.Z);
 
-            var width = xMax - xMin + 50;
-            var height = yMax - yMin + 50;
+            var width = xMax - xMin;
+            var height = yMax - yMin;
             var range = zMax - zMin;
+
+            var w_margin = width * 0.2;
+            var h_margin = height * 0.2;
+            width = width + w_margin;
+            height = height + h_margin;
+
 
             if (width > height)
             {
-                var img = new Bitmap((int) width + 1, (int) height + 1, PixelFormat.Format24bppRgb);
+                var img = new Bitmap((int)width + 1, (int)height + 1, PixelFormat.Format24bppRgb);
 
                 for (int i = 0; i < pos.Count; i++)
                 {
-                    var gray = (int) ((pos[i].Z - zMin) / range * 255);
-                    int w = (int) ((int) (pos[i].X - xMin) % width) + 25;
-                    int h = (int) ((int) (pos[i].Y - yMin) % height) + 25;
+                    var gray = (int)((pos[i].Z - zMin) / range * 255);
+                    int w = (int)((int)(pos[i].X - xMin) % width) + (int)w_margin / 2;
+                    int h = (int)((int)(pos[i].Y - yMin) % height) + (int)h_margin / 2;
                     img.SetPixel(w, h, Color.FromArgb(gray, gray, gray));
                 }
 
@@ -242,17 +248,18 @@ namespace Lead.Detect.MeasureComponents.LMILaser
             }
             else
             {
+                //rotate 90 degree
                 var temp = width;
                 width = height;
                 height = temp;
 
-                var img = new Bitmap((int) width + 1, (int) height + 1, PixelFormat.Format24bppRgb);
+                var img = new Bitmap((int)width + 1, (int)height + 1, PixelFormat.Format24bppRgb);
 
                 for (int i = 0; i < pos.Count; i++)
                 {
-                    var gray = (int) ((pos[i].Z - zMin) / range * 255);
-                    int h = (int) ((int) (pos[i].X - xMin) % height) + 25;
-                    int w = (int) ((int) (pos[i].Y - yMin) % width) + 25;
+                    var gray = (int)((pos[i].Z - zMin) / range * 255);
+                    int h = (int)((int)(pos[i].X - xMin) % height) + (int)h_margin / 2;
+                    int w = (int)((int)(pos[i].Y - yMin) % width) + (int)w_margin / 2;
                     img.SetPixel(w, h, Color.FromArgb(gray, gray, gray));
                 }
 
