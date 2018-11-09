@@ -35,7 +35,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
         private void 打开ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var ofd = new OpenFileDialog();
-            ofd.InitialDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Config");
+            ofd.InitialDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Config\\Project");
             ofd.Filter = @"(Measure Project)|*.mprj|(All Files)|*.*";
             if (ofd.ShowDialog() == DialogResult.OK)
             {
