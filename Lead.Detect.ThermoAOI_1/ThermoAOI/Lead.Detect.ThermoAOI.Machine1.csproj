@@ -194,6 +194,7 @@
     <None Include="Config\Calculators\A147FullModule.calc" />
     <None Include="Config\Calculators\A147VC.calc" />
     <None Include="Config\Calculators\X1311FullModule.calc" />
+    <None Include="Config\framework.cfg" />
     <None Include="Config\LeftCarrier.dat" />
     <None Include="Config\LeftDown.dat" />
     <None Include="Config\LeftUp.dat" />

@@ -87,7 +87,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                 {
                     for (int i = 0; i < pos.Data().Length && i < textBoxMovePos.Length; i++)
                     {
-                        textBoxMovePos[i].Text = pos.Data()[i].ToString("F2");
+                        textBoxMovePos[i].Text = pos.Data()[i].ToString("F3");
                     }
                 }
             }
@@ -127,7 +127,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
 
                     if (comboBoxMoveMode.Text == "MoveP")
                     {
-                        if (MessageBox.Show($"开始 MoveP 运动 {string.Join(", ", curpos.Select(p => p.ToString("F2")))} 到 {string.Join(", ", objpos.Select(p => p.ToString("F2")))} ?",
+                        if (MessageBox.Show($"开始 MoveP 运动 {string.Join(", ", curpos.Select(p => p.ToString("F3")))} 到 {string.Join(", ", objpos.Select(p => p.ToString("F3")))} ?",
                                 Platform.Name, MessageBoxButtons.YesNo) != DialogResult.Yes)
                         {
                             return;
@@ -142,7 +142,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                     else if (comboBoxMoveMode.Text == "Jump")
                     {
                         var jh = double.Parse(comboBoxJumpHeight.Text);
-                        if (MessageBox.Show($"开始 Jump 缩回高度 {jh:F2} 运动 {string.Join(", ", curpos.Select(p => p.ToString("F2")))} 到 {string.Join(", ", objpos.Select(p => p.ToString("F2")))} ?",
+                        if (MessageBox.Show($"开始 Jump 缩回高度 {jh:F3} 运动 {string.Join(", ", curpos.Select(p => p.ToString("F3")))} 到 {string.Join(", ", objpos.Select(p => p.ToString("F3")))} ?",
                                 Platform.Name, MessageBoxButtons.YesNo) != DialogResult.Yes)
                         {
                             return;
@@ -190,7 +190,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                 {
                     labelAxis[i].BackColor = Platform[i] != null && Platform[i].GetServo() ? Color.Lime : Color.White;
 
-                    textBoxCurPos[i].Text = curpos[i].ToString("F2");
+                    textBoxCurPos[i].Text = curpos[i].ToString("F3");
                     textBoxCurPos[i].BackColor = Platform[i] != null && (Platform[i].GetMel() || Platform[i].GetPel()) ? Color.Red : Color.White;
                 }
             }

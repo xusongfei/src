@@ -88,7 +88,6 @@
     <Compile Include="loadUtils\SectionWriter.cs" />
     <Compile Include="loadUtils\StateMachineExtension.cs" />
     <Compile Include="LogLevel.cs" />
-    <Compile Include="motionDriver\IGioWrapper.cs" />
     <Compile Include="OperationLevel.cs" />
     <Compile Include="platforms\calibrations\AutoCalib.cs" />
     <Compile Include="platforms\calibrations\AutoCalibForm.cs">
@@ -138,7 +137,6 @@
     </Compile>
     <Compile Include="platforms\motionPlatforms\PosXYZ.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="motionDriver\IOCardWrapper.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

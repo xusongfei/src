@@ -12,7 +12,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
         {
             var en = new ProductDataEntity();
 
-            en.StartTime = data.StartTime.ToString("yyyyMMdd-HHmmss");
+            en.StartTime = data.StartTime.ToString("yyyyMMdd-HHmmss.fff");
             en.FinishTime = data.FinishTime.ToString("yyyyMMdd-HHmmss");
 
             en.Status = data.Status.ToString();
