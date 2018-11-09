@@ -1,12 +1,13 @@
 ﻿using System;
 using Lead.Detect.Base;
 using Lead.Detect.Base.GlobalPrim;
+using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.Interfaces.Dev;
 
 namespace Lead.Detect.FrameworkExtension.motionDriver
 {
-    public class MotionCardWrapper : IMotionWrapper
+    public class MotionCardWrapper : IElement
     {
         public int Index { get; protected set; }
         public string Name { get; protected set; }

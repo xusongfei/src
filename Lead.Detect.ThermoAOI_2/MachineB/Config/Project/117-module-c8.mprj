@@ -9,17 +9,6 @@
   <Height>61.5</Height>
   <SPCItems>
     <SPCItem>
-      <Name>测试结果</Name>
-      <Value>0</Value>
-      <ValueMax>0</ValueMax>
-      <ValueMin>0</ValueMin>
-      <FAI>0</FAI>
-      <SPC>STS</SPC>
-      <SPEC>1</SPEC>
-      <UpLimit>0</UpLimit>
-      <DownLimit>0</DownLimit>
-    </SPCItem>
-    <SPCItem>
       <Name>左侧FIN轮廓度</Name>
       <Value>0</Value>
       <ValueMax>0</ValueMax>

@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.MachineUtilityLib.UtilViews;
+using Lead.Detect.ThermoAOI.Machine1.UserDefine;
 using Lead.Detect.ThermoAOI.Machine1.View;
 using Lead.Detect.ThermoAOIProductLib.Thermo1;
 using WeifenLuo.WinFormsUI.Docking;
@@ -33,8 +34,8 @@ namespace Lead.Detect.ThermoAOI.Machine1
             }
 
             //Text = MotionWrapperExtension.IsSimulate ? "仿真模式" : Machine.Machine.Ins.Settings.Name;
-            Text = Machine.Machine.Ins.Settings.Name;
-            Text = $"{Machine.Machine.Ins.Settings.Name} {Machine.Machine.Ins.Settings.Version}";
+            Text = Machine.Ins.Settings.Name;
+            Text = $"{Machine.Ins.Settings.Name} {Machine.Ins.Settings.Version}";
 
             _devAlarmForm = new DevAlarmForm()
             {
@@ -75,7 +76,7 @@ namespace Lead.Detect.ThermoAOI.Machine1
             {
                 try
                 {
-                    Machine.Machine.Ins.Stop();
+                    Machine.Ins.Stop();
                     _devConfigForm.FrameworkDeactivate();
                     Application.DoEvents();
                     Thread.Sleep(800);
@@ -99,7 +100,7 @@ namespace Lead.Detect.ThermoAOI.Machine1
         {
             try
             {
-                Machine.Machine.Ins.Save();
+                Machine.Ins.Save();
                 MessageBox.Show("保存成功.", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)

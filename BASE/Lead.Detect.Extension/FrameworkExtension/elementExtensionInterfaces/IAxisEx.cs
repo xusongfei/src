@@ -11,7 +11,7 @@ namespace Lead.Detect.FrameworkExtension.elementExtensionInterfaces
         bool Enable { get; set; }
 
         string Driver { get; set; }
-        IMotionWrapper DriverCard { get; }
+        MotionCardWrapper DriverCard { get; }
         double AxisLead { get; set; }
         int AxisPlsPerRoll { get; set; }
         double AxisSpeed { get; set; }

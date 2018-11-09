@@ -209,7 +209,7 @@ namespace Lead.Detect.FrameworkExtension
             return WaitDo(doex.Select(d => d.Port).ToArray(), task, doex.Select(d => d.DriverCard).ToArray(), status, timeout);
         }
 
-        public static bool WaitDo(this int[] diex, StationTask task, IMotionWrapper[] motion, bool[] status, int timeout = -1)
+        public static bool WaitDo(this int[] diex, StationTask task, MotionCardWrapper[] motion, bool[] status, int timeout = -1)
         {
             task?.AbortIfCancel(nameof(WaitDi));
             task?.JoinIfPause();
@@ -351,7 +351,7 @@ namespace Lead.Detect.FrameworkExtension
             return WaitDi(diex.Port, task, diex.DriverCard, status, timeout);
         }
 
-        public static bool WaitDi(this int diex, StationTask task, IMotionWrapper motion, bool status = true, int timeout = -1)
+        public static bool WaitDi(this int diex, StationTask task, MotionCardWrapper motion, bool status = true, int timeout = -1)
         {
             return WaitDi(new[] { diex }, task, new[] { motion }, new[] { status }, timeout);
         }
@@ -366,7 +366,7 @@ namespace Lead.Detect.FrameworkExtension
         /// <param name="status"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static bool WaitDi(this int[] diex, StationTask task, IMotionWrapper[] motion, bool[] status, int timeout = -1)
+        public static bool WaitDi(this int[] diex, StationTask task, MotionCardWrapper[] motion, bool[] status, int timeout = -1)
         {
             task?.AbortIfCancel(nameof(WaitDi));
             task?.JoinIfPause();
@@ -571,7 +571,7 @@ namespace Lead.Detect.FrameworkExtension
             {
                 if (axis.All(a =>
                     a == null
-                    || (axisInps[Array.IndexOf(axis, a)] && a.DriverCard.CheckHomeDone(a.AxisChannel))
+                    || (axisInps[Array.IndexOf(axis, a)] && a.GetInp() && a.DriverCard.CheckHomeDone(a.AxisChannel))
                     || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp() && a.DriverCard.CheckHomeDone(a.AxisChannel)))
                 )
                 {
@@ -704,8 +704,8 @@ namespace Lead.Detect.FrameworkExtension
 
                 //check done
                 if (axis.All(a => a == null
-                                  || (axisInps[Array.IndexOf(axis, a)] && a.DriverCard.CheckMoveDone(a.AxisChannel))
-                                  || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp() && a.DriverCard.CheckMoveDone(a.AxisChannel)))
+                                  || (axisInps[Array.IndexOf(axis, a)] && a.GetInp() && a.GetMdn())
+                                  || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp() && a.GetMdn()))
                 )
                 {
                     var fail = axis.Any(IsMoveErrorHappen);
@@ -808,8 +808,8 @@ namespace Lead.Detect.FrameworkExtension
                 }
 
                 if (axis.All(a => a == null
-                                  || (axisInps[Array.IndexOf(axis, a)] && a.DriverCard.CheckMoveDone(a.AxisChannel))
-                                  || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp() && a.DriverCard.CheckMoveDone(a.AxisChannel)))
+                                  || (axisInps[Array.IndexOf(axis, a)] && a.GetInp() && a.GetMdn())
+                                  || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp() && a.GetMdn()))
                 )
                 {
                     var fail = axis.Any(IsMoveErrorHappen);

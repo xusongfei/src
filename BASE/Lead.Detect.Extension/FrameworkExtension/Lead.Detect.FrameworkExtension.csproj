@@ -108,7 +108,6 @@
     <Compile Include="elementExtensionInterfaces\IDoEx.cs" />
     <Compile Include="elementExtensionInterfaces\IVioEx.cs" />
     <Compile Include="elementExtension\VioEx.cs" />
-    <Compile Include="motionDriver\IMotionWrapper.cs" />
     <Compile Include="loadUtils\SectionReader.cs" />
     <Compile Include="MotionExtensionEx.cs" />
     <Compile Include="platforms\motionPlatforms\PlatformDisplayMode.cs" />

@@ -16,7 +16,7 @@ namespace Lead.Detect.FrameworkExtension.elementExtension
         {
         }
 
-        public DiEx(EleDi eleDi, IMotionWrapper wrapper = null)
+        public DiEx(EleDi eleDi, MotionCardWrapper wrapper = null)
         {
             var props = eleDi.GetType().GetProperties();
             foreach (var p in props)
@@ -28,7 +28,7 @@ namespace Lead.Detect.FrameworkExtension.elementExtension
         }
 
         [XmlIgnore]
-        public IMotionWrapper DriverCard { get; set; }
+        public MotionCardWrapper DriverCard { get; set; }
 
         public void Build(StateMachine machine)
         {

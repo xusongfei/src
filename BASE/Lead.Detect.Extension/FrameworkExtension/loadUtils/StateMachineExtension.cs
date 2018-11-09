@@ -61,7 +61,7 @@ namespace Lead.Detect.FrameworkExtension.loadUtils
                 using (var sw = new StreamWriter(fs))
                 {
 
-                    sw.WriteLine(new SectionWriter<IMotionWrapper>("MOTION", machine.MotionExs).Export());
+                    sw.WriteLine(new SectionWriter<MotionCardWrapper>("MOTION", machine.MotionExs).Export());
                     sw.WriteLine(new SectionWriter<IDiEx>("DI", machine.DiExs).Export());
                     sw.WriteLine(new SectionWriter<IDoEx>("DO", machine.DoExs).Export());
                     sw.WriteLine(new SectionWriter<ICylinderEx>("CY", machine.CylinderExs).Export());
@@ -98,7 +98,7 @@ namespace Lead.Detect.FrameworkExtension.loadUtils
         {
             var sb = new StringBuilder();
 
-            sb.AppendLine(new SectionWriter<IMotionWrapper>("MOTION", machine.MotionExs).Export());
+            sb.AppendLine(new SectionWriter<MotionCardWrapper>("MOTION", machine.MotionExs).Export());
             sb.AppendLine(new SectionWriter<IDiEx>("DI", machine.DiExs).Export());
             sb.AppendLine(new SectionWriter<IDoEx>("DO", machine.DoExs).Export());
             sb.AppendLine(new SectionWriter<ICylinderEx>("CY", machine.CylinderExs).Export());

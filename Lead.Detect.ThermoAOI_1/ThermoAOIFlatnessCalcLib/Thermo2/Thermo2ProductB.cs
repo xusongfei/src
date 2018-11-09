@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
+using System.Linq;
 using System.Text;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.ThermoAOIProductLib.Thermo;
@@ -9,8 +11,6 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
 {
     public class Thermo2ProductB : ThermoProduct
     {
-
-
         [Description("相机原始数据")]
         public List<List<PosXYZ>> RawData_C1Profile { get; set; } = new List<List<PosXYZ>>();
         [Description("相机原始数据")]
@@ -22,12 +22,12 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
         /// </summary>
         [Description("上激光原始数据")]
         public List<List<PosXYZ>> RawData_UpProfile { get; set; } = new List<List<PosXYZ>>();
+
         /// <summary>
         /// 激光测量数据, 按fin排列
         /// </summary>
         [Description("下激光原始数据")]
         public List<List<PosXYZ>> RawData_DownProfile { get; set; } = new List<List<PosXYZ>>();
-
 
 
         public override string CsvHeaders()
@@ -54,12 +54,20 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
                 }
             }
 
+
             sb.Append("LASER1,");
             for (int i = 0; i < RawData_UpProfile.Count; i++)
             {
                 for (int j = 0; j < RawData_UpProfile[i].Count; j++)
                 {
-                    sb.Append($"LU-C{i}R{j},");
+                    if (RawData_UpProfile[i][j].Description == "FLATNESS")
+                    {
+                        sb.Append($"LU-C{i}R{j}-FLATNESS,");
+                    }
+                    else
+                    {
+                        sb.Append($"LU-C{i}R{j},");
+                    }
                 }
             }
 
@@ -68,10 +76,16 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
             {
                 for (int j = 0; j < RawData_DownProfile[i].Count; j++)
                 {
-                    sb.Append($"LD-C{i}R{j},");
+                    if (RawData_DownProfile[i][j].Description == "FLATNESS")
+                    {
+                        sb.Append($"LD-C{i}R{j}-FLATNESS,");
+                    }
+                    else
+                    {
+                        sb.Append($"LD-C{i}R{j},");
+                    }
                 }
             }
-
             return sb.ToString();
         }
 
@@ -98,6 +112,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
                     sb.Append($"{RawData_C2Profile[i][j].Z:F3},");
                 }
             }
+
 
             sb.Append("LASER1,");
             for (int i = 0; i < RawData_UpProfile.Count; i++)
@@ -150,24 +165,42 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
             {
                 for (int j = 0; j < RawData_UpProfile[i].Count; j++)
                 {
-                    var row = dt.Rows.Add();
-                    row[0] = $"LU C{i}R{j}";
-                    row[1] = $"{RawData_UpProfile[i][j].Z:F3}";
+                    if (!string.IsNullOrEmpty(RawData_UpProfile[i][j].Description))
+                    {
+                        var row = dt.Rows.Add();
+                        row[0] = $"LU C{i}R{j} FLATNESS";
+                        row[1] = $"{RawData_UpProfile[i][j].Z:F3}";
+                    }
+                    else
+                    {
+                        var row = dt.Rows.Add();
+                        row[0] = $"LU C{i}R{j}";
+                        row[1] = $"{RawData_UpProfile[i][j].Z:F3}";
+                    }
                 }
             }
+
 
             for (int i = 0; i < RawData_DownProfile.Count; i++)
             {
                 for (int j = 0; j < RawData_DownProfile[i].Count; j++)
                 {
-                    var row = dt.Rows.Add();
-                    row[0] = $"LD C{i}R{j}";
-                    row[1] = $"{RawData_DownProfile[i][j].Z:F3}";
+                    if (!string.IsNullOrEmpty(RawData_DownProfile[i][j].Description))
+                    {
+                        var row = dt.Rows.Add();
+                        row[0] = $"LD C{i}R{j} FLATNESS";
+                        row[1] = $"{RawData_DownProfile[i][j].Z:F3}";
+                    }
+                    else
+                    {
+                        var row = dt.Rows.Add();
+                        row[0] = $"LD C{i}R{j}";
+                        row[1] = $"{RawData_DownProfile[i][j].Z:F3}";
+                    }
                 }
             }
 
             return dt;
-
         }
     }
 }

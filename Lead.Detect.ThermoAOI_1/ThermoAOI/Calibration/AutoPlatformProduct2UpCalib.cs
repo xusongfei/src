@@ -8,6 +8,7 @@ using Lead.Detect.FrameworkExtension.platforms;
 using Lead.Detect.FrameworkExtension.platforms.calibrations;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
+using Lead.Detect.ThermoAOI.Machine1.UserDefine;
 using Lead.Detect.Utility.Transformation;
 
 namespace Lead.Detect.ThermoAOI.Machine1.Calibration
@@ -100,18 +101,18 @@ namespace Lead.Detect.ThermoAOI.Machine1.Calibration
                     return new AutoPlatformProduct2UpCalib()
                     {
                         CalibInfo = $"LeftUpXYCalib",
-                        Station = Machine.Machine.Ins.Find<Station>("LeftStation"),
-                        ProductPos = Machine.Machine.Ins.Find<PlatformEx>("LeftUp").Positions.FindAll(p => p.Name.StartsWith("UpP") && !p.Name.StartsWith("UpPAlign")).Cast<PosXYZ>().ToList(),
-                        PlatformUpPos = Machine.Machine.Ins.Find<PlatformEx>("LeftUp").Positions.FindAll(p => p.Name.StartsWith("UpPAlign")).Cast<PosXYZ>().ToList(),
+                        Station = Machine.Ins.Find<Station>("LeftStation"),
+                        ProductPos = Machine.Ins.Find<PlatformEx>("LeftUp").Positions.FindAll(p => p.Name.StartsWith("UpP") && !p.Name.StartsWith("UpPAlign")).Cast<PosXYZ>().ToList(),
+                        PlatformUpPos = Machine.Ins.Find<PlatformEx>("LeftUp").Positions.FindAll(p => p.Name.StartsWith("UpPAlign")).Cast<PosXYZ>().ToList(),
                     };
 
                 case "Right":
                     return new AutoPlatformProduct2UpCalib()
                     {
                         CalibInfo = $"RightUpXYCalib",
-                        Station = Machine.Machine.Ins.Find<Station>("RightStation"),
-                        ProductPos = Machine.Machine.Ins.Find<PlatformEx>("RightUp").Positions.FindAll(p => p.Name.StartsWith("UpP") && !p.Name.StartsWith("UpPAlign")).Cast<PosXYZ>().ToList(),
-                        PlatformUpPos = Machine.Machine.Ins.Find<PlatformEx>("RightUp").Positions.FindAll(p => p.Name.StartsWith("UpPAlign")).Cast<PosXYZ>().ToList(),
+                        Station = Machine.Ins.Find<Station>("RightStation"),
+                        ProductPos = Machine.Ins.Find<PlatformEx>("RightUp").Positions.FindAll(p => p.Name.StartsWith("UpP") && !p.Name.StartsWith("UpPAlign")).Cast<PosXYZ>().ToList(),
+                        PlatformUpPos = Machine.Ins.Find<PlatformEx>("RightUp").Positions.FindAll(p => p.Name.StartsWith("UpPAlign")).Cast<PosXYZ>().ToList(),
                     };
             }
 
@@ -126,14 +127,14 @@ namespace Lead.Detect.ThermoAOI.Machine1.Calibration
                 {
                     if (calib.Station.Id == 1)
                     {
-                        Machine.Machine.Ins.Settings.Calibration.LeftUpTransform = calib.OutputTransform;
+                        Machine.Ins.Settings.Calibration.LeftUpTransform = calib.OutputTransform;
                     }
                     else if (calib.Station.Id == 2)
                     {
-                        Machine.Machine.Ins.Settings.Calibration.RightUpTransform = calib.OutputTransform;
+                        Machine.Ins.Settings.Calibration.RightUpTransform = calib.OutputTransform;
                     }
 
-                    Machine.Machine.Ins.Save();
+                    Machine.Ins.Save();
                 }
                 catch (Exception ex)
                 {

@@ -14,7 +14,7 @@ namespace Lead.Detect.FrameworkExtension.elementExtension
     public static class ElementExtension
     {
 
-        public static Dictionary<string, IMotionWrapper> MotionWrappers = new Dictionary<string, IMotionWrapper>();
+        public static Dictionary<string, MotionCardWrapper> MotionWrappers = new Dictionary<string, MotionCardWrapper>();
 
 
         public static IDiEx Cast(this EleDi ele)

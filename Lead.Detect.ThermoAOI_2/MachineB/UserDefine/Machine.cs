@@ -100,8 +100,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
             try
             {
                 //初始化驱动
-                Find<IMotionWrapper>("M1").Init(string.Empty);
-                Find<IMotionWrapper>("IO1").Init(string.Empty);
+                Find<MotionCardWrapper>("M1").Init(string.Empty);
+                Find<MotionCardWrapper>("IO1").Init(string.Empty);
             }
             catch (Exception ex)
             {
@@ -135,8 +135,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
             Find<IDoEx>("DOLamp")?.SetDo(false);
 
             //终止驱动
-            Find<IMotionWrapper>("M1").Uninit();
-            Find<IMotionWrapper>("IO1").Uninit();
+            Find<MotionCardWrapper>("M1").Uninit();
+            Find<MotionCardWrapper>("IO1").Uninit();
         }
 
     }

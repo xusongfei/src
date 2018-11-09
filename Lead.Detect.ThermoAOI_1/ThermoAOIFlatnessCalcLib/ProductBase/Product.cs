@@ -2,12 +2,24 @@
 using System.Data;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace Lead.Detect.ThermoAOIProductLib.ProductBase
 {
     public class Product
     {
-        public DateTime StartTime { get; set; } = DateTime.Now;
+        public static object _lock = new object();
+
+        public Product()
+        {
+            lock (_lock)
+            {
+                StartTime = DateTime.Now;
+                Thread.Sleep(1000);
+            }
+        }
+
+        public DateTime StartTime { get; set; }
         public DateTime FinishTime { get; set; } = DateTime.Now;
         public ProductStatus Status { get; set; } = ProductStatus.NONE;
 

@@ -9,7 +9,8 @@ using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.FrameworkExtension.userControls;
 using Lead.Detect.ThermoAOI.Machine1.Calibration;
-using Lead.Detect.ThermoAOI.Machine1.Machine.newTasks;
+using Lead.Detect.ThermoAOI.Machine1.UserDefine;
+using Lead.Detect.ThermoAOI.Machine1.UserDefine.newTasks;
 using Lead.Detect.ThermoAOIProductLib.Thermo1;
 using Lead.Detect.ThermoAOIProductLib.Thermo1Calculator;
 using WeifenLuo.WinFormsUI.Docking;
@@ -32,17 +33,17 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
         private void DevConfigForm_Load(object sender, EventArgs e)
         {
             //di/do tab
-            diControl1.DiExs = Machine.Machine.Ins.DiExs.Values.ToList();
+            diControl1.DiExs = Machine.Ins.DiExs.Values.ToList();
             diControl1.LoadFramework();
-            doControl1.DoExs = Machine.Machine.Ins.DoExs.Values.ToList();
+            doControl1.DoExs = Machine.Ins.DoExs.Values.ToList();
             doControl1.LoadFramework();
-            vioControl1.VioExs = Machine.Machine.Ins.VioExs.Values.ToList();
+            vioControl1.VioExs = Machine.Ins.VioExs.Values.ToList();
             vioControl1.LoadFramework();
-            cyliderControl1.CyExs = Machine.Machine.Ins.CylinderExs.Values.ToList();
+            cyliderControl1.CyExs = Machine.Ins.CylinderExs.Values.ToList();
             cyliderControl1.LoadFramework();
 
             //platform tab
-            var platforms = Machine.Machine.Ins.Platforms.Values;
+            var platforms = Machine.Ins.Platforms.Values;
             tabControlPlatform.TabPages.Clear();
             foreach (var p in platforms)
             {
@@ -58,37 +59,37 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
 
             //config
-            propertyGridCommonConfig.SelectedObject = Machine.Machine.Ins.Settings.Common;
-            propertyGridMachineConfig.SelectedObject = Machine.Machine.Ins.Settings;
-            richTextBoxMachine.Text = Machine.Machine.Ins.SerializeToString();
+            propertyGridCommonConfig.SelectedObject = Machine.Ins.Settings.Common;
+            propertyGridMachineConfig.SelectedObject = Machine.Ins.Settings;
+            richTextBoxMachine.Text = Machine.Ins.SerializeToString();
 
 
             //calib
-            stationStateControlLeft.Machine = Machine.Machine.Ins;
-            stationStateControlLeft.Station = Machine.Machine.Ins.Find<Station>("LeftStation");
-            stationStateControlRight.Machine = Machine.Machine.Ins;
-            stationStateControlRight.Station = Machine.Machine.Ins.Find<Station>("RightStation");
+            stationStateControlLeft.Machine = Machine.Ins;
+            stationStateControlLeft.Station = Machine.Ins.Find<Station>("LeftStation");
+            stationStateControlRight.Machine = Machine.Ins;
+            stationStateControlRight.Station = Machine.Ins.Find<Station>("RightStation");
 
 
             //product
-            measureProjectSelctionControl1.Station = Machine.Machine.Ins.Find<Station>("LeftStation");
+            measureProjectSelctionControl1.Station = Machine.Ins.Find<Station>("LeftStation");
             measureProjectSelctionControl1.ProjecType = typeof(MeasureProject1);
-            measureProjectSelctionControl1.ProjectFile = Machine.Machine.Ins.Settings.LeftProjectFilePath;
+            measureProjectSelctionControl1.ProjectFile = Machine.Ins.Settings.LeftProjectFilePath;
             measureProjectSelctionControl1.SelectMeasureProjectUpdateEvent += f =>
             {
-                Machine.Machine.Ins.Settings.LeftProjectFilePath = f;
-                Machine.Machine.Ins.Settings.Save();
+                Machine.Ins.Settings.LeftProjectFilePath = f;
+                Machine.Ins.Settings.Save();
             };
 
             measureProjectSelctionControl1.LoadMeasureProject();
 
-            measureProjectSelctionControl2.Station = Machine.Machine.Ins.Find<Station>("RightStation");
+            measureProjectSelctionControl2.Station = Machine.Ins.Find<Station>("RightStation");
             measureProjectSelctionControl2.ProjecType = typeof(MeasureProject1);
-            measureProjectSelctionControl2.ProjectFile = Machine.Machine.Ins.Settings.RightProjectFilePath;
+            measureProjectSelctionControl2.ProjectFile = Machine.Ins.Settings.RightProjectFilePath;
             measureProjectSelctionControl2.SelectMeasureProjectUpdateEvent += f =>
             {
-                Machine.Machine.Ins.Settings.RightProjectFilePath = f;
-                Machine.Machine.Ins.Settings.Save();
+                Machine.Ins.Settings.RightProjectFilePath = f;
+                Machine.Ins.Settings.Save();
             };
 
             measureProjectSelctionControl2.LoadMeasureProject();
@@ -128,7 +129,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
         {
             var mf = new MachineForm()
             {
-                Machine = Machine.Machine.Ins,
+                Machine = Machine.Ins,
             };
 
             mf.ShowDialog();
@@ -363,13 +364,13 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
         private void buttonLGTTest_Click(object sender, EventArgs e)
         {
-            if (Machine.Machine.Ins.RunningState != RunningState.WaitRun)
+            if (Machine.Ins.RunningState != RunningState.WaitRun)
             {
                 MessageBox.Show("设备未复位!");
                 return;
             }
 
-            var gt = (Machine.Machine.Ins.Find<StationTask>("LeftTrans") as newLeftTransTask)?.GtController;
+            var gt = (Machine.Ins.Find<StationTask>("LeftTrans") as newLeftTransTask)?.GtController;
             if (gt == null)
             {
                 return;
@@ -380,13 +381,13 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
         private void buttonRGT_Click(object sender, EventArgs e)
         {
-            if (Machine.Machine.Ins.RunningState != RunningState.WaitRun)
+            if (Machine.Ins.RunningState != RunningState.WaitRun)
             {
                 MessageBox.Show("设备未复位!");
                 return;
             }
 
-            var gt = (Machine.Machine.Ins.Find<StationTask>("LeftTrans") as newLeftTransTask)?.GtController;
+            var gt = (Machine.Ins.Find<StationTask>("LeftTrans") as newLeftTransTask)?.GtController;
             if (gt == null)
             {
                 return;
@@ -407,7 +408,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
             try
             {
-                var controller = (Machine.Machine.Ins.Find<StationTask>("LeftMeasureDown") as newMeasureDownTask)?.BarcodeController;
+                var controller = (Machine.Ins.Find<StationTask>("LeftMeasureDown") as newMeasureDownTask)?.BarcodeController;
                 if (controller == null)
                 {
                     return;
@@ -433,7 +434,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
             try
             {
-                var controller = (Machine.Machine.Ins.Find<StationTask>("LeftMeasureDown") as newMeasureDownTask)?.BarcodeController;
+                var controller = (Machine.Ins.Find<StationTask>("LeftMeasureDown") as newMeasureDownTask)?.BarcodeController;
                 if (controller == null)
                 {
                     return;
@@ -459,7 +460,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
             try
             {
-                var controller = (Machine.Machine.Ins.Find<StationTask>("LeftMeasureDown") as newMeasureDownTask)?.BarcodeController;
+                var controller = (Machine.Ins.Find<StationTask>("LeftMeasureDown") as newMeasureDownTask)?.BarcodeController;
                 if (controller == null)
                 {
                     return;
@@ -485,7 +486,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
             try
             {
-                var controller = (Machine.Machine.Ins.Find<StationTask>("RightMeasureDown") as newMeasureDownTask)?.BarcodeController;
+                var controller = (Machine.Ins.Find<StationTask>("RightMeasureDown") as newMeasureDownTask)?.BarcodeController;
                 if (controller == null)
                 {
                     return;
@@ -511,7 +512,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
             try
             {
-                var controller = (Machine.Machine.Ins.Find<StationTask>("RightMeasureDown") as newMeasureDownTask)?.BarcodeController;
+                var controller = (Machine.Ins.Find<StationTask>("RightMeasureDown") as newMeasureDownTask)?.BarcodeController;
                 if (controller == null)
                 {
                     return;
@@ -537,7 +538,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
             try
             {
-                var controller = (Machine.Machine.Ins.Find<StationTask>("RightMeasureDown") as newMeasureDownTask)?.BarcodeController;
+                var controller = (Machine.Ins.Find<StationTask>("RightMeasureDown") as newMeasureDownTask)?.BarcodeController;
                 if (controller == null)
                 {
                     return;

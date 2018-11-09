@@ -76,6 +76,9 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
         public bool AutoDryRun { get; set; }
         [Category("COMMON"), Description("测试异常则退出")]
         public bool QuitOnProductError { get; set; }
+        [Category("COMMON"), Description("错误则响蜂鸣器")]
+        public bool BeepOnProductError { get; set; } = true;
+
 
 
         [Category("MEASURE"), Description("参考坐标模式")]

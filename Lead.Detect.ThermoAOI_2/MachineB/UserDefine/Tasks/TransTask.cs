@@ -9,6 +9,7 @@ using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.MachineUtilityLib.Utils;
 using Lead.Detect.MachineUtilityLib.UtilsFramework;
 using Lead.Detect.ThermoAOI2.MachineB.View;
+using Lead.Detect.ThermoAOIProductLib.ProductBase;
 using Lead.Detect.ThermoAOIProductLib.Thermo;
 using Lead.Detect.ThermoAOIProductLib.Thermo2;
 using Lead.Detect.ThermoAOIProductLib.ThermoDataConvert;
@@ -76,6 +77,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             Project.AssertNoNull(this);
 
             Platform.AssertPosTeached("Wait", this);
+            Platform.AssertPosTeached("SafeOrigin", this);
 
 
             //reset vio
@@ -145,8 +147,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             Product = new Thermo2ProductB()
             {
                 Barcode = barcode,
-                ProductType =  Project.ThermoProductType.ToString(),
-                Description = Project.ProductName,
+                ProductType = Project.ThermoProductType.ToString(),
+                Description = Project.ProductName + "-" + CfgSettings.Version,
                 SPCItems = Project.SPCItems,
             };
             Product.ClearSpc();
@@ -161,6 +163,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 TestProcessControl.OnTestingEvent(Product);
             }
             VioMeasureFinish.WaitVioAndClear(this);
+            Platform.MoveAbs("SafeOrigin");
             Platform.MoveAbs("Wait");
             MultiClampCylinders.Reset(this);
 
@@ -209,6 +212,12 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                         avcdata.Save(Machine.Ins.Settings.FTPAddress);
                         avcdata.Save("AVCData");
                         Log("Upload AvcData Finish:" + avcdata, LogLevel.Info);
+                    }
+
+
+                    if (Product.Status == ProductStatus.ERROR && CfgSettings.BeepOnProductError)
+                    {
+                        Station.Machine.Beep();
                     }
                 }
                 catch (Exception ex)

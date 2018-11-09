@@ -10,7 +10,8 @@ using Lead.Detect.FrameworkExtension.platforms.calibrations;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.ThermoAOI.Machine1.Common;
-using Lead.Detect.ThermoAOI.Machine1.Machine.newTasks;
+using Lead.Detect.ThermoAOI.Machine1.UserDefine;
+using Lead.Detect.ThermoAOI.Machine1.UserDefine.newTasks;
 using Lead.Detect.Utility.FittingHelper;
 
 namespace Lead.Detect.ThermoAOI.Machine1.Calibration
@@ -289,32 +290,32 @@ namespace Lead.Detect.ThermoAOI.Machine1.Calibration
                     {
                         CalibInfo = $"LeftPlatformHeight",
                         Description = "Left",
-                        Station = Machine.Machine.Ins.Find<Station>("LeftStation"),
+                        Station = Machine.Ins.Find<Station>("LeftStation"),
 
                         //carrier
-                        PlatformCarrier = Machine.Machine.Ins.Find<PlatformEx>("LeftCarrier"),
+                        PlatformCarrier = Machine.Ins.Find<PlatformEx>("LeftCarrier"),
 
-                        do_clampy_cy = Machine.Machine.Ins.Find<ICylinderEx>("LClampCylinderY"),
+                        do_clampy_cy = Machine.Ins.Find<ICylinderEx>("LClampCylinderY"),
 
                         //up
-                        Platform1 = Machine.Machine.Ins.Find<PlatformEx>("LeftUp"),
-                        Platform1GTCalibPos = Machine.Machine.Ins.Find<PlatformEx>("LeftUp")["HeightCalib"] as PosXYZ,
-                        Platform1GTPlaneCalibPos = Machine.Machine.Ins.Find<PlatformEx>("LeftUp").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
+                        Platform1 = Machine.Ins.Find<PlatformEx>("LeftUp"),
+                        Platform1GTCalibPos = Machine.Ins.Find<PlatformEx>("LeftUp")["HeightCalib"] as PosXYZ,
+                        Platform1GTPlaneCalibPos = Machine.Ins.Find<PlatformEx>("LeftUp").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
 
                         //down
-                        Platform2 = Machine.Machine.Ins.Find<PlatformEx>("LeftDown"),
-                        Platform2GT1CalibPos = Machine.Machine.Ins.Find<PlatformEx>("LeftDown")["HeightCalib1"] as PosXYZ,
-                        Platform2GT2CalibPos = Machine.Machine.Ins.Find<PlatformEx>("LeftDown")["HeightCalib2"] as PosXYZ,
-                        StandardHeight = Machine.Machine.Ins.Find<PlatformEx>("LeftDown")["StandardHeight"] as PosXYZ,
-                        Platform2GT1PlaneCalibPos = Machine.Machine.Ins.Find<PlatformEx>("LeftDown").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
-                        Platform2GT2PlaneCalibPos = Machine.Machine.Ins.Find<PlatformEx>("LeftDown").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
+                        Platform2 = Machine.Ins.Find<PlatformEx>("LeftDown"),
+                        Platform2GT1CalibPos = Machine.Ins.Find<PlatformEx>("LeftDown")["HeightCalib1"] as PosXYZ,
+                        Platform2GT2CalibPos = Machine.Ins.Find<PlatformEx>("LeftDown")["HeightCalib2"] as PosXYZ,
+                        StandardHeight = Machine.Ins.Find<PlatformEx>("LeftDown")["StandardHeight"] as PosXYZ,
+                        Platform2GT1PlaneCalibPos = Machine.Ins.Find<PlatformEx>("LeftDown").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
+                        Platform2GT2PlaneCalibPos = Machine.Ins.Find<PlatformEx>("LeftDown").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
 
-                        do_gt2_cy = Machine.Machine.Ins.Find<ICylinderEx>("LGTCylinder"),
+                        do_gt2_cy = Machine.Ins.Find<ICylinderEx>("LGTCylinder"),
 
-                        JumpHeight1 = Machine.Machine.Ins.Settings.Common.LJumpHeightUp,
-                        JumpHeight2 = Machine.Machine.Ins.Settings.Common.LJumpHeightDown,
+                        JumpHeight1 = Machine.Ins.Settings.Common.LJumpHeightUp,
+                        JumpHeight2 = Machine.Ins.Settings.Common.LJumpHeightDown,
 
-                        GtController = (Machine.Machine.Ins.Find<StationTask>("LeftTrans") as newTransTask)?.GtController,
+                        GtController = (Machine.Ins.Find<StationTask>("LeftTrans") as newTransTask)?.GtController,
                     };
 
                 case "Right":
@@ -322,32 +323,32 @@ namespace Lead.Detect.ThermoAOI.Machine1.Calibration
                     {
                         CalibInfo = $"RightPlatformHeight",
                         Description = "RIGHT",
-                        Station = Machine.Machine.Ins.Find<Station>("RightStation"),
+                        Station = Machine.Ins.Find<Station>("RightStation"),
 
                         //carrier
-                        PlatformCarrier = Machine.Machine.Ins.Find<PlatformEx>("RightCarrier"),
-                        do_clampy_cy = Machine.Machine.Ins.Find<ICylinderEx>("RClampCylinderY"),
+                        PlatformCarrier = Machine.Ins.Find<PlatformEx>("RightCarrier"),
+                        do_clampy_cy = Machine.Ins.Find<ICylinderEx>("RClampCylinderY"),
 
                         //up
-                        Platform1 = Machine.Machine.Ins.Find<PlatformEx>("RightUp"),
-                        Platform1GTCalibPos = Machine.Machine.Ins.Find<PlatformEx>("RightUp")["HeightCalib"] as PosXYZ,
-                        Platform1GTPlaneCalibPos = Machine.Machine.Ins.Find<PlatformEx>("RightUp").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
+                        Platform1 = Machine.Ins.Find<PlatformEx>("RightUp"),
+                        Platform1GTCalibPos = Machine.Ins.Find<PlatformEx>("RightUp")["HeightCalib"] as PosXYZ,
+                        Platform1GTPlaneCalibPos = Machine.Ins.Find<PlatformEx>("RightUp").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
 
 
                         //down
-                        Platform2 = Machine.Machine.Ins.Find<PlatformEx>("RightDown"),
-                        Platform2GT1CalibPos = Machine.Machine.Ins.Find<PlatformEx>("RightDown")["HeightCalib1"] as PosXYZ,
-                        Platform2GT2CalibPos = Machine.Machine.Ins.Find<PlatformEx>("RightDown")["HeightCalib2"] as PosXYZ,
-                        StandardHeight = Machine.Machine.Ins.Find<PlatformEx>("RightDown")["StandardHeight"] as PosXYZ,
-                        Platform2GT1PlaneCalibPos = Machine.Machine.Ins.Find<PlatformEx>("RightDown").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
-                        Platform2GT2PlaneCalibPos = Machine.Machine.Ins.Find<PlatformEx>("RightDown").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
+                        Platform2 = Machine.Ins.Find<PlatformEx>("RightDown"),
+                        Platform2GT1CalibPos = Machine.Ins.Find<PlatformEx>("RightDown")["HeightCalib1"] as PosXYZ,
+                        Platform2GT2CalibPos = Machine.Ins.Find<PlatformEx>("RightDown")["HeightCalib2"] as PosXYZ,
+                        StandardHeight = Machine.Ins.Find<PlatformEx>("RightDown")["StandardHeight"] as PosXYZ,
+                        Platform2GT1PlaneCalibPos = Machine.Ins.Find<PlatformEx>("RightDown").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
+                        Platform2GT2PlaneCalibPos = Machine.Ins.Find<PlatformEx>("RightDown").Positions.FindAll(p => p.Name.StartsWith("HeightAlign")).Cast<PosXYZ>().ToList(),
 
-                        do_gt2_cy = Machine.Machine.Ins.Find<ICylinderEx>("RGTCylinder"),
+                        do_gt2_cy = Machine.Ins.Find<ICylinderEx>("RGTCylinder"),
 
-                        JumpHeight1 = Machine.Machine.Ins.Settings.Common.RJumpHeightUp,
-                        JumpHeight2 = Machine.Machine.Ins.Settings.Common.RJumpHeightDown,
+                        JumpHeight1 = Machine.Ins.Settings.Common.RJumpHeightUp,
+                        JumpHeight2 = Machine.Ins.Settings.Common.RJumpHeightDown,
 
-                        GtController = (Machine.Machine.Ins.Find<StationTask>("RightTrans") as newTransTask)?.GtController,
+                        GtController = (Machine.Ins.Find<StationTask>("RightTrans") as newTransTask)?.GtController,
                     };
             }
 
@@ -363,33 +364,33 @@ namespace Lead.Detect.ThermoAOI.Machine1.Calibration
                 {
                     if (calib.Station.Id == 1)
                     {
-                        Machine.Machine.Ins.Settings.Calibration.LeftHeightCalibGtPos = calib.OutputGTCalibPos;
-                        Machine.Machine.Ins.Settings.Calibration.LeftHeightCalibGt1Pos = calib.OutputGT1CalibPos;
-                        Machine.Machine.Ins.Settings.Calibration.LeftHeightCalibGt2Pos = calib.OutputGT2CalibPos;
+                        Machine.Ins.Settings.Calibration.LeftHeightCalibGtPos = calib.OutputGTCalibPos;
+                        Machine.Ins.Settings.Calibration.LeftHeightCalibGt1Pos = calib.OutputGT1CalibPos;
+                        Machine.Ins.Settings.Calibration.LeftHeightCalibGt2Pos = calib.OutputGT2CalibPos;
 
                         //new
-                        Machine.Machine.Ins.Settings.Calibration.LeftUpStandardPlaneGT = calib.OutputUpStandardPlane;
-                        Machine.Machine.Ins.Settings.Calibration.LeftDownStandardPlaneGT1 = calib.OutputDownStandardPlane;
-                        Machine.Machine.Ins.Settings.Calibration.LeftDownStandardPlaneGT2 = calib.OutputDownStandardPlane2;
+                        Machine.Ins.Settings.Calibration.LeftUpStandardPlaneGT = calib.OutputUpStandardPlane;
+                        Machine.Ins.Settings.Calibration.LeftDownStandardPlaneGT1 = calib.OutputDownStandardPlane;
+                        Machine.Ins.Settings.Calibration.LeftDownStandardPlaneGT2 = calib.OutputDownStandardPlane2;
 
 
-                        Machine.Machine.Ins.Settings.Calibration.LeftHeightStandard = calib.StandardHeight;
+                        Machine.Ins.Settings.Calibration.LeftHeightStandard = calib.StandardHeight;
                     }
                     else if (calib.Station.Id == 2)
                     {
-                        Machine.Machine.Ins.Settings.Calibration.RightHeightCalibGtPos = calib.OutputGTCalibPos;
-                        Machine.Machine.Ins.Settings.Calibration.RightHeightCalibGt1Pos = calib.OutputGT1CalibPos;
-                        Machine.Machine.Ins.Settings.Calibration.RightHeightCalibGt2Pos = calib.OutputGT2CalibPos;
+                        Machine.Ins.Settings.Calibration.RightHeightCalibGtPos = calib.OutputGTCalibPos;
+                        Machine.Ins.Settings.Calibration.RightHeightCalibGt1Pos = calib.OutputGT1CalibPos;
+                        Machine.Ins.Settings.Calibration.RightHeightCalibGt2Pos = calib.OutputGT2CalibPos;
 
                         //new
-                        Machine.Machine.Ins.Settings.Calibration.RightUpStandardPlaneGT = calib.OutputUpStandardPlane;
-                        Machine.Machine.Ins.Settings.Calibration.RightDownStandardPlaneGT1 = calib.OutputDownStandardPlane;
-                        Machine.Machine.Ins.Settings.Calibration.RightDownStandardPlaneGT2 = calib.OutputDownStandardPlane2;
+                        Machine.Ins.Settings.Calibration.RightUpStandardPlaneGT = calib.OutputUpStandardPlane;
+                        Machine.Ins.Settings.Calibration.RightDownStandardPlaneGT1 = calib.OutputDownStandardPlane;
+                        Machine.Ins.Settings.Calibration.RightDownStandardPlaneGT2 = calib.OutputDownStandardPlane2;
 
-                        Machine.Machine.Ins.Settings.Calibration.RightHeightStandard = calib.StandardHeight;
+                        Machine.Ins.Settings.Calibration.RightHeightStandard = calib.StandardHeight;
                     }
 
-                    Machine.Machine.Ins.Save();
+                    Machine.Ins.Save();
                 }
                 catch (Exception ex)
                 {

@@ -459,7 +459,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                     }
                     else
                     {
-                        Product.Error = "LaserGridDataError";
+                        Product.Error = $"{loopName}GridData{step}Error";
+                        Log($"{loopName} {laser.Name} GetLaserGridData Error: {laser.LastError}", LogLevel.Error);
                     }
                 }
                 else
@@ -494,6 +495,45 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             UpdateLaserSpcs(loopName);
         }
 
+        /// <summary>
+        /// parse fin grid data to fin calc data
+        /// 解析fin测量点原始高度数据到计算spec值
+        /// </summary>
+        /// <param name="loopName"></param>
+        /// <param name="gridDataOfFin"></param>
+        /// <param name="profile"></param>
+        private void ParseLaserDataToRawProfile(string loopName, List<List<PosXYZ>> gridDataOfFin, List<List<PosXYZ>> profile)
+        {
+            for (var col = 0; col < gridDataOfFin.Count; col++)
+            {
+                //parse laser col data
+                //最后一列数据为所有原始数据，do not parse
+                if (gridDataOfFin[col].Count < gridDataOfFin.Last().Count)
+                {
+                    //profile add fin col spec data
+                    profile.Add(new List<PosXYZ>());
+
+                    //get fin bar col raw data
+                    var line = LineParams.FitLine(gridDataOfFin[col]);
+                    var maxDist = gridDataOfFin[col].Max(g => line.Distance(g));
+                    var minDist = gridDataOfFin[col].Min(g => line.Distance(g));
+
+                    profile.Last().Add(new PosXYZ(line.OX, line.OY, maxDist - minDist));
+                    Log($"{loopName} COL:{col} ROW:{gridDataOfFin[col].Count} LineDist: {line.OX:F2} {line.OY:F2} MAX:{maxDist:F3} MIN:{minDist:F3} FLATNESS:{maxDist - minDist:F3}");
+                }
+                else
+                {
+                    //parse last col of raw data
+                    //profile add fin col spec data
+                    var flatness = gridDataOfFin[col].Max(p => p.Z) - gridDataOfFin[col].Min(p => p.Z);
+
+                    profile.Add(new List<PosXYZ>());
+                    profile.Last().Add(new PosXYZ(0, 0, flatness) { Description = "FLATNESS" });
+                    Log($"{loopName} COL:{col} ROW:{gridDataOfFin[col].Count} Flatness: {flatness:F3}");
+                }
+            }
+        }
+
         private void UpdateLaserSpcs(string loopName)
         {
             //process laser spec result
@@ -518,41 +558,5 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
         }
 
 
-        /// <summary>
-        /// parse fin grid data to fin calc data
-        /// 解析fin测量点原始高度数据到计算spec值
-        /// </summary>
-        /// <param name="loopName"></param>
-        /// <param name="gridDataOfFin"></param>
-        /// <param name="profile"></param>
-        private void ParseLaserDataToRawProfile(string loopName, List<List<PosXYZ>> gridDataOfFin, List<List<PosXYZ>> profile)
-        {
-            for (var col = 0; col < gridDataOfFin.Count; col++)
-            {
-                //parse laser col data
-                //最后一列数据为所有原始数据，do not parse
-                if (gridDataOfFin[col].Count < gridDataOfFin.Last().Count)
-                {   
-                    //profile add fin col spec data
-                    profile.Add(new List<PosXYZ>());
-
-                    //get fin bar col raw data
-                    var line = LineParams.FitLine(gridDataOfFin[col]);
-                    var maxDist = gridDataOfFin[col].Max(g => line.Distance(g));
-                    var minDist = gridDataOfFin[col].Min(g => line.Distance(g));
-
-                    profile.Last().Add(new PosXYZ(line.OX, line.OY, maxDist - minDist));
-                    Log($"{loopName} COL:{col} ROW:{gridDataOfFin[col].Count} LineDist: {line.OX:F2} {line.OY:F2} MAX:{maxDist:F2} MIN:{minDist:F2} FLATNESS:{maxDist - minDist:F2}");
-                }
-                else
-                {
-                    //parse last col of raw data
-                    //profile add fin col spec data
-                    //profile.Add(new List<PosXYZ>());
-                    //profile.Last().Add(new PosXYZ(0, 0, gridDataOfFin.Last().Count));
-                    //Log($"{loopName} COL:{col} ROW:{gridDataOfFin[col].Count} RawData: {gridDataOfFin[col].Count}");
-                }
-            }
-        }
     }
 }

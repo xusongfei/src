@@ -983,7 +983,7 @@ namespace Lead.Detect.PrimVirtualCard
 
         public bool AxisIsStop(int boardId, int axisIdx)
         {
-            return CardAxisMotion[axisIdx].Mdn;
+            return CardAxisMotion[axisIdx].Mdn && !CardAxisMotion[axisIdx].IsMove;
         }
 
         public int GetTriggerCount(int trigCh)
@@ -1384,11 +1384,6 @@ namespace Lead.Detect.PrimVirtualCard
             }
         }
 
-        public bool LimitPel(int boardId, int axisIdx)
-        {
-            return CardAxisMotion[axisIdx].Pel;
-        }
-
         #endregion
 
         protected virtual int OnOnPrimStateChanged(string devname, object context)
@@ -1407,9 +1402,14 @@ namespace Lead.Detect.PrimVirtualCard
             OnPrimOpLog?.Invoke(devname, log); return 0;
         }
 
+        public bool LimitPel(int boardId, int axisIdx)
+        {
+            return CardAxisMotion[axisIdx].Pel;
+        }
+
         public bool AxisInp(int index, int axisChannel)
         {
-            return true;
+            return false;
         }
     }
 }

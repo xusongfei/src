@@ -17,7 +17,6 @@ namespace Lead.Detect.MachineUtilityLib.UtilViews
 
         private void DevOperateForm_Load(object sender, EventArgs e)
         {
-            tabControl1.TabPages.Clear();
             HideOnClose = true;
         }
 

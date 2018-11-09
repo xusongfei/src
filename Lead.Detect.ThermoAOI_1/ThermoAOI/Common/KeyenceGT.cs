@@ -51,6 +51,11 @@ namespace Lead.Detect.ThermoAOI.Machine1.Common
         private double[] GtValue = new[] { 0d, 0d, 0d };
         public void RunGtService(StationTask t)
         {
+            if (FrameworkExtenion.IsSimulate)
+            {
+                return;
+            }
+
             if (_task != null)
             {
                 return;
@@ -129,6 +134,12 @@ namespace Lead.Detect.ThermoAOI.Machine1.Common
 
         public double[] QueryGtValue()
         {
+            if (FrameworkExtenion.IsSimulate)
+            {
+                return new[] { 0.1, 0.2, 0.3 };
+            }
+
+
             lock (this)
             {
                 var result = new double[3];

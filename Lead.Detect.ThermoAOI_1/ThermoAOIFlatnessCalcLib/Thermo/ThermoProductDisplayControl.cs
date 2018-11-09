@@ -112,7 +112,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
                 else
                 {
                     timer1.Stop();
-                    buttonStatus.Text = Station?.RunningState.ToString();
+                    buttonStatus.Text = Station.RunningState.ToString();
                     buttonStatus.BackColor = Color.DeepPink;
                 }
             }
@@ -159,12 +159,9 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
             textBoxCT.Text = $@"{(DateTime.Now - _startDateTime).TotalSeconds:F1}";
 
 
-            if (Station != null)
+            if (Station != null && Station.RunningState == RunningState.WaitReset)
             {
-                if (Station.RunningState == RunningState.WaitReset)
-                {
-                    UpdateResult(null);
-                }
+                UpdateResult(null);
             }
         }
     }

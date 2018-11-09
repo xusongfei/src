@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.common;
@@ -44,14 +45,16 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
 
 
             //bind log event
-            foreach (var t in Machine.Ins.Tasks)
+            foreach (var t in Machine.Ins.Tasks.Values.OrderBy(t => t.Name))
             {
-                t.Value.LogEvent += (log, level) => UpdateTaskLog(t.Value.Name, log, level);
-                t.Value.LogEvent += (log, level) =>
+                t.LogEvent += (log, level) => UpdateTaskLog(t.Name, log, level);
+                t.LogEvent += (log, level) =>
                 {
-                    LoggerHelper.Log($@".\Log\{t.Value.Name}", log, level);
+                    LoggerHelper.Log($@".\Log\{t.Name}", log, level);
                 };
+                t.Log(string.Empty);
             }
+
 
 
             //bind product update event
@@ -70,13 +73,9 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
 
 
             //update controls
+            _thermoProductDisplayControl1.Station = Machine.Ins.Find<Station>("MainStation");
             productionCountControl1.UpdateProduction(Machine.Ins.Settings.Production);
 
-
-            //camera controls
-            //cameraEx1.BindComponent(new CameraSim());
-
-            //cameraEx2.BindComponent(new CameraSim());
 
 
             timer1.Start();

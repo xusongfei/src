@@ -16,6 +16,10 @@ namespace Lead.Detect.MeasureComponents.LMILaser
 {
     public class LmiLaser : ILineLaserEx
     {
+        public LmiLaser()
+        {
+            Name = GetType().Name;
+        }
         public event Action<Bitmap> DisplayResultEvent;
 
         public string Name { get; set; }

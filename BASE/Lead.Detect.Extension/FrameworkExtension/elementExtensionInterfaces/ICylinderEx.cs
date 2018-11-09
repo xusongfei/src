@@ -16,12 +16,12 @@ namespace Lead.Detect.FrameworkExtension.elementExtensionInterfaces
         /// <summary>
         /// Cylinder Di Driver
         /// </summary>
-        IMotionWrapper DriverCard { get; }
+        MotionCardWrapper DriverCard { get; }
 
         /// <summary>
         /// Cylinder Do Driver
         /// </summary>
-        IMotionWrapper DriverCard2 { get; }
+        MotionCardWrapper DriverCard2 { get; }
 
     
         string Driver { set; get; }

@@ -68,6 +68,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB
 
                 //initialize machine settings
                 Machine.Ins.Load();
+                Machine.Ins.Settings.Version = $"v{Assembly.GetExecutingAssembly().GetName().Version.ToString()}";
                 //init drivers , start scan
                 Machine.Ins.Initialize();
             }

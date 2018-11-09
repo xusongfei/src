@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.common;
@@ -7,7 +8,8 @@ using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.MachineUtilityLib.UtilViews;
-using Lead.Detect.ThermoAOI.Machine1.Machine.newTasks;
+using Lead.Detect.ThermoAOI.Machine1.UserDefine;
+using Lead.Detect.ThermoAOI.Machine1.UserDefine.newTasks;
 using Lead.Detect.ThermoAOIProductLib.Thermo1;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -30,31 +32,33 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
         private void DevMainForm_Load(object sender, EventArgs e)
         {
-            label1.Text = Machine.Machine.Ins.Settings.Name;
+            label1.Text = Machine.Ins.Settings.Name;
 
             if (!Directory.Exists(@".\Log")) Directory.CreateDirectory(@".\Log");
 
 
-            Machine.Machine.Ins.ShowAlarmEvent += ShowShowAlarm;
+            Machine.Ins.ShowAlarmEvent += ShowShowAlarm;
 
-            labelLeft.Text = Machine.Machine.Ins.Find<Station>("LeftStation")?.Name;
-            labelRight.Text = Machine.Machine.Ins.Find<Station>("RightStation")?.Name;
+            labelLeft.Text = Machine.Ins.Find<Station>("LeftStation")?.Name;
+            labelRight.Text = Machine.Ins.Find<Station>("RightStation")?.Name;
 
-            labelLeftFile.Text = Machine.Machine.Ins.Settings.LeftProjectFilePath;
-            labelRightFile.Text = Machine.Machine.Ins.Settings.RightProjectFilePath;
+            labelLeftFile.Text = Machine.Ins.Settings.LeftProjectFilePath;
+            labelRightFile.Text = Machine.Ins.Settings.RightProjectFilePath;
 
             //bind event
-            foreach (var t in Machine.Machine.Ins.Tasks)
+            foreach (var t in Machine.Ins.Tasks.Values.OrderBy(t => t.Name))
             {
-                t.Value.LogEvent += (log, level) => UpdateTaskLog(t.Value.Name, log, level);
-                t.Value.LogEvent += (log, level) =>
+                t.LogEvent += (log, level) => UpdateTaskLog(t.Name, log, level);
+                t.LogEvent += (log, level) =>
                 {
-                    LoggerHelper.Log($@".\Log\{t.Value.Name}", log, level);
+                    LoggerHelper.Log($@".\Log\{t.Name}", log, level);
                 };
+                t.Log(string.Empty);
             }
 
+
             //bind trans event
-            var leftTrans = Machine.Machine.Ins.Find<StationTask>("LeftTrans") as newTransTask;
+            var leftTrans = Machine.Ins.Find<StationTask>("LeftTrans") as newTransTask;
             if (leftTrans != null)
             {
                 leftTrans.TestProcessControl.TestStartEvent += UpdateLStart;
@@ -64,7 +68,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
                 _thermoProductDisplayControl1.Station = leftTrans.Station;
             }
 
-            var rightTrans = Machine.Machine.Ins.Find<StationTask>("RightTrans") as newTransTask;
+            var rightTrans = Machine.Ins.Find<StationTask>("RightTrans") as newTransTask;
             if (rightTrans != null)
             {
                 rightTrans.TestProcessControl.TestStartEvent += UpdateRStart;
@@ -87,7 +91,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
         private void DevMainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Machine.Machine.Ins.ShowAlarmEvent -= ShowShowAlarm;
+            Machine.Ins.ShowAlarmEvent -= ShowShowAlarm;
         }
 
 
@@ -95,22 +99,22 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            Machine.Machine.Ins.Start();
+            Machine.Ins.Start();
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            Machine.Machine.Ins.Stop();
+            Machine.Ins.Stop();
         }
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            Machine.Machine.Ins.Reset();
+            Machine.Ins.Reset();
         }
 
         private void buttonLamp_Click(object sender, EventArgs e)
         {
-            Machine.Machine.Ins.Find<IDoEx>("DoLamp")?.Toggle();
+            Machine.Ins.Find<IDoEx>("DoLamp")?.Toggle();
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -247,22 +251,22 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            TabText = $"设备状态:{Machine.Machine.Ins.RunState}:{Machine.Machine.Ins.RunningState.GetState()}";
+            TabText = $"设备状态:{Machine.Ins.RunState}:{Machine.Ins.RunningState.GetState()}";
 
-            labelLeft.Text = $"左工站（{Machine.Machine.Ins.Settings.ProductionLeft.Display()}）";
-            labelRight.Text = $"右工站（{Machine.Machine.Ins.Settings.ProductionRight.Display()}）";
+            labelLeft.Text = $"左工站（{Machine.Ins.Settings.ProductionLeft.Display()}）";
+            labelRight.Text = $"右工站（{Machine.Ins.Settings.ProductionRight.Display()}）";
 
-            labelLeftFile.Text = Path.GetFileName(Machine.Machine.Ins.Settings.LeftProjectFilePath);
-            labelRightFile.Text = Path.GetFileName(Machine.Machine.Ins.Settings.RightProjectFilePath);
+            labelLeftFile.Text = Path.GetFileName(Machine.Ins.Settings.LeftProjectFilePath);
+            labelRightFile.Text = Path.GetFileName(Machine.Ins.Settings.RightProjectFilePath);
 
         }
 
         private void labelLeft_DoubleClick(object sender, EventArgs e)
         {
 
-            if (MessageBox.Show($"清除左工站统计:\r\n{Machine.Machine.Ins.Settings.ProductionLeft.ToString()}？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show($"清除左工站统计:\r\n{Machine.Ins.Settings.ProductionLeft.ToString()}？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                Machine.Machine.Ins.Settings.ProductionLeft.Clear();
+                Machine.Ins.Settings.ProductionLeft.Clear();
             }
 
 
@@ -270,9 +274,9 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
         private void labelRight_DoubleClick(object sender, EventArgs e)
         {
-            if (MessageBox.Show($"清除右工站统计:\r\n{Machine.Machine.Ins.Settings.ProductionRight.ToString()}？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show($"清除右工站统计:\r\n{Machine.Ins.Settings.ProductionRight.ToString()}？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                Machine.Machine.Ins.Settings.ProductionRight.Clear();
+                Machine.Ins.Settings.ProductionRight.Clear();
             }
         }
 

@@ -751,6 +751,10 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
 
                 if (Axis[i] != null && (!Axis[i].GetServo() || Axis[i].GetAlarm() || Axis[i].GetAstp() || !Axis[i].GetMdn()))
                 {
+                    if (!Axis[i].GetMdn())
+                    {
+                        MessageBox.Show("GetMdn");
+                    }
                     return false;
                 }
 

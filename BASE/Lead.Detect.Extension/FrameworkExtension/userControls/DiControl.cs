@@ -18,7 +18,7 @@ namespace Lead.Detect.FrameworkExtension.userControls
 
         public void LoadFramework()
         {
-            var props = typeof(IDiEx).GetProperties().Where(p => p.PropertyType != typeof(IMotionWrapper)).ToArray();
+            var props = typeof(IDiEx).GetProperties().Where(p => p.PropertyType != typeof(MotionCardWrapper)).ToArray();
             dataGridView1.Columns.Clear();
             dataGridView1.Rows.Clear();
             foreach (var p in props)

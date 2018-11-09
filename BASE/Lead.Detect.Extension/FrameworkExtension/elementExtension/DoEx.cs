@@ -16,7 +16,7 @@ namespace Lead.Detect.FrameworkExtension.elementExtension
         {
         }
 
-        public DoEx(EleDo eledo, IMotionWrapper wrapper = null)
+        public DoEx(EleDo eledo, MotionCardWrapper wrapper = null)
         {
             var props = eledo.GetType().GetProperties();
             foreach (var p in props)
@@ -28,7 +28,7 @@ namespace Lead.Detect.FrameworkExtension.elementExtension
         }
 
         [XmlIgnore]
-        public IMotionWrapper DriverCard { get; set; }
+        public MotionCardWrapper DriverCard { get; set; }
 
         public void Build(StateMachine machine)
         {

@@ -88,10 +88,10 @@
     <Compile Include="Common\BarcodeHelper.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Machine\MachineSafeChecks.cs" />
-    <Compile Include="Machine\newTasks\newMeasureDownTask.cs" />
-    <Compile Include="Machine\newTasks\newMeasureUpTask.cs" />
-    <Compile Include="Machine\newTasks\newTransTask.cs" />
+    <Compile Include="UserDefine\MachineSafeChecks.cs" />
+    <Compile Include="UserDefine\newTasks\newMeasureDownTask.cs" />
+    <Compile Include="UserDefine\newTasks\newMeasureUpTask.cs" />
+    <Compile Include="UserDefine\newTasks\newTransTask.cs" />
     <Compile Include="Common\KeyenceGT.cs" />
     <Compile Include="VersionHelper\FlatnessFprjConvert.cs" />
     <Compile Include="VersionHelper\PlatformConvert.cs" />
@@ -115,9 +115,9 @@
       <DependentUpon>DevConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Calibration\CalibrationConfig.cs" />
-    <Compile Include="Machine\CommonConfig.cs" />
-    <Compile Include="Machine\Machine.cs" />
-    <Compile Include="Machine\MachineSettings.cs" />
+    <Compile Include="UserDefine\CommonConfig.cs" />
+    <Compile Include="UserDefine\Machine.cs" />
+    <Compile Include="UserDefine\MachineSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

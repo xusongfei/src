@@ -16,7 +16,7 @@ namespace Lead.Detect.FrameworkExtension.elementExtension
         {
         }
 
-        public AxisEx(EleAxis axis, IMotionWrapper wrapper = null)
+        public AxisEx(EleAxis axis, MotionCardWrapper wrapper = null)
         {
             var props = axis.GetType().GetProperties();
             foreach (var p in props)
@@ -28,7 +28,7 @@ namespace Lead.Detect.FrameworkExtension.elementExtension
         }
 
         [XmlIgnore]
-        public IMotionWrapper DriverCard { get; protected set; }
+        public MotionCardWrapper DriverCard { get; protected set; }
 
         public void Build(StateMachine machine)
         {

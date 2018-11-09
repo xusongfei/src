@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
-using Lead.Detect.ThermoAOI.Machine1.Machine;
+using Lead.Detect.ThermoAOI.Machine1.UserDefine;
 using Lead.Detect.ThermoAOIProductLib.Thermo1;
 using Lead.Detect.Utility.FittingHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

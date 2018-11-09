@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.common;
@@ -51,13 +52,14 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
 
 
             //bind log event
-            foreach (var t in Machine.Ins.Tasks)
+            foreach (var t in Machine.Ins.Tasks.Values.OrderBy(t => t.Name))
             {
-                t.Value.LogEvent += (log, level) => UpdateTaskLog(t.Value.Name, log, level);
-                t.Value.LogEvent += (log, level) =>
+                t.LogEvent += (log, level) => UpdateTaskLog(t.Name, log, level);
+                t.LogEvent += (log, level) =>
                 {
-                    LoggerHelper.Log($@".\Log\{t.Value.Name}", log, level);
+                    LoggerHelper.Log($@".\Log\{t.Name}", log, level);
                 };
+                t.Log(string.Empty);
             }
 
 
@@ -73,6 +75,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
                     productionCountControl1.UpdateProduction(Machine.Ins.Settings.Production);
                 };
             }
+
+            _thermoProductDisplayControl1.Station = Machine.Ins.Find<Station>("MainStation");
 
 
             timer1.Start();

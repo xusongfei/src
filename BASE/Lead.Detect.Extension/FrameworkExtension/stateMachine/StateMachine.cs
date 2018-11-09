@@ -678,7 +678,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
 
         #region  resource manage
 
-        public Dictionary<int, IMotionWrapper> MotionExs { get; } = new Dictionary<int, IMotionWrapper>();
+        public Dictionary<int, MotionCardWrapper> MotionExs { get; } = new Dictionary<int, MotionCardWrapper>();
         public Dictionary<int, IDiEx> DiExs { get; } = new Dictionary<int, IDiEx>();
         public Dictionary<int, IDoEx> DoExs { get; } = new Dictionary<int, IDoEx>();
         public Dictionary<int, IVioEx> VioExs { get; } = new Dictionary<int, IVioEx>();
@@ -696,7 +696,7 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
             var typeName = typeof(T).Name;
             switch (typeName)
             {
-                case nameof(IMotionWrapper):
+                case nameof(MotionCardWrapper):
                     return MotionExs.FirstOrDefault(ex => ex.Value.Name == name).Value as T;
                 case nameof(IDiEx):
                     return DiExs.FirstOrDefault(ex => ex.Value.Name == name).Value as T;

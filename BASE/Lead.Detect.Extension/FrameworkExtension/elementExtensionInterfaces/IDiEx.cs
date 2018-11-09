@@ -16,6 +16,6 @@ namespace Lead.Detect.FrameworkExtension.elementExtensionInterfaces
         int Port { set; get; }
 
 
-        IMotionWrapper DriverCard { get; }
+        MotionCardWrapper DriverCard { get; }
     }
 }

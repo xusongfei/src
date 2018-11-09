@@ -258,8 +258,8 @@ namespace Lead.Detect.MeasureComponents.LMILaser
                 for (int i = 0; i < pos.Count; i++)
                 {
                     var gray = (int)((pos[i].Z - zMin) / range * 255);
-                    int h = (int)((int)(pos[i].X - xMin) % height) + (int)h_margin / 2;
-                    int w = (int)((int)(pos[i].Y - yMin) % width) + (int)w_margin / 2;
+                    int w = (int)((int)(pos[i].Y - yMin) % width) + (int)h_margin / 2;
+                    int h = (int)((int)(pos[i].X - xMin) % height) + (int)w_margin / 2;
                     img.SetPixel(w, h, Color.FromArgb(gray, gray, gray));
                 }
 

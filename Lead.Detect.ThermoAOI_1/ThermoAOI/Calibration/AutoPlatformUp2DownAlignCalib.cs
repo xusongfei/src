@@ -9,6 +9,7 @@ using Lead.Detect.FrameworkExtension.platforms;
 using Lead.Detect.FrameworkExtension.platforms.calibrations;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
+using Lead.Detect.ThermoAOI.Machine1.UserDefine;
 using Lead.Detect.Utility.Transformation;
 
 namespace Lead.Detect.ThermoAOI.Machine1.Calibration
@@ -196,58 +197,58 @@ namespace Lead.Detect.ThermoAOI.Machine1.Calibration
                     return new AutoPlatformUp2DownAlignCalib
                     {
                         CalibInfo = $"LeftPlatformAlign",
-                        Station = Machine.Machine.Ins.Find<Station>("LeftStation"),
+                        Station = Machine.Ins.Find<Station>("LeftStation"),
 
                         //carrier
-                        PlatformCarrier = Machine.Machine.Ins.Find<PlatformEx>("LeftCarrier"),
+                        PlatformCarrier = Machine.Ins.Find<PlatformEx>("LeftCarrier"),
 
-                        do_clampy_cy = Machine.Machine.Ins.Find<ICylinderEx>("LClampCylinderY"),
+                        do_clampy_cy = Machine.Ins.Find<ICylinderEx>("LClampCylinderY"),
 
                         //up
-                        Platform1 = Machine.Machine.Ins.Find<PlatformEx>("LeftUp"),
+                        Platform1 = Machine.Ins.Find<PlatformEx>("LeftUp"),
 
                         //down
-                        Platform2 = Machine.Machine.Ins.Find<PlatformEx>("LeftDown"),
-                        Platform2GtOffsetCalibGT1 = Machine.Machine.Ins.Find<PlatformEx>("LeftDown")["DownAlign1"] as PosXYZ,
-                        Platform2GtOffsetCalibGT2 = Machine.Machine.Ins.Find<PlatformEx>("LeftDown")["GtOffsetCalib"] as PosXYZ,
+                        Platform2 = Machine.Ins.Find<PlatformEx>("LeftDown"),
+                        Platform2GtOffsetCalibGT1 = Machine.Ins.Find<PlatformEx>("LeftDown")["DownAlign1"] as PosXYZ,
+                        Platform2GtOffsetCalibGT2 = Machine.Ins.Find<PlatformEx>("LeftDown")["GtOffsetCalib"] as PosXYZ,
 
-                        do_gt2_cy = Machine.Machine.Ins.Find<ICylinderEx>("LGTCylinder"),
+                        do_gt2_cy = Machine.Ins.Find<ICylinderEx>("LGTCylinder"),
 
                         JumpHeight1 = -50,
                         JumpHeight2 = -15,
 
 
-                        AlignPosUp = Machine.Machine.Ins.Find<PlatformEx>("LeftUp").Positions.FindAll(p => p.Name.StartsWith("UpAlign")).Cast<PosXYZ>().ToList(),
-                        AlignPosDown = Machine.Machine.Ins.Find<PlatformEx>("LeftDown").Positions.FindAll(p => p.Name.StartsWith("DownAlign")).Cast<PosXYZ>().ToList(),
+                        AlignPosUp = Machine.Ins.Find<PlatformEx>("LeftUp").Positions.FindAll(p => p.Name.StartsWith("UpAlign")).Cast<PosXYZ>().ToList(),
+                        AlignPosDown = Machine.Ins.Find<PlatformEx>("LeftDown").Positions.FindAll(p => p.Name.StartsWith("DownAlign")).Cast<PosXYZ>().ToList(),
                     };
 
                 case "Right":
                     return new AutoPlatformUp2DownAlignCalib
                     {
                         CalibInfo = $"RightPlatformAlign",
-                        Station = Machine.Machine.Ins.Find<Station>("RightStation"),
+                        Station = Machine.Ins.Find<Station>("RightStation"),
 
                         //carrier
-                        PlatformCarrier = Machine.Machine.Ins.Find<PlatformEx>("RightCarrier"),
+                        PlatformCarrier = Machine.Ins.Find<PlatformEx>("RightCarrier"),
 
-                        do_clampy_cy = Machine.Machine.Ins.Find<ICylinderEx>("LClampCylinderY"),
+                        do_clampy_cy = Machine.Ins.Find<ICylinderEx>("LClampCylinderY"),
 
                         //up
-                        Platform1 = Machine.Machine.Ins.Find<PlatformEx>("RightUp"),
+                        Platform1 = Machine.Ins.Find<PlatformEx>("RightUp"),
 
                         //down
-                        Platform2 = Machine.Machine.Ins.Find<PlatformEx>("RightDown"),
-                        Platform2GtOffsetCalibGT1 = Machine.Machine.Ins.Find<PlatformEx>("RightDown")["DownAlign1"] as PosXYZ,
-                        Platform2GtOffsetCalibGT2 = Machine.Machine.Ins.Find<PlatformEx>("RightDown")["GtOffsetCalib"] as PosXYZ,
+                        Platform2 = Machine.Ins.Find<PlatformEx>("RightDown"),
+                        Platform2GtOffsetCalibGT1 = Machine.Ins.Find<PlatformEx>("RightDown")["DownAlign1"] as PosXYZ,
+                        Platform2GtOffsetCalibGT2 = Machine.Ins.Find<PlatformEx>("RightDown")["GtOffsetCalib"] as PosXYZ,
 
-                        do_gt2_cy = Machine.Machine.Ins.Find<ICylinderEx>("RGTCylinder"),
+                        do_gt2_cy = Machine.Ins.Find<ICylinderEx>("RGTCylinder"),
 
                         JumpHeight1 = -50,
                         JumpHeight2 = -15,
 
 
-                        AlignPosUp = Machine.Machine.Ins.Find<PlatformEx>("RightUp").Positions.FindAll(p => p.Name.StartsWith("UpAlign")).Cast<PosXYZ>().ToList(),
-                        AlignPosDown = Machine.Machine.Ins.Find<PlatformEx>("RightDown").Positions.FindAll(p => p.Name.StartsWith("DownAlign")).Cast<PosXYZ>().ToList(),
+                        AlignPosUp = Machine.Ins.Find<PlatformEx>("RightUp").Positions.FindAll(p => p.Name.StartsWith("UpAlign")).Cast<PosXYZ>().ToList(),
+                        AlignPosDown = Machine.Ins.Find<PlatformEx>("RightDown").Positions.FindAll(p => p.Name.StartsWith("DownAlign")).Cast<PosXYZ>().ToList(),
                     };
             }
 
@@ -262,16 +263,16 @@ namespace Lead.Detect.ThermoAOI.Machine1.Calibration
                 {
                     if (calib.Station.Id == 1)
                     {
-                        Machine.Machine.Ins.Settings.Calibration.LeftTransform = calib.OutputTransForm;
-                        Machine.Machine.Ins.Settings.Calibration.LeftGtOffset = calib.OutputPlatform2GtOffset;
+                        Machine.Ins.Settings.Calibration.LeftTransform = calib.OutputTransForm;
+                        Machine.Ins.Settings.Calibration.LeftGtOffset = calib.OutputPlatform2GtOffset;
                     }
                     else if (calib.Station.Id == 2)
                     {
-                        Machine.Machine.Ins.Settings.Calibration.RightTransform = calib.OutputTransForm;
-                        Machine.Machine.Ins.Settings.Calibration.RightGtOffset = calib.OutputPlatform2GtOffset;
+                        Machine.Ins.Settings.Calibration.RightTransform = calib.OutputTransForm;
+                        Machine.Ins.Settings.Calibration.RightGtOffset = calib.OutputPlatform2GtOffset;
                     }
 
-                    Machine.Machine.Ins.Save();
+                    Machine.Ins.Save();
                 }
                 catch (Exception ex)
                 {

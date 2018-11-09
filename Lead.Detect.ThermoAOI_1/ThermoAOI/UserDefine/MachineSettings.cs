@@ -2,9 +2,10 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.common;
+using Lead.Detect.ThermoAOI.Machine1.Calibration;
 using Lead.Detect.ThermoAOIProductLib.ProductBase;
 
-namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine
+namespace Lead.Detect.ThermoAOI.Machine1.UserDefine
 {
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class MachineSettings : UserSettings<MachineSettings>
@@ -42,44 +43,40 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine
 
 
         [Category("Machine")]
-        public string Name { set; get; } = "MACHINE A";
+        public string Name { set; get; } = "高度通用量测";
         [Category("Machine")]
-        public string Description { set; get; } = "AOI2";
+        public string Version { get; set; } = "v1.11.4";
         [Category("Machine")]
-        public string Version { get; set; } = "v0.0.1";
-        [Category("Machine")]
-        public ProductionCount Production { get; set; } = new ProductionCount();
-
+        public string Description { set; get; } = "AOI1";
 
 
         [Category("FTP")]
         public bool EnableFTP { get; set; } = false;
         [Category("FTP")]
-        public string FTPAddress { set; get; } = @"192.168.80.10\TestData02";
+        public string FTPAddress { set; get; } = @"192.168.80.10\TestData01";
 
 
 
-        [Category("SENSOR"), Description("传感器使能")]
-        public bool SensorEnable { get; set; }
-    
+        [Category("ProjectFile")]
+        public string LeftProjectFilePath { get; set; } = @".\Config\left.fprj";
+
+        [Category("ProjectFile")]
+        public string RightProjectFilePath { get; set; } = @".\Config\right.fprj";
 
 
-        [Category("COMMON"), Description("自动测试")]
-        public bool AutoDryRun { get; set; }
-        [Category("COMMON"), Description("参考坐标模式")]
-        public bool EnableRelCoordMode { get; set; } = false;
-        [Category("COMMON"), Description("拍照错误则退出测量")]
-        public bool QuitOnProductError { get; set; } = false;
+        [Category("Production")]
+        [ReadOnly(true)]
+        public ProductionCount ProductionLeft { get; set; } = new ProductionCount();
 
-        [Category("COMMON"), Description("错误则响蜂鸣器")]
-        public bool BeepOnProductError { get; set; } = true;
+        [Category("Production")]
+        [ReadOnly(true)]
+        public ProductionCount ProductionRight { get; set; } = new ProductionCount();
 
+        [Category("Settings")]
+        public CommonConfig Common { get; set; } = new CommonConfig();
 
-
-        [Category("MEASURE"), Description("测试文件路径")]
-        public string MeasureProjectFile { get; set; }
-
-
+        [Category("Settings")]
+        public CalibrationConfig Calibration { get; set; } = new CalibrationConfig();
 
         public override bool CheckIfNormal()
         {

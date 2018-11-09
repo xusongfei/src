@@ -10,6 +10,11 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
 {
     public class ThermoCameraBase : ICameraEx
     {
+        public ThermoCameraBase()
+        {
+            Name = GetType().Name;
+        }
+
         private TcpClient _client;
 
         public string Name { get; set; }

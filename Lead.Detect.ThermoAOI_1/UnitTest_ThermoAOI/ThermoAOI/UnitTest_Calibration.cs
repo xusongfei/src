@@ -5,7 +5,7 @@ using System.Linq;
 using Lead.Detect.FrameworkExtension.platforms;
 using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.ThermoAOI.Machine1.Calibration;
-using Lead.Detect.ThermoAOI.Machine1.Machine;
+using Lead.Detect.ThermoAOI.Machine1.UserDefine;
 using Lead.Detect.ThermoAOIProductLib.Thermo1;
 using Lead.Detect.ThermoAOIProductLib.Thermo1Calculator;
 using Lead.Detect.Utility.FittingHelper;

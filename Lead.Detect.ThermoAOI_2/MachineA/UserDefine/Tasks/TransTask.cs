@@ -7,6 +7,7 @@ using Lead.Detect.FrameworkExtension.platforms.motionPlatforms;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.MachineUtilityLib.Utils;
 using Lead.Detect.MachineUtilityLib.UtilsFramework;
+using Lead.Detect.ThermoAOIProductLib.ProductBase;
 using Lead.Detect.ThermoAOIProductLib.Thermo;
 using Lead.Detect.ThermoAOIProductLib.Thermo2;
 using Lead.Detect.ThermoAOIProductLib.ThermoDataConvert;
@@ -190,7 +191,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
             Product = new Thermo2ProductA
             {
                 ProductType = Project.ThermoProductType.ToString(),
-                Description = Project.ProductName,
+                Description = Project.ProductName + "-" + CfgSettings.Version,
                 SPCItems = Project.SPCItems
             };
             Product.ClearSpc();
@@ -253,6 +254,12 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
                         avcdata.Save(Machine.Ins.Settings.FTPAddress);
                         avcdata.Save("AVCData");
                         Log("Upload AvcData Finish:" + avcdata.ToString(), LogLevel.Info);
+                    }
+
+
+                    if (Product.Status == ProductStatus.ERROR && CfgSettings.BeepOnProductError)
+                    {
+                        Station.Machine.Beep();
                     }
                 }
                 catch (Exception ex)

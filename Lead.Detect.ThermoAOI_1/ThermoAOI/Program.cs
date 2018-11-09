@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Lead.Detect.DatabaseHelper;
 using Lead.Detect.FrameworkExtension.frameworkManage;
+using Lead.Detect.ThermoAOI.Machine1.UserDefine;
 
 namespace Lead.Detect.ThermoAOI.Machine1
 {
@@ -73,10 +74,11 @@ namespace Lead.Detect.ThermoAOI.Machine1
                 SqlLiteHelper.InitDatabase();
 
                 //initialize machine settings
-                Machine.Machine.Ins.Load();
+                Machine.Ins.Load();
+                Machine.Ins.Settings.Version = $"v{Assembly.GetExecutingAssembly().GetName().Version.ToString()}";
 
                 //init drivers , start scan
-                Machine.Machine.Ins.Initialize();
+                Machine.Ins.Initialize();
             }
             catch (Exception ex)
             {
@@ -97,9 +99,9 @@ namespace Lead.Detect.ThermoAOI.Machine1
             {
                 try
                 {
-                    Machine.Machine.Ins.Terminate();
+                    Machine.Ins.Terminate();
 
-                    Machine.Machine.Ins.Save();
+                    Machine.Ins.Save();
 
 
                     EnvironmentManager.Ins.SavePrims(FrameworkExtenion.IsSimulate ? @".\Config\devsim.dev" : @".\Config\default.dev");

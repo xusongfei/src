@@ -17,7 +17,7 @@ namespace Lead.Detect.FrameworkExtension.elementExtension
 
         }
 
-        public CylinderEx(EleCylinder cy, IMotionWrapper wrapper = null)
+        public CylinderEx(EleCylinder cy, MotionCardWrapper wrapper = null)
         {
             var props = cy.GetType().GetProperties();
             foreach (var p in props)
@@ -29,9 +29,9 @@ namespace Lead.Detect.FrameworkExtension.elementExtension
         }
 
         [XmlIgnore]
-        public IMotionWrapper DriverCard { get; protected set; }
+        public MotionCardWrapper DriverCard { get; protected set; }
         [XmlIgnore]
-        public IMotionWrapper DriverCard2 { get; protected set; }
+        public MotionCardWrapper DriverCard2 { get; protected set; }
 
         public void Build(StateMachine machine)
         {
