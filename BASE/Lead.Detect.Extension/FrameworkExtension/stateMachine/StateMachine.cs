@@ -643,7 +643,6 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     if (_isPauseSignal && DiPauseSignal.Count > 0 && DiPauseSignal.All(e => !e.Value.GetDiSts()))
                     {
                         PostEvent(UserEventType.CONTINUE, this);
-                        OnShowAlarmEvent(string.Empty, LogLevel.None);
                         return;
                     }
                     else if (DiStart.Count > 0 && DiStart.Any(e => e.Value.GetDiSts()))
@@ -663,7 +662,6 @@ namespace Lead.Detect.FrameworkExtension.stateMachine
                     if (Stations.All(s => !s.Value.Enable || s.Value.RunningState == RunningState.Running))
                     {
                         _runningFlashCount = 0;
-                        OnShowAlarmEvent(string.Empty, LogLevel.None);
                         RunningState = RunningState.Running;
                     }
                     else if (Stations.Any(s => s.Value.Enable && s.Value.RunningState == RunningState.WaitReset))
