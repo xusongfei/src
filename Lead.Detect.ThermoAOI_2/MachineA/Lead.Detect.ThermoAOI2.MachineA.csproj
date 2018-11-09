@@ -125,8 +125,6 @@
     <None Include="Config2\machinesim.cfg" />
     <None Include="Config2\MeasurePlatform.dat" />
     <None Include="Config2\param0.ini" />
-    <None Include="Config2\Project\147-org-1015-desc.mprj" />
-    <None Include="Config2\Project\147-org-1015.mprj" />
     <None Include="Config2\Settings.cfg" />
     <None Include="Config2\TransPlatform.dat" />
     <None Include="Config\default.db" />
@@ -214,7 +212,9 @@
   <ItemGroup>
     <Content Include="lead.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Config2\Project\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
