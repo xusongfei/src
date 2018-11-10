@@ -8,7 +8,6 @@ using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.frameworkManage;
 using Lead.Detect.FrameworkExtension.stateMachine;
 using Lead.Detect.MachineUtilityLib.UtilViews;
-using Lead.Detect.MeasureComponents.CameraControl;
 using Lead.Detect.ThermoAOI2.MachineA.UserDefine;
 using Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks;
 using WeifenLuo.WinFormsUI.Docking;
@@ -126,11 +125,11 @@ namespace Lead.Detect.ThermoAOI2.MachineA.View
             }
             else
             {
-                var f = new FrmPassword();
+                var f = new LoginForm();
                 f.ShowDialog();
                 if (f.DialogResult == DialogResult.OK)
                 {
-                    if (f.pwdFlag)
+                    if (f.IsLoginSuccess)
                     {
                         OperationLevel = OperationLevel.Administrator;
                         lbOpLvl.Text = OperationLevel.ToString();

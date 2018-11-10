@@ -119,11 +119,11 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            var f = new FrmPassword();
+            var f = new LoginForm();
             f.ShowDialog();
             if (f.DialogResult == DialogResult.OK)
             {
-                if (f.pwdFlag)
+                if (f.IsLoginSuccess)
                 {
                     OperationLevel = OperationLevel.Administrator;
                     lbOpLvl.Text = OperationLevel.ToString();

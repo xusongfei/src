@@ -61,15 +61,13 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
             this.stationStateControlLeft = new Lead.Detect.FrameworkExtension.stateMachine.StationStateControl();
             this.tPageSettings = new System.Windows.Forms.TabPage();
             this.tabControlConfig = new System.Windows.Forms.TabControl();
-            this.tabPageCOMMON = new System.Windows.Forms.TabPage();
-            this.propertyGridCommonConfig = new System.Windows.Forms.PropertyGrid();
             this.tabPageSETTINGS = new System.Windows.Forms.TabPage();
             this.propertyGridMachineConfig = new System.Windows.Forms.PropertyGrid();
             this.tabPageMachine = new System.Windows.Forms.TabPage();
             this.richTextBoxMachine = new System.Windows.Forms.RichTextBox();
             this.tabPageProduct = new System.Windows.Forms.TabPage();
-            this.measureProjectSelctionControl2 = new MeasureProjectSelctionControl();
-            this.measureProjectSelctionControl1 = new MeasureProjectSelctionControl();
+            this.measureProjectSelctionControl2 = new Lead.Detect.ThermoAOIProductLib.Thermo.MeasureProjectSelctionControl();
+            this.measureProjectSelctionControl1 = new Lead.Detect.ThermoAOIProductLib.Thermo.MeasureProjectSelctionControl();
             this.tabPageTest = new System.Windows.Forms.TabPage();
             this.buttonProductCalculatorEditor = new System.Windows.Forms.Button();
             this.buttonRBarcodeTrigger = new System.Windows.Forms.Button();
@@ -95,7 +93,6 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
             this.tPageCalib.SuspendLayout();
             this.tPageSettings.SuspendLayout();
             this.tabControlConfig.SuspendLayout();
-            this.tabPageCOMMON.SuspendLayout();
             this.tabPageSETTINGS.SuspendLayout();
             this.tabPageMachine.SuspendLayout();
             this.tabPageProduct.SuspendLayout();
@@ -428,7 +425,6 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
             // 
             // tabControlConfig
             // 
-            this.tabControlConfig.Controls.Add(this.tabPageCOMMON);
             this.tabControlConfig.Controls.Add(this.tabPageSETTINGS);
             this.tabControlConfig.Controls.Add(this.tabPageMachine);
             this.tabControlConfig.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -438,28 +434,6 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
             this.tabControlConfig.SelectedIndex = 0;
             this.tabControlConfig.Size = new System.Drawing.Size(996, 614);
             this.tabControlConfig.TabIndex = 0;
-            // 
-            // tabPageCOMMON
-            // 
-            this.tabPageCOMMON.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageCOMMON.Controls.Add(this.propertyGridCommonConfig);
-            this.tabPageCOMMON.Location = new System.Drawing.Point(4, 26);
-            this.tabPageCOMMON.Margin = new System.Windows.Forms.Padding(2);
-            this.tabPageCOMMON.Name = "tabPageCOMMON";
-            this.tabPageCOMMON.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageCOMMON.Size = new System.Drawing.Size(988, 584);
-            this.tabPageCOMMON.TabIndex = 2;
-            this.tabPageCOMMON.Text = "功能设定";
-            // 
-            // propertyGridCommonConfig
-            // 
-            this.propertyGridCommonConfig.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.propertyGridCommonConfig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGridCommonConfig.Location = new System.Drawing.Point(2, 2);
-            this.propertyGridCommonConfig.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.propertyGridCommonConfig.Name = "propertyGridCommonConfig";
-            this.propertyGridCommonConfig.Size = new System.Drawing.Size(984, 580);
-            this.propertyGridCommonConfig.TabIndex = 62;
             // 
             // tabPageSETTINGS
             // 
@@ -515,7 +489,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
             this.tabPageProduct.Name = "tabPageProduct";
             this.tabPageProduct.Size = new System.Drawing.Size(1000, 618);
             this.tabPageProduct.TabIndex = 13;
-            this.tabPageProduct.Text = "测量产品设置";
+            this.tabPageProduct.Text = "产品测试设置";
             this.tabPageProduct.UseVisualStyleBackColor = true;
             // 
             // measureProjectSelctionControl2
@@ -684,7 +658,6 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
             this.tPageCalib.PerformLayout();
             this.tPageSettings.ResumeLayout(false);
             this.tabControlConfig.ResumeLayout(false);
-            this.tabPageCOMMON.ResumeLayout(false);
             this.tabPageSETTINGS.ResumeLayout(false);
             this.tabPageMachine.ResumeLayout(false);
             this.tabPageProduct.ResumeLayout(false);
@@ -698,12 +671,10 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
         private System.Windows.Forms.TabPage tPageSettings;
         private System.Windows.Forms.TabControl tabControlConfig;
         private System.Windows.Forms.TabPage tabPageSETTINGS;
-        private System.Windows.Forms.TabPage tabPageCOMMON;
         private System.Windows.Forms.TabPage tPageIO;
         private System.Windows.Forms.TabPage tabPageProduct;
         private System.Windows.Forms.TabPage tPageCalib;
         private System.Windows.Forms.PropertyGrid propertyGridMachineConfig;
-        private System.Windows.Forms.PropertyGrid propertyGridCommonConfig;
         private System.Windows.Forms.TabPage tPageVio;
         private FrameworkExtension.stateMachine.StationStateControl stationStateControlLeft;
         private FrameworkExtension.stateMachine.StationStateControl stationStateControlRight;

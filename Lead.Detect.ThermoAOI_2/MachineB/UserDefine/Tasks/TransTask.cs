@@ -35,6 +35,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
         public MeasureProjectB Project;
         public Thermo2ProductB Product;
 
+        public DataUploadHelper UploadHelper;
+
 
         public TransTask(int id, string name, Station station) : base(id, name, station)
         {
@@ -88,11 +90,25 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             try
             {
                 Product = new Thermo2ProductB();
+                Product.ProductType = Project.ThermoProductType.ToString();
+                Product.Description = string.Join("-", new[] { Project.ProductName, CfgSettings.Version });
+                Product.SPCItems = Project.SPCItems;
 
-                if (Machine.Ins.Settings.EnableFTP)
+
+                //upload data
+                if (CfgSettings.Uploader.Enable)
                 {
-                    var avcdata = ThermoProductConvertHelper.Convert(Product, "", Machine.Ins.Settings.Description);
-                    avcdata.Save(Machine.Ins.Settings.FTPAddress);
+                    //init uploader
+                    UploadHelper = DataUploadFactory.Ins.Create(CfgSettings.Uploader.UploaderName, CfgSettings.Uploader);
+
+                    if (UploadHelper == null)
+                    {
+                        Log($"创建上传模块失败: {CfgSettings.Uploader.UploaderName} 不存在", LogLevel.Error);
+                    }
+                    else
+                    {
+                        UploadData();
+                    }
                 }
 
             }
@@ -148,7 +164,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             {
                 Barcode = barcode,
                 ProductType = Project.ThermoProductType.ToString(),
-                Description = Project.ProductName + "-" + CfgSettings.Version,
+                Description = string.Join("-", new[] { Project.ProductName, CfgSettings.Version }),
                 SPCItems = Project.SPCItems,
             };
             Product.ClearSpc();
@@ -206,28 +222,33 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                     Product.ToEntity().Save();
                     Log("Product Save Finish:" + Product, LogLevel.Info);
 
-                    if (Machine.Ins.Settings.EnableFTP)
-                    {
-                        var avcdata = ThermoProductConvertHelper.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
-                        avcdata.Save(Machine.Ins.Settings.FTPAddress);
-                        avcdata.Save("AVCData");
-                        Log("Upload AvcData Finish:" + avcdata, LogLevel.Info);
-                    }
-
-
-                    if (Product.Status == ProductStatus.ERROR && CfgSettings.BeepOnProductError)
-                    {
-                        Station.Machine.Beep();
-                    }
+                    UploadData();
                 }
                 catch (Exception ex)
                 {
                     Log($"保存数据失败：{ex.Message}", LogLevel.Warning);
                     Station.Machine.Beep();
                 }
+                finally
+                {
+                    if (Product.Status == ProductStatus.ERROR && CfgSettings.BeepOnProductError)
+                    {
+                        Station.Machine.Beep();
+                    }
+                }
             }
 
             TestProcessControl.OnTestFinishEvent(Product);
+        }
+
+        private void UploadData()
+        {
+            if (CfgSettings.Uploader.Enable)
+            {
+                var csvData = ThermoProductConvertHelper.Convert(Product, CfgSettings.Uploader);
+                UploadHelper?.Upload(csvData);
+                Log("Upload CSVDATA Finish:" + csvData, LogLevel.Info);
+            }
         }
 
     }

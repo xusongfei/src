@@ -1,4 +1,5 @@
-﻿using Lead.Detect.FrameworkExtension;
+﻿using System.Threading;
+using Lead.Detect.FrameworkExtension;
 using Lead.Detect.FrameworkExtension.elementExtensionInterfaces;
 using Lead.Detect.FrameworkExtension.stateMachine;
 
@@ -35,7 +36,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
         {
             SetDatumn(true, 300, false);
             Clamp(true, 300, null);
-
+            Thread.Sleep(800);
             SetVaccum(true);
 
             Clamp(false, 300, null);
@@ -67,19 +68,30 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
 
         public void SetDatumn(bool status, int timeout, bool? ignoreOrWarningOrError)
         {
-            new[] {CyLeft, CyFront}.SetDo(Task, new[] {status, status}, timeout, ignoreOrWarningOrError);
+            new[] { CyLeft, CyFront }.SetDo(Task, new[] { status, status }, timeout, ignoreOrWarningOrError);
         }
 
 
         public void Clamp(bool status, int timeout, bool? ignoreOrWarningOrError)
         {
-            new[] {CyRight, CyBack}.SetDo(Task, new[] {status, status}, timeout, ignoreOrWarningOrError);
+            new[] { CyRight, CyBack }.SetDo(Task, new[] { status, status }, timeout, ignoreOrWarningOrError);
         }
 
         public void SetVaccum(bool status)
         {
             Vaccum1.SetDo(status);
             Vaccum2.SetDo(status);
+        }
+
+        public bool CheckProductSensor()
+        {
+            if (CarrierSensor1.GetDiSts() && CarrierSensor2.GetDiSts())
+            {
+                return true;
+            }
+
+            Task?.Log($"载具定位传感器无信号", LogLevel.Warning);
+            return false;
         }
     }
 }

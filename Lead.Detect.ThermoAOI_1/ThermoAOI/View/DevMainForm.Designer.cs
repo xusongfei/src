@@ -33,7 +33,6 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DevMainForm));
-            this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbOpLvl = new System.Windows.Forms.Label();
             this.btnLogin = new System.Windows.Forms.Button();
@@ -43,8 +42,8 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSummry = new System.Windows.Forms.TabPage();
-            this._thermoProductDisplayControl2 = new ThermoProductDisplayControl();
-            this._thermoProductDisplayControl1 = new ThermoProductDisplayControl();
+            this._thermoProductDisplayControl2 = new Lead.Detect.ThermoAOIProductLib.Thermo.ThermoProductDisplayControl();
+            this._thermoProductDisplayControl1 = new Lead.Detect.ThermoAOIProductLib.Thermo.ThermoProductDisplayControl();
             this.labelRightFile = new System.Windows.Forms.Label();
             this.labelRight = new System.Windows.Forms.Label();
             this.labelLeftFile = new System.Windows.Forms.Label();
@@ -56,6 +55,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
             this.btnStop = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -68,26 +68,13 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
-            // 
-            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(54)))), ((int)(((byte)(100)))));
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("黑体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.ForeColor = System.Drawing.Color.Gold;
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(1008, 70);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "高度通用量测";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.lbOpLvl);
             this.panel1.Controls.Add(this.btnLogin);
             this.panel1.Controls.Add(this.btnConfig);
             this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -156,7 +143,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(284, 70);
+            this.pictureBox1.Size = new System.Drawing.Size(225, 70);
             this.pictureBox1.TabIndex = 10;
             this.pictureBox1.TabStop = false;
             // 
@@ -405,6 +392,19 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
             this.btnStart.UseVisualStyleBackColor = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(54)))), ((int)(((byte)(100)))));
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("黑体", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.ForeColor = System.Drawing.Color.Gold;
+            this.label1.Location = new System.Drawing.Point(225, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(460, 70);
+            this.label1.TabIndex = 21;
+            this.label1.Text = "高度通用量测";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // DevMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 15F);
@@ -436,8 +436,6 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.SplitContainer splitContainer1;
@@ -460,5 +458,6 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
         private ThermoProductDisplayControl _thermoProductDisplayControl1;
         private ThermoProductDisplayControl _thermoProductDisplayControl2;
         private ProductDatabaseControl productDatabaseControl1;
+        private System.Windows.Forms.Label label1;
     }
 }

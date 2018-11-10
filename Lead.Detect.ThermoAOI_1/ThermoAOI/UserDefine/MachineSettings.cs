@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.common;
 using Lead.Detect.ThermoAOI.Machine1.Calibration;
 using Lead.Detect.ThermoAOIProductLib.ProductBase;
+using Lead.Detect.ThermoAOIProductLib.ThermoDataConvert;
 
 namespace Lead.Detect.ThermoAOI.Machine1.UserDefine
 {
@@ -41,20 +42,24 @@ namespace Lead.Detect.ThermoAOI.Machine1.UserDefine
             Save(@".\Config\Settings.cfg");
         }
 
+        #region  Machine
+
+
 
         [Category("Machine")]
         public string Name { set; get; } = "高度通用量测";
+
+        [ReadOnly(true)]
         [Category("Machine")]
         public string Version { get; set; } = "v1.11.4";
         [Category("Machine")]
         public string Description { set; get; } = "AOI1";
 
 
-        [Category("FTP")]
-        public bool EnableFTP { get; set; } = false;
-        [Category("FTP")]
-        public string FTPAddress { set; get; } = @"192.168.80.10\TestData01";
+        #endregion
 
+
+        public DataUploaderSetting Uploader { get; set; } = new DataUploaderSetting();
 
 
         [Category("ProjectFile")]
@@ -72,11 +77,18 @@ namespace Lead.Detect.ThermoAOI.Machine1.UserDefine
         [ReadOnly(true)]
         public ProductionCount ProductionRight { get; set; } = new ProductionCount();
 
+
+
+
+        #region  extension
+
         [Category("Settings")]
         public CommonConfig Common { get; set; } = new CommonConfig();
 
         [Category("Settings")]
         public CalibrationConfig Calibration { get; set; } = new CalibrationConfig();
+
+        #endregion
 
         public override bool CheckIfNormal()
         {

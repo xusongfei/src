@@ -32,7 +32,7 @@ namespace Lead.Detect.MachineUtilityLib.Utils
             if (DISensors.Any(s => !s.GetDiSts()))
             {
                 task.Station.Machine.Beep();
-                task.Log($"{ErrorMsg} - {string.Join(",", DISensors.Select(s => s.Description))} ", LogLevel.Info);
+                task.Log($"{ErrorMsg} - {string.Join(",", DISensors.Select(s => s.Description))} ", LogLevel.Warning);
                 return false;
             }
             return true;
@@ -72,7 +72,8 @@ namespace Lead.Detect.MachineUtilityLib.Utils
 
             if (!ret)
             {
-                task.Log($"{ErrorMsg} - {string.Join(",", DISensors.Select(s => s.Description))} ", LogLevel.Info);
+                task.Station.Machine.Beep();
+                task.Log($"{ErrorMsg} - {string.Join(",", DISensors.Select(s => s.Description))} ", LogLevel.Warning);
                 return false;
             }
             return true;

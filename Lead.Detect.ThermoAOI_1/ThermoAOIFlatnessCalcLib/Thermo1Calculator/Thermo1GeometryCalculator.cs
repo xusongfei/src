@@ -99,7 +99,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo1Calculator
                 }
                 else
                 {
-                    productData.Error = $"GeometryCalcError";
+                    productData.Error = $"GeometryCalcNameError";
                     productData.Status = ProductStatus.ERROR;
                 }
 

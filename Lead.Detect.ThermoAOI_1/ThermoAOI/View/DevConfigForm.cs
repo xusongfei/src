@@ -59,7 +59,6 @@ namespace Lead.Detect.ThermoAOI.Machine1.View
 
 
             //config
-            propertyGridCommonConfig.SelectedObject = Machine.Ins.Settings.Common;
             propertyGridMachineConfig.SelectedObject = Machine.Ins.Settings;
             richTextBoxMachine.Text = Machine.Ins.SerializeToString();
 

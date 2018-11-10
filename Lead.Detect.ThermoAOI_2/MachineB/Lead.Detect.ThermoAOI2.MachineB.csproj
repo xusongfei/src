@@ -145,6 +145,7 @@
     <None Include="Config\devsim.dev">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Config\framework.cfg" />
     <None Include="Config\Laser1Platform.dat" />
     <None Include="Config\Laser2Platform.dat" />
     <None Include="Config\machine.cfg" />
@@ -153,13 +154,6 @@
     <None Include="Config\Project\117-module-20181026-c8.mprj" />
     <None Include="Config\Project\117-module-c8.mprj" />
     <None Include="Config\Project\147-module-c8.mprj" />
-    <None Include="Config\backup\11-25-J-LASERDOWN.mprj" />
-    <None Include="Config\backup\11-25-J.mprj" />
-    <None Include="Config\backup\117-1022-2.mprj" />
-    <None Include="Config\backup\117-1022-little.mprj" />
-    <None Include="Config\backup\117-1022.mprj" />
-    <None Include="Config\backup\147 1020.mprj" />
-    <None Include="Config\backup\147-module-20181021-org.mprj" />
     <None Include="Config\Project\147-module-20181026-c8.mprj" />
     <None Include="Config\Project\147-module-20181029-c8.mprj" />
     <None Include="Config\Settings.cfg" />

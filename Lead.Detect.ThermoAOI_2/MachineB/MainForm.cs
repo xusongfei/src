@@ -147,5 +147,15 @@ namespace Lead.Detect.ThermoAOI2.MachineB
 
         #endregion
 
+        private void 数据文件夹ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", @".\Data");
+        }
+
+        private void 更改密码ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var cf = new ChangePasswordForm();
+            cf.ShowDialog();
+        }
     }
 }

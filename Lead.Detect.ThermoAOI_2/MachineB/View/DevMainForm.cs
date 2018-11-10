@@ -127,11 +127,11 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             }
             else
             {
-                var f = new FrmPassword();
+                var f = new LoginForm();
                 f.ShowDialog();
                 if (f.DialogResult == DialogResult.OK)
                 {
-                    if (f.pwdFlag)
+                    if (f.IsLoginSuccess)
                     {
                         OperationLevel = OperationLevel.Administrator;
                         lbOpLvl.Text = OperationLevel.ToString();

@@ -15,6 +15,9 @@
         /// <summary>
         /// H - 3.00 (+-0.10) - height2
         /// </summary>
-        H
+        H,
+
+
+        FAI3,
     }
 }

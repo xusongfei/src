@@ -20,21 +20,36 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo1Calculator
                     new FlatnessCalc()
                     {
                         Name = X1311Geo.D.ToString(),
-                        IsDatum = true
+                        Description =  "ped flatness",
+                        IsDatum = true,
+                        SourcePos = "ped"
                     }
                 },
                 {
                     new ProfileOfSurfaceCalc()
                     {
                         Name = X1311Geo.H.ToString(),
-                        DatumName = X1311Geo.D.ToString()
+                        Description =  "standoff h",
+                        DatumName = X1311Geo.D.ToString(),
+                        SourcePos = "h",
                     }
                 },
                 {
                     new ProfileOfSurfaceCalc()
                     {
                         Name = X1311Geo.I.ToString(),
-                        DatumName = X1311Geo.D.ToString()
+                        Description =  "standoff i",
+                        DatumName = X1311Geo.D.ToString(),
+                        SourcePos = "i",
+
+                    }
+                },
+                {
+                    new ProfileOfSurfaceCalc()
+                    {
+                        Name = X1311Geo.FAI3.ToString(),
+                        DatumName = X1311Geo.D.ToString(),
+                        SourcePos = "up",
                     }
                 },
             };

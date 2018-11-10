@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.common;
 using Lead.Detect.ThermoAOIProductLib.ProductBase;
+using Lead.Detect.ThermoAOIProductLib.ThermoDataConvert;
 
 namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
 {
@@ -51,14 +52,11 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
         public ProductionCount Production { get; set; } = new ProductionCount();
 
 
-        [Category("FTP")]
-        public bool EnableFTP { get; set; } = false;
-        [Category("FTP")]
-        public string FTPAddress { set; get; } = @"192.168.80.10\TestData03";
+
+        public DataUploaderSetting Uploader { get; set; } = new DataUploaderSetting();
 
 
-
-        #region common
+        #region barcode
 
         [Category("BARCODE"), Description("条码使能")]
         public bool BarcodeEnable { get; set; }
@@ -67,7 +65,9 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
         [Category("BARCODE"), Description("条码长度")]
         public int BarcodeLength { get; set; }
 
+        #endregion
 
+        #region common
         [Category("SENSOR"), Description("传感器使能")]
         public bool SensorEnable { get; set; }
 
@@ -105,16 +105,12 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
         public string Laser1IP { get; set; } = "192.168.1.10";
         [Category("LASER UP"), Description("上激光")]
         public string Laser1AcceleratorIp { get; set; } = "192.168.1.111";
-        [Category("LASER UP"), Description("上激光")]
-        public int Laser1Port { get; set; }
 
 
         [Category("LASER DOWN"), Description("下激光")]
         public string Laser2IP { get; set; } = "192.168.2.10";
         [Category("LASER DOWN"), Description("下激光")]
         public string Laser2AcceleratorIp { get; set; } = "192.168.2.111";
-        [Category("LASER DOWN"), Description("下激光")]
-        public int Laser2Port { get; set; }
 
 
         [Category("LASER"), Description("激光")]

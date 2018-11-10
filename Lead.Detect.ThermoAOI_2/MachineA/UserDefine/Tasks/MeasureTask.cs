@@ -275,7 +275,7 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
             {
                 //only add index on trigger product
                 index++;
-                Thread.Sleep(1000);
+                Thread.Sleep(CfgSettings.CaptureDelay);
                 var ret = Camera.TriggerProduct(index);
                 if (!ret)
                 {

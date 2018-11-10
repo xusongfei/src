@@ -1,11 +1,31 @@
-﻿using Lead.Detect.ThermoAOIProductLib.Thermo;
+﻿using Lead.Detect.ThermoAOIProductLib.ProductBase;
+using Lead.Detect.ThermoAOIProductLib.Thermo;
 
 namespace Lead.Detect.ThermoAOIProductLib.ThermoDataConvert
 {
     public class ThermoProductConvertHelper
     {
 
-        public static AvcData Convert(ThermoProduct product, string partid, string machineName)
+
+        public static ICsvData Convert(ThermoProduct product, DataUploaderSetting uploaderSetting)
+        {
+            switch (uploaderSetting.UploaderName)
+            {
+                case "AVC":
+                    return AvcConvert(product, uploaderSetting.AVC_Part_ID, uploaderSetting.AVC_Machine_ID);
+                    break;
+                case "CM":
+                    return CmConvert(product, uploaderSetting.CM_Machine_ID);
+
+                default:
+                    return null;
+            }
+        }
+
+
+
+
+        public static AvcData AvcConvert(ThermoProduct product, string partid, string machineName)
         {
             var avcData = new AvcData();
 
@@ -20,13 +40,13 @@ namespace Lead.Detect.ThermoAOIProductLib.ThermoDataConvert
         }
 
 
-
         /// <summary>
         /// todo
         /// </summary>
         /// <param name="product"></param>
+        /// <param name="machineName"></param>
         /// <returns></returns>
-        public static CMData Convert(ThermoProduct product, string machineName)
+        public static CMData CmConvert(ThermoProduct product, string machineName)
         {
             var avcData = new CMData();
 

@@ -53,6 +53,12 @@
     <Compile Include="Utils\MultiVaccumWithSensor.cs" />
     <Compile Include="Utils\TestProcessControl.cs" />
     <Compile Include="UtilsFramework\StationTaskExtension.cs" />
+    <Compile Include="UtilViews\ChangePasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UtilViews\ChangePasswordForm.Designer.cs">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UtilViews\DevAlarmForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,11 +71,11 @@
     <Compile Include="UtilViews\DevLogForm.Designer.cs">
       <DependentUpon>DevLogForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UtilViews\FrmPassword.cs">
+    <Compile Include="UtilViews\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UtilViews\FrmPassword.Designer.cs">
-      <DependentUpon>FrmPassword.cs</DependentUpon>
+    <Compile Include="UtilViews\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UtilViews\VersionForm.cs">
       <SubType>Form</SubType>
@@ -85,14 +91,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="UtilViews\ChangePasswordForm.resx">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UtilViews\DevAlarmForm.resx">
       <DependentUpon>DevAlarmForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UtilViews\DevLogForm.resx">
       <DependentUpon>DevLogForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UtilViews\FrmPassword.resx">
-      <DependentUpon>FrmPassword.cs</DependentUpon>
+    <EmbeddedResource Include="UtilViews\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UtilViews\VersionForm.resx">
       <DependentUpon>VersionForm.cs</DependentUpon>

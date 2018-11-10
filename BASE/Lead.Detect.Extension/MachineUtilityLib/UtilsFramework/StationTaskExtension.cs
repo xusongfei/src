@@ -14,7 +14,7 @@ namespace Lead.Detect.MachineUtilityLib.UtilsFramework
             //wait measure task
             while (waitTask.RunningState != RunningState.WaitRun && waitTask.RunningState != RunningState.Running)
             {
-                curTask.AbortIfCancel("cancel wait tasks");
+                curTask.AbortIfCancel($"Cancel Waiting {waitTask.Name} Reset Finish");
                 System.Threading.Thread.Sleep(1);
             }
 

@@ -49,7 +49,12 @@
   <ItemGroup>
     <Compile Include="GDTCalcItem\LocationOfPositionCalc.cs" />
     <Compile Include="ThermoDataConvert\AvcData.cs" />
+    <Compile Include="ThermoDataConvert\AvcDataUploadHelper.cs" />
     <Compile Include="ThermoDataConvert\CMData.cs" />
+    <Compile Include="ThermoDataConvert\CMDataUploadHelper.cs" />
+    <Compile Include="ThermoDataConvert\DataUploaderSetting.cs" />
+    <Compile Include="ThermoDataConvert\DataUploadHelper.cs" />
+    <Compile Include="ThermoDataConvert\IDataUpload.cs" />
     <Compile Include="ThermoDataConvert\ThermoProductConvertHelper.cs" />
     <Compile Include="ProductBase\Product.cs" />
     <Compile Include="ThermoDataConvert\ThermoProductDatabaseConvertHelper.cs" />

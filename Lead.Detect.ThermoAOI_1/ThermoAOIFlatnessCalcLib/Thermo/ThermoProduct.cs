@@ -14,6 +14,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
         /// </summary>
         public List<SPCItem> SPCItems { get; set; } = new List<SPCItem>();
 
+
         public void ClearSpc()
         {
             foreach (var s in SPCItems)
@@ -29,7 +30,6 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
             var item = SPCItems.FirstOrDefault(f => f.FAI == fai);
             if (item != null && (Math.Abs(item.Value) < float.Epsilon || item.CheckSpec()))
             {
-                item.Value = val;
                 if (val > item.Value)
                 {
                     item.ValueMax = val;
@@ -38,6 +38,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
                 {
                     item.ValueMin = val;
                 }
+                item.Value = val;
             }
         }
 
@@ -47,7 +48,6 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
             //not set val or ok
             if (item != null && (Math.Abs(item.Value) < float.Epsilon || item.CheckSpec()))
             {
-                item.Value = val;
                 if (val > item.Value)
                 {
                     item.ValueMax = val;
@@ -56,6 +56,7 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo
                 {
                     item.ValueMin = val;
                 }
+                item.Value = val;
             }
         }
 

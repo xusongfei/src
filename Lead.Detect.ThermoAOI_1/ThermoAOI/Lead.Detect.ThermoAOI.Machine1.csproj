@@ -88,6 +88,11 @@
     <Compile Include="Common\BarcodeHelper.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="UserDefine\MachineSafeChecks.cs" />
     <Compile Include="UserDefine\newTasks\newMeasureDownTask.cs" />
     <Compile Include="UserDefine\newTasks\newMeasureUpTask.cs" />
@@ -132,37 +137,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <None Include="Config2\A117\A117NoFin.fprj" />
-    <None Include="Config2\A117\A117NoFinNewR.fprj" />
-    <None Include="Config2\A117\A117NoFinTest.fprj" />
-    <None Include="Config2\A117\A117NoFin_pf_27.fprj" />
-    <None Include="Config2\A117\A117NoFin_pf_28 - 9.fprj" />
-    <None Include="Config2\A117\A117NoFin_pf_29.fprj" />
-    <None Include="Config2\A117\A117NoFin_pf_30 %28VC单体%29.fprj" />
-    <None Include="Config2\A117\A117NoFin_pf_30.fprj" />
-    <None Include="Config2\A117\A117NoFin_pf_31.fprj" />
-    <None Include="Config2\A117\A117WithFin.fprj" />
-    <None Include="Config2\A117\A117WithFin_pf_27.fprj" />
-    <None Include="Config2\A117\A117WithFin_pf_28 %28带FIN模组%29.fprj" />
-    <None Include="Config2\A117\A117WithFin_pf_28 - 9.fprj" />
-    <None Include="Config2\A117\A117WithFin_pf_28.fprj" />
-    <None Include="Config2\A117\A117WithFin_pf_29.fprj" />
-    <None Include="Config2\A117\A117WithFin_pf_30.fprj" />
-    <None Include="Config2\A117\A117WithFin_pf_31.fprj" />
-    <None Include="Config2\A117\default.fprj" />
-    <None Include="Config2\Calculators\A117NoFin.calc" />
-    <None Include="Config2\Calculators\A117WithFin.calc" />
-    <None Include="Config2\Calculators\A147NoFin.calc" />
-    <None Include="Config2\Calculators\A147WithFin.calc" />
-    <None Include="Config2\Calculators\X1311WithFin.calc" />
     <None Include="Config2\default.db" />
     <None Include="Config2\default.dev" />
     <None Include="Config2\devsim.dev" />
@@ -172,23 +149,10 @@
     <None Include="Config2\machine.cfg" />
     <None Include="Config2\machinesim.cfg" />
     <None Include="Config2\p1.pts" />
-    <None Include="Config2\P2\A117NoFinV13-pf-30.fprj" />
-    <None Include="Config2\P2\A117NoFinV13.fprj" />
-    <None Include="Config2\P2\A117WithFinV13-pf-30.fprj" />
-    <None Include="Config2\P2\A117WithFinV13.fprj" />
-    <None Include="Config2\P2\A147NoFinV10.fprj" />
-    <None Include="Config2\P2\A147WithFinV10.fprj" />
-    <None Include="Config2\P2\Calib\A117HeightCalibTest.fprj" />
     <None Include="Config2\RightCarrier.pts" />
     <None Include="Config2\RightDown.pts" />
     <None Include="Config2\RightUp.pts" />
     <None Include="Config2\Settings.cfg" />
-    <None Include="Config2\CALIB FPRJ\A117FlatnessTest.fprj" />
-    <None Include="Config2\CALIB FPRJ\A117FlatnessTest2.fprj" />
-    <None Include="Config2\CALIB FPRJ\A117FlatnessTest3.fprj" />
-    <None Include="Config2\CALIB FPRJ\A117FlatnessTest4.fprj" />
-    <None Include="Config2\CALIB FPRJ\A117HeightCalibTest.fprj" />
-    <None Include="Config\A117\A117NoFin_pf_30 %28VC单体%29.mprj" />
     <None Include="Config\Calculators\A117FullModule.calc" />
     <None Include="Config\Calculators\A117VC.calc" />
     <None Include="Config\Calculators\A147FullModule.calc" />
@@ -198,16 +162,6 @@
     <None Include="Config\LeftCarrier.dat" />
     <None Include="Config\LeftDown.dat" />
     <None Include="Config\LeftUp.dat" />
-    <None Include="Config\P1\TEST PROJECT\A117FlatnessTest.fprj" />
-    <None Include="Config\P1\TEST PROJECT\A117FlatnessTest3.fprj" />
-    <None Include="Config\P1\TEST PROJECT\A117FlatnessTest4.fprj" />
-    <None Include="Config\P1\TEST PROJECT\A117HeightCalibTest.fprj" />
-    <None Include="Config\P1\不带Fin标定点位\A117NoFinNewCalib.fprj" />
-    <None Include="Config\P1\右工位不带Fin测试点位\A117NoFinNewR.fprj" />
-    <None Include="Config\P1\右工位带Fin测试点位\A117WithFinNewR.fprj" />
-    <None Include="Config\P1\左工位不带Fin测试点位\A117NoFinNewL.fprj" />
-    <None Include="Config\P1\左工位带Fin测试点位\A117WithFinNewL.fprj" />
-    <None Include="Config\P1\带Fin标定点位\A117WithFinNewCalib.fprj" />
     <None Include="Config\default.db" />
     <None Include="Config\default.dev" />
     <None Include="Config\devsim.dev" />
@@ -216,29 +170,6 @@
     <None Include="Config\LeftUp.pts" />
     <None Include="Config\machine.cfg" />
     <None Include="Config\machinesim.cfg" />
-    <None Include="Config\P2 201810\A117-module-V13-pf-30.fprj" />
-    <None Include="Config\P2 201810\A117-module-V13-pf-30.mprj" />
-    <None Include="Config\P2 201810\A117-vc-V13-pf-30-grr-ordered.fprj" />
-    <None Include="Config\P2 201810\A117-vc-V13-pf-30-grr-ordered.mprj" />
-    <None Include="Config\P2 201810\A117NoFinV13-pf-30-grr-ordered.fprj" />
-    <None Include="Config\P2 201810\A117NoFinV13-pf-30-grr-ordered.mprj" />
-    <None Include="Config\P2 201810\A147-module-V10-20181022-ordered-height65.fprj" />
-    <None Include="Config\P2 201810\A147-module-V10-20181022-ordered-height65.mprj" />
-    <None Include="Config\P2 201810\A147-module-V10.mprj" />
-    <None Include="Config\P2 201810\A147-vc-V10-20181022-ordered.fprj" />
-    <None Include="Config\P2 201810\A147-vc-V10-20181022-ordered.mprj" />
-    <None Include="Config\P2 201810\A147NoFinV10-20181021-ordered.fprj" />
-    <None Include="Config\P2 201810\A147NoFinV10-20181021-ordered.mprj" />
-    <None Include="Config\P2 201810\A147NoFinV10-20181022-ordered.fprj" />
-    <None Include="Config\P2 201810\A147NoFinV10-20181022-ordered.mprj" />
-    <None Include="Config\P2 201810\A147NoFinV10-20181022.fprj" />
-    <None Include="Config\P2 201810\A147NoFinV10-20181022.mprj" />
-    <None Include="Config\P2 201810\A147WithFinV10-20181022-ordered-height65.fprj" />
-    <None Include="Config\P2 201810\A147WithFinV10-20181022-ordered-height65.mprj" />
-    <None Include="Config\P2 201810\A147WithFinV10-20181022-ordered.fprj" />
-    <None Include="Config\P2 201810\A147WithFinV10-20181022-ordered.mprj" />
-    <None Include="Config\P2 201810\A147WithFinV10.fprj" />
-    <None Include="Config\P2 201810\A147WithFinV10.mprj" />
     <None Include="Config\P2 201811\A117-module-V13-pf-30-ordered.mprj" />
     <None Include="Config\P2 201811\A117-module-V13-pf-30.mprj" />
     <None Include="Config\P2 201811\A117-module-V13-pf-32.mprj" />
@@ -254,25 +185,6 @@
     <None Include="Config\P2 201811\A147-vc-V10.mprj" />
     <None Include="Config\P2 201811\X1311-module-V7.mprj" />
     <None Include="Config\p2 spec.md" />
-    <None Include="Config\P2\A117NoFinV13-pf-30-grr.mprj" />
-    <None Include="Config\P2\A117NoFinV13-pf-30.fprj" />
-    <None Include="Config\P2\A117NoFinV13-pf-30.mprj" />
-    <None Include="Config\P2\A117NoFinV13-pf-31.fprj" />
-    <None Include="Config\P2\A117NoFinV13-pf-31.mprj" />
-    <None Include="Config\P2\A117NoFinV13.fprj" />
-    <None Include="Config\P2\A117NoFinV13.mprj" />
-    <None Include="Config\P2\A117WithFinV13-pf-30.fprj" />
-    <None Include="Config\P2\A117WithFinV13-pf-30.mprj" />
-    <None Include="Config\P2\A117WithFinV13.fprj" />
-    <None Include="Config\P2\A117WithFinV13.mprj" />
-    <None Include="Config\P2\A147NoFinV10.fprj" />
-    <None Include="Config\P2\A147NoFinV10.mprj" />
-    <None Include="Config\P2\A147WithFinV10.fprj" />
-    <None Include="Config\P2\A147WithFinV10.mprj" />
-    <None Include="Config\P2\Calib\A117HeightCalibTest.fprj" />
-    <None Include="Config\P2\Calib\A117HeightCalibTest.mprj" />
-    <None Include="Config\P2\X1311WithFinV7.fprj" />
-    <None Include="Config\P2\X1311WithFinV7.mprj" />
     <None Include="Config\platforms.pts" />
     <None Include="Config\RightCarrier.dat" />
     <None Include="Config\RightCarrier.pts" />
@@ -281,7 +193,6 @@
     <None Include="Config\RightUp.dat" />
     <None Include="Config\RightUp.pts" />
     <None Include="Config\Settings.cfg" />
-    <None Include="Config\TEST PROJECT\A117HeightCalibTest.mprj" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -341,12 +252,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\11.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="APS168.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -359,56 +264,10 @@
     <Content Include="PCI-Dask64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\1111.PNG" />
-    <None Include="Resources\加紧气缸.PNG" />
-    <None Include="Resources\顶升气缸.PNG" />
-    <None Include="Resources\捕获1.PNG" />
-    <None Include="Resources\捕获.PNG" />
-    <None Include="Resources\upload.png" />
-    <None Include="Resources\Up1.png" />
-    <None Include="Resources\Up.png" />
-    <None Include="Resources\tag.png" />
-    <None Include="Resources\Start1.png" />
-    <None Include="Resources\Start.png" />
-    <None Include="Resources\Settings.png" />
-    <None Include="Resources\Setting1.png" />
-    <None Include="Resources\Setting.png" />
-    <None Include="Resources\Run-64.png" />
-    <None Include="Resources\RotR.png" />
-    <None Include="Resources\RotL.png" />
-    <None Include="Resources\Right2.png" />
-    <None Include="Resources\right.png" />
-    <None Include="Resources\Reset.png" />
-    <None Include="Resources\repeat2.png" />
-    <None Include="Resources\repeat1.png" />
-    <None Include="Resources\Repeat_Disable.ico" />
-    <None Include="Resources\repeat.png" />
-    <None Include="Resources\repeat - 副本.png" />
-    <None Include="Resources\repeat - 副本 - 副本.png" />
-    <None Include="Resources\Play.png" />
-    <None Include="Resources\pen.png" />
-    <None Include="Resources\login_icon_proxy1.png" />
-    <None Include="Resources\login_icon_proxy.png" />
-    <None Include="Resources\Left2.png" />
-    <None Include="Resources\left.png" />
-    <None Include="Resources\lead.png" />
-    <None Include="Resources\Key.png" />
-    <None Include="Resources\ICON-LOGIN.png" />
-    <None Include="Resources\Go up.png" />
-    <None Include="Resources\Go down.png" />
-    <None Include="Resources\Forward.png" />
-    <None Include="Resources\Exit.png" />
-    <None Include="Resources\download.png" />
-    <None Include="Resources\Down1.png" />
-    <None Include="Resources\Down.png" />
-    <None Include="Resources\close1.png" />
-    <None Include="Resources\close.png" />
-    <None Include="Resources\BO_S2.PNG" />
-    <None Include="Resources\Back.png" />
-    <None Include="Resources\aeroplane.png" />
-    <None Include="Resources\2.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Config2\Calculators\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

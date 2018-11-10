@@ -103,6 +103,9 @@ namespace Lead.Detect.ThermoAOI.Machine1.UserDefine.newTasks
         public Thermo1GeometryCalculator Thermo1GeometryCalculator;
 
 
+        public DataUploadHelper UploadHelper;
+
+
         public newTransTask(int id, string name, Station station) : base(id, name, station)
         {
             GtController = new KeyenceGT();
@@ -141,15 +144,25 @@ namespace Lead.Detect.ThermoAOI.Machine1.UserDefine.newTasks
             {
                 Product = new Thermo1Product();
                 Product.ProductType = Project.ThermoProductType.ToString();
-                Product.Description = Station.Name + "-" + Project.ProductName;
+                Product.Description = string.Join("-", new[] {Station.Name, Project.ProductName, CfgSettings.Version});
                 Product.SPCItems = Project.SPCItems;
 
                 TestProcessControl.OnTestStartEvent(Product);
 
-                if (Machine.Ins.Settings.EnableFTP)
+
+                //upload data
+                if (CfgSettings.Uploader.Enable)
                 {
-                    var avcdata = ThermoProductConvertHelper.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
-                    avcdata.Save(Machine.Ins.Settings.FTPAddress);
+                    //init uploader
+                    UploadHelper = DataUploadFactory.Ins.Create(CfgSettings.Uploader.UploaderName, CfgSettings.Uploader);
+                    if (UploadHelper == null)
+                    {
+                        Log($"创建上传模块失败: {CfgSettings.Uploader.UploaderName} 不存在", LogLevel.Error);
+                    }
+                    else
+                    {
+                        UploadData();
+                    }
                 }
             }
             catch (Exception ex)
@@ -201,11 +214,11 @@ namespace Lead.Detect.ThermoAOI.Machine1.UserDefine.newTasks
 
 
             //wait measure task
-            while (WaitTaskDown.RunningState != RunningState.WaitRun || WaitTaskUp.RunningState != RunningState.WaitRun)
-            {
-                AbortIfCancel("cancel wait tasks");
-                Thread.Sleep(1);
-            }
+            WaitTaskDown.AssertNoNull(this);
+            WaitTaskDown.WaitResetFinish(this);
+            WaitTaskUp.AssertNoNull(this);
+            WaitTaskUp.WaitResetFinish(this);
+
 
             WaitTaskUp.GtController = GtController;
             WaitTaskDown.GtController = GtController;
@@ -408,46 +421,49 @@ namespace Lead.Detect.ThermoAOI.Machine1.UserDefine.newTasks
         private void SaveProductData()
         {
             //save production data
+            try
             {
-                try
+                Product.UpdateStatus();
+                if (Station.Id == 1)
                 {
-                    Product.UpdateStatus();
-                    if (Station.Id == 1)
-                    {
-                        Machine.Ins.Settings.ProductionLeft.Update(Product);
-                        Product.Save("LeftData");
-                        Product.ToEntity().Save();
-                    }
-                    else if (Station.Id == 2)
-                    {
-                        Machine.Ins.Settings.ProductionRight.Update(Product);
-                        Product.Save("RightData");
-                        Product.ToEntity().Save();
-                    }
-
-                    Log($"Save Product Finish: {Product}");
-
-                    if (Machine.Ins.Settings.EnableFTP)
-                    {
-                        var avcdata = ThermoProductConvertHelper.Convert(Product, Project.PartID, Machine.Ins.Settings.Description);
-                        avcdata.Save(Machine.Ins.Settings.FTPAddress);
-                        avcdata.Save("AVCData");
-                        Log("Upload AvcData Finish:" + avcdata.ToString(), LogLevel.Info);
-                    }
+                    Machine.Ins.Settings.ProductionLeft.Update(Product);
+                    Product.Save("LeftData");
+                    Product.ToEntity().Save();
                 }
-                catch (Exception ex)
+                else if (Station.Id == 2)
                 {
-                    Log($"保存数据失败：{ex.Message}", LogLevel.Warning);
-                    Station.Machine.Beep();
+                    Machine.Ins.Settings.ProductionRight.Update(Product);
+                    Product.Save("RightData");
+                    Product.ToEntity().Save();
                 }
 
-                TestProcessControl.OnTestFinishEvent(Product);
+                Log($"Save Product Finish: {Product}");
 
-
+                UploadData();
+            }
+            catch (Exception ex)
+            {
+                Log($"保存数据失败：{ex.Message}", LogLevel.Warning);
+                Station.Machine.Beep();
+            }
+            finally
+            {
                 if (Machine.Ins.Settings.Common.BeepOnProductNG && Product.Status != ProductStatus.OK)
                 {
                     Station.Machine.Beep();
                 }
+            }
+
+            TestProcessControl.OnTestFinishEvent(Product);
+        }
+
+        private void UploadData()
+        {
+            if (CfgSettings.Uploader.Enable)
+            {
+                var csvData = ThermoProductConvertHelper.Convert(Product, CfgSettings.Uploader);
+                UploadHelper?.Upload(csvData);
+                Log("Upload CSVDATA Finish:" + csvData, LogLevel.Info);
             }
         }
     }

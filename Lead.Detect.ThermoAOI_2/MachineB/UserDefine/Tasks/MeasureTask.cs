@@ -460,13 +460,13 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                     else
                     {
                         Product.Error = $"{loopName}GridData{step}Error";
-                        Log($"{loopName} {laser.Name} GetLaserGridData Error: {laser.LastError}", LogLevel.Error);
+                        Log($"{loopName} {laser.Name} GetLaserGridData Error: {laser.LastError}", LogLevel.Warning);
                     }
                 }
                 else
                 {
                     Product.Error = "LaserLoopError";
-                    Log($"{loopName} {laser.Name} loop name error: {laser.LastError}", LogLevel.Error);
+                    Log($"{loopName} {laser.Name} loop name error: {laser.LastError}", LogLevel.Warning);
                 }
 
 
@@ -515,8 +515,8 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
                     //get fin bar col raw data
                     var line = LineParams.FitLine(gridDataOfFin[col]);
-                    var maxDist = gridDataOfFin[col].Max(g => line.Distance(g));
-                    var minDist = gridDataOfFin[col].Min(g => line.Distance(g));
+                    var maxDist = gridDataOfFin[col].Max(g => line.DistanceToLinePlane(g));
+                    var minDist = gridDataOfFin[col].Min(g => line.DistanceToLinePlane(g));
 
                     profile.Last().Add(new PosXYZ(line.OX, line.OY, maxDist - minDist));
                     Log($"{loopName} COL:{col} ROW:{gridDataOfFin[col].Count} LineDist: {line.OX:F2} {line.OY:F2} MAX:{maxDist:F3} MIN:{minDist:F3} FLATNESS:{maxDist - minDist:F3}");

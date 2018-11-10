@@ -28,6 +28,15 @@ namespace Lead.Detect.Utility.FittingHelper
             return distVector.z > 0 ? distVector.Length : -distVector.Length;
         }
 
+        public double DistanceToLinePlane(PosXYZ pos)
+        {
+            var plane = new PlaneParams();
+            plane.Origin = Origin;
+            plane.Normal = Direction.Cross(new Vector3d(1, 0, 0));
+
+            return plane.Point2Plane(pos);
+        }
+
 
 
         public static LineParams FitLine(List<PosXYZ> pos)

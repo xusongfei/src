@@ -6,7 +6,7 @@ using Lead.Detect.ThermoAOIProductLib.ProductBase;
 
 namespace Lead.Detect.ThermoAOIProductLib.ThermoDataConvert
 {
-    public class CMData
+    public class CMData : ICsvData
     {
 
         public string PartId;

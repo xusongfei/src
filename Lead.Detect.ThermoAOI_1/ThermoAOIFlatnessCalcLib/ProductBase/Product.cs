@@ -5,7 +5,13 @@ using System.Text;
 
 namespace Lead.Detect.ThermoAOIProductLib.ProductBase
 {
-    public class Product
+    public interface ICsvData
+    {
+        string CsvHeaders();
+        string CsvValues();
+    }
+
+    public class Product : ICsvData
     {
         public DateTime StartTime { get; set; } = DateTime.Now;
         public DateTime FinishTime { get; set; } = DateTime.Now;
