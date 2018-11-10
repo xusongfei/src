@@ -72,7 +72,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.UserDefine.newTasks
 
 
             //check safe height
-            var safeHeight = Platform["GtWork"].Data()[2] - Project.Height - 15;
+            var safeHeight = Platform["GtWork"].Data()[2] - Project.Height - 6;
             if (Platform.CurPos[2] > safeHeight)
             {
                 Log($"{Name} {Platform.Name} SafeHeightError:{Platform.CurPos[2]:F2}>{safeHeight:F2}", LogLevel.Error);
@@ -103,6 +103,13 @@ namespace Lead.Detect.ThermoAOI.Machine1.UserDefine.newTasks
                     }
                     else
                     {
+                        var maxJumpHeight = -Platform.CurPos[2];
+                        if (PlatformJumpHeight < maxJumpHeight)
+                        {
+                            Log($"{Platform.Name} Jump Height {PlatformJumpHeight} > {maxJumpHeight}", LogLevel.Warning);
+                            PlatformJumpHeight = maxJumpHeight + 0.5;
+                        }
+
                         Platform.Jump(gtWork, PlatformJumpHeight);
                     }
 

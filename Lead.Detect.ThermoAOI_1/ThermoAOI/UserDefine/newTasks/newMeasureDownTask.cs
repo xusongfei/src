@@ -318,7 +318,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.UserDefine.newTasks
         {
             if (isFirst)
             {
-                if (pos.Name == "outer")
+                if (pos.Name == "outer" || pos.Name == "i" || pos.Name == "h")
                 {
                     if (!DoGTCylinder.SetDo(this, false, ignoreOrWaringOrError: true))
                     {
@@ -330,9 +330,10 @@ namespace Lead.Detect.ThermoAOI.Machine1.UserDefine.newTasks
             }
             else
             {
-                if (pos.Name == "outer" || pos.Name == "down")
+                //jump max height
+                if (pos.Name == "outer" || pos.Name == "down" || pos.Name == "i" || pos.Name == "h")
                 {
-                    if (pos.Name == "outer")
+                    if (pos.Name == "outer" || pos.Name == "i" || pos.Name == "h")
                     {
                         if (!DoGTCylinder.SetDo(this, false, ignoreOrWaringOrError: true))
                         {
@@ -357,6 +358,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.UserDefine.newTasks
                 }
                 else
                 {
+                    //jump normal height
                     if (lastPos.Name == "outer")
                     {
                         if (!DoGTCylinder.SetDo(this, true, ignoreOrWaringOrError: true))
@@ -365,7 +367,7 @@ namespace Lead.Detect.ThermoAOI.Machine1.UserDefine.newTasks
                         }
                     }
 
-                    //calc jump height
+                    //calculate jump height
                     var jumpHeight = 0d;
                     if (pos.Z > lastPos.Z)
                     {
