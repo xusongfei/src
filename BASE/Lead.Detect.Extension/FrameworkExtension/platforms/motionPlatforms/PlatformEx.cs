@@ -529,6 +529,32 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
             return Axis.MoveAbs(Task, pos, vel ?? Vel, timeout, checkLimit);
         }
 
+        public bool MoveAbs(bool[] enable, double[] pos, double[] vel = null, int timeout = -1, bool checkLimit = true)
+        {
+            if (!RunSafeCheck(Task == null ? SafeCheckType.Manual : SafeCheckType.Auto))
+            {
+                return false;
+            }
+
+            //select enable axis
+            var axis = new IAxisEx[Axis.Length];
+            for (var i = 0; i < Axis.Length; i++)
+            {
+                if (enable[i])
+                {
+                    axis[i] = Axis[i];
+                }
+                else
+                {
+                    axis[i] = null;
+                }
+            }
+
+            return axis.MoveAbs(Task, pos, vel ?? Vel, timeout, checkLimit);
+        }
+
+
+
         public bool MoveAbs(IPlatformPos pos, double[] vel = null, int timeout = -1, bool checkLimit = true)
         {
             if (!RunSafeCheck(Task == null ? SafeCheckType.Manual : SafeCheckType.Auto))

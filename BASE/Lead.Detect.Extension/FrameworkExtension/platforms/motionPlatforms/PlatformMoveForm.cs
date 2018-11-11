@@ -16,11 +16,11 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
         {
             InitializeComponent();
 
-            checkBoxEnable = new[] {checkBoxEnableX, checkBoxEnableY, checkBoxEnableZ, checkBoxEnableU, checkBoxEnableV, checkBoxEnableW};
-            textBoxCurPos = new[] {textBoxCurPosX, textBoxCurPosY, textBoxCurPosZ, textBoxCurPosU, textBoxCurPosV, textBoxCurPosW};
-            textBoxMovePos = new[] {textBoxMovePosX, textBoxMovePosY, textBoxMovePosZ, textBoxMovePosU, textBoxMovePosV, textBoxMovePosW};
+            checkBoxEnable = new[] { checkBoxEnableX, checkBoxEnableY, checkBoxEnableZ, checkBoxEnableU, checkBoxEnableV, checkBoxEnableW };
+            textBoxCurPos = new[] { textBoxCurPosX, textBoxCurPosY, textBoxCurPosZ, textBoxCurPosU, textBoxCurPosV, textBoxCurPosW };
+            textBoxMovePos = new[] { textBoxMovePosX, textBoxMovePosY, textBoxMovePosZ, textBoxMovePosU, textBoxMovePosV, textBoxMovePosW };
 
-            labelAxis = new[] {labelX, labelY, labelZ, labelU, labelV, labelW};
+            labelAxis = new[] { labelX, labelY, labelZ, labelU, labelV, labelW };
         }
 
 
@@ -38,8 +38,8 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
         private void PlatformMoveForm_Load(object sender, EventArgs e)
         {
             checkBoxCheckLimit.Checked = true;
-            comboBoxMoveMode.Items.AddRange(new[] {"MoveP", "Jump"});
-            comboBoxJumpHeight.Items.AddRange(new object[] {0, -10, -20, -30, -50});
+            comboBoxMoveMode.Items.AddRange(new[] { "MoveP", "Jump" });
+            comboBoxJumpHeight.Items.AddRange(new object[] { 0, -10, -20, -30, -50 });
 
             if (Platform != null)
             {
@@ -117,6 +117,8 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                     //get obj pos
                     var curpos = Platform.CurPos;
                     var objpos = textBoxMovePos.Select(t => double.Parse(t.Text)).Take(curpos.Length).ToArray();
+                    var moveEnable = checkBoxEnable.Select(c => c.Checked).ToArray();
+
                     for (int i = 0; i < curpos.Length; i++)
                     {
                         if (!checkBoxEnable[i].Checked)
@@ -133,7 +135,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                             return;
                         }
 
-                        var ret = Platform.ExitAuto().MoveAbs(objpos, timeout: 10000, checkLimit: checkBoxCheckLimit.Checked);
+                        var ret = Platform.ExitAuto().MoveAbs(moveEnable, objpos, timeout: 10000, checkLimit: checkBoxCheckLimit.Checked);
                         if (!ret)
                         {
                             MessageBox.Show($"MoveP Error:{Platform.ShowStatus()}!", Platform.Name, MessageBoxButtons.OK, MessageBoxIcon.Error);

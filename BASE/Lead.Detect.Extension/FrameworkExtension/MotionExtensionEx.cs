@@ -426,6 +426,8 @@ namespace Lead.Detect.FrameworkExtension
     /// </summary>
     public static partial class MotionExtensionEx
     {
+        public static int MoveDelay = 100;
+
         public static bool Stop(this IAxisEx[] axis)
         {
             foreach (var a in axis)
@@ -561,7 +563,6 @@ namespace Lead.Detect.FrameworkExtension
             foreach (var a in axis)
             {
                 a?.DriverCard.Home(a.AxisChannel, a.ToPls(a.HomeVm));
-                Thread.Sleep(1);
             }
 
 
@@ -577,6 +578,10 @@ namespace Lead.Detect.FrameworkExtension
                     || (!axisInps[Array.IndexOf(axis, a)] && !a.GetInp() && a.DriverCard.CheckHomeDone(a.AxisChannel)))
                 )
                 {
+                    if (axisInps.Any(a => !a))
+                    {
+                        Thread.Sleep(3000);
+                    }
                     var ret = axis.All(a => a.DriverCard.SetEncPos(a.AxisChannel, 0) == 0);
                     task?.Log($"{err} success {ret}", LogLevel.Debug);
                     return true;
@@ -607,7 +612,6 @@ namespace Lead.Detect.FrameworkExtension
                         foreach (var a in axis)
                         {
                             a?.DriverCard.Home(a.AxisChannel, a.ToPls(a.HomeVm));
-                            Thread.Sleep(1);
                         }
                     }
                 }
@@ -687,7 +691,6 @@ namespace Lead.Detect.FrameworkExtension
                 if (axis[i] != null)
                     axis[i].Error = string.Empty;
                 axis[i]?.DriverCard.MoveAbs(axis[i].AxisChannel, axis[i].ToPls(pos[i]), axis[i].ToPls(vel[i]));
-                Thread.Sleep(1);
             }
 
             //wait done
@@ -743,7 +746,6 @@ namespace Lead.Detect.FrameworkExtension
                         for (int i = 0; i < axis.Length; i++)
                         {
                             axis[i]?.DriverCard.MoveAbs(axis[i].AxisChannel, axis[i].ToPls(pos[i]), axis[i].ToPls(vel[i]));
-                            Thread.Sleep(1);
                         }
                     }
                 }
@@ -794,7 +796,6 @@ namespace Lead.Detect.FrameworkExtension
                     axis[i].Error = string.Empty;
                 axis[i]?.DriverCard.GetEncPos(axis[i].AxisChannel, ref startpls[i]);
                 axis[i]?.DriverCard.MoveRel(axis[i].AxisChannel, axis[i].ToPls(step[i]), axis[i].ToPls(vel[i]));
-                Thread.Sleep(1);
             }
 
             //wait done
@@ -854,7 +855,6 @@ namespace Lead.Detect.FrameworkExtension
                         for (int i = 0; i < axis.Length; i++)
                         {
                             axis[i]?.DriverCard.MoveRel(axis[i].AxisChannel, axis[i].ToPls(step[i]) - (pausepls[i] - startpls[i]), axis[i].ToPls(vel[i]));
-                            Thread.Sleep(1);
                         }
                     }
                 }
