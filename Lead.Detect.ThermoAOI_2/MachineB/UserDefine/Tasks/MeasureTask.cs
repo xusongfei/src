@@ -307,56 +307,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                 {
                     Log($"{loopName} {Camera.Name} Trigger OK {trigger} {result} {Camera.LastError}");
 
-
-                    //parse camera recv result
-                    var dataStr = result.Split(':');
-                    try
-                    {
-                        var profile = loopName == "camera1" ? Product.RawData_C1Profile : Product.RawData_C2Profile;
-
-                        //P1S1:0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8
-                        //P1S1:Failed
-                        if (dataStr.Length >= 2)
-                        {
-                            if (dataStr[1] != "Failed")
-                            {
-                                dataStr = dataStr[1].Split(',');
-
-                                var dataList = new List<double>();
-                                for (int i = 0; i < dataStr.Length; i++)
-                                {
-                                    if (string.IsNullOrEmpty(dataStr[i]))
-                                    {
-                                        continue;
-                                    }
-                                    dataList.Add(double.Parse(dataStr[i]));
-                                }
-
-                                profile.Add(new List<PosXYZ>());
-                                profile.Last().AddRange(dataList.Select(d => new PosXYZ(0, 0, d)).ToArray());
-                            }
-                            else
-                            {
-                                var dataList = new List<double>();
-                                for (int i = 0; i < 8; i++)
-                                {
-                                    dataList.Add(0);
-                                }
-
-                                profile.Add(new List<PosXYZ>());
-                                profile.Last().AddRange(dataList.Select(d => new PosXYZ(0, 0, d)));
-                            }
-                        }
-                        else
-                        {
-                            Log($"{loopName} {Camera} Recv Data Error:{dataStr[0]}");
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Product.Error = "CameraDataFormatError";
-                        Log($"{loopName} {Camera} Parse Recv Data Error: {Camera.LastError} {e.Message}");
-                    }
+                    ParseCameraDataToRawProfile(loopName, result);
                 }
                 else
                 {
@@ -378,6 +329,61 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
             //upate next camera loop start triggerIndex
             triggerIndex += step - 1;
+        }
+
+        private void ParseCameraDataToRawProfile(string loopName, string result)
+        {
+            //parse camera recv result
+            var dataStr = result.Split(':');
+            try
+            {
+                var profile = loopName == "camera1" ? Product.RawData_C1Profile : Product.RawData_C2Profile;
+
+                //P1S1:0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8
+                //P1S1:Failed
+                if (dataStr.Length >= 2)
+                {
+                    if (dataStr[1] != "Failed")
+                    {
+                        dataStr = dataStr[1].Split(',');
+
+                        var dataList = new List<double>();
+                        for (int i = 0; i < dataStr.Length; i++)
+                        {
+                            if (string.IsNullOrEmpty(dataStr[i]))
+                            {
+                                continue;
+                            }
+
+                            dataList.Add(double.Parse(dataStr[i]));
+                        }
+
+                        profile.Add(new List<PosXYZ>());
+                        profile.Last().AddRange(dataList.Select(d => new PosXYZ(0, 0, d)).ToArray());
+                    }
+                    else
+                    {
+                        var dataList = new List<double>();
+                        for (int i = 0; i < 8; i++)
+                        {
+                            dataList.Add(999);
+                        }
+
+                        profile.Add(new List<PosXYZ>());
+                        profile.Last().AddRange(dataList.Select(d => new PosXYZ(0, 0, d)));
+                    }
+                }
+                else
+                {
+                    Product.Error = "CameraDataFormatError";
+                    Log($"{loopName} {Camera} Recv Data Error:{dataStr[0]}");
+                }
+            }
+            catch (Exception e)
+            {
+                Product.Error = "CameraDataFormatError";
+                Log($"{loopName} {Camera} Parse Recv Data Error: {Camera.LastError} {e.Message}");
+            }
         }
 
         private void UpdateCameraSpcs(string loopName)
@@ -514,12 +520,34 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                     profile.Add(new List<PosXYZ>());
 
                     //get fin bar col raw data
-                    var line = LineParams.FitLine(gridDataOfFin[col]);
-                    var maxDist = gridDataOfFin[col].Max(g => line.DistanceToLinePlane(g));
-                    var minDist = gridDataOfFin[col].Min(g => line.DistanceToLinePlane(g));
+                    var maxDist = 0d;
+                    var minDist = 0d;
 
-                    profile.Last().Add(new PosXYZ(line.OX, line.OY, maxDist - minDist));
-                    Log($"{loopName} COL:{col} ROW:{gridDataOfFin[col].Count} LineDist: {line.OX:F2} {line.OY:F2} MAX:{maxDist:F3} MIN:{minDist:F3} FLATNESS:{maxDist - minDist:F3}");
+                    //get fin bar col raw data
+                    switch (CfgSettings.LaserMode)
+                    {
+                        case LaserCalculateMode.FlatnessToColLine:
+                            var line = LineParams.FitLine(gridDataOfFin[col]);
+                            maxDist = gridDataOfFin[col].Max(g => line.DistanceToLinePlane(g));
+                            minDist = gridDataOfFin[col].Min(g => line.DistanceToLinePlane(g));
+                            break;
+                        case LaserCalculateMode.FlatnessToFitPlane:
+                            maxDist = gridDataOfFin[col].Max(g => g.Z);
+                            minDist = gridDataOfFin[col].Min(g => g.Z);
+                            break;
+                        case LaserCalculateMode.MaxDist:
+                            maxDist = Math.Max(Math.Abs(gridDataOfFin[col].Max(g => g.Z)), Math.Abs(gridDataOfFin[col].Min(g => g.Z)));
+                            break;
+                    }
+
+
+                    var colx = gridDataOfFin[col].Average(p => p.X);
+                    var coly = gridDataOfFin[col].Max(p => p.Y) - gridDataOfFin[col].Min(p => p.Y);
+
+
+
+                    profile.Last().Add(new PosXYZ(colx, coly, maxDist - minDist));
+                    Log($"{loopName} COL:{col} ROW:{gridDataOfFin[col].Count} LineDist: COLX:{colx:F2} RANGEY:{coly:F2} MAX:{maxDist:F3} MIN:{minDist:F3} FLATNESS:{maxDist - minDist:F3}");
                 }
                 else
                 {
@@ -558,5 +586,16 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
         }
 
 
+    }
+
+
+
+    public enum LaserCalculateMode
+    {
+        FlatnessToColLine,
+
+        FlatnessToFitPlane,
+
+        MaxDist,
     }
 }

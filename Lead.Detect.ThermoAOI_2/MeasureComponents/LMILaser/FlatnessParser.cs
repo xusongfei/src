@@ -72,7 +72,7 @@ namespace Lead.Detect.MeasureComponents.LMILaser
                                     var ny = nodeData[index + 1];
                                     var nz = nodeData[index + 2];
 
-                                    var dist = (nx * a + ny * b + nz * c + d) / p;
+                                    var dist = (nx * a + ny * b + nz * c - d) / p;
                                     results.Add(new PosXYZ(nx, ny, dist) { OffsetZ = nz });
                                 }
                             }

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using Lead.Detect.FrameworkExtension.common;
+using Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks;
 using Lead.Detect.ThermoAOIProductLib.ProductBase;
 using Lead.Detect.ThermoAOIProductLib.ThermoDataConvert;
 
@@ -52,9 +53,12 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine
         public ProductionCount Production { get; set; } = new ProductionCount();
 
 
-
+        [Category("数据上传设置")]
         public DataUploaderSetting Uploader { get; set; } = new DataUploaderSetting();
 
+
+        [Category("激光计算模式")]
+        public LaserCalculateMode LaserMode { get; set; } = LaserCalculateMode.FlatnessToFitPlane;
 
         #region barcode
 
