@@ -499,7 +499,7 @@ namespace Lead.Detect.FrameworkExtension
             if (axis != null)
             {
                 axis.DriverCard.GetEncPos(axis.AxisChannel, ref pos);
-                return (int)(1000 * axis.ToMm(pos)) / 1000d;
+                return axis.ToMm(pos);
             }
             return pos;
         }
@@ -676,6 +676,8 @@ namespace Lead.Detect.FrameworkExtension
             task?.AbortIfCancel(nameof(MoveAbs));
             task?.JoinIfPause();
 
+            var axisInps = axis.Select(a => a == null || a.GetInp()).ToArray();
+
             //start move
             for (int i = 0; i < axis.Length; i++)
             {
@@ -683,8 +685,6 @@ namespace Lead.Detect.FrameworkExtension
                     axis[i].Error = string.Empty;
                 axis[i]?.DriverCard.MoveAbs(axis[i].AxisChannel, axis[i].ToPls(pos[i]), axis[i].ToPls(vel[i]));
             }
-
-            var axisInps = axis.Select(a => a == null || a.GetInp()).ToArray();
 
             //wait done
             var err = $"{string.Join(",", axis.Select(a => a == null ? string.Empty : a.Name))} MoveAbs {string.Join(",", pos.Select(p => p.ToString("F2")))} {string.Join(",", vel.Select(p => p.ToString("F2")))}";
@@ -778,6 +778,8 @@ namespace Lead.Detect.FrameworkExtension
             task?.AbortIfCancel(nameof(MoveRel));
             task?.JoinIfPause();
 
+            var axisInps = axis.Select(a => a == null || a.GetInp()).ToArray();
+
             //start move
             int[] startpls = new int[axis.Length];
             int[] pausepls = new int[axis.Length];
@@ -788,8 +790,6 @@ namespace Lead.Detect.FrameworkExtension
                 axis[i]?.DriverCard.GetEncPos(axis[i].AxisChannel, ref startpls[i]);
                 axis[i]?.DriverCard.MoveRel(axis[i].AxisChannel, axis[i].ToPls(step[i]), axis[i].ToPls(vel[i]));
             }
-
-            var axisInps = axis.Select(a => a == null || a.GetInp()).ToArray();
 
             //wait done
             var err = $"{string.Join(",", axis.Select(a => a == null ? string.Empty : a.Name))} MoveRel {string.Join(",", step.Select(p => p.ToString("F2")))} {string.Join(",", vel.Select(p => p.ToString("F2")))}";

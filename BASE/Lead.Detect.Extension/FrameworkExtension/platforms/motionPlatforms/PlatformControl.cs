@@ -265,6 +265,7 @@ namespace Lead.Detect.FrameworkExtension.platforms.motionPlatforms
                     textBox_Pos[i].Text = axis.GetPos().ToString("F3");
                     textBox_Pos[i].BackColor = axis.GetMdn() ? Color.White : Color.Lime;
                     textBox_Vel[i].Text = axis.AxisSpeed.ToString("F2");
+                    textBox_Vel[i].BackColor = axis.GetInp() ? Color.White : Color.Lime;
                     textBox_Acc[i].Text = axis.AxisAcc.ToString("F2");
 
                     if (axis.GetAlarm())
