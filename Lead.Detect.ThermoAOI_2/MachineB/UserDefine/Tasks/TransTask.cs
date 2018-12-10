@@ -86,6 +86,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
             VioMeasureStart.SetVio(this, false);
             VioMeasureFinish.SetVio(this, false);
 
+            MultiClampCylinders.Reset(this);
 
             try
             {
@@ -96,20 +97,20 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
 
                 //upload data
-                if (CfgSettings.Uploader.Enable)
-                {
-                    //init uploader
-                    UploadHelper = DataUploadFactory.Ins.Create(CfgSettings.Uploader.UploaderName, CfgSettings.Uploader);
+                //if (CfgSettings.Uploader.Enable)
+                //{
+                //    //init uploader
+                //    UploadHelper = DataUploadFactory.Ins.Create(CfgSettings.Uploader.UploaderName, CfgSettings.Uploader);
 
-                    if (UploadHelper == null)
-                    {
-                        Log($"创建上传模块失败: {CfgSettings.Uploader.UploaderName} 不存在", LogLevel.Error);
-                    }
-                    else
-                    {
-                        UploadData();
-                    }
-                }
+                //    if (UploadHelper == null)
+                //    {
+                //        Log($"创建上传模块失败: {CfgSettings.Uploader.UploaderName} 不存在", LogLevel.Error);
+                //    }
+                //    else
+                //    {
+                //        UploadData();
+                //    }
+                //}
 
             }
             catch (Exception ex)
@@ -185,12 +186,18 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
 
             //save product data
+            Product.MachineName = CfgSettings.Uploader.AVC_Machine_ID;
             SaveProductData();
+            if (CfgSettings.Uploader.Enable)
+            {
+                Product.ToSQL().Save(Project.PartID);
+            }
             return 0;
         }
 
         private string RunBarcodeScanner()
         {
+            var barcode = string.Empty;
             if (CfgSettings.BarcodeEnable)
             {
                 var barcodeForm = new ScanBarcodeForm()
@@ -202,7 +209,12 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
 
                 if (barcodeForm.ShowDialog() == DialogResult.OK)
                 {
-                    return barcodeForm.Barcode;
+                    barcode = barcodeForm.Barcode;
+                    if(!barcodeForm.IsDisposed)
+                    {
+                        barcodeForm.Close();
+                    }
+                    return barcode;
                 }
             }
 
@@ -222,7 +234,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.UserDefine.Tasks
                     Product.ToEntity().Save();
                     Log("Product Save Finish:" + Product, LogLevel.Info);
 
-                    UploadData();
+                    //UploadData();
                 }
                 catch (Exception ex)
                 {

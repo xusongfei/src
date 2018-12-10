@@ -76,7 +76,7 @@
             this.textBoxBarcode.Location = new System.Drawing.Point(0, 0);
             this.textBoxBarcode.Margin = new System.Windows.Forms.Padding(10);
             this.textBoxBarcode.Name = "textBoxBarcode";
-            this.textBoxBarcode.Size = new System.Drawing.Size(525, 45);
+            this.textBoxBarcode.Size = new System.Drawing.Size(525, 54);
             this.textBoxBarcode.TabIndex = 0;
             this.textBoxBarcode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -86,7 +86,7 @@
             // 
             // ScanBarcodeForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(19F, 39F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(23F, 47F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 46);
             this.Controls.Add(this.splitContainer1);
@@ -96,6 +96,7 @@
             this.Name = "ScanBarcodeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "扫描输入条码";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ScanBarcodeForm_FormClosing);
             this.Load += new System.EventHandler(this.ScanBarcodeForm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

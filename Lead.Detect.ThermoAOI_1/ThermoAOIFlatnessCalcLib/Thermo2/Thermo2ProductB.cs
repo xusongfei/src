@@ -135,6 +135,49 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
             return sb.ToString();
         }
 
+        public string ToSQLValues()
+        {
+            var sb = new StringBuilder();
+
+            sb.Append("CAMERA1,");
+            for (int i = 0; i < RawData_C1Profile.Count; i++)
+            {
+                for (int j = 0; j < RawData_C1Profile[i].Count; j++)
+                {
+                    sb.Append($"{RawData_C1Profile[i][j].Z:F3},");
+                }
+            }
+
+            sb.Append("CAMERA2,");
+            for (int i = 0; i < RawData_C2Profile.Count; i++)
+            {
+                for (int j = 0; j < RawData_C2Profile[i].Count; j++)
+                {
+                    sb.Append($"{RawData_C2Profile[i][j].Z:F3},");
+                }
+            }
+
+
+            sb.Append("LASER1,");
+            for (int i = 0; i < RawData_UpProfile.Count; i++)
+            {
+                for (int j = 0; j < RawData_UpProfile[i].Count; j++)
+                {
+                    sb.Append($"{RawData_UpProfile[i][j].Z:F3},");
+                }
+            }
+
+            sb.Append("LASER2,");
+            for (int i = 0; i < RawData_DownProfile.Count; i++)
+            {
+                for (int j = 0; j < RawData_DownProfile[i].Count; j++)
+                {
+                    sb.Append($"{RawData_DownProfile[i][j].Z:F3},");
+                }
+            }
+
+            return sb.ToString();
+        }
 
         public override DataTable ToDataTable()
         {
@@ -165,8 +208,10 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
             {
                 for (int j = 0; j < RawData_UpProfile[i].Count; j++)
                 {
-                    if (!string.IsNullOrEmpty(RawData_UpProfile[i][j].Description))
-                    {
+                    //if (!string.IsNullOrEmpty(RawData_UpProfile[i][j].Description))
+                    //{
+                    if (RawData_UpProfile[i][j].Description == "FLATNESS")
+                    { 
                         var row = dt.Rows.Add();
                         row[0] = $"LU C{i}R{j} FLATNESS";
                         row[1] = $"{RawData_UpProfile[i][j].Z:F3}";
@@ -185,7 +230,8 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
             {
                 for (int j = 0; j < RawData_DownProfile[i].Count; j++)
                 {
-                    if (!string.IsNullOrEmpty(RawData_DownProfile[i][j].Description))
+                    //if (!string.IsNullOrEmpty(RawData_DownProfile[i][j].Description))
+                    if (RawData_DownProfile[i][j].Description == "FLATNESS")
                     {
                         var row = dt.Rows.Add();
                         row[0] = $"LD C{i}R{j} FLATNESS";
@@ -199,7 +245,6 @@ namespace Lead.Detect.ThermoAOIProductLib.Thermo2
                     }
                 }
             }
-
             return dt;
         }
     }

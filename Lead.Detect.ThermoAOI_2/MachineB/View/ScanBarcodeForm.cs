@@ -55,7 +55,7 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             {
                 Show();
                 BringToFront();
-
+                textBoxBarcode.Focus();
 
                 if (textBoxBarcode.Text.Length >= BarcodeLen)
                 {
@@ -98,5 +98,9 @@ namespace Lead.Detect.ThermoAOI2.MachineB.View
             }
         }
 
+        private void ScanBarcodeForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Dispose();
+        }
     }
 }

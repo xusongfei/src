@@ -187,9 +187,21 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
 
                     if (CfgSettings.QuitOnProductError)
                     {
-                        if (Product.Status == ProductStatus.ERROR)
+                        if (Product.Status == ProductStatus.ERROR || Product.Status == ProductStatus.NG)
                         {
                             Log($"Quit {Name} Loop On Error: {Product.Error}");
+                            break;
+                        }
+                    }
+
+                    if (index == 1 || index == 2)
+                    {
+                        var result = Camera.GetBaseResult();
+                        var msgData = result.Split(',');
+                        if (msgData[0] != "OK")
+                        {
+                            Log($"Quit {Name} Loop On Step: {index} Capture Base Data Error or NG");
+                            Product.Error = " Capture Base Data Error or NG";
                             break;
                         }
                     }
@@ -260,16 +272,22 @@ namespace Lead.Detect.ThermoAOI2.MachineA.UserDefine.Tasks
 
         private int TriggerCamera(PosXYZ pos, int index)
         {
+            bool barcodefail = true;
             if (pos.Description == "barcode")
             {
                 var ret = Camera.TriggerBarcode();
-                if (!ret)
+                if (CfgSettings.BarcodeEnable)
                 {
-                    Log($"{Camera} TriggerBarcode Error");
-                    Product.Error = "BARCODEERROR";
-                }
+                    if (ret == string.Empty)
+                    {
+                        barcodefail = false;
+                        Log($"{Camera} TriggerBarcode Error");
+                        Product.Error = "BARCODEERROR";
+                    }
 
-                Log($"{Camera} TriggerBarcode {index} {(ret ? "OK" : "ERROR")} {Camera.GetResult(string.Empty)} {Camera.LastError}");
+                    Log($"{Camera} TriggerBarcode {index} {(barcodefail ? "OK" : "ERROR")} {Camera.GetResult(string.Empty)} {Camera.LastError}");
+                }
+                Product.Barcode = ret;
             }
             else
             {

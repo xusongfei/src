@@ -42,6 +42,14 @@
       <HintPath>..\..\packages\Dos.ORM.1.15.0\lib\net40\Dos.ORM.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GoSdkNet, Version=1.0.6870.28157, Culture=neutral, PublicKeyToken=3e18828f1dab5c8c, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\GoSdkNet.dll</HintPath>
+    </Reference>
+    <Reference Include="kApiNet, Version=1.0.6822.16501, Culture=neutral, PublicKeyToken=aed51b4e56ae495f, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\kApiNet.dll</HintPath>
+    </Reference>
     <Reference Include="lcpi.data.oledb.net4_6, Version=1.8.0.3545, Culture=neutral, PublicKeyToken=ff716095e8002e7e, processorArchitecture=MSIL">
       <HintPath>..\..\packages\lcpi.data.oledb.1.8.0.3545\lib\net46\lcpi.data.oledb.net4_6.dll</HintPath>
       <Private>True</Private>
@@ -49,6 +57,10 @@
     <Reference Include="lcpi.lib.net4_6, Version=2.2.0.1687, Culture=neutral, PublicKeyToken=ff716095e8002e7e, processorArchitecture=MSIL">
       <HintPath>..\..\packages\lcpi.lib.2.2.0.1687\lib\net46\lcpi.lib.net4_6.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Lead.Detect.MeasureComponents, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MeasureComponents\bin\Debug\Lead.Detect.MeasureComponents.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -206,10 +218,6 @@
     <ProjectReference Include="..\..\Lead.Detect.ThermoAOI_1\ThermoAOIFlatnessCalcLib\Lead.Detect.ThermoAOIProductLib.csproj">
       <Project>{4dc12809-3d6e-4a62-a9fc-3ba47dfdbe97}</Project>
       <Name>Lead.Detect.ThermoAOIProductLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MeasureComponents\Lead.Detect.MeasureComponents.csproj">
-      <Project>{61f293a2-a669-4d8c-a31d-ded0eae846a2}</Project>
-      <Name>Lead.Detect.MeasureComponents</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

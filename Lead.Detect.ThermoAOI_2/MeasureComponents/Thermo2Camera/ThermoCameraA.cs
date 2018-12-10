@@ -89,12 +89,12 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
         }
 
 
-        public bool TriggerBarcode()
+        public string TriggerBarcode()
         {
             if (FrameworkExtenion.IsSimulate)
             {
                 TriggerResult = "TESTBARCODE";
-                return true;
+                return TriggerResult;
             }
 
             var ret = Trigger($"0,{_product}");
@@ -105,7 +105,7 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
                 if (triggerResult.StartsWith(FAIL_MSG))
                 {
                     LastError = $"FAILMSG {triggerResult}";
-                    return false;
+                    return string.Empty;
                 }
 
 
@@ -114,36 +114,36 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
                 {
                     TriggerResult = string.Empty;
                     LastError = $"RecvBarcodeError {triggerResult}";
-                    return false;
+                    return TriggerResult;
                 }
 
                 if (triggerResult.StartsWith("0,0"))
                 {
                     TriggerResult = string.Empty;
                     LastError = $"RecvBarcodeError {triggerResult}";
-                    return false;
+                    return TriggerResult;
                 }
                 else if (triggerResult.StartsWith("0,1"))
                 {
                     if (data.Length > 2)
                     {
                         TriggerResult = data[2];
-                        return true;
+                        return TriggerResult;
                     }
                     else
                     {
                         LastError = $"RecvBarcodeEmpty {triggerResult}";
-                        return false;
+                        return string.Empty;
                     }
                 }
                 else
                 {
                     TriggerResult = string.Empty;
                     LastError = $"RecvFormatError {triggerResult}";
-                    return false;
+                    return string.Empty;
                 }
             }
-            return false;
+            return string.Empty;
         }
 
         public bool TriggerProduct(int step)
@@ -288,6 +288,44 @@ namespace Lead.Detect.MeasureComponents.Thermo2Camera
             {
                 return TriggerResult;
             }
+        }
+
+        /// <summary>
+        /// 获取数据
+        /// </summary>
+        /// <param name="resultInfo"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public override string GetBaseResult(int timeout = 6000)
+        {
+            if (FrameworkExtenion.IsSimulate)
+            {
+                TriggerResult = "OK";
+                return "OK,1,2,3,4,5,6,7,8,9,10";
+            }
+
+            var resultMsg = ReadMsg(timeout);
+            if (resultMsg.StartsWith("3,1") || resultMsg.StartsWith("3,0"))
+            {
+
+                if (resultMsg.StartsWith("3,1"))
+                {
+                    return $"OK,{resultMsg}";
+                }
+                else if (resultMsg.StartsWith("3,0"))
+                {
+                    return $"NG,{resultMsg}";
+                }
+                else
+                {
+                    return $"ERROR,{resultMsg}";
+                }
+            }
+            else
+            {
+                return $"ERROR,{resultMsg}";
+            }
+
         }
 
         public override void Test()
